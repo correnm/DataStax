@@ -1,0 +1,45 @@
+iConfiguring Authorization
+http://docs.datastax.com/en/latest-dse/datastax_enterprise/unifiedAuth/configAuthorize.html
+
+Note: These instructions presume that the cluster has already been successfully configured for Authentication. 
+
+
+1. In cassandra.yaml file, verify authorizer is: com.datastax.bdp.cassandra.auth.DseAuthorizer
+
+    authorizer: com.datastax.bdp.cassandra.auth.DseAuthorizer
+    
+    
+2. Set authorization option in dse.yaml file: 
+
+  
+      * Change from: 
+
+        authorization_options: 
+            enabled: false
+
+      * Change to: 
+
+        authorization_options: 
+            enabled: true
+
+    Note that transitional_mode can be disabled because this is a new cluster.
+    
+
+3. Verify authentication schemes have been enabled in dse.yaml
+
+
+    * Verify 
+    
+        authentication_options:
+            enabled: true
+            default_scheme: internal
+            other_schemes:
+            scheme_permissions: false
+            allow_digest_with_kerberos: false
+            plain_text_without_ssl: warn
+            transitional_mode: disabled
+            
+
+Note: steps 4 - 6 in the linked instructions above apply to the use of `scheme_permissions`. Since G2 Ops is only using Internal authentication, `scheme_permissions` does not apply
+
+

@@ -1,0 +1,116 @@
+Configure Authentication
+http://docs.datastax.com/en/latest-dse/datastax_enterprise/unifiedAuth/unifiedAuthConfig.html
+
+
+1. On each node: verify the following in `cassandra.yaml` (usually in `/etc/dse/cassandra`)
+
+    authenticator: com.datastax.bdp.cassandra.auth.DseAuthenticator
+    
+      * Change from: 
+      
+          authenticator: AllowAllAuthenticator
+          #authenticator: com.datastax.bdp.cassandra.auth.DseAuthenticator
+      
+      
+      * Change to: 
+    
+          #authenticator: AllowAllAuthenticator
+          authenticator: com.datastax.bdp.cassandra.auth.DseAuthenticator
+    
+      
+    authorizer: com.datastax.bdp.cassandra.auth.DseAuthorizer
+    
+      * Change from: 
+      
+          authorizer: AllowAllAuthorizer
+          #authorizer: com.datastax.bdp.cassandra.auth.DseAuthorizer  
+      
+      * Change to: 
+    
+          #authorizer: AllowAllAuthorizer
+          authorizer: com.datastax.bdp.cassandra.auth.DseAuthorizer  
+
+
+2. On each node: enable internal authentication in `dse.yaml` (usually in `/etc/default/dse/`)
+
+
+      * Change from: 
+
+        authentication_options:
+            enabled: false
+            default_scheme: kerberos
+            other_schemes:
+                - internal
+            scheme_permissions: false
+            allow_digest_with_kerberos: true
+            plain_text_without_ssl: warn
+            transitional_mode: disabled
+            
+      * Change to: 
+
+        authentication_options:
+            enabled: true
+            default_scheme: internal
+            other_schemes:
+            scheme_permissions: false
+            allow_digest_with_kerberos: true
+            plain_text_without_ssl: warn
+            transitional_mode: disabled
+
+
+3. Update system_auth and dse_security keyspaces: 
+http://docs.datastax.com/en/latest-dse/datastax_enterprise/sec/configSecKeyspaceReplication.html
+
+  
+      * Change from: 
+  
+        CREATE KEYSPACE system_auth WITH replication = {'class' : 'SimpleStrategy', 'replication_factor' : '1'};
+        CREATE KEYSPACE dse_security WITH replication = {'class' : 'SimpleStrategy', 'replication_factor' : '1'};
+
+      * Change to: 
+
+        ALTER KEYSPACE system_auth WITH replication = {'class': 'NetworkTopologyStrategy', 'dc0': '3'};
+        ALTER KEYSPACE dse_security WITH replication = {'class': 'NetworkTopologyStrategy', 'dc0': '3'};
+
+      * Run `nodetool repair --full` on keyspaces    
+        
+        `nodetool repair system_auth --full`
+        `nodetool repair dse_security --full`
+        
+
+4. Configure caching - no changes
+
+
+        Verify cassandra.yaml has permissions_validity_in_ms: 2000
+        
+        
+5. Restart DataStax Enterprise
+
+
+        `sudo service dse restart`
+        
+        
+6. Change default superuser (http://docs.datastax.com/en/latest-dse/datastax_enterprise/unifiedAuth/chgDefaultSuperuser.html)
+
+
+    Create another superuser, in cqlsh: 
+    
+    $ cqlsh 
+    cqlsh> LOGIN cassandra
+    Password: 
+    cassandra@cqlsh> CREATE ROLE g2su WITH SUPERUSER = true AND LOGIN = true AND password = 'super_secret_password_only_known_to_a_few';
+    cassandra@cqlsh> EXIT
+
+
+    Login as new user and change cassandra password, take away superuser status
+    
+    $ cqlsh 
+    cqlsh> LOGIN g2su
+    Password: 
+    g2su@cqlsh> ALTER USER cassandra WITH PASSWORD 'new_cassandra_login_password_goes_here' AND SUPERUSER = false;
+    g2su@cqlsh> EXIT
+    
+    
+7. Restart each node. Double-check no start-up errors in the system.log
+    
+
