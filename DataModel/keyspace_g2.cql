@@ -1,0 +1,1 @@
+CREATE KEYSPACE g2 WITH replication = {'class': 'NetworkTopologyStrategy', 'dc0': '3'}  AND durable_writes = true;
