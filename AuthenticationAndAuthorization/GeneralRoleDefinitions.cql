@@ -9,10 +9,10 @@
 CREATE ROLE IF NOT EXISTS sys_admin;
 GRANT AUTHORIZE ON ALL KEYSPACES TO sys_admin;
 GRANT AUTHORIZE ON ALL FUNCTIONS TO sys_admin;
-GRANT CREATE    ON ALL ROLES     TO ays_admin;
-GRANT ALTER     ON ALL ROLES     TO ays_admin;
-GRANT DROP      ON ALL ROLES     TO ays_admin;
-GRANT DESCRIBE  ON ALL ROLES     TO ays_admin;
+GRANT CREATE    ON ALL ROLES     TO sys_admin;
+GRANT ALTER     ON ALL ROLES     TO sys_admin;
+GRANT DROP      ON ALL ROLES     TO sys_admin;
+GRANT DESCRIBE  ON ALL ROLES     TO sys_admin;
 
 // admin: schema management
 CREATE ROLE IF NOT EXISTS admin;
