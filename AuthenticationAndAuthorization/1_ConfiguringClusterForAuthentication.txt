@@ -31,7 +31,7 @@ http://docs.datastax.com/en/latest-dse/datastax_enterprise/unifiedAuth/unifiedAu
           authorizer: com.datastax.bdp.cassandra.auth.DseAuthorizer  
 
 
-2. On each node: enable internal authentication in `dse.yaml` (usually in `/etc/default/dse/`)
+2. On each node: enable internal authentication in `dse.yaml` (usually in `/etc/dse/`)
 
 
       * Change from: 
