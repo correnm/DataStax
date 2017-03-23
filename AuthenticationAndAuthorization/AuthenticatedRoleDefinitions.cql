@@ -11,17 +11,18 @@
 
 CREATE ROLE g2su WITH SUPERUSER = true AND LOGIN = true AND password = 'super_secret_password_only_known_to_a_few';
 
-ALTER USER cassandra WITH PASSWORD 'new_cassandra_login_password_goes_here' AND SUPERUSER = false;
+// Note that this uses the ALTER USER command
+ALTER USER cassandra WITH PASSWORD 'new_cassandra_login_password_goes_here' NOSUPERUSER;
 
 
 // Create a first user and assign global permissions
-CREATE ROLE IF NOT EXISTS first_user WITH PASSWORD = 'change_this';
+CREATE ROLE IF NOT EXISTS first_user WITH PASSWORD = 'change_this' AND LOGIN = true;
 GRANT sys_admin TO first_user;
 GRANT admin     TO first_user;
 GRANT developer TO first_user;
 
 
 // Create another user and assign just developer access to one keyspace
-CREATE ROLE IF NOT EXISTS second_user WITH PASSWORD = 'change_this';
+CREATE ROLE IF NOT EXISTS second_user WITH PASSWORD = 'change_this' AND LOGIN = true;
 GRANT keyspace1_developer TO second_user;
 
