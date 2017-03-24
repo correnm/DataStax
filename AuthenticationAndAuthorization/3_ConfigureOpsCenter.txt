@@ -1,0 +1,25 @@
+Update the Test_Cluster.conf file in /etc/opscenter/clusters
+https://docs.datastax.com/en/latest-opsc/opsc/configure/agentAddressConfiguration.html
+
+1. Update the Test_Cluster.conf file in /etc/opscenter/clusters
+   In [cassandra], after seed_hosts, add this:
+
+
+        username = uname
+        password = *****
+
+
+2. Update the Test_Cluster.conf file in /etc/opscenter/clusters
+   Add the following section.
+   Note that this section uses colons (:) instead of equals (=) because it updates the address.yaml file on each of the nodes.
+
+
+        [agent_config]
+        cassandra_user: uname
+        cassandra_pass: *****
+
+
+3. Restart OpsCenter
+
+
+        sudo service opscenterd restart
