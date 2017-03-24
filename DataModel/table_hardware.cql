@@ -1,5 +1,5 @@
 CREATE TABLE g2.hardware (
-    organization_name text,
+    org_id uuid,
     site_or_ou_name text,
     ip_subnet_or_building text,  // 192.168.0.0, site/building
     internal_system_id text,     // UUID computed to ensure uniqueness
@@ -41,7 +41,7 @@ CREATE TABLE g2.hardware (
     vulnerability_count int,
     risk_likelihood float,        //
 
-    PRIMARY KEY ((organization_name, site_or_ou_name), ip_subnet_or_building, internal_system_id)
+    PRIMARY KEY ((org_id, site_or_ou_name), ip_subnet_or_building, internal_system_id)
 ) WITH COMMENT = 'this is where I pull in some comments' ;
 
 // CREATE MATERIALIZED VIEW hardware_by_internal_system_id

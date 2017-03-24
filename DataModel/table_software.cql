@@ -1,5 +1,5 @@
 CREATE TABLE g2.software (
-internal_system_id text,      // UUID computed to ensure uniqueness
+internal_system_id text,      // FK to hardware table, UUID computed to ensure uniqueness
 cpe_id text,                  // product
 part text,                    // [A]pplication, [O]perating System, [S]ystem
 vendor text,                  // Search w/ Solr

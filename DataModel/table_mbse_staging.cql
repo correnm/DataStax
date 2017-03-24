@@ -1,5 +1,5 @@
 CREATE TABLE g2.mbse_staging (
-    organization_name text,
+    org_id uuid,
     site_or_ou_name text,
     building text,
 
@@ -28,5 +28,5 @@ CREATE TABLE g2.mbse_staging (
 
     connector_list text,
 
-    PRIMARY KEY ((organization_name,site_or_ou_name,building),magic_draw_id)
+    PRIMARY KEY ((org_id,site_or_ou_name,building),magic_draw_id)
 );
