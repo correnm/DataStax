@@ -1,4 +1,4 @@
-CREATE TABLE g2.refs (
+CREATE TABLE g2.references (
   org_id uuid,
   reference_key text,
   reference_value text,  // can be any string, such as a JSON or a text list
