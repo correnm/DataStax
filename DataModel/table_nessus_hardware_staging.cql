@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS g2.scanner_hardware_staging (
-    org_id 							uuid,
+    org_id 							uuid,	// must exist in the organizations table
     site_or_ou_name 				text,
     ip_subnet_or_building 			text,   // 192.168.0.0, site/building
     internal_system_id 				text,   // UUID computed to ensure uniqueness
@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS g2.scanner_hardware_staging (
     ip_netmask 						text,
     ip_gateway 						text,
     mac_address 					text,   // Search w/ Solr or MV
-    cvss_base_score 				double,
+    cvss_scores						list <FROZEN <cvss_scores>>,
     cvss_temporal_score 			double,
     traceroute 						text,	// Test out: as list or text?
     import_date 					date,   // based on import job
@@ -35,6 +35,6 @@ CREATE TABLE IF NOT EXISTS g2.scanner_hardware_staging (
     vulnerability_count 			int,
     risk_likelihood 				float,
     PRIMARY KEY ((org_id, site_or_ou_name), ip_subnet_or_building, internal_system_id)
-) WITH COMMENT = 'hardware as imported from a vulnerability scan.';
+) WITH COMMENT = 'Stores hardware as imported from a vulnerability scan.';
 
 

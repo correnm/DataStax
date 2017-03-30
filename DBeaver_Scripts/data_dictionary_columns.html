@@ -1,0 +1,216 @@
+﻿<html><head><style>table {font-family:"Lucida Sans Unicode", "Lucida Grande", Sans-Serif;font-size:12px;text-align:left;border-collapse:collapse;margin:10px;} th{font-size:14px;font-weight:normal;color:#039;padding:10px 8px;} td{color:#669;padding:8px;}.odd{background:#e8edff;}img{padding:5px; border:solid; border-color: #dddddd #aaaaaa #aaaaaa #dddddd; border-width: 1px 2px 2px 1px; background-color:white;}</style></head><body><table><tr><th>table_name</th><th>column_name</th><th>kind</th><th>type</th><th>clustering_order</th></tr><tr class="odd"><td>application_logging</td><td>event_datetime</td><td>clustering</td><td>timestamp</td><td>asc</td></tr>
+<tr><td>application_logging</td><td>event_ts_mask</td><td>partition_key</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>application_logging</td><td>payload</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>application_logging</td><td>severity</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>application_logging</td><td>source_module</td><td>partition_key</td><td>text</td><td>none</td></tr>
+<tr><td>cmdb_staging</td><td>application_name</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr class="odd"><td>cmdb_staging</td><td>business_criticality_rating</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr><td>cmdb_staging</td><td>business_interruption_threshold</td><td>regular</td><td>int</td><td>none</td></tr>
+<tr class="odd"><td>cmdb_staging</td><td>configuration_items</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>cmdb_staging</td><td>data_classification</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>cmdb_staging</td><td>import_date</td><td>regular</td><td>date</td><td>none</td></tr>
+<tr><td>cmdb_staging</td><td>line_of_business</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>cmdb_staging</td><td>org_id</td><td>partition_key</td><td>uuid</td><td>none</td></tr>
+<tr><td>cmdb_staging</td><td>risk_factor</td><td>regular</td><td>int</td><td>none</td></tr>
+<tr class="odd"><td>hardware</td><td>audit_insert</td><td>regular</td><td>frozen&amp;lt;audit_insert&amp;gt;</td><td>none</td></tr>
+<tr><td>hardware</td><td>audit_update</td><td>regular</td><td>frozen&amp;lt;audit_update&amp;gt;</td><td>none</td></tr>
+<tr class="odd"><td>hardware</td><td>cpe_id</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>hardware</td><td>crown_jewel</td><td>regular</td><td>boolean</td><td>none</td></tr>
+<tr class="odd"><td>hardware</td><td>cve_id</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>hardware</td><td>cvss_base_score</td><td>regular</td><td>double</td><td>none</td></tr>
+<tr class="odd"><td>hardware</td><td>cvss_temporal_score</td><td>regular</td><td>double</td><td>none</td></tr>
+<tr><td>hardware</td><td>cyvar</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr class="odd"><td>hardware</td><td>end_of_life_date</td><td>regular</td><td>date</td><td>none</td></tr>
+<tr><td>hardware</td><td>end_of_sale</td><td>regular</td><td>date</td><td>none</td></tr>
+<tr class="odd"><td>hardware</td><td>end_of_support_date</td><td>regular</td><td>date</td><td>none</td></tr>
+<tr><td>hardware</td><td>import_date</td><td>regular</td><td>date</td><td>none</td></tr>
+<tr class="odd"><td>hardware</td><td>internal_system_id</td><td>clustering</td><td>uuid</td><td>asc</td></tr>
+<tr><td>hardware</td><td>ip_address</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>hardware</td><td>ip_gateway</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>hardware</td><td>ip_netmask</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>hardware</td><td>ip_subnet_or_building</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr><td>hardware</td><td>mac_address</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>hardware</td><td>neighbor_coefficient_value</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr><td>hardware</td><td>node_impact_value</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr class="odd"><td>hardware</td><td>org_id</td><td>partition_key</td><td>uuid</td><td>none</td></tr>
+<tr><td>hardware</td><td>part</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>hardware</td><td>patch_availability</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>hardware</td><td>product</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>hardware</td><td>reportable_flag</td><td>regular</td><td>boolean</td><td>none</td></tr>
+<tr><td>hardware</td><td>risk_likelihood</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr class="odd"><td>hardware</td><td>run_date</td><td>regular</td><td>date</td><td>none</td></tr>
+<tr><td>hardware</td><td>site_or_ou_name</td><td>partition_key</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>hardware</td><td>system_type</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>hardware</td><td>traceroute</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>hardware</td><td>vendor</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>hardware</td><td>vendor_stencil_icon</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>hardware</td><td>version</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>hardware</td><td>version_update</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>hardware</td><td>vulnerability_count</td><td>regular</td><td>int</td><td>none</td></tr>
+<tr><td>hardware_by_internal_system_id</td><td>internal_system_id</td><td>partition_key</td><td>uuid</td><td>none</td></tr>
+<tr class="odd"><td>hardware_by_internal_system_id</td><td>ip_address</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>hardware_by_internal_system_id</td><td>ip_subnet_or_building</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr class="odd"><td>hardware_by_internal_system_id</td><td>org_id</td><td>partition_key</td><td>uuid</td><td>none</td></tr>
+<tr><td>hardware_by_internal_system_id</td><td>site_or_ou_name</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr class="odd"><td>hardware_by_ip_address</td><td>internal_system_id</td><td>clustering</td><td>uuid</td><td>asc</td></tr>
+<tr><td>hardware_by_ip_address</td><td>ip_address</td><td>partition_key</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>hardware_by_ip_address</td><td>ip_subnet_or_building</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr><td>hardware_by_ip_address</td><td>org_id</td><td>partition_key</td><td>uuid</td><td>none</td></tr>
+<tr class="odd"><td>hardware_by_ip_address</td><td>site_or_ou_name</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr><td>hardware_stat_rollup</td><td>cyvar</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr class="odd"><td>hardware_stat_rollup</td><td>internal_system_id</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr><td>hardware_stat_rollup</td><td>ip_subnet_or_building</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr class="odd"><td>hardware_stat_rollup</td><td>node_impact_value</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr><td>hardware_stat_rollup</td><td>org_id</td><td>partition_key</td><td>uuid</td><td>none</td></tr>
+<tr class="odd"><td>hardware_stat_rollup</td><td>reporting_date</td><td>clustering</td><td>date</td><td>asc</td></tr>
+<tr><td>hardware_stat_rollup</td><td>reporting_label</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>hardware_stat_rollup</td><td>risk_likelihood</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr><td>hardware_stat_rollup</td><td>site_or_ou_name</td><td>partition_key</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>hardware_stat_rollup</td><td>vulnerability_count</td><td>regular</td><td>int</td><td>none</td></tr>
+<tr><td>hardware_statistics</td><td>cyvar</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr class="odd"><td>hardware_statistics</td><td>internal_system_id</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr><td>hardware_statistics</td><td>ip_subnet_or_building</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr class="odd"><td>hardware_statistics</td><td>node_impact_value</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr><td>hardware_statistics</td><td>observation_date</td><td>clustering</td><td>date</td><td>asc</td></tr>
+<tr class="odd"><td>hardware_statistics</td><td>org_id</td><td>partition_key</td><td>uuid</td><td>none</td></tr>
+<tr><td>hardware_statistics</td><td>risk_likelihood</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr class="odd"><td>hardware_statistics</td><td>site_or_ou_name</td><td>partition_key</td><td>text</td><td>none</td></tr>
+<tr><td>hardware_statistics</td><td>vulnerability_count</td><td>regular</td><td>int</td><td>none</td></tr>
+<tr class="odd"><td>mbse_staging</td><td>building</td><td>partition_key</td><td>text</td><td>none</td></tr>
+<tr><td>mbse_staging</td><td>connector_list</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>mbse_staging</td><td>firmware_product</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>mbse_staging</td><td>firmware_vendor</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>mbse_staging</td><td>firmware_version</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>mbse_staging</td><td>firmware_version_update</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>mbse_staging</td><td>ip_address</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>mbse_staging</td><td>magic_draw_id</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr class="odd"><td>mbse_staging</td><td>name</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>mbse_staging</td><td>org_id</td><td>partition_key</td><td>uuid</td><td>none</td></tr>
+<tr class="odd"><td>mbse_staging</td><td>os_product</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>mbse_staging</td><td>os_vendor</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>mbse_staging</td><td>os_version</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>mbse_staging</td><td>os_version_update</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>mbse_staging</td><td>part</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>mbse_staging</td><td>product</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>mbse_staging</td><td>product_subsystem</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>mbse_staging</td><td>site_or_ou_name</td><td>partition_key</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>mbse_staging</td><td>vendor</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>mbse_staging</td><td>version</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>mbse_staging</td><td>version_update</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>message_mapping_staging</td><td>connector</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>message_mapping_staging</td><td>destination_id</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr><td>message_mapping_staging</td><td>magic_draw_id</td><td>partition_key</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>message_mapping_staging</td><td>mission_support</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>message_mapping_staging</td><td>site</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>organizational_units</td><td>audit_insert</td><td>regular</td><td>frozen&amp;lt;audit_insert&amp;gt;</td><td>none</td></tr>
+<tr><td>organizational_units</td><td>audit_update</td><td>regular</td><td>frozen&amp;lt;audit_update&amp;gt;</td><td>none</td></tr>
+<tr class="odd"><td>organizational_units</td><td>org_id</td><td>partition_key</td><td>uuid</td><td>none</td></tr>
+<tr><td>organizational_units</td><td>org_unit_id</td><td>clustering</td><td>uuid</td><td>asc</td></tr>
+<tr class="odd"><td>organizational_units</td><td>org_unit_name</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>organizational_units</td><td>unit_type</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>organizations</td><td>audit_insert</td><td>regular</td><td>frozen&amp;lt;audit_insert&amp;gt;</td><td>none</td></tr>
+<tr><td>organizations</td><td>audit_update</td><td>regular</td><td>frozen&amp;lt;audit_update&amp;gt;</td><td>none</td></tr>
+<tr class="odd"><td>organizations</td><td>industry_name</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>organizations</td><td>org_id</td><td>partition_key</td><td>uuid</td><td>none</td></tr>
+<tr class="odd"><td>organizations</td><td>organization_name</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>references</td><td>org_id</td><td>partition_key</td><td>uuid</td><td>none</td></tr>
+<tr class="odd"><td>references</td><td>reference_key</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr><td>references</td><td>reference_value</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>scanner_hardware_staging</td><td>audit_insert</td><td>regular</td><td>frozen&amp;lt;audit_insert&amp;gt;</td><td>none</td></tr>
+<tr><td>scanner_hardware_staging</td><td>audit_update</td><td>regular</td><td>frozen&amp;lt;audit_update&amp;gt;</td><td>none</td></tr>
+<tr class="odd"><td>scanner_hardware_staging</td><td>cpe_id</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>scanner_hardware_staging</td><td>crown_jewel</td><td>regular</td><td>boolean</td><td>none</td></tr>
+<tr class="odd"><td>scanner_hardware_staging</td><td>cve_id</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>scanner_hardware_staging</td><td>cvss_base_score</td><td>regular</td><td>double</td><td>none</td></tr>
+<tr class="odd"><td>scanner_hardware_staging</td><td>cvss_temporal_score</td><td>regular</td><td>double</td><td>none</td></tr>
+<tr><td>scanner_hardware_staging</td><td>cyvar</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr class="odd"><td>scanner_hardware_staging</td><td>end_of_life_date</td><td>regular</td><td>date</td><td>none</td></tr>
+<tr><td>scanner_hardware_staging</td><td>end_of_sale</td><td>regular</td><td>date</td><td>none</td></tr>
+<tr class="odd"><td>scanner_hardware_staging</td><td>end_of_support_date</td><td>regular</td><td>date</td><td>none</td></tr>
+<tr><td>scanner_hardware_staging</td><td>import_date</td><td>regular</td><td>date</td><td>none</td></tr>
+<tr class="odd"><td>scanner_hardware_staging</td><td>internal_system_id</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr><td>scanner_hardware_staging</td><td>ip_address</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>scanner_hardware_staging</td><td>ip_gateway</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>scanner_hardware_staging</td><td>ip_netmask</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>scanner_hardware_staging</td><td>ip_subnet_or_building</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr><td>scanner_hardware_staging</td><td>mac_address</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>scanner_hardware_staging</td><td>neighbor_coefficient_value</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr><td>scanner_hardware_staging</td><td>node_impact_value</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr class="odd"><td>scanner_hardware_staging</td><td>org_id</td><td>partition_key</td><td>uuid</td><td>none</td></tr>
+<tr><td>scanner_hardware_staging</td><td>part</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>scanner_hardware_staging</td><td>patch_availability</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>scanner_hardware_staging</td><td>product</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>scanner_hardware_staging</td><td>reportable_flag</td><td>regular</td><td>boolean</td><td>none</td></tr>
+<tr><td>scanner_hardware_staging</td><td>risk_likelihood</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr class="odd"><td>scanner_hardware_staging</td><td>run_date</td><td>regular</td><td>date</td><td>none</td></tr>
+<tr><td>scanner_hardware_staging</td><td>site_or_ou_name</td><td>partition_key</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>scanner_hardware_staging</td><td>system_type</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>scanner_hardware_staging</td><td>traceroute</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>scanner_hardware_staging</td><td>vendor</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>scanner_hardware_staging</td><td>vendor_stencil_icon</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>scanner_hardware_staging</td><td>version</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>scanner_hardware_staging</td><td>version_update</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>scanner_hardware_staging</td><td>vulnerability_count</td><td>regular</td><td>int</td><td>none</td></tr>
+<tr><td>scanner_software_staging</td><td>application_category</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>scanner_software_staging</td><td>asset_type</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>scanner_software_staging</td><td>asset_visibility</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>scanner_software_staging</td><td>business_criticality</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>scanner_software_staging</td><td>business_interruption_threshold</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>scanner_software_staging</td><td>cpe_id</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>scanner_software_staging</td><td>cyvar</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr class="odd"><td>scanner_software_staging</td><td>data_classification</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>scanner_software_staging</td><td>end_of_life_date</td><td>regular</td><td>date</td><td>none</td></tr>
+<tr class="odd"><td>scanner_software_staging</td><td>end_of_sale</td><td>regular</td><td>date</td><td>none</td></tr>
+<tr><td>scanner_software_staging</td><td>end_of_support_date</td><td>regular</td><td>date</td><td>none</td></tr>
+<tr class="odd"><td>scanner_software_staging</td><td>inherent_impact_value</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr><td>scanner_software_staging</td><td>internal_system_id</td><td>partition_key</td><td>uuid</td><td>none</td></tr>
+<tr class="odd"><td>scanner_software_staging</td><td>line_of_business</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>scanner_software_staging</td><td>number_of_records</td><td>regular</td><td>bigint</td><td>none</td></tr>
+<tr class="odd"><td>scanner_software_staging</td><td>part</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr><td>scanner_software_staging</td><td>patch_availability</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>scanner_software_staging</td><td>product</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr><td>scanner_software_staging</td><td>record_type</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>scanner_software_staging</td><td>risk_factor</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>scanner_software_staging</td><td>risk_likelihood</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr class="odd"><td>scanner_software_staging</td><td>total_records</td><td>regular</td><td>bigint</td><td>none</td></tr>
+<tr><td>scanner_software_staging</td><td>vendor</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr class="odd"><td>scanner_software_staging</td><td>version</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr><td>scanner_software_staging</td><td>version_update</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>scanner_software_staging</td><td>vulnerability_count</td><td>regular</td><td>int</td><td>none</td></tr>
+<tr><td>sites</td><td>audit_insert</td><td>regular</td><td>frozen&amp;lt;audit_insert&amp;gt;</td><td>none</td></tr>
+<tr class="odd"><td>sites</td><td>audit_update</td><td>regular</td><td>frozen&amp;lt;audit_update&amp;gt;</td><td>none</td></tr>
+<tr><td>sites</td><td>latitude</td><td>regular</td><td>double</td><td>none</td></tr>
+<tr class="odd"><td>sites</td><td>longitude</td><td>regular</td><td>double</td><td>none</td></tr>
+<tr><td>sites</td><td>org_id</td><td>partition_key</td><td>uuid</td><td>none</td></tr>
+<tr class="odd"><td>sites</td><td>org_unit_id</td><td>partition_key</td><td>uuid</td><td>none</td></tr>
+<tr><td>sites</td><td>site_id</td><td>clustering</td><td>uuid</td><td>asc</td></tr>
+<tr class="odd"><td>sites</td><td>site_name</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>software</td><td>application_category</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>software</td><td>asset_type</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>software</td><td>asset_visibility</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>software</td><td>audit_insert</td><td>regular</td><td>frozen&amp;lt;audit_insert&amp;gt;</td><td>none</td></tr>
+<tr><td>software</td><td>audit_update</td><td>regular</td><td>frozen&amp;lt;audit_update&amp;gt;</td><td>none</td></tr>
+<tr class="odd"><td>software</td><td>business_criticality</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>software</td><td>business_interruption_threshold</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>software</td><td>cpe_id</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>software</td><td>cyvar</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr class="odd"><td>software</td><td>data_classification</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>software</td><td>end_of_life_date</td><td>regular</td><td>date</td><td>none</td></tr>
+<tr class="odd"><td>software</td><td>end_of_sale</td><td>regular</td><td>date</td><td>none</td></tr>
+<tr><td>software</td><td>end_of_support_date</td><td>regular</td><td>date</td><td>none</td></tr>
+<tr class="odd"><td>software</td><td>inherent_impact_value</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr><td>software</td><td>internal_system_id</td><td>partition_key</td><td>uuid</td><td>none</td></tr>
+<tr class="odd"><td>software</td><td>line_of_business</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>software</td><td>number_of_records</td><td>regular</td><td>bigint</td><td>none</td></tr>
+<tr class="odd"><td>software</td><td>part</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr><td>software</td><td>patch_availability</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>software</td><td>product</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr><td>software</td><td>record_type</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>software</td><td>risk_factor</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr><td>software</td><td>risk_likelihood</td><td>regular</td><td>float</td><td>none</td></tr>
+<tr class="odd"><td>software</td><td>total_records</td><td>regular</td><td>bigint</td><td>none</td></tr>
+<tr><td>software</td><td>vendor</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr class="odd"><td>software</td><td>version</td><td>clustering</td><td>text</td><td>asc</td></tr>
+<tr><td>software</td><td>version_update</td><td>regular</td><td>text</td><td>none</td></tr>
+<tr class="odd"><td>software</td><td>vulnerability_count</td><td>regular</td><td>int</td><td>none</td></tr>
+</table></body></html>

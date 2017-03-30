@@ -1,0 +1,3 @@
+﻿"base_table_name","view_name","comment"
+hardware,hardware_by_internal_system_id,query alternative for the hardware table.
+hardware,hardware_by_ip_address,query alternative for the hardware table.

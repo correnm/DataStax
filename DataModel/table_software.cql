@@ -9,9 +9,9 @@ version_update 				text,      // Search w/ Solr
 end_of_sale 				date,
 end_of_life_date 			date,
 end_of_support_date 		date,
-record_type 				text,		// references.record_type = PHI, PCI, PI
-number_of_records 			bigint,
-total_records 				bigint,
+record_type_r 				text,		// references.record_type = PHI, PCI, PI
+number_of_records 			bigint,		// for this record_type
+total_records 				bigint,		// across all record types
 line_of_business 			text,        // MV or Solr?
 business_criticality 		text,
 data_classification 		text,
@@ -28,4 +28,4 @@ cyvar 						float,                  // Cyber Value at Risk
 vulnerability_count 		int,
 risk_likelihood 			float,        //
 PRIMARY KEY ((internal_system_id), part, vendor, product, version)
-) WITH COMMENT = 'software as imported from a vulnerability scan.';
+) WITH COMMENT = 'Contains software as imported from a vulnerability scan.';

@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS g2.hardware (
     ip_netmask 						text,
     ip_gateway 						text,
     mac_address 					text,	// Search w/ Solr or MV
-    cvss_base_score 				double,
-    cvss_temporal_score 			double,
+    cvss_scores						list<FROZEN <cvss_scores>>, //
+    patch_availability 				text,
     traceroute 						text,    // Test out: as list or text?
     import_date 					date,    // based on import job
     cpe_id 							text,    // product
@@ -19,19 +19,17 @@ CREATE TABLE IF NOT EXISTS g2.hardware (
     version 						text,
     version_update 					text,
     run_date 						date,   // From scan file
-    cve_id 							text,   // vulnerability list
     end_of_sale 					date,
     end_of_life_date 				date,
     end_of_support_date 			date,
-    node_impact_value 				float,	// VMASC algorithm
-    neighbor_coefficient_value 		float,
-    crown_jewel 					boolean,
-    reportable_flag 				boolean,
-    vendor_stencil_icon				text,   // ref to file location
-    patch_availability 				text,
-    cyvar 							float,	// Cyber Value at Risk
-    vulnerability_count 			int,
-    risk_likelihood 				float,  //
+    node_impact_value 				float,		// output of VMASC algorithm
+    neighbor_coefficient_value 		float,		// output of VMASC algorithm
+    crown_jewel 					boolean,	// MBSE model element
+    reportable_flag 				boolean,	// if TRUE, include in calculation of NIV
+    vendor_stencil_icon				text,   	// refers to file location on web server for icons to use in viz
+    cyvar 							float,		// output of Cyber Value at Risk (TBD)
+    vulnerability_count 			int,		// total number of CVE IDs identified for this item
+    risk_likelihood 				float,  	//
     audit_insert 					frozen<audit_insert>,
 	audit_update					frozen<audit_update>,
     PRIMARY KEY ((org_id, site_or_ou_name), ip_subnet_or_building, internal_system_id)
