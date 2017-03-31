@@ -1,0 +1,15 @@
+﻿"table_name","comment"
+application_logging,Used to record the operational status of imports and abnormal events within the application
+cmdb_staging,"Staging table to hold imports of CMDB data (e.g., ServiceNow)"
+hardware,Infrastructure maintained for the site obtained via a vulnerability scan or a physical survey
+hardware_stat_rollup,Year-Quarterly aggregation of the hardware statistics.
+hardware_statistics,Maintains a daily temporal history of analytics information for each component.
+mbse_staging,Staging data from export of SysML data.
+message_mapping_staging,
+organizational_units,Represents a subdivision of the parent organization
+organizations,Parent table used to describe the organizational structure.
+references,Table contains the global list of values to be used for validation or drop down lists.
+scanner_hardware_staging,hardware as imported from a vulnerability scan.
+scanner_software_staging,software as imported from a vulnerability scan.
+sites,Represents a particular site within the organizational unit
+software,software as imported from a vulnerability scan.

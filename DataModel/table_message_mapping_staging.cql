@@ -1,8 +1,8 @@
-CREATE TABLE g2.message_mapping_staging (
-  magic_draw_id text,
-  site text,
-  mission_support text,
-  connector text,
-  destination_id text,
+CREATE TABLE IF NOT EXISTS g2.message_mapping_staging (
+  magic_draw_id 		text,
+  site 					text,
+  mission_support 		text,
+  connector 			text, 	// message origination component
+  destination_id 		text,	// message destination component
   PRIMARY KEY ((magic_draw_id), destination_id)
-);
+) WITH COMMENT = 'Staging table for mission support messages showing the origination and destination components.';
