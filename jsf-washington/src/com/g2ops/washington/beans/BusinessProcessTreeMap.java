@@ -23,10 +23,9 @@ public class BusinessProcessTreeMap {
 				chartData = chartData.concat("\"verticalPadding\": \"0\",");
 
 				chartData = chartData.concat("\"algorithm\": \"squarified\",");
-				chartData = chartData.concat("\"caption\": \"Business Process Tree Map\",");
-				chartData = chartData.concat("\"subcaption\": \"At Risk Amounts\",");
+				chartData = chartData.concat("\"caption\": \"Subnet Vulnerabilities\",");
 
-				chartData = chartData.concat("\"plotToolText\": \"<div><b>$label</b><br/> <b>Risk: </b>$$value<br/><b>Change: </b>$svalue%</div>\",");
+				chartData = chartData.concat("\"plotToolText\": \"<div><b>$label</b><br/> <b>Vulnerabilities: </b>$value<br/><b>Severity: </b>$svalue</div>\",");
 				chartData = chartData.concat("\"plotborderthickness\": \".5\",");
 				chartData = chartData.concat("\"plotbordercolor\": \"666666\",");
 
@@ -48,23 +47,30 @@ public class BusinessProcessTreeMap {
 			chartData = chartData.concat("},");  // chart
 
 			chartData = chartData.concat("\"data\": [{"); // data
-				chartData = chartData.concat("\"label\": \"Organization Name\", \"fillcolor\": \"333333\", \"value\": \"1000000\", \"svalue\": \"250\", ");
-				chartData = chartData.concat("\"data\": ["); // business processes
-					chartData = chartData.concat("{\"label\": \"EMR\", \"value\": \"200000\", \"data\": [{\"label\": \"Site 1\", \"value\": \"100000\", \"svalue\": \"30\"}, {\"label\": \"Site 2\", \"value\": \"100000\", \"svalue\": \"20\"}]},");
-					chartData = chartData.concat("{\"label\": \"FIN\", \"value\": \"300000\", \"data\": [{\"label\": \"Site 3\", \"value\": \"100000\", \"svalue\": \"100\"}, {\"label\": \"Site 4\", \"value\": \"200000\", \"svalue\": \"50\"}]},");
-					chartData = chartData.concat("{\"label\": \"AP\", \"value\": \"500000\", \"data\": [{\"label\": \"Site 5\", \"value\": \"200000\", \"svalue\": \"25\"}, {\"label\": \"Site 6\", \"value\": \"300000\", \"svalue\": \"50\"}]}");
-				chartData = chartData.concat("]"); // business processes
+				chartData = chartData.concat("\"label\": \"Eastern Division - Virginia Beach Office\", \"fillcolor\": \"666666\", \"value\": \"1000\", \"svalue\": \"50\", ");
+				chartData = chartData.concat("\"data\": ["); // subnets
+					chartData = chartData.concat("{\"label\": \"10.10.1.*\", \"value\": \"75\", \"svalue\": \"22\"},");
+					chartData = chartData.concat("{\"label\": \"10.10.2.*\", \"value\": \"275\", \"svalue\": \"62\"},");
+					chartData = chartData.concat("{\"label\": \"10.10.3.*\", \"value\": \"60\", \"svalue\": \"33\"},");
+					chartData = chartData.concat("{\"label\": \"10.10.4.*\", \"value\": \"40\", \"svalue\": \"26\"},");
+					chartData = chartData.concat("{\"label\": \"10.10.5.*\", \"value\": \"100\", \"svalue\": \"20\"},");
+					chartData = chartData.concat("{\"label\": \"10.10.6.*\", \"value\": \"180\", \"svalue\": \"95\"},");
+					chartData = chartData.concat("{\"label\": \"10.10.7.*\", \"value\": \"120\", \"svalue\": \"80\"},");
+					chartData = chartData.concat("{\"label\": \"10.10.8.*\", \"value\": \"50\", \"svalue\": \"16\"},");
+					chartData = chartData.concat("{\"label\": \"10.10.9.*\", \"value\": \"70\", \"svalue\": \"44\"},");
+					chartData = chartData.concat("{\"label\": \"10.10.10.*\", \"value\": \"30\", \"svalue\": \"8\"}");
+				chartData = chartData.concat("]"); // subnets
 			chartData = chartData.concat("}],"); // data
 
 			chartData = chartData.concat("\"colorrange\": {"); // colorrange
-				chartData = chartData.concat("\"mapbypercent\": \"1\",");
+				chartData = chartData.concat("\"mapbypercent\": \"0\",");
 				chartData = chartData.concat("\"gradient\": \"1\",");
 				chartData = chartData.concat("\"minvalue\": \"0\",");
-				chartData = chartData.concat("\"code\": \"001900\",");
+				chartData = chartData.concat("\"code\": \"2b8118\",");
 				chartData = chartData.concat("\"startlabel\": \"Low\",");
 				chartData = chartData.concat("\"endlabel\": \"High\",");
 				chartData = chartData.concat("\"color\": [{"); // color
-					chartData = chartData.concat("\"code\": \"00cc00\",");
+					chartData = chartData.concat("\"code\": \"CC2A1F\",");
 					chartData = chartData.concat("\"maxvalue\": \"100\",");
 					chartData = chartData.concat("\"label\": \"High\"");
 				chartData = chartData.concat("}]"); // color
