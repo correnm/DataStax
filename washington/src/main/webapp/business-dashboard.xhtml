@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<title>Washington - Business Dashboard</title>
+	<h:outputStylesheet name="styles.css" library="css" position="last" />
+	<h:outputScript name="fusioncharts.js" library="js" target="head" />
+	<h:outputScript name="fusioncharts.charts.js" library="js" target="head" />
+	<h:outputScript name="themes/fusioncharts.theme.g2ops.js" library="js" target="head" />
+</h:head>
+
+<h:body>
+
+<b:container fluid="true">
+
+<b:navBar brand-img="#{request.contextPath}/resources/images/G2-OPS-HUB-SM.png" brand-href="#{request.contextPath}/index.jsf" fluid="true" class="navbar-inverse">
+	<b:navbarLinks pull="right">
+		<b:dropMenu value="Dashboards" iconAwesome="line-chart">
+			<b:navLink value="Business" href="#"></b:navLink>
+			<b:navLink value="Technical" href="#"></b:navLink>
+		</b:dropMenu>
+		<b:dropMenu value="Administrator" iconAwesome="gears" iconAlign="left">
+			<b:navLink value="Organization Settings" href="#"></b:navLink>
+			<b:navLink value="Manage Users" href="#"></b:navLink>
+		</b:dropMenu>
+		<b:dropMenu value="User" iconAwesome="gear" iconAlign="left">
+			<b:navLink value="Manage Settings" href="#"></b:navLink>
+			<b:navLink value="Change Passcode" href="#"></b:navLink>
+		</b:dropMenu>
+		<b:navLink value="Logout" href="login.jsf" iconAwesome="unlock" iconAlign="left"></b:navLink>
+	</b:navbarLinks>
+</b:navBar>
+
+<b:row>
+	<b:column col-xs="12">
+		<div class="page-name">
+			<h1>Business Dashboard</h1>
+		</div>
+	</b:column>
+</b:row>
+
+<b:row>
+    <b:column col-md="6">
+    	<div id="orgRiskToleranceChartContainer" align="center" style="height: 200px;"></div>
+		<h:outputText value="#{orgRiskToleranceChart.getOrgRiskToleranceChart()}" escape="false"/>
+    </b:column>
+    <b:column col-md="6">
+    	<div id="orgRiskHistoryChartContainer" align="center" style="height: 200px;"></div>
+		<h:outputText value="#{orgRiskHistoryChart2.getOrgRiskHistoryChart2()}" escape="false"/>
+    </b:column>
+</b:row>
+
+<b:row>
+	<b:column col-xs="12">
+		<span class="rowSpace"><br/></span>
+	</b:column>
+</b:row>
+
+<b:row>
+    <b:column col-md="12">
+		<b:panel look="default" collapsible="false">
+		<b:form horizontal="true">
+			<b:row>
+				<!--
+				<b:column col-md="2" style-class="form-label">
+					<h:outputText value="Organization:" for="userOrg"/>
+				</b:column>
+				<b:column col-md="2">
+					<h:outputText value="#{login.userOrg}"/>
+				</b:column>
+				-->
+				<b:column col-xs="6" col-md="3" style-class="form-label" style="text-align: right;">
+					<h:outputText value="Organizational Unit: &#160;" for="orgUnit"/>
+					<h:selectOneListbox value="#{orgUnitSelectOneListboxBean.selectedOrgUnit}" size="1">
+						<f:selectItems value="#{orgUnitSelectOneListboxBean.orgUnits}" var="orgUnit" itemValue="#{orgUnit.orgUnitCode}" itemLabel="#{orgUnit.orgUnitName}"></f:selectItems>
+					</h:selectOneListbox>
+				</b:column>
+				<b:column col-xs="6" col-md="3" style-class="form-label" style="text-align: right;">
+					<h:outputText value="Organizational Site: &#160;" for="orgSite"/>
+					<h:selectOneListbox value="#{siteSelectOneListboxBean.selectedSite}" size="1">
+						<f:selectItems value="#{siteSelectOneListboxBean.sites}" var="site" itemValue="#{site.siteCode}" itemLabel="#{site.siteName}"></f:selectItems>
+					</h:selectOneListbox>
+				</b:column>
+				<b:column col-xs="4" col-md="2">
+					<b:dateTimePicker value="" render-label="false" show-time="false" placeholder="start date" required="true" required-message="please choose a start date" show-button-panel="true" />
+				</b:column>
+				<b:column col-xs="4" col-md="2">
+					<b:dateTimePicker value="" render-label="false" show-time="false" placeholder="end date" required="true" required-message="please choose an end date" show-button-panel="true" />
+				</b:column>
+				<b:column col-xs="4" col-md="2" style="text-align: center;">
+					<b:commandButton value="Refresh View" action="#{login.loginActionControllerMethod}" ajax="false" look="default" class="btn-sm" />
+				</b:column>
+			</b:row>
+		</b:form>
+		</b:panel>
+	</b:column>
+</b:row>
+
+<b:row>
+	<b:column col-md="6">
+		<div class="well" style="height: 200px;">
+			<h1>Chart 1</h1>
+		</div>
+	</b:column>
+	<b:column col-md="6">
+		<div class="well" style="height: 200px;">
+			<h1>Chart 2</h1>
+		</div>
+	</b:column>
+</b:row>
+
+<b:row>
+	<b:column col-md="6">
+		<div class="well" style="height: 200px;">
+			<h1>Chart 3</h1>
+		</div>
+	</b:column>
+	<b:column col-md="6">
+		<div class="well" style="height: 200px;">
+			<h1>Chart 4</h1>
+		</div>
+	</b:column>
+</b:row>
+
+<b:row>
+	<b:column col-xs="12" style-class="footer">
+		Copyright &#169; 2017 | <em>Powered by</em> <h:graphicImage value="./resources/images/G2-OPS-LOGO-SM.png" />
+	</b:column>
+</b:row>
+
+</b:container>
+
+</h:body>
+</html>

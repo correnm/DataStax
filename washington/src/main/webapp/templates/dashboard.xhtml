@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<title>
+		<ui:insert name="document-title">This Page Needs a Document Title</ui:insert>
+	</title>
+	<h:outputStylesheet name="styles.css" library="css" position="last" />
+	<h:outputScript name="fusioncharts.js" library="js" target="head" />
+	<h:outputScript name="fusioncharts.charts.js" library="js" target="head" />
+	<h:outputScript name="themes/fusioncharts.theme.g2ops.js" library="js" target="head" />
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+</h:head>
+
+<h:body>
+
+<b:container fluid="true">
+
+<!-- navigation bar -->
+<b:navBar brand-img="#{request.contextPath}/resources/images/G2-OPS-HUB-SM.png" brand-href="#{request.contextPath}/index.jsf" fluid="true" class="navbar-inverse">
+	<b:navbarLinks pull="right">
+		<b:dropMenu value="Dashboards" iconAwesome="line-chart">
+			<b:navLink value="Business" href="#"></b:navLink>
+			<b:navLink value="Technical" href="#"></b:navLink>
+		</b:dropMenu>
+		<b:dropMenu value="Administrator" iconAwesome="gears" iconAlign="left">
+			<b:navLink value="Organization Settings" href="#"></b:navLink>
+			<b:navLink value="Manage Users" href="#"></b:navLink>
+		</b:dropMenu>
+		<b:dropMenu value="User" iconAwesome="gear" iconAlign="left">
+			<b:navLink value="Manage Settings" href="#"></b:navLink>
+			<b:navLink value="Change Passcode" href="#"></b:navLink>
+		</b:dropMenu>
+		<b:navLink value="Logout" href="login.jsf" iconAwesome="unlock" iconAlign="left"></b:navLink>
+	</b:navbarLinks>
+</b:navBar>
+
+<!-- page name -->
+<b:row>
+	<b:column col-xs="12">
+		<div class="page-name">
+			<h1>
+				<ui:insert name="page-name">This Page Needs a Name</ui:insert>
+			</h1>
+		</div>
+	</b:column>
+</b:row>
+
+<!-- top 2 charts -->
+<b:row>
+    <b:column col-md="6">
+    	<ui:insert name="top-left-chart"><p style="text-align:center;">Top Left Chart Goes Here</p></ui:insert>
+    </b:column>
+    <b:column col-md="6">
+    	<ui:insert name="top-right-chart"><p style="text-align:center;">Top Right Chart Goes Here</p></ui:insert>
+    </b:column>
+</b:row>
+
+<!-- row for spacing -->
+<b:row>
+	<b:column col-xs="12">
+		<span class="rowSpace"><br/></span>
+	</b:column>
+</b:row>
+
+<!-- View Criteria Form -->
+<b:row>
+	<b:column col-md="12">
+		<b:panel look="default" collapsible="false">
+			<b:form class="form-inline">
+				<b:column col-md="3">
+					<h:outputText value="Organizational Unit: &#160;" for="orgUnit"/>
+					<h:selectOneListbox class="form-control form-control-lg" value="#{orgUnitSelectOneListboxBean.selectedOrgUnit}" size="1">
+						<f:selectItems value="#{orgUnitSelectOneListboxBean.orgUnits}" var="orgUnit" itemValue="#{orgUnit.orgUnitCode}" itemLabel="#{orgUnit.orgUnitName}"></f:selectItems>
+					</h:selectOneListbox>
+				</b:column>
+				<b:column col-md="3">
+					<h:outputText value="Organizational Site: &#160;" for="orgSite"/>
+					<h:selectOneListbox class="form-control form-control-lg" value="#{siteSelectOneListboxBean.selectedSite}" size="1">
+						<f:selectItems value="#{siteSelectOneListboxBean.sites}" var="site" itemValue="#{site.siteCode}" itemLabel="#{site.siteName}"></f:selectItems>
+					</h:selectOneListbox>
+				</b:column>
+				<b:column col-md="2">
+					<b:dateTimePicker value="" render-label="false" show-time="false" placeholder="start date" required="true" required-message="please choose a start date" show-button-panel="true" />
+				</b:column>
+				<b:column col-md="2">
+					<b:dateTimePicker value="" render-label="false" show-time="false" placeholder="end date" required="true" required-message="please choose an end date" show-button-panel="true" />
+				</b:column>
+				<b:column col-md="2">
+					<b:commandButton value="Refresh View" action="#" ajax="false" look="default" />
+				</b:column>
+			</b:form>
+		</b:panel>
+	</b:column>
+</b:row>
+
+<b:row>
+	<b:column col-md="6">
+    	<ui:insert name="second-left-chart"><p style="text-align:center;">Second Left Chart Goes Here</p></ui:insert>
+	</b:column>
+	<b:column col-md="6">
+    	<ui:insert name="second-right-chart"><p style="text-align:center;">Second Right Chart Goes Here</p></ui:insert>
+	</b:column>
+</b:row>
+
+<b:row>
+	<b:column col-md="6">
+    	<ui:insert name="third-left-chart"><p style="text-align:center;">Third Left Chart Goes Here</p></ui:insert>
+	</b:column>
+	<b:column col-md="6">
+    	<ui:insert name="third-right-chart"><p style="text-align:center;">Third Right Chart Goes Here</p></ui:insert>
+	</b:column>
+</b:row>
+
+<b:row>
+	<b:column col-xs="12" style-class="footer">
+		<!-- footer include file -->
+		<ui:include src="/snippets/footer.xhtml" />
+	</b:column>
+</b:row>
+
+</b:container>
+
+</h:body>
+</html>

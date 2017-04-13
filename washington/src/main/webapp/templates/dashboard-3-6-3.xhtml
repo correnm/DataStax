@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<title>
+		<ui:insert name="document-title">This Page Needs a Document Title</ui:insert>
+	</title>
+	<h:outputStylesheet name="styles.css" library="css" position="last" />
+	<!-- 
+	<h:outputScript name="js/fusioncharts.js" />
+	<h:outputScript name="js/fusioncharts.charts.js" />
+	<h:outputScript name="js/fusioncharts.treemap.js" />
+	<h:outputScript name="js/themes/fusioncharts.theme.g2ops.js" />
+	-->
+	<script type="text/javascript" src="#{request.contextPath}/resources/js/fusioncharts.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/resources/js/fusioncharts.charts.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/resources/js/themes/fusioncharts.theme.g2ops.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+</h:head>
+
+<h:body>
+
+<b:container fluid="true">
+
+<!-- navigation bar -->
+<b:navBar brand-img="#{request.contextPath}/resources/images/G2-OPS-HUB-SM.png" brand-href="#{request.contextPath}/index.jsf" fluid="true" class="navbar-inverse">
+	<b:navbarLinks pull="right">
+		<b:dropMenu value="Dashboards" iconAwesome="line-chart">
+			<b:navLink value="Business" href="#"></b:navLink>
+			<b:navLink value="Technical" href="#"></b:navLink>
+		</b:dropMenu>
+		<b:dropMenu value="Administrator" iconAwesome="gears" iconAlign="left">
+			<b:navLink value="Organization Settings" href="#"></b:navLink>
+			<b:navLink value="Manage Users" href="#"></b:navLink>
+		</b:dropMenu>
+		<b:dropMenu value="User" iconAwesome="gear" iconAlign="left">
+			<b:navLink value="Manage Settings" href="#"></b:navLink>
+			<b:navLink value="Change Passcode" href="#"></b:navLink>
+		</b:dropMenu>
+		<b:navLink value="Logout" href="login.jsf" iconAwesome="unlock" iconAlign="left"></b:navLink>
+	</b:navbarLinks>
+</b:navBar>
+
+<!-- page name -->
+<b:row>
+	<b:column col-xs="12">
+		<div class="page-name">
+			<h1>
+				<ui:insert name="page-name">This Page Needs a Name</ui:insert>
+			</h1>
+		</div>
+	</b:column>
+</b:row>
+
+<b:row>
+	<!-- top chart -->
+    <b:column col-md="9">
+    	<ui:insert name="top-chart"><p style="text-align:center;">Top Chart Goes Here</p></ui:insert>
+    </b:column>
+    <!-- View Criteria Form -->
+	<b:column col-md="3">
+		<b:panel look="default" collapsible="false">
+			<b:form>
+				<b:row style="text-align: center;">
+					<b:column>
+						<b:selectOneMenu label="Organizational Unit" render-label="true" value="#{orgUnitSelectOneListboxBean.selectedOrgUnit}" tooltip="Choose an Organizational Unit">
+							<f:selectItems value="#{orgUnitSelectOneListboxBean.orgUnits}" var="orgUnit" itemValue="#{orgUnit.orgUnitCode}" itemLabel="#{orgUnit.orgUnitName}"></f:selectItems>
+						</b:selectOneMenu>
+					</b:column>
+					<b:column>
+						<b:selectOneMenu label="Organizational Site" render-label="true" value="#{siteSelectOneListboxBean.selectedSite}" tooltip="Choose an Organizational Site">
+							<f:selectItems value="#{siteSelectOneListboxBean.sites}" var="site" itemValue="#{site.siteCode}" itemLabel="#{site.siteName}"></f:selectItems>
+						</b:selectOneMenu>
+					</b:column>
+					<b:column>
+						<b:commandButton value="Refresh View" action="#" ajax="false" look="default" size="sm" />
+					</b:column>
+				</b:row>
+			</b:form>
+		</b:panel>
+	</b:column>
+</b:row>
+
+<b:row>
+	<b:column col-md="3">
+    	<ui:insert name="left-charts"><p style="text-align:center;">Left Charts Go Here</p></ui:insert>
+	</b:column>
+	<b:column col-md="6">
+    	<ui:insert name="middle-charts"><p style="text-align:center;">Middle Chart Goes Here</p></ui:insert>
+	</b:column>
+	<b:column col-md="3">
+    	<ui:insert name="right-charts"><p style="text-align:center;">Right Charts Go Here</p></ui:insert>
+	</b:column>
+</b:row>
+
+<!-- row for spacing -->
+<b:row>
+	<b:column col-xs="12">
+		<span class="rowSpace"><br/></span>
+	</b:column>
+</b:row>
+
+<b:row>
+	<b:column col-md="12">
+    	<ui:insert name="full-width-table"><p style="text-align:center;">Full Width Table Goes Here</p></ui:insert>
+	</b:column>
+</b:row>
+
+<b:row>
+	<b:column col-xs="12" style-class="footer">
+		<!-- footer include file -->
+		<ui:include src="/snippets/footer.xhtml" />
+	</b:column>
+</b:row>
+
+</b:container>
+
+</h:body>
+</html>
