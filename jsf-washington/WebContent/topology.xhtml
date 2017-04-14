@@ -5,13 +5,13 @@
 	xmlns:b="http://bootsfaces.net/ui"
 	template="/templates/dashboard-3-6-3.xhtml">
 
-	<ui:define name="document-title">Business Process Impact Analysis - Washington</ui:define>
+	<ui:define name="document-title">Topology Impact Analysis</ui:define>
 
-	<ui:define name="page-name">Business Process Impact Analysis</ui:define>
+	<ui:define name="page-name">Topology Impact Analysis</ui:define>
 
 	<ui:define name="top-chart">
-		<div id="orgRiskToleranceChartContainer" align="center" style="height: 206px;"></div>
-		<h:outputText value="#{orgRiskToleranceChart.getOrgRiskToleranceChart()}" escape="false" />
+		<div id="timelineChartContainer" align="center" style="height: 140px;"></div>
+		<h:outputText value="#{timelineManagementChart.getTimelineChart()}" escape="false" />
 	</ui:define>
 
 	<ui:define name="left-charts">
