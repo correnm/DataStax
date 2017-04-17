@@ -1,0 +1,63 @@
+{
+    "chart": {
+        "theme": "fint",
+        "subCaptionFontSize": "11",
+        "numberPrefix": "",
+        "highColor": "#6baa01",
+        "lowColor": "#e44a00",
+        "chartBottomMargin": "30",
+        "periodlength": "3",
+        "periodcolor": "#cccccc",
+        "periodalpha": "50"
+    },
+    "dataset": [
+        {
+            "data": [
+                { "value": "300" },
+                { "value": "62" },
+                { "value": "242" },
+                { "value": "315" },
+                { "value": "102" },
+                { "value": "242" },
+                { "value": "268" },
+                { "value": "215" },
+                { "value": "134" },
+                { "value": "98" },
+                { "value": "88" },
+                { "value": "119" },
+                { "value": "102" },
+                { "value": "242" },
+                { "value": "268" },
+                { "value": "215" },
+                { "value": "134" },
+                { "value": "98" },
+                { "value": "88" },
+                { "value": "119" },
+                { "value": "102" },
+                { "value": "242" },
+                { "value": "268" },
+                { "value": "215" },
+                { "value": "134" },
+                { "value": "98" },
+                { "value": "88" },
+                { "value": "119" },
+                { "value": "102" },
+                { "value": "242" },
+                { "value": "268" },
+                { "value": "215" },
+                { "value": "134" },
+                { "value": "98" },
+                { "value": "88" },
+                { "value": "119" },
+                { "value": "102" },
+                { "value": "242" },
+                { "value": "268" },
+                { "value": "215" },
+                { "value": "134" },
+                { "value": "98" },
+                { "value": "88" },
+                { "value": "119" }
+            ]
+        }
+    ]
+}

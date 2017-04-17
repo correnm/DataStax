@@ -11,13 +11,13 @@ import org.json.simple.parser.JSONParser;
 
 
 @ManagedBean
-public class TopologyNodeChart {
+public class testTreeMap {
 
 	private String data;
 	private String chartData;
-	private FusionCharts TopologyNodeChart;
+	private FusionCharts testTreeMap;
 
-	public TopologyNodeChart() {
+	public testTreeMap() {
 
 		JSONParser parser = new JSONParser();
 		 
@@ -25,7 +25,7 @@ public class TopologyNodeChart {
  
         	
         	Object obj = parser.parse(new FileReader(
-                    "/Users/DangL/Documents/workspace/washington/target/washington/resources/json/messagemap.json"));
+                    "/Users/DangL/Documents/workspace/washington/target/washington/resources/json/topology.json"));
  
             JSONObject jsonObject = (JSONObject) obj;
             chartData = jsonObject.toJSONString();
@@ -39,18 +39,18 @@ public class TopologyNodeChart {
             e.printStackTrace();
         }
 		
-		TopologyNodeChart = new FusionCharts(
+		testTreeMap = new FusionCharts(
                 "dragnode",// chartType
-                "TopologyNodeChartID",// chartId
+                "testTreeMapID",// chartId
                 "100%","100%",// chartWidth, chartHeight
-                "TopologyNodeChartContainer",// chartContainer
+                "testTreeMapContainer",// chartContainer
                 "json",// dataFormat
                 chartData
 		);
-    	data = TopologyNodeChart.render();
+    	data = testTreeMap.render();
 	}
 	
-    public String getTopologyNodeChart() {
+    public String getTestTreeMap() {
     	return data;
     }
 

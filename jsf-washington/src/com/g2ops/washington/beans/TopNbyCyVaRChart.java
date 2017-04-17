@@ -45,7 +45,7 @@ import com.g2ops.washington.utils.FusionCharts;
 			chartData = chartData.concat("{\"label\": \"AP\", \"value\": \"19850000\"},");
 			chartData = chartData.concat("{\"label\": \"AP2\", \"value\": \"22000000\"},");
 			chartData = chartData.concat("{\"label\": \"Payroll\", \"value\": \"25000000\"},");
-			chartData = chartData.concat("{\"label\": \"CMS\", \"value\": \"20000000\"},");
+			chartData = chartData.concat("{\"label\": \"CMS\", \"value\": \"99000000\"},");
 			chartData = chartData.concat("]"); // end data
 			chartData = chartData.concat("}");
 

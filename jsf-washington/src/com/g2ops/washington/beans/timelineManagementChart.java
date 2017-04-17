@@ -22,7 +22,7 @@ import com.g2ops.washington.utils.FusionCharts;
 	        try {
 	        	
 	        	Object obj = parser.parse(new FileReader(
-	        			"/Users/DangL/Desktop/tata3.json"));
+	        			"/Users/DangL/Desktop/PWdata/timeline.json"));
 	 
 	            JSONObject jsonObject = (JSONObject) obj;
 	            chartData = jsonObject.toJSONString();
