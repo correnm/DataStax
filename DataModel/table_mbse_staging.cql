@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS g2.mbse_staging (
     firmware_product 		text,
     firmware_version 		text,
     firmware_version_update text,
-    product_subsystem 		text, // Line of business
-    connector_list 			text, // magic_draw_id of (from, to)
+    product_subsystem 		text, 		// Line of business
+    connected_elements 		frozen<connected_elements>, // magic_draw_id of (from, to)
     PRIMARY KEY ((org_id,site_or_ou_name,building),magic_draw_id)
 ) WITH COMMENT = 'Staging data from export of SysML data.';

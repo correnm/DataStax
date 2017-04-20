@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS g2.organizations (
     org_id 				uuid,
     organization_name 	text,		// lookup the name using the org_id. org_id is referenced in child tables
-    industry_name_r 		text,		// references.industry_name = "private", "public"
+    industry_name_r 	text,		// references.industry_name = "private", "public"
     audit_insert 		frozen<audit_insert>,
 	audit_update		frozen<audit_update>,
     PRIMARY KEY (org_id)
