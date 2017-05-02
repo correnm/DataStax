@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS g2.hardware (
     mac_address 					text,	// Search w/ Solr or MV
     cvss_scores						list<frozen<cvss_scores>>, //
     patch_availability 				text,
-    traceroute 						text,    // Test out: as list or text?
     import_date 					date,    // based on import job
     cpe_id 							text,    // product
     part 							text,    // should always be [h]ardware
@@ -32,7 +31,7 @@ CREATE TABLE IF NOT EXISTS g2.hardware (
     risk_likelihood 				float,  	//
     audit_insert 					frozen<audit_insert>,
 	audit_update					frozen<audit_update>,
-	connected_elements				frozen<connected_elements>,
+	connected_elements				list <frozen <connected_elements>>, // traceroute
     PRIMARY KEY ((org_id, site_or_ou_name), ip_subnet_or_building, internal_system_id)
 ) WITH COMMENT = 'Infrastructure maintained for the site obtained via a vulnerability scan or a physical survey' ;
 
