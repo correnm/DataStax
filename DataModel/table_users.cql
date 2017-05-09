@@ -1,5 +1,4 @@
 CREATE TABLE IF NOT EXISTS g2.users (
-org_id 							uuid,
 user_email 						text,
 user_name 						text,
 hashed_password 				text,
@@ -22,39 +21,72 @@ send_notification_email			boolean,
 audit_insert 					frozen<audit_insert>,
 audit_update					frozen<audit_update>,
 security						list<frozen <qa_info>>, // security questions and answers
-PRIMARY KEY ((org_id), user_email)
+PRIMARY KEY ((user_email))
 )
 WITH COMMENT = 'Application users for each organization';
 
 insert into users
-(org_id, user_email, active_user_ind, application_role_name, 
+(user_email, active_user_ind, application_role_name, 
 first_name, last_name, send_notification_email,system_administrator_ind, user_name,
 audit_insert, security)
 values
-(cb3a193b-8ef8-4172-8cd0-b7ff94f7ad41,'corren.mccoy@g2-ops.com', TRUE,'admin', 
-'Corren','McCoy',TRUE, TRUE,'corren.mccoy@g2-ops.com',
-{dateadded: toUnixTimestamp(now()), addedbyusername: 'corren.mccoy@g2-ops.com'},
+('corren.mccoy@g2-ops.com', TRUE,'admin', 
+'Corren','McCoy',TRUE, TRUE,'corren.mccoy',
+{dateadded: toUnixTimestamp(now()), addedbyusername: 'corren.mccoy'},
 [{question: 'who', answer: 'me'}, {question: 'what', answer: 'rabbit'}, {question: 'when', answer: 'friday'} ]
 );
 
 insert into users
-(org_id, user_email, active_user_ind, application_role_name, 
+(user_email, active_user_ind, application_role_name, 
 first_name, last_name, send_notification_email,system_administrator_ind, user_name,
 audit_insert, security)
 values
-(cb3a193b-8ef8-4172-8cd0-b7ff94f7ad41,'john.reddy@g2-ops.com', TRUE,'admin', 
-'John','Reddy',TRUE, TRUE,'john.reddy@g2-ops.com',
-{dateadded: toUnixTimestamp(now()), addedbyusername: 'corren.mccoy@g2-ops.com'},
+('john.reddy@g2-ops.com', TRUE,'admin', 
+'John','Reddy',TRUE, TRUE,'john.reddy',
+{dateadded: toUnixTimestamp(now()), addedbyusername: 'corren.mccoy'},
 [{question: 'who', answer: 'me'}, {question: 'what', answer: 'rabbit'}, {question: 'when', answer: 'friday'} ]
 );
 
 insert into users
-(org_id, user_email, active_user_ind, application_role_name, 
+(user_email, active_user_ind, application_role_name, 
 first_name, last_name, send_notification_email,system_administrator_ind, user_name,
 audit_insert, security)
 values
-(cb3a193b-8ef8-4172-8cd0-b7ff94f7ad41,'dang.le@g2-ops.com', TRUE,'user', 
-'Danny','Le',TRUE, FALSE,'dang.le@g2-ops.com',
-{dateadded: toUnixTimestamp(now()), addedbyusername: 'corren.mccoy@g2-ops.com'},
+('dang.le@g2-ops.com', TRUE,'user', 
+'Danny','Le',TRUE, FALSE,'dang.le',
+{dateadded: toUnixTimestamp(now()), addedbyusername: 'corren.mccoy'},
 [{question: 'who', answer: 'me'}, {question: 'what', answer: 'rabbit'}, {question: 'when', answer: 'friday'} ]
+);
+
+insert into users
+(user_email, active_user_ind, application_role_name, 
+first_name, last_name, send_notification_email,system_administrator_ind, user_name,
+audit_insert, security)
+values
+('keith.alston@g2-ops.com', TRUE,'admin', 
+'Keith','Alston',TRUE, TRUE,'keith.alston',
+{dateadded: toUnixTimestamp(now()), addedbyusername: 'corren.mccoy'},
+[{question: 'who', answer: 'is it'}, {question: 'what', answer: 'are we doing'}, {question: 'when', answer: 'will we be done'} ]
+);
+
+insert into users
+(user_email, active_user_ind, application_role_name, 
+first_name, last_name, send_notification_email,system_administrator_ind, user_name,
+audit_insert, security)
+values
+('tracy.gregorio@g2-ops.com', TRUE,'user', 
+'Tracy','Gregorio',TRUE, FALSE,'tracy.gregorio',
+{dateadded: toUnixTimestamp(now()), addedbyusername: 'corren.mccoy'},
+[{question: 'who', answer: 'is it'}, {question: 'what', answer: 'are we doing'}, {question: 'when', answer: 'will we be done'} ]
+);
+
+insert into users
+(user_email, active_user_ind, application_role_name, 
+first_name, last_name, send_notification_email,system_administrator_ind, user_name,
+audit_insert, security)
+values
+('sara.prokop@g2-ops.com', TRUE,'user', 
+'Sara','Prokop',TRUE, FALSE,'sara.prokop',
+{dateadded: toUnixTimestamp(now()), addedbyusername: 'corren.mccoy'},
+[{question: 'who', answer: 'is it'}, {question: 'what', answer: 'are we doing'}, {question: 'when', answer: 'will we be done'} ]
 );

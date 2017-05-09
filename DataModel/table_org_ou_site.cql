@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS g2.organizations (
 with comment = 'Parent table used to describe the organizational structure.';
 
 // a few seed records
-insert into organizations (org_id, organization_name, industry_name, audit_insert)
+insert into organizations (org_id, organization_name, industry_name_r, audit_insert)
 VALUES
 (uuid(), 'G2 Ops', 'private', {dateadded: toUnixTimestamp(now()), addedbyusername: 'corren.mccoy@g2-ops.com'});
 
