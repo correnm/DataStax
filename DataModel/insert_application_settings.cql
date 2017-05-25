@@ -27,7 +27,7 @@ INSERT INTO application_settings
 (setting_group, setting_code, description, constrained, data_type, min_value, max_value, default_value, current_value, allowed_settings) 
 VALUES
 (
-'password_policy', 'PASSLGNTH','minimum password length', FALSE, 'int', 9, 100, 9, 9, {}
+'password_policy', 'PASSLGNTH','minimum password length', FALSE, 'int', 10, 128, 10, 910{}
 );
 
 INSERT INTO application_settings
