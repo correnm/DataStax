@@ -1,0 +1,83 @@
+Eclipse Java EE IDE for Web Developers
+Version: Neon.3 Release (4.6.3)
+
+
+*** Create the Project ***
+File -> New -> Maven Project
+check "Use default Workspace location" -> click "Next"
+choose Artifact ID "maven-archetype-webapp" -> click "Next"
+enter Group ID "com.g2-ops.app"
+enter Artifact ID "washington"
+click "Finish"
+
+
+*** Configure the Project ***
+open the project
+
+right-click on Deployment Descriptor and open with text editor
+replace the contents of the file with the contents of the web.xml file on GitHub
+save and close
+
+copy the faces-config.xml file from GitHub to the /src/main/webapp/WEB-INF/ folder
+
+right-click on the pom.xml file and open with text editor
+add the following dependencies:
+
+    <dependency>
+      <groupId>com.datastax.cassandra</groupId>
+      <artifactId>cassandra-driver-core</artifactId>
+      <version>3.1.4</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>7.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.faces</groupId>
+      <artifactId>javax.faces-api</artifactId>
+      <version>2.2</version>
+      <scope>provided</scope>
+    </dependency>
+
+save and close
+
+
+*** Configure the Build Path ***
+open /src/main/webapp/WEB-INF/ folder and create a new folder named "lib"
+copy the three jar files to that folder (BootsFaces-OSP-1.0.2-dist.jar, javax.faces-2.2.8.jar, primefaces-6.0.jar)
+
+right-click on project name -> Build Path -> Configure Build Path
+select "JRE System Library" -> Edit
+choose "Alternate JRE:" or "Workspace default" so that jdk1.8.0 is selected
+click "Finish"
+
+click "Add External Jars"
+select the three jar files listed above
+click "OK"
+
+
+*** Add source code files ***
+copy the java packages (.java files) from GitHub to the "Java Resources" -> "src/main/java" package folder
+copy the "resources", "snippets" and "templates" folders from GitHub to the /src/main/webapp/ folder
+copy the .xhtml files to the /src/main/webapp/ folder
+delete the index.jsp in the /src/main/webapp/ folder
+
+
+*** Test ***
+
+Added Steps :
+
+Once you have your project ready, 
+
+right click on the project -> Select “Run As” —> choose “Maven Clean” option (this will clean your project’s folder)” -> after that’s done, right click on the project again -> Select “Run As” —> choose “Maven Install” option -> This will create a “washington.war” file in your workspace folder -> copy the .war file to ‘/tomcat/webapps’ folder in your application or wherever your tomcat folder is.
+
+
+start Tomcat and go to:  http://localhost/washington/dashboard-slide-2.jsf
+
