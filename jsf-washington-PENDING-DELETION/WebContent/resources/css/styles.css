@@ -1,0 +1,212 @@
+body {
+  background-color: #efefef;
+  font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+a:hover { 
+  color: red
+}
+h1,h2,h3,h4 {
+  font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #2f4c6a;
+}
+
+h1 {
+	font-size: 22px;
+	font-weight: bold;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+h2 {
+	font-size: 18px;
+	font-weight: bold;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+h1.title {
+  display: table;
+  margin: auto;
+  background-color: #afc4d6;
+  border-width: 4px;
+  border-style: outset;
+  border-color: #9fd1ff;
+  padding: 5px 8px;
+  letter-spacing: -.025em;
+} 
+.formTable {
+  display: table;
+}
+/* If prompt and input are in two cells of one row, the prompt will be R-aligned. */
+.formTable td:first-child {
+  text-align: right;
+}
+/* Third table cell shows the error message, so make it bold and red. Used in validation examples that have h:message. */
+.formTable td:nth-child(3) {
+  color: red;
+  font-weight: bold;
+}
+th { background-color: #2f4c6a;
+     font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+     color: #dddddd;
+}
+legend {
+  font-weight: bold;
+  color: black;
+  background-color: #afc4d6;
+  border: 1px solid #1a55bf;
+  padding: 3px 5px;
+  border-radius: 3px;
+}
+fieldset {
+  border-radius: 6px;
+  display: block;
+}
+input, textarea {
+  background-color: #ecedf2;
+  text-align: left;
+}
+input[type="checkbox"] {
+  background-color: transparent;  /* For IE 7-9 -- doesn't matter in FF, Chrome, or IE 10+ */
+}
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
+  background-color: #9fd1ff;
+}
+.error {
+  color: red;
+  font-weight: bold;
+}
+/* So that in Chrome and IE, the bullets are next to the text in centered lists. Already OK in Firefox. */
+[align="center"] li {
+  list-style-position: inside;
+}
+
+/* so buttons don't change size on hover */
+.btn {
+	border-width: 1px;
+}
+
+.bf-message {
+	margin-bottom: 15px !important;
+	margin-top: 2px !important;
+}
+
+i.fa {
+	padding-right: 5px;
+}
+
+.container-fluid {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.row {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.navbar-default {
+	border: 0px; /* removes the border */
+	border-radius: 0px; /* removes the rounded corners */
+	background-image: none; /* removes the linear color gradient */
+	padding-left: 25px;
+	padding-right: 25px;
+}
+
+.navbar-inverse {
+	/* background-color: #446e9b; -- original theme blue -- */
+	/* background-color: #3cb521; -- original theme green -- */
+	background-color: #2f4c6a;
+}
+
+.navbar-brand {
+	padding: 5px 25px;
+}
+
+.panel-group .panel, .panel {
+	border-radius: 0px; /* removes the rounded corners */
+}
+
+.panel-default > .panel-heading, .panel-primary > .panel-heading, .panel-info > .panel-heading, .panel-success > .panel-heading {
+	background-image: none; /* removes the linear color gradient */
+}
+
+.panel-primary > .panel-heading {
+	background-color: #2f4c6a;
+}
+
+.btn, .btn:hover {
+	background-image: none; /* removes the linear color gradient */
+	margin: 0px 10px;
+}
+
+.btn-default, .btn-primary {
+	/* background-image: none; */
+}
+
+.container .jumbotron, .container-fluid .jumbotron {
+	border-radius: 10px;
+	color: #444444;
+}
+
+@media screen and (min-width: 768px) {
+	.jumbotron {
+		padding-top: 24px;
+		padding-bottom: 24px;
+	}
+	.jumbotron h1 {
+		margin-top: 0px;
+		margin-bottom: 0px;
+		font-size: 36px;
+	}
+}
+
+.well {
+	border-radius: 0px;
+	background-image: none; /* removes the linear color gradient */
+}
+
+.page-name h1 {
+	padding-bottom: 20px;
+	text-align: center;
+}
+
+.input-group-addon {
+	padding: 4px 12px;
+}
+
+.footer {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	font-size: 10px;
+	text-align: right;
+}
+
+table.table-striped tbody tr.even {
+	background-color: #dddddd;
+}
+
+.businessProcessesByCyvarTableClass {
+	border-width: 1px;
+	border-color: #999999;
+	font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.dataTableDivClass {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #bbbbbb;
+	background-color: #ffffff;
+	padding-top: 25px;
+	padding-bottom: 15px;
+}
+
+.dataTableDivClass h2 {
+	text-align: center;
+	font-size: 16px;
+	color: #666666;
+}
+
+.table-bordered > thead > tr > th {
+	border-bottom-width: 0px;
+}
