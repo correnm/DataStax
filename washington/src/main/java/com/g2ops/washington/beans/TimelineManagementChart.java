@@ -40,7 +40,7 @@ import com.g2ops.washington.utils.FusionCharts;
 	            JSONObject jsonObject = (JSONObject) obj;
 	            chartData = jsonObject.toJSONString();
 
-	    		System.out.println(chartData);
+	    		//System.out.println(chartData);
 	 
 	        } catch (Exception e) {
 	            e.printStackTrace();
