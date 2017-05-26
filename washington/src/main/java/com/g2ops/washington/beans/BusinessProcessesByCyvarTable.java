@@ -9,6 +9,7 @@ import com.g2ops.washington.utils.BusinessProcessesByCyvar;
 @ManagedBean
 @SessionScoped
 public class BusinessProcessesByCyvarTable extends BusinessProcessesByCyvar {
+	private static final long serialVersionUID = 1L;
 	public BusinessProcessesByCyvarTable () {
 		super("Business Process CyVaR Details",
 			new BusinessProcess("EMR", "PHI", "53,000,000", "$209", "$58", "8.2", "$22,000,000"),
