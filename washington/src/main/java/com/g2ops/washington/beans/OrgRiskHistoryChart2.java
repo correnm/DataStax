@@ -13,7 +13,7 @@ public class OrgRiskHistoryChart2 {
 	private String chartData;
 	private FusionCharts orgRiskHistoryChart;
     private String releaseVersion = "";
-	DatabaseConnection client = new DatabaseConnection();
+	private final DatabaseConnection client = new DatabaseConnection();
 
     public OrgRiskHistoryChart2() {
 
@@ -67,5 +67,15 @@ public class OrgRiskHistoryChart2 {
     public String getOrgRiskHistoryChart2() {
     	return data;
     }
+
+    /**
+
+     * Close my underlying Cassandra connection.
+
+     */
+
+    //private void close() {
+    	//client.close();
+    //
 
 }
