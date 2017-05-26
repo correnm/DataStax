@@ -1,6 +1,10 @@
 package com.g2ops.washington.types;
 
-public class OrgUnit {
+import java.io.Serializable;
+
+public class OrgUnit implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String orgUnitCode, orgUnitName;
 	
