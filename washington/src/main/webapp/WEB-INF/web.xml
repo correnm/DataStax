@@ -48,37 +48,39 @@
 	<!-- database connection parameters -->
 	<context-param>
 		<param-name>db_USERNAME</param-name>
-		<param-value>washington</param-value>
+		<param-value>washington</param-value> <!-- washington -->
 	</context-param>
 	<context-param>
 		<param-name>db_PASSWORD</param-name>
-		<param-value>7579658330</param-value>
+		<param-value>7579659330</param-value> <!-- 7579658330 -->
 	</context-param>
 	<context-param>
-		<param-name>db_CONTACT_POINT_1</param-name>
-		<param-value>52.44.86.234</param-value>
-	</context-param>
-	<context-param>
-		<param-name>db_CONTACT_POINT_2</param-name>
-		<param-value>54.91.187.30</param-value>
-	</context-param>
-	<context-param>
-		<param-name>db_CONTACT_POINT_3</param-name>
-		<param-value>54.86.18.217</param-value>
-	</context-param>
-	<context-param>
-		<param-name>db_CONTACT_POINT_4</param-name>
-		<param-value>54.236.230.0</param-value>
+		<param-name>db_CONTACT_POINTS</param-name>
+		<param-value>52.44.86.234</param-value> <!-- ,52.91.148.140,54.88.41.31,54.172.119.209 -->
 	</context-param>
 	<context-param>
 		<param-name>db_PORT</param-name>
 		<param-value>9042</param-value>
+	</context-param>
+	<context-param>
+		<param-name>db_KEYSPACE</param-name>
+		<param-value>appl_auth</param-value>
 	</context-param>
 
 	<!-- Listeners -->
 	<listener>
 		<listener-class>com.g2ops.washington.listeners.AppContextListener</listener-class>
 	</listener>
+
+	<!-- Filters -->
+	<filter>
+		<filter-name>AuthorizationFilter</filter-name>
+		<filter-class>com.g2ops.washington.filters.AuthorizationFilter</filter-class> 
+    </filter>
+	<filter-mapping>
+		<filter-name>AuthorizationFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 	<!-- Session Configuration -->
 	<session-config>
