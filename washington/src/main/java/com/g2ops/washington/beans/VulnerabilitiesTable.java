@@ -1,5 +1,7 @@
 package com.g2ops.washington.beans;
 
+import java.io.Serializable;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -8,7 +10,10 @@ import com.g2ops.washington.utils.Vulnerabilities;
 
 @ManagedBean
 @SessionScoped
-public class VulnerabilitiesTable extends Vulnerabilities {
+public class VulnerabilitiesTable extends Vulnerabilities implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	public VulnerabilitiesTable () {
 		super("Vulnerabilities Detail",
 			new Vulnerability(210787854, "Windows SMB Session Intercept", "9.3", "6.4 | 6.4", "EMR", "No", "PHI"),
