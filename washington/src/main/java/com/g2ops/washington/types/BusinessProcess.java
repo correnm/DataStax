@@ -1,7 +1,11 @@
 package com.g2ops.washington.types;
 
-public class BusinessProcess {
-		
+import java.io.Serializable;
+
+public class BusinessProcess implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	
 	private String processName;
 	private String recordType;
 	private String numRecords;
