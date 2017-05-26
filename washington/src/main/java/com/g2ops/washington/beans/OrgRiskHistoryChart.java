@@ -21,6 +21,7 @@ public class OrgRiskHistoryChart {
 	
 	public OrgRiskHistoryChart() {
 
+		/*
         Cluster cluster = null;
 
         try { 
@@ -33,14 +34,15 @@ public class OrgRiskHistoryChart {
              if (cluster != null) cluster.close();
 
         }
+        */
 
 		chartData = "{\"chart\": {";
 		chartData = chartData.concat("\"theme\": \"g2ops\",");
 		chartData = chartData.concat("\"clickURL\": \"login.jsf\",");
 		chartData = chartData.concat("\"caption\": \"Organization At-Risk History\",");
 		//chartData = chartData.concat("\"subCaption\": \"By Quarter\",");
-		chartData = chartData.concat("\"subCaption\": \"");
-		chartData = chartData.concat(releaseVersion);
+		//chartData = chartData.concat("\"subCaption\": \"");
+		//chartData = chartData.concat(releaseVersion);
 		chartData = chartData.concat("\",");
 		chartData = chartData.concat("\"xAxisName\": \"\",");
 		chartData = chartData.concat("\"yAxisName\": \"$$ At-Risk\",");
