@@ -1,6 +1,10 @@
 package com.g2ops.washington.types;
 
-public class Site {
+import java.io.Serializable;
+
+public class Site implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String siteCode, siteName;
 	
