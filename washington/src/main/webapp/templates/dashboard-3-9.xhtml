@@ -35,7 +35,7 @@
 			<b:navLink value="Business" href="dashboard-slide-2.jsf"></b:navLink>
 			<b:navLink value="Technical" href="dashboard-slide-1.jsf"></b:navLink>
 		</b:dropMenu>
-		<b:dropMenu value="Administrator" iconAwesome="gears" iconAlign="left">
+		<b:dropMenu value="Administrator" iconAwesome="gears" iconAlign="left" rendered="${user.appRoleName eq 'admin'}">
 			<b:navLink value="Organization Settings" href="#"></b:navLink>
 			<b:navLink value="Manage Users" href="#"></b:navLink>
 		</b:dropMenu>
