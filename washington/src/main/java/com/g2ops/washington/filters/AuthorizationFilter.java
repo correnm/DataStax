@@ -33,6 +33,7 @@ public class AuthorizationFilter implements Filter {
 		HttpSession session = req.getSession(false);
 		String loginURL = req.getContextPath() + "/login.jsf";
 		String resourcesURL = req.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER + "/";
+		String resourcesURL2 = req.getContextPath() + "/resources/";
 		
 		String uri = req.getRequestURI();
 		//this.context.log("Requested Resource::" + uri);
@@ -40,7 +41,7 @@ public class AuthorizationFilter implements Filter {
 		// set flags
 		boolean loggedIn = (session != null) && (session.getAttribute("user") != null); // is user logged in?
 		boolean loginRequest = uri.equals(loginURL); // is request for login page?
-		boolean resourceRequest = uri.startsWith(resourcesURL); // is request for css/js/img file?
+		boolean resourceRequest = uri.startsWith(resourcesURL) || uri.startsWith(resourcesURL2); // is request for css/js/img file?
 		boolean ajaxRequest = "partial/ajax".equals(req.getHeader("Faces-Request")); // is an AJAX request?
 
 		// if an authorized request, request for login page or request for a resource file
