@@ -27,26 +27,8 @@
 
 <b:container fluid="true">
 
-<!-- navigation bar -->
-<b:form>
-<b:navBar brand-img="#{request.contextPath}/resources/images/G2-OPS-HUB-SM.png" brand-href="#{request.contextPath}/index.jsf" fluid="true" class="navbar-inverse">
-	<b:navbarLinks pull="right">
-		<b:dropMenu value="Dashboards" iconAwesome="line-chart">
-			<b:navLink value="Business" href="dashboard-slide-2.jsf"></b:navLink>
-			<b:navLink value="Technical" href="dashboard-slide-1.jsf"></b:navLink>
-		</b:dropMenu>
-		<b:dropMenu value="Administrator" iconAwesome="gears" iconAlign="left" rendered="${user.appRoleName eq 'admin'}">
-			<b:navLink value="Organization Settings" href="#"></b:navLink>
-			<b:navLink value="Manage Users" href="#"></b:navLink>
-		</b:dropMenu>
-		<b:dropMenu value="User" iconAwesome="gear" iconAlign="left">
-			<b:navLink value="Manage Settings" href="#"></b:navLink>
-			<b:navLink value="Change Passcode" href="#"></b:navLink>
-		</b:dropMenu>
-		<b:navCommandLink value="Logout" action="#{login.logoutActionControllerMethod}" iconAwesome="unlock" iconAlign="left"></b:navCommandLink>
-	</b:navbarLinks>
-</b:navBar>
-</b:form>
+<!-- navigation bar include file -->
+<ui:include src="/snippets/navbar.xhtml" />
 
 <!-- page name -->
 <b:row>
