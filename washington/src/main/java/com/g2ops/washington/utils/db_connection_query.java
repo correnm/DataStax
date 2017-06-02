@@ -22,7 +22,7 @@ package com.g2ops.washington.utils;
 	import java.util.List;
 	import javax.json.*;
 
-	public class mbse_staging{
+	public class db_connection_query {
 	    //private static final AuthProvider INPUT_NATIVE_AUTH_PROVIDER = "cassandra.input.native.auth.provider"; 
 	    private static final String USERNAME = "washington"; 
 	    private static final String PASSWORD = "7579658330"; 
