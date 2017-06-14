@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-width-table.xhtml">
+
+	<ui:define name="document-title">Edit User - Washington</ui:define>
+
+	<ui:define name="page-name">Edit User</ui:define>
+
+	<ui:define name="full-width-table">
+		<div class="dataTableDivClass">
+		<h:form>
+
+			<b:inputText value="#{userEdit.userEmail}">
+			</b:inputText>
+
+			<b:inputText value="#{userEdit.firstName}">
+			</b:inputText>
+
+			<b:inputText value="#{userEdit.lastName}">
+			</b:inputText>
+
+		</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>
