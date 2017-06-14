@@ -25,7 +25,7 @@ public class PatchesExceedingThresholdPieChartXML {
 			XMLOutputFactory xMLOutputFactory = XMLOutputFactory.newInstance();
 			XMLStreamWriter xMLStreamWriter = xMLOutputFactory.createXMLStreamWriter(stringWriter);
 			
-			xMLStreamWriter.writeStartDocument();
+			//xMLStreamWriter.writeStartDocument();
 			xMLStreamWriter.writeStartElement("chart");
 			xMLStreamWriter.writeAttribute("theme", "g2ops");
 			xMLStreamWriter.writeAttribute("caption", "Patches Exceeding Threshold");
@@ -43,7 +43,7 @@ public class PatchesExceedingThresholdPieChartXML {
 			xMLStreamWriter.writeEndElement();
 			
 			xMLStreamWriter.writeEndElement();
-			xMLStreamWriter.writeEndDocument();
+			//xMLStreamWriter.writeEndDocument();
 			xMLStreamWriter.flush();
 			xMLStreamWriter.close();
 			
@@ -67,9 +67,9 @@ public class PatchesExceedingThresholdPieChartXML {
 		);
     	data = patchesExceedingThresholdPieChartXML.render();
 	}
-	
-    public String getPatchesExceedingThresholdPieChartXML() {
-    	return data;
+
+	public String getPatchesExceedingThresholdPieChartXML() {
+		return data;
     }
 
 }
