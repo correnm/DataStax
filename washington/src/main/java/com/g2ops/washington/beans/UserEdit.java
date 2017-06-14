@@ -6,6 +6,7 @@ import javax.faces.bean.ViewScoped;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
+
 import com.g2ops.washington.utils.SessionUtils;
 
 @ManagedBean
