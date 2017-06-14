@@ -316,9 +316,10 @@ public class Login implements Serializable {
 			rs = DBSession.execute(boundStatement);			
 			
 			// create user object and store in user's session
-			User user = new User(orgKeyspace, userName, firstName, lastName, appRoleName, defaultLensView, systemAdministratorInd);
+			User user = new User(userEmailLowerCase, userName, firstName, lastName, appRoleName, defaultLensView, systemAdministratorInd);
 			HttpSession userSession = SessionUtils.getSession();
 			userSession.setAttribute("user", user);
+			userSession.setAttribute("orgKeyspace", orgKeyspace);
 
 			// send to default page for this user
 			return(defaultLensView);
