@@ -25,7 +25,7 @@ public class CriticalSystemsAtRiskPieChartXMLStAX {
 			XMLOutputFactory xMLOutputFactory = XMLOutputFactory.newInstance();
 			XMLStreamWriter xMLStreamWriter = xMLOutputFactory.createXMLStreamWriter(stringWriter);
 			
-			xMLStreamWriter.writeStartDocument();
+			//xMLStreamWriter.writeStartDocument();
 			xMLStreamWriter.writeStartElement("chart");
 			xMLStreamWriter.writeAttribute("theme", "g2ops");
 			xMLStreamWriter.writeAttribute("caption", "% Critical Systems at Risk");
@@ -48,7 +48,7 @@ public class CriticalSystemsAtRiskPieChartXMLStAX {
 			xMLStreamWriter.writeEndElement();
 			
 			xMLStreamWriter.writeEndElement();
-			xMLStreamWriter.writeEndDocument();
+			//xMLStreamWriter.writeEndDocument();
 			xMLStreamWriter.flush();
 			xMLStreamWriter.close();
 			
