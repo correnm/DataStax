@@ -25,7 +25,7 @@ import javax.xml.stream.XMLStreamWriter;
 				XMLOutputFactory xMLOutputFactory = XMLOutputFactory.newInstance();
 				XMLStreamWriter xMLStreamWriter = xMLOutputFactory.createXMLStreamWriter(stringWriter);
 				
-				xMLStreamWriter.writeStartDocument();
+				//xMLStreamWriter.writeStartDocument();
 				xMLStreamWriter.writeStartElement("chart");
 				xMLStreamWriter.writeAttribute("theme", "g2ops");
 				xMLStreamWriter.writeAttribute("caption", "Vulnerabilities by Business Process");
@@ -121,7 +121,7 @@ import javax.xml.stream.XMLStreamWriter;
 				xMLStreamWriter.writeEndElement();
 
 				xMLStreamWriter.writeEndElement();
-				xMLStreamWriter.writeEndDocument();
+				//xMLStreamWriter.writeEndDocument();
 				xMLStreamWriter.flush();
 				xMLStreamWriter.close();
 				
