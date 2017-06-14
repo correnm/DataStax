@@ -6,12 +6,12 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String orgKeyspace, userName, firstName, lastName, appRoleName, defaultLensView;
+	private String userEmail, userName, firstName, lastName, appRoleName, defaultLensView;
 	private Boolean systemAdministratorInd;
 	
-	public User (String orgKeyspace, String userName, String firstName, String lastName, String appRoleName, String defaultLensView, Boolean systemAdministratorInd) {
+	public User (String userEmail, String userName, String firstName, String lastName, String appRoleName, String defaultLensView, Boolean systemAdministratorInd) {
 
-		this.orgKeyspace = orgKeyspace;
+		this.userEmail = userEmail;
 		this.userName = userName;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -21,8 +21,8 @@ public class User implements Serializable {
 
 	}
 
-	public String getOrgKeyspace() {
-		return orgKeyspace;
+	public String getUserEmail() {
+		return userEmail;
 	}
 
 	public String getUserName() {
@@ -40,7 +40,7 @@ public class User implements Serializable {
 	public String getAppRoleName() {
 		return appRoleName;
 	}
-
+	
 	public String getDefaultLensView() {
 		return defaultLensView;
 	}
@@ -49,8 +49,8 @@ public class User implements Serializable {
 		return systemAdministratorInd;
 	}
 
-	public void setOrgKeyspace(String orgKeyspace) {
-		this.orgKeyspace = orgKeyspace;
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
 
 	public void setUserName(String userName) {
