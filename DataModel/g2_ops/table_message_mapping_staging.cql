@@ -1,3 +1,4 @@
+// OBSOLETE the message map is contained in the connected elements in mbse_staging (6/15/2017)
 CREATE TABLE IF NOT EXISTS g2.message_mapping_staging (
   magic_draw_id 		text,
   site 					text,

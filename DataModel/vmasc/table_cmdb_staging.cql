@@ -1,5 +1,4 @@
-CREATE TABLE IF NOT EXISTS g2.cmdb_staging (
-    org_id 							uuid,	// must exist in the organization table
+CREATE TABLE IF NOT EXISTS vmasc.cmdb_staging (
     application_name 				text,
     risk_factor 					int,
     data_classification 			text,
@@ -8,5 +7,5 @@ CREATE TABLE IF NOT EXISTS g2.cmdb_staging (
     configuration_items 			text,	// JSON which describes the hardware where application is installed (IP addresses)
     business_interruption_threshold int,
     business_criticality_rating 	float,
-    PRIMARY KEY ((org_id), application_name)
+    PRIMARY KEY (application_name)
 ) WITH COMMENT = 'Staging table to hold imports of CMDB data (e.g., ServiceNow)';

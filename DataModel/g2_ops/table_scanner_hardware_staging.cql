@@ -1,6 +1,5 @@
 CREATE TABLE IF NOT EXISTS g2.scanner_hardware_staging (
-    org_id 							uuid,	// must exist in the organizations table
-    site_or_ou_name 				text,
+ 	site_or_ou_name 				text,
     ip_subnet_or_building 			text,   // 192.168.0.0, site/building
     internal_system_id 				text,   // UUID computed to ensure uniqueness
     system_type 					text,
@@ -24,8 +23,6 @@ CREATE TABLE IF NOT EXISTS g2.scanner_hardware_staging (
     end_of_life_date 				date,
     end_of_support_date 			date,
     node_impact_value 				float,
-    audit_insert 					frozen<audit_insert>,
-	audit_update					frozen<audit_update>,
     neighbor_coefficient_value 		float,
     crown_jewel 					boolean,
     reportable_flag 				boolean,
@@ -34,7 +31,8 @@ CREATE TABLE IF NOT EXISTS g2.scanner_hardware_staging (
     cyvar 							float,	  // Cyber Value at Risk
     vulnerability_count 			int,
     risk_likelihood 				float,
-    PRIMARY KEY ((org_id, site_or_ou_name), ip_subnet_or_building, internal_system_id)
+    audit_upsert 					frozen<audit_upsert>,
+    PRIMARY KEY ((site_or_ou_name), ip_subnet_or_building, internal_system_id)
 ) WITH COMMENT = 'Stores hardware as imported from a vulnerability scan.';
 
 

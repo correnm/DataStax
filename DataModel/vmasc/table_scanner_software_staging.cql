@@ -1,5 +1,4 @@
-CREATE TABLE g2.scanner_software_staging (
-	org_id							uuid,		// must exist in the organizations table
+CREATE TABLE vmasc.scanner_software_staging (
     internal_system_id 				uuid,      	// UUID computed to ensure uniqueness
     cpe_id 							text,      	// product
     part 							text,      	// [A]pplication, [O]perating System

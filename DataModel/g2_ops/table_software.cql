@@ -21,8 +21,7 @@ inherent_impact_value 		float,
 asset_visibility 			text,
 asset_type 					text,
 application_category 		text,   // Solr
-audit_insert 				frozen<audit_insert>,
-audit_update				frozen<audit_update>,
+audit_upsert 				frozen<audit_upsert>,
 patch_availability text,
 cyvar 						float,                  // Cyber Value at Risk
 vulnerability_count 		int,

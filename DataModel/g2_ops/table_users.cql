@@ -17,8 +17,7 @@ cell_phone_number				text,
 cell_carrier					text,
 auth_code						int,
 send_notification_email			boolean,
-audit_insert 					frozen<audit_insert>,
-audit_update					frozen<audit_update>,
+audit_upsert 					frozen<audit_upsert>,
 security						list<frozen <qa_info>>, // security questions and answers
 ip_address						text, 					// record the login host
 PRIMARY KEY ((user_email))
