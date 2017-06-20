@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-width-table.xhtml">
+
+	<ui:define name="document-title">Business Value Attribution - Washington</ui:define>
+
+	<ui:define name="page-name">Business Value Attribution</ui:define>
+
+	<ui:define name="full-width-table">
+		<div class="dataTableDivClass">
+		<h:form>
+			<b:dataTable value="#{businessPracticeTable.businessData}" var="biz" styleClass="businessProcessesByCyvarTableClass" >
+
+ 				<b:dataTableColumn value="">
+					<f:facet name="header">Click to Edit</f:facet>
+					<h:link outcome='/administrator/business-practice-table.jsf'>
+						<f:param name="category" value="#{biz.category}" />
+						<f:param name="businessValue" value="#{biz.businessValue}" />
+						<i class="fa fa-pencil-square-o fa-lg"></i>
+					</h:link>
+				</b:dataTableColumn>
+  		      			
+				<b:dataTableColumn value="#{biz.category}" order="asc" >
+					<f:facet name="header">Category</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{biz.businessValue}">
+					<f:facet name="header">Attribute</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{biz.collateralDamageCurrent}">
+					<f:facet name="header">Collateral Damage</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{biz.targetDistributionCurrent}">    				
+					<f:facet name="header">Target Distribution</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{biz.confidentialityReqCurrent}">
+					<f:facet name="header">Confidentiality Requirement</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{biz.integrityReqCurrent}">
+					<f:facet name="header">Integrity Requirement</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{biz.availabilityReqCurrent}">
+					<f:facet name="header">Availability Requirement</f:facet>
+				</b:dataTableColumn>				
+			</b:dataTable>
+		</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

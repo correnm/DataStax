@@ -1,8 +1,8 @@
-CREATE TABLE IF NOT EXISTS g2.business_practice (
+CREATE TABLE IF NOT EXISTS vmasc.business_practice (
 category						text,				// e.g. asset_type
 business_value					text,				// e.g., infrastructure
-collatoral_damage_current		decimal,			// allows customization for evaluation
-collatoral_damage_default		decimal,			// default values as determined by VMASC analysis
+collateral_damage_current		decimal,			// allows customization for evaluation
+collateral_damage_default		decimal,			// default values as determined by VMASC analysis
 target_distribution_current		decimal,
 target_distribution_default		decimal,
 confidentiality_req_current		decimal,
