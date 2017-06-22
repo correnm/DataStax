@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 /**
  * @author 		Corren McCoy, G2 Ops, Virginia Beach, VA
  * @version 	1.00, June 2017
- * @see			<a href="URL#value">label</a>
+ * @see			http://tutorialspointexamples.com/jsf-datatable-update-row-edit-program-code-eclipse-download/
  * @exception
  * 
  * <p>Known Bugs: (a list of bugs and other problems)
@@ -25,6 +25,7 @@ public class BusinessPractice implements Serializable {
 	// declare the variables which coincide with fields in the business_practice table
 	private String category, businessValue;
 	private BigDecimal availabilityReqCurrent, collateralDamageCurrent, confidentialityReqCurrent, integrityReqCurrent, targetDistributionCurrent;
+	private boolean editable;
 	
 	// constructor for variable initialization. BigDecimal is the Java equivalent to the
 	// decimal data type in Cassandra.
@@ -83,6 +84,7 @@ public class BusinessPractice implements Serializable {
 	public void setcollateralDamageCurrent(BigDecimal collateralDamageCurrent) {
 		this.collateralDamageCurrent = collateralDamageCurrent;
 	}
+	
 	public void setAvailabilityReqCurrent(BigDecimal availabilityReqCurrent) {
 		this.availabilityReqCurrent = availabilityReqCurrent;
 	}
@@ -99,4 +101,12 @@ public class BusinessPractice implements Serializable {
 		this.targetDistributionCurrent = targetDistributionCurrent;
 	}
 
-}
+	public boolean isEditable() {
+		return editable;
+	}
+	
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+
+} // end of class

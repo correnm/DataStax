@@ -47,13 +47,34 @@ public class BusinessPracticeTable {
 		}
 		
 		return bizList;
-
 	}
 
+	// toggle used to set an input text field from read only to editable
+	public String editBiz() {
+		biz.setEditable(true);
+		return null;
+	}
+
+	public String saveBiz(){ 
+		for (BusinessPractice biz : bizList){ 
+			biz.setEditable(false); 
+			}	
+		return null; 
+	}
+
+	public String restoreDefaults(){
+		// move the default values back to the current entries
+		System.out.println("Restore defaults");
+		return null; 
+	}
+	
 	private void populateBusinessData () {
 
-		rs = dqs.RunQuery("select category, business_value,collateral_damage_current, target_distribution_current, confidentiality_req_current, integrity_req_current, availability_req_current from business_practice");
+		rs = dqs.RunQuery("select category, business_value,"
+				+ "collateral_damage_current, target_distribution_current, "
+				+ "confidentiality_req_current, integrity_req_current, "
+				+ "availability_req_current from business_practice");
 
 	}
-
+	
 }
