@@ -6,13 +6,15 @@
 <b:form>
 <b:navBar brand-img="#{request.contextPath}/resources/images/G2-OPS-HUB-SM.png" brand-href="#{request.contextPath}/index.jsf" fluid="true" class="navbar-inverse">
 	<b:navbarLinks pull="right">
-		<b:dropMenu value="Dashboards" iconAwesome="line-chart">
-			<b:navLink value="Business" href="#{request.contextPath}/dashboard-slide-2.jsf"></b:navLink>
-			<b:navLink value="Technical Lens – Message Map" href="#{request.contextPath}/dashboard-slide-1.jsf"></b:navLink>
+		<b:dropMenu value="Dashboards" iconAwesome="dashboard">
+			<b:navLink value="Business Process Impact Analysis" href="#{request.contextPath}/dashboard-slide-2.jsf"></b:navLink>
+			<!-- <b:navLink value="Technical Lens – Message Map" href="#{request.contextPath}/dashboard-slide-1.jsf"></b:navLink> -->
 			<b:navLink value="Technical Lens – Topology" href="#{request.contextPath}/dashboard-slide-1a.jsf"></b:navLink>
 		</b:dropMenu>
-		<b:dropMenu value="Administrator" iconAwesome="gears" iconAlign="left" rendered="${user.appRoleName eq 'admin'}">
+		<b:dropMenu value="Super Admin" iconAwesome="briefcase" iconAlign="left" rendered="${user.systemAdministratorInd}">
 			<b:navLink value="Business Attribution" href="#{request.contextPath}/administrator/business-practice-table.jsf"></b:navLink>
+		</b:dropMenu>
+		<b:dropMenu value="Administrator" iconAwesome="gears" iconAlign="left" rendered="${user.appRoleName eq 'admin'}">
 			<b:navLink value="Manage Users" href="#{request.contextPath}/administrator/users-table.jsf"></b:navLink>
 			<b:navLink value="Organization Settings" href="#"></b:navLink>
 		</b:dropMenu>
