@@ -210,3 +210,13 @@ table.table-striped tbody tr.even {
 .table-bordered > thead > tr > th {
 	border-bottom-width: 0px;
 }
+
+.panelGrid {
+    text-align: center;
+}
+
+.form-control {
+	height: 30px;
+	padding: 4px 12px;
+	font-size: 12px;
+}
