@@ -48,19 +48,23 @@
     </b:column>
     <!-- View Criteria Form -->
 	<b:column col-md="3">
-		<b:panel look="default" collapsible="false">
+		<b:panel look="default" collapsible="false" style="height: 140px;">
 			<b:form>
-				<b:row style="text-align: center;">
+				<b:row>
 					<b:column>
-						<b:selectOneMenu label="Organizational Unit" render-label="true" value="#{orgUnitSelectOneListboxBean.selectedOrgUnit}" tooltip="Choose an Organizational Unit">
+						<b:selectOneMenu label="Organizational Unit" render-label="false" value="#{orgUnitSelectOneListboxBean.selectedOrgUnit}" tooltip="Choose an Organizational Unit">
 							<f:selectItems value="#{orgUnitSelectOneListboxBean.orgUnits}" var="orgUnit" itemValue="#{orgUnit.orgUnitCode}" itemLabel="#{orgUnit.orgUnitName}"></f:selectItems>
 						</b:selectOneMenu>
 					</b:column>
+				</b:row>
+				<b:row>
 					<b:column>
-						<b:selectOneMenu label="Organizational Site" render-label="true" value="#{siteSelectOneListboxBean.selectedSite}" tooltip="Choose an Organizational Site">
+						<b:selectOneMenu label="Organizational Site" render-label="false" value="#{siteSelectOneListboxBean.selectedSite}" tooltip="Choose an Organizational Site">
 							<f:selectItems value="#{siteSelectOneListboxBean.sites}" var="site" itemValue="#{site.siteCode}" itemLabel="#{site.siteName}"></f:selectItems>
 						</b:selectOneMenu>
 					</b:column>
+				</b:row>
+				<b:row style="text-align: center;">
 					<b:column>
 						<b:commandButton value="Refresh View" action="#" ajax="false" look="default" size="sm" />
 					</b:column>
