@@ -87,7 +87,7 @@
 
 	<!-- Session Configuration -->
 	<session-config>
-		<session-timeout>10</session-timeout> <!-- in minutes -->
+		<session-timeout>30</session-timeout> <!-- in minutes -->
 		<cookie-config>
 			<http-only>true</http-only>
 			<secure>false</secure> <!-- set to "true" in production -->
