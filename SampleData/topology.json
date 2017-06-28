@@ -1,6 +1,6 @@
 {
             "chart": {
-                "caption": "Message Map",
+                "caption": "Topology",
                 "xaxisminvalue": "0",
                 "xaxismaxvalue": "100",
                 "yaxisminvalue": "0",
@@ -17,7 +17,6 @@
                 "theme": "g2ops",
                 "showcanvasborder": "0",
                 "canvasborderalpha": "20",
-                "paletteColors": "#00c216",
                 "animation": "1"
             },
             "dataset": [
@@ -27,7 +26,7 @@
                         {
                             "id": "01",
                             "label": "Router 1",
-                            "color": "#ff9f32",
+                            "color": "#ffffff",
                             "x": "16",
                             "y": "54",
                             "radius": "30",
@@ -36,7 +35,7 @@
                         {
                             "id": "02",
                             "label": "Computer 2",
-                            "color": "#ffe97f",
+                            "color": "#ffffff",
                             "x": "27",
                             "y": "54",
                             "radius": "30",
@@ -48,7 +47,7 @@
                             "color": "#ffffff",
                             "x": "48",
                             "y": "54",
-                            "radius": "15",
+                            "radius": "30",
                             "shape": "circle"
                         },
                         {
@@ -57,7 +56,7 @@
                             "color": "#ffffff",
                             "x": "85",
                             "y": "54",
-                            "radius": "15",
+                            "radius": "30",
                             "shape": "circle"
                         },
                         {
@@ -66,13 +65,13 @@
                             "color": "#ffffff",
                             "x": "85",
                             "y": "80",
-                            "radius": "15",
+                            "radius": "30",
                             "shape": "circle"
                         },
                         {
                             "id": "06",
                             "label": "Part 6",
-                            "color": "#a0dae5",
+                            "color": "#ffffff",
                             "x": "62",
                             "y": "80",
                             "radius": "30",
@@ -84,7 +83,7 @@
                             "color": "#ffffff",
                             "x": "40",
                             "y": "30",
-                            "radius": "15",
+                            "radius": "30",
                             "shape": "circle"
                         },
                         {
@@ -93,13 +92,13 @@
                             "color": "#ffffff",
                             "x": "40",
                             "y": "12",
-                            "radius": "15",
+                            "radius": "30",
                             "shape": "circle"
                         },
                         {
                             "id": "09",
                             "label": "Server 9",
-                            "color": "#ff6868",
+                            "color": "#ffffff",
                             "x": "68",
                             "y": "93",
                             "radius": "30",
@@ -111,7 +110,7 @@
                             "color": "#ffffff",
                             "x": "12",
                             "y": "98",
-                            "radius": "15",
+                            "radius": "30",
                             "shape": "circle"
                         },
                         {
@@ -120,7 +119,7 @@
                             "color": "#ffffff",
                             "x": "18",
                             "y": "80",
-                            "radius": "15",
+                            "radius": "30",
                             "shape": "circle"
                         },
                         {
@@ -129,13 +128,13 @@
                             "color": "#ffffff",
                             "x": "12",
                             "y": "10",
-                            "radius": "15",
+                            "radius": "30",
                             "shape": "circle"
                         },
                         {
                             "id": "13",
                             "label": "Router 13",
-                            "color": "#ff9f32",
+                            "color": "#ffffff",
                             "x": "30",
                             "y": "30",
                             "radius": "30",
@@ -147,13 +146,13 @@
                             "color": "#ffffff",
                             "x": "48",
                             "y": "30",
-                            "radius": "15",
+                            "radius": "30",
                             "shape": "circle"
                         },
                         {
                             "id": "15",
                             "label": "Router 15",
-                            "color": "#ff9f32",
+                            "color": "#ffffff",
                             "x": "36",
                             "y": "50",
                             "radius": "30",
@@ -162,7 +161,7 @@
                         {
                             "id": "16",
                             "label": "Router 16",
-                            "color": "#ff9f32",
+                            "color": "#ffffff",
                             "x": "38",
                             "y": "60",
                             "radius": "30",
@@ -174,13 +173,13 @@
                             "color": "#ffffff",
                             "x": "41",
                             "y": "98",
-                            "radius": "15",
+                            "radius": "30",
                             "shape": "circle"
                         },
                         {
                             "id": "18",
                             "label": "Computer 18",
-                            "color": "#ffe97f",
+                            "color": "#ffffff",
                             "x": "70",
                             "y": "80",
                             "radius": "30",
@@ -192,13 +191,13 @@
                             "color": "#ffffff",
                             "x": "60",
                             "y": "40",
-                            "radius": "15",
+                            "radius": "30",
                             "shape": "circle"
                         },
                         {
                             "id": "20",
                             "label": "Server 20",
-                            "color": "#ff6868",
+                            "color": "#ffffff",
                             "x": "80",
                             "y": "10",
                             "radius": "30",
@@ -210,7 +209,7 @@
                             "color": "#ffffff",
                             "x": "20",
                             "y": "65",
-                            "radius": "15",
+                            "radius": "30",
                             "shape": "circle"
                         }
                     ]
@@ -222,33 +221,31 @@
                     "stdthickness": "6",
                     "connector": [
                         {
-                            "strength": ".7",
+                            "strength": "1",
                             "from": "01",
                             "to": "02",
-                            "color": "#0178bc",
+                            "color": "#a6aaad",
                             "arrowatstart": "0",
-                            "arrowatend": "1",
-                            "stdthickness": "2"
+                            "arrowatend": "0"
                         },
                         {
-                            "strength": ".7",
+                            "strength": "1",
                             "from": "01",
                             "to": "06",
-                            "color": "#0178bc",
+                            "color": "#a6aaad",
                             "arrowatstart": "0",
-                            "arrowatend": "1",
-                            "stdthickness": "2"
+                            "arrowatend": "0"
                         },
                         {
-                            "strength": ".7",
+                            "strength": "1",
                             "from": "01",
                             "to": "09",
-                            "color": "#0178bc",
+                            "color": "#a6aaad",
                             "arrowatstart": "0",
-                            "arrowatend": "1"
+                            "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "02",
                             "to": "03",
                             "color": "#a6aaad",
@@ -256,7 +253,7 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "02",
                             "to": "05",
                             "color": "#a6aaad",
@@ -264,7 +261,7 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "02",
                             "to": "14",
                             "color": "#a6aaad",
@@ -272,15 +269,15 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".7",
+                            "strength": "1",
                             "from": "02",
                             "to": "18",
-                            "color": "#0178bc",
+                            "color": "#a6aaad",
                             "arrowatstart": "0",
-                            "arrowatend": "1"
+                            "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "03",
                             "to": "04",
                             "color": "#a6aaad",
@@ -288,15 +285,15 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
-                            "from": "04",
+                            "strength": "1",
+                            "from": "03",
                             "to": "08",
                             "color": "#a6aaad",
                             "arrowatstart": "0",
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "04",
                             "to": "16",
                             "color": "#a6aaad",
@@ -304,7 +301,7 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "04",
                             "to": "06",
                             "color": "#a6aaad",
@@ -312,7 +309,7 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "06",
                             "to": "18",
                             "color": "#a6aaad",
@@ -320,15 +317,15 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".7",
+                            "strength": "1",
                             "from": "06",
                             "to": "20",
-                            "color": "#0178bc",
+                            "color": "#a6aaad",
                             "arrowatstart": "0",
-                            "arrowatend": "1"
+                            "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "06",
                             "to": "10",
                             "color": "#a6aaad",
@@ -336,7 +333,7 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "06",
                             "to": "21",
                             "color": "#a6aaad",
@@ -344,7 +341,7 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "06",
                             "to": "03",
                             "color": "#a6aaad",
@@ -352,7 +349,7 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "03",
                             "to": "07",
                             "color": "#a6aaad",
@@ -360,7 +357,7 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "05",
                             "to": "06",
                             "color": "#a6aaad",
@@ -368,7 +365,7 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "06",
                             "to": "11",
                             "color": "#a6aaad",
@@ -376,7 +373,7 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "07",
                             "to": "08",
                             "color": "#a6aaad",
@@ -384,7 +381,7 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "07",
                             "to": "09",
                             "color": "#a6aaad",
@@ -392,7 +389,7 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "07",
                             "to": "21",
                             "color": "#a6aaad",
@@ -400,7 +397,7 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "08",
                             "to": "11",
                             "color": "#a6aaad",
@@ -408,7 +405,7 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "09",
                             "to": "11",
                             "color": "#6d6e70",
@@ -416,15 +413,15 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".7",
+                            "strength": "1",
                             "from": "09",
                             "to": "13",
-                            "color": "#0178bc",
+                            "color": "#6d6e70",
                             "arrowatstart": "0",
-                            "arrowatend": "1"
+                            "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "09",
                             "to": "19",
                             "color": "#6d6e70",
@@ -432,7 +429,7 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "10",
                             "to": "17",
                             "color": "#6d6e70",
@@ -440,15 +437,15 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "10",
                             "to": "19",
-                            "color": "#a6aaad",
+                            "color": "#6d6e70",
                             "arrowatstart": "0",
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "12",
                             "to": "14",
                             "color": "#6d6e70",
@@ -456,7 +453,7 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "12",
                             "to": "17",
                             "color": "#6d6e70",
@@ -464,7 +461,7 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "16",
                             "to": "13",
                             "color": "#6d6e70",
@@ -472,15 +469,15 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".7",
+                            "strength": "1",
                             "from": "15",
                             "to": "13",
-                            "color": "#0178bc",
+                            "color": "#6d6e70",
                             "arrowatstart": "0",
-                            "arrowatend": "1"
+                            "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "14",
                             "to": "16",
                             "color": "#6d6e70",
@@ -488,15 +485,15 @@
                             "arrowatend": "0"
                         },
                         {
-                            "strength": ".7",
+                            "strength": "1",
                             "from": "15",
                             "to": "20",
-                            "color": "#0178bc",
+                            "color": "#6d6e70",
                             "arrowatstart": "0",
-                            "arrowatend": "1"
+                            "arrowatend": "0"
                         },
                         {
-                            "strength": ".5",
+                            "strength": "1",
                             "from": "16",
                             "to": "18",
                             "color": "#6d6e70",

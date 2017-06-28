@@ -3,15 +3,6 @@
 //    admin:     schema management
 //    developer: data management
 
-CREATE ROLE ops_center WITH SUPERUSER = true AND LOGIN = true AND password = 'super_secret_password_only_known_to_a_few';
-
-// The application admin account responsible for managing authentication. 
-CREATE ROLE washington WITH SUPERUSER = false AND LOGIN = true AND password = 'super_secret_password_only_known_to_a_few';
-GRANT g2_developer to washington;
-
-// The admin account must have select access on each tenant's keyspace to access the keyspace.users table for login validation
-GRANT select on KEYSPACE appl_auth to washington;
-
 // Each organization (tenant) will have a separate keyspace and superuser account that's used for 
 // connection pooling with the application
 CREATE ROLE g2 WITH SUPERUSER = false AND LOGIN = true AND password = 'super_secret_password_only_known_to_a_few';

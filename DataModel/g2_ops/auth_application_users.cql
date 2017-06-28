@@ -1,5 +1,6 @@
-// Application users have access only to a specific keyspace
+USE keyspaceName;
 
+// Application users have access only to a specific keyspace
 // Organization = G2 ops
 CREATE ROLE IF NOT EXISTS g2_sys_admin;
 GRANT AUTHORIZE ON KEYSPACE g2 TO g2_sys_admin;
