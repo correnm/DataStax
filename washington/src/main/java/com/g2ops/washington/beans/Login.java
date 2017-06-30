@@ -1,6 +1,9 @@
 package com.g2ops.washington.beans;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Date;
 import java.util.Map;
 
@@ -14,6 +17,7 @@ import javax.servlet.ServletContext;
 
 import com.g2ops.washington.types.User;
 import com.g2ops.washington.utils.DatabaseConnectionManager;
+import com.g2ops.washington.utils.PasscodeEncryptionService;
 import com.g2ops.washington.utils.SessionUtils;
 
 import com.datastax.driver.core.BoundStatement;
@@ -82,7 +86,7 @@ public class Login implements Serializable {
 		this.userPassCode = userPassCode;
 	}
   
-	public String loginActionControllerMethod() {
+	public String loginActionControllerMethod() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 
 		// trim and convert to lower case the userOrg value for use in query
 		String userOrgLowerCase = userOrg.trim().toLowerCase();
@@ -269,7 +273,32 @@ public class Login implements Serializable {
 		}
 
 		// if passcode is invalid, update users table and send back to login page
+		/*
+		String[] passCodeElementsArray = hashedPassword.split("***");
+		int iterations = Integer.parseInt(passCodeElementsArray[0]);
+		byte[] salt = passCodeElementsArray[1].getBytes();
+		byte[] encryptedPasscode = passCodeElementsArray[2].getBytes();
+		String saltString = new String(salt);
+		String encryptedPasscodeString = new String(encryptedPasscode);
+
+		//byte[] testencryptedPasscode = PasscodeEncryptionService.getEncryptedPasscode("password", salt, iterations);
+		//String testencryptedPasscodeString = new String(testencryptedPasscode);
+		
+		System.out.println("salt as a string: " + passCodeElementsArray[1]);
+		System.out.println("passcode as a string: " + passCodeElementsArray[2]);
+		System.out.println("salt as a string post conversions: " + saltString);
+		System.out.println("passcode as a string post conversions: " + encryptedPasscodeString);
+		System.out.println("iterations: " + iterations);
+		System.out.println("salt: " + salt);
+		System.out.println("encryptedPasscode: " + encryptedPasscode);
+		//System.out.println("userPassCode: " + userPassCode);
+		//System.out.println("testencryptedPasscodeString: " + testencryptedPasscodeString);
+		
+		boolean userPassCodeEncrypted = PasscodeEncryptionService.authenticate(userPassCode, encryptedPasscode, salt, iterations);
+		*/
+		
 		if (!userPassCode.equals(hashedPassword)) {
+		//if (!userPassCodeEncrypted) {
 
 			// if was locked out, reset counter
 			if (numConsecutiveFailedAttempts >= LOCKOUT_THRESHOLD) {
@@ -315,11 +344,26 @@ public class Login implements Serializable {
 			// execute the query
 			rs = DBSession.execute(boundStatement);			
 			
+			// create the prepared statement for getting the Org ID
+			preparedStatement = DBSession.prepare("select org_id from organizations");
+
+			// create bound statement
+			boundStatement = preparedStatement.bind();
+			
+			// execute the query
+			rs = DBSession.execute(boundStatement);			
+			
+			// get the result values
+			row = rs.one();
+
+			String orgID = row.getUUID("org_id").toString();
+			
 			// create user object and store in user's session
 			User user = new User(userEmailLowerCase, userName, firstName, lastName, appRoleName, defaultLensView, systemAdministratorInd);
 			HttpSession userSession = SessionUtils.getSession();
 			userSession.setAttribute("user", user);
 			userSession.setAttribute("orgKeyspace", orgKeyspace);
+			userSession.setAttribute("orgID", orgID);
 
 			// send to default page for this user
 			return(defaultLensView);
