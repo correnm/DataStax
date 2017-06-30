@@ -215,7 +215,7 @@ table.table-striped tbody tr.even {
     text-align: center;
 }
 
-.form-control {
+.viewFilterFormClass .form-control {
 	height: 30px;
 	padding: 4px 12px;
 	font-size: 12px;
