@@ -14,7 +14,7 @@ import com.g2ops.washington.utils.FusionCharts;
 
 			chartData = "{\"chart\": {";
 			chartData = chartData.concat("\"theme\": \"g2ops\",");
-			chartData = chartData.concat("\"caption\": \"Top N by CyVaR\",");
+			chartData = chartData.concat("\"caption\": \"Top 10 by CyVaR\",");
 			chartData = chartData.concat("\"numberPrefix\": \"$\",");
 			chartData = chartData.concat("\"paletteColors\": \"#666666\",");
 			chartData = chartData.concat("\"showShadow\": \"0\",");
@@ -38,14 +38,16 @@ import com.g2ops.washington.utils.FusionCharts;
 			chartData = chartData.concat("\"showAlternateHGridColor\": \"0\",");
 			chartData = chartData.concat("},"); // end chart
 			chartData = chartData.concat("\"data\": [");
+			chartData = chartData.concat("{\"label\": \"FIN\", \"value\": \"32500000\"},");
+			chartData = chartData.concat("{\"label\": \"Payroll\", \"value\": \"25000000\"},");
+			chartData = chartData.concat("{\"label\": \"AP2\", \"value\": \"22500000\"},");
 			chartData = chartData.concat("{\"label\": \"EMR\", \"value\": \"22000000\"},");
-			chartData = chartData.concat("{\"label\": \"FIN\", \"value\": \"41000000\"},");
+			chartData = chartData.concat("{\"label\": \"AP\", \"value\": \"19850000\"},");
 			chartData = chartData.concat("{\"label\": \"LAB1\", \"value\": \"19800000\"},");
 			chartData = chartData.concat("{\"label\": \"LAB2\", \"value\": \"17000000\"},");
-			chartData = chartData.concat("{\"label\": \"AP\", \"value\": \"19850000\"},");
-			chartData = chartData.concat("{\"label\": \"AP2\", \"value\": \"22000000\"},");
-			chartData = chartData.concat("{\"label\": \"Payroll\", \"value\": \"25000000\"},");
-			chartData = chartData.concat("{\"label\": \"CMS\", \"value\": \"20000000\"},");
+			chartData = chartData.concat("{\"label\": \"CMS\", \"value\": \"12000000\"},");
+			chartData = chartData.concat("{\"label\": \"HR\", \"value\": \"8000000\"},");
+			chartData = chartData.concat("{\"label\": \"AR\", \"value\": \"5000000\"},");
 			chartData = chartData.concat("]"); // end data
 			chartData = chartData.concat("}");
 
