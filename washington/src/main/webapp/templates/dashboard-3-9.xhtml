@@ -16,6 +16,8 @@
 
 	<script type="text/javascript" src="#{request.contextPath}/resources/js/fusioncharts.js"></script>
 	<script type="text/javascript" src="#{request.contextPath}/resources/js/fusioncharts.charts.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/resources/js/fusioncharts.powercharts.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/resources/js/fusioncharts.treemap.js"></script>
 	<script type="text/javascript" src="#{request.contextPath}/resources/js/themes/fusioncharts.theme.g2ops.js"></script>
 
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
@@ -52,6 +54,22 @@
 			<b:form style-class="viewFilterFormClass">
 				<b:row>
 					<b:column>
+						<b:selectOneMenu label="Organizational Unit" render-label="false" value="#{viewFilterBean.selectedOrgUnit}" tooltip="Choose an Organizational Unit">
+							<f:selectItems value="#{viewFilterBean.orgUnits}" var="orgUnit" itemValue="#{orgUnit.orgUnitCode}" itemLabel="#{orgUnit.orgUnitName}"></f:selectItems>
+							<f:ajax event="change" render="siteListID"></f:ajax>
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column>
+						<b:selectOneMenu label="Organizational Site" render-label="false" id="siteListID" value="#{viewFilterBean.selectedSite}" tooltip="Choose an Organizational Site">
+							<f:selectItems value="#{viewFilterBean.sites}" var="site" itemValue="#{site.siteCode}" itemLabel="#{site.siteName}"></f:selectItems>
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+				<!--
+				<b:row>
+					<b:column>
 						<b:selectOneMenu label="Organizational Unit" render-label="false" value="#{orgUnitSelectOneListboxBean.selectedOrgUnit}" tooltip="Choose an Organizational Unit">
 							<f:selectItems value="#{orgUnitSelectOneListboxBean.orgUnits}" var="orgUnit" itemValue="#{orgUnit.orgUnitCode}" itemLabel="#{orgUnit.orgUnitName}"></f:selectItems>
 						</b:selectOneMenu>
@@ -64,13 +82,25 @@
 						</b:selectOneMenu>
 					</b:column>
 				</b:row>
+				-->
 				<b:row style="text-align: center;">
 					<b:column>
-						<b:commandButton value="Refresh View" action="#" ajax="false" look="default" size="sm" />
+						<b:commandButton value="Refresh View" action="#{viewFilterBean.refreshView}" ajax="false" look="default" size="sm"></b:commandButton>
 					</b:column>
 				</b:row>
 			</b:form>
 		</b:panel>
+	</b:column>
+</b:row>
+
+<!-- OU and Site -->
+<b:row>
+	<b:column col-xs="12">
+		<div class="ou-site-name">
+			<h2>
+				#{viewFilterBean.selectedOrgUnitName} - #{viewFilterBean.selectedSiteName}
+			</h2>
+		</div>
 	</b:column>
 </b:row>
 
@@ -104,6 +134,10 @@
 </b:row>
 
 </b:container>
+
+<ui:insert name="body-javascript">
+	<script type="text/javascript"></script>
+</ui:insert>
 
 </h:body>
 </html>
