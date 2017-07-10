@@ -34,12 +34,17 @@ public class PatchesExceedingThresholdPieChartXML {
 			
 			xMLStreamWriter.writeStartElement("set");
 			xMLStreamWriter.writeAttribute("label", "90 days");
-			xMLStreamWriter.writeAttribute("value", "25.6");
+			xMLStreamWriter.writeAttribute("value", "21.0");
 			xMLStreamWriter.writeEndElement();
 			
 			xMLStreamWriter.writeStartElement("set");
 			xMLStreamWriter.writeAttribute("label", "60 days");
-			xMLStreamWriter.writeAttribute("value", "74.4");
+			xMLStreamWriter.writeAttribute("value", "36.0");
+			xMLStreamWriter.writeEndElement();
+			
+			xMLStreamWriter.writeStartElement("set");
+			xMLStreamWriter.writeAttribute("label", "30 days");
+			xMLStreamWriter.writeAttribute("value", "43.0");
 			xMLStreamWriter.writeEndElement();
 			
 			xMLStreamWriter.writeEndElement();
