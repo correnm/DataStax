@@ -365,6 +365,16 @@ public class Login implements Serializable {
 			userSession.setAttribute("orgKeyspace", orgKeyspace);
 			userSession.setAttribute("orgID", orgID);
 
+			// *** temporary until OU and Site is stored as a user preference ***
+			if (orgKeyspace.equals("g2")) {
+				userSession.setAttribute("currentOU", "703161c5-eca3-48a0-8ad9-99f2a6b8d5e7");
+				userSession.setAttribute("currentSite", "1b4d46f1-2adc-46b8-aa23-7e1ce03fc04c");
+			}
+			else if (orgKeyspace.equals("vmasc")) {
+				userSession.setAttribute("currentOU", "553f1fac-2eda-4db9-8d11-14a986eb3262");
+				userSession.setAttribute("currentSite", "b363addf-7aa0-4ea5-9983-6bdb9eef69b4");
+			}
+
 			// send to default page for this user
 			return(defaultLensView);
 
