@@ -10,8 +10,12 @@
 	<ui:define name="page-name">Business Process Impact Analysis</ui:define>
 
 	<ui:define name="top-chart">
+		<!--
 		<div id="orgRiskToleranceChartContainer" align="center" style="height: 140px;"></div>
 		<h:outputText value="#{orgRiskToleranceChart.getOrgRiskToleranceChart()}" escape="false" />
+		-->
+		<div id="orgRiskHistoryLineChartContainer" align="center" style="height: 140px;"></div>
+		<h:outputText value="#{orgRiskHistoryLineChart.getOrgRiskHistoryLineChart()}" escape="false" />
 	</ui:define>
 
 	<ui:define name="left-charts">
@@ -64,6 +68,26 @@
 			</b:dataTable>
 		</h:form>
 		</div>
+	</ui:define>
+
+	<ui:define name="body-javascript">
+
+		<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+
+		<script type="text/javascript">
+
+			function businessProcessTreeMapNodeClicked(nodeName) {
+				console.log("nodeName: " + nodeName + " was clicked");
+				//table.columns( 0 ).search( nodeName ).draw();
+			}
+		
+			//$( document ).ready(function() {
+				//table = $('.businessProcessesByCyvarTableClass').DataTable( {retrieve: true} );
+				//table.columns( 0 ).search( '' ).draw();
+			//});
+			
+		</script>
+
 	</ui:define>
 
 </ui:composition>
