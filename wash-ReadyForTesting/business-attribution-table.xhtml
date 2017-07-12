@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-width-table.xhtml">
+
+	<ui:define name="document-title">Business Value Attribution - Washington</ui:define>
+
+	<ui:define name="page-name">Business Value Attribution</ui:define>
+
+	<ui:define name="full-width-table">
+		<div class="dataTableDivClass">
+		<h:form>
+			<b:dataTable value="#{businessAttributionTable.businessAttData}" var="att" styleClass="businessProcessesByCyvarTableClass" >
+
+ 				<b:dataTableColumn value="">
+					<f:facet name="header">Click to Edit</f:facet>
+					<h:link outcome='/administrator/business-attribution-table.jsf'>
+						<f:param name="ip" value="#{att.ip}" />
+						<i class="fa fa-pencil-square-o fa-lg"></i>
+					</h:link>
+				</b:dataTableColumn>
+  		      			
+				<b:dataTableColumn value="#{att.ip}" order="asc" >
+					<f:facet name="header">IP Address</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{att.osType}">
+					<f:facet name="header">OS Type</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{att.sysType}">
+					<f:facet name="header">System Type</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{att.assetType}">    				
+					<f:facet name="header">Asset Type</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{att.assetVis}">
+					<f:facet name="header">Asset Visibility</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{att.busIntThreshold}">
+					<f:facet name="header">Business Interruption Threshold</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{att.businessCrit}">
+					<f:facet name="header">Business Criticality</f:facet>
+				</b:dataTableColumn>	
+				<b:dataTableColumn value="#{att.infoClass}">
+					<f:facet name="header">Information Classification</f:facet>
+				</b:dataTableColumn>			
+			</b:dataTable>
+		</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>
