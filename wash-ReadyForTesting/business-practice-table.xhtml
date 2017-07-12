@@ -3,39 +3,24 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:b="http://bootsfaces.net/ui"
-	template="/templates/full-width-table.xhtml"> 
+	template="/templates/full-width-table.xhtml">
 
-	<ui:define name="document-title">Business Value Attribution - Washington</ui:define>
+	<ui:define name="document-title">Business Value Set Up - Washington</ui:define>
 
-	<ui:define name="page-name">Business Value Attribution</ui:define>
+	<ui:define name="page-name">Business Value Set Up</ui:define>
 
 	<ui:define name="full-width-table">
 		<div class="dataTableDivClass">
 		<h:form>
-			<b:panelGrid columns="12" columnClasses="panelGrid">
-				<b:commandButton value="Restore Defaults"
-				look="primary"
-				action="#{businessPracticeTable.restoreDefaults}" />
-			</b:panelGrid>
-						
 			<b:dataTable value="#{businessPracticeTable.businessData}" var="biz" styleClass="businessProcessesByCyvarTableClass" >
 
- 				<b:dataTableColumn value="" orderable="false">
-					<f:facet name="header">Edit</f:facet>
-					<b:commandButton value="" 
-						outcome='/administrator/business-practice-edit.jsf'
-						iconAwesome="fa-edit" >
-						<f:param name="bizCategory" value="#{biz.category}" />
-						<f:param name="bizBusinessValue" value="#{biz.businessValue}" />
-					</b:commandButton>
- 				<!--  
+ 				<b:dataTableColumn value="">
+					<f:facet name="header">Click to Edit</f:facet>
 					<h:link outcome='/administrator/business-practice-table.jsf'>
 						<f:param name="category" value="#{biz.category}" />
 						<f:param name="businessValue" value="#{biz.businessValue}" />
-						<i class="fa fa-pencil-square-o"></i>
+						<i class="fa fa-pencil-square-o fa-lg"></i>
 					</h:link>
-					-->
-					
 				</b:dataTableColumn>
   		      			
 				<b:dataTableColumn value="#{biz.category}" order="asc" >
@@ -49,8 +34,7 @@
 				<b:dataTableColumn value="#{biz.collateralDamageCurrent}">
 					<f:facet name="header">Collateral Damage</f:facet>
 				</b:dataTableColumn>
-				
-			
+
 				<b:dataTableColumn value="#{biz.targetDistributionCurrent}">    				
 					<f:facet name="header">Target Distribution</f:facet>
 				</b:dataTableColumn>
@@ -67,14 +51,6 @@
 					<f:facet name="header">Availability Requirement</f:facet>
 				</b:dataTableColumn>				
 			</b:dataTable>
-<!-- 
-			<h:commandButton value="Restore Defaults" 
-				action="#{BusinessPracticeTable.restoreDefaults}" />
-			</h:commandButton>
-			<h:commandButton value="Save Changes" 
-				action="#{BusinessPracticeTable.saveBiz}" />
-			</h:commandButton>
- -->	 
 		</h:form>
 		</div>
 	</ui:define>
