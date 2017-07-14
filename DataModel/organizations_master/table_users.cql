@@ -21,7 +21,9 @@ auth_code						int,
 send_notification_email			boolean,
 audit_upsert 					frozen<audit_upsert>,
 security						list<frozen <qa_info>>, // security questions and answers
-ip_address						text, 					// record the login host
+ip_address						text, 	// record the login host
+org_unit_id						uuid,   // default organizational unit for filtering
+site_id							uuid    // default site with the OU
 PRIMARY KEY ((user_email))
 )
 WITH COMMENT = 'Application users for each organization';
