@@ -1,5 +1,6 @@
 package com.g2ops.washington.types;
 
+import java.util.UUID;
 
 /**
  * @author 		Sara PRokop, G2 Ops, Virginia Beach, VA
@@ -20,6 +21,8 @@ public class BusinessAttribution {
 
 	// declare the variables which coincide with fields in the business_practice table
 	private String ip, osType, sysType, assetType, assetVis, busIntThreshold, businessCrit, infoClass ;
+	private String siteORouName, iPsubORbuilding;// partition keys
+	private UUID intSysID;//partition keys
 	
 	
 	// constructor for variable initialization. BigDecimal is the Java equivalent to the
@@ -27,7 +30,8 @@ public class BusinessAttribution {
 	public BusinessAttribution (String ip, 		String osType, 
 			String sysType, 		String assetType, 
 			String assetVis, 	String busIntThreshold, 
-			String businessCrit, String infoClass) {
+			String businessCrit, String infoClass, String siteORouName, 
+			String iPsubORbuilding, UUID intSysID) {
 
 		this.ip 							= ip;
 		this.osType 						= osType;
@@ -37,6 +41,9 @@ public class BusinessAttribution {
 		this.busIntThreshold 			  	= busIntThreshold;
 		this.businessCrit 					= businessCrit;
 		this.infoClass 						= infoClass;
+		this.siteORouName					= siteORouName;
+		this.iPsubORbuilding				= iPsubORbuilding;
+		this.intSysID 						= intSysID;
 
 	}
 
@@ -61,16 +68,29 @@ public class BusinessAttribution {
 	}
 	
 	public String getBusIntThreshold() {
-		return businessCrit;
+		return busIntThreshold;
 	}
 	
 	public String getBusinessCrit() {
 		return businessCrit;
 	}
-
+	
 	public String getInfoClass() {
 		return infoClass;
 	}
+
+	public String getSiteORouName() {
+		return siteORouName;
+	}
+	
+	public String getIPsubORbuilding() {
+		return iPsubORbuilding;
+	}
+	
+	public UUID getIntSysID() {
+		return intSysID;
+	}
+
 
 	public void setIp(String ip) {
 		this.ip= ip;
@@ -101,6 +121,18 @@ public class BusinessAttribution {
 	
 	public void setInfoClass(String infoClass) {
 		this.infoClass = infoClass;
+	}
+	
+	public void setSiteORouName(String siteORouName) {
+		this.siteORouName = siteORouName;
+	}
+	
+	public void setIPsubORbuilding(String iPsubORbuilding) {
+		this.iPsubORbuilding = iPsubORbuilding;
+	}
+	
+	public void setIntSysID(UUID intSysID) {
+		this.intSysID = intSysID;
 	}
 
 }
