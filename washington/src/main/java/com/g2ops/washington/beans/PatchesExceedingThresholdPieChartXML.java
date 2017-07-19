@@ -30,21 +30,31 @@ public class PatchesExceedingThresholdPieChartXML {
 			xMLStreamWriter.writeAttribute("theme", "g2ops");
 			xMLStreamWriter.writeAttribute("caption", "Patches Exceeding Threshold");
 			xMLStreamWriter.writeAttribute("pieRadius", "60");
-			xMLStreamWriter.writeAttribute("paletteColors", "#CC2A1F,#FFC80D,#2b8118");
+			xMLStreamWriter.writeAttribute("valueFontColor", "#231f20");
+			//xMLStreamWriter.writeAttribute("paletteColors", "#CC2A1F,#FFC80D,#2b8118");
+			
+			xMLStreamWriter.writeStartElement("set");
+			xMLStreamWriter.writeAttribute("label", "120 days");
+			xMLStreamWriter.writeAttribute("value", "12.6");
+			xMLStreamWriter.writeAttribute("color", "#df382c");
+			xMLStreamWriter.writeEndElement();
 			
 			xMLStreamWriter.writeStartElement("set");
 			xMLStreamWriter.writeAttribute("label", "90 days");
-			xMLStreamWriter.writeAttribute("value", "21.0");
+			xMLStreamWriter.writeAttribute("value", "21.3");
+			xMLStreamWriter.writeAttribute("color", "#e95420");
 			xMLStreamWriter.writeEndElement();
 			
 			xMLStreamWriter.writeStartElement("set");
 			xMLStreamWriter.writeAttribute("label", "60 days");
-			xMLStreamWriter.writeAttribute("value", "36.0");
+			xMLStreamWriter.writeAttribute("value", "26.4");
+			xMLStreamWriter.writeAttribute("color", "#efb73e");
 			xMLStreamWriter.writeEndElement();
 			
 			xMLStreamWriter.writeStartElement("set");
 			xMLStreamWriter.writeAttribute("label", "30 days");
-			xMLStreamWriter.writeAttribute("value", "43.0");
+			xMLStreamWriter.writeAttribute("value", "39.7");
+			xMLStreamWriter.writeAttribute("color", "#38b44a");
 			xMLStreamWriter.writeEndElement();
 			
 			xMLStreamWriter.writeEndElement();
