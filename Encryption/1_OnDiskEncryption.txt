@@ -1,0 +1,12 @@
+Encrypting data on disk ("data at rest" is the usual term of art) is covered by DataStax's Transparent Data Encryption
+(TDE) capability.
+https://docs.datastax.com/en/latest-dse/datastax_enterprise/sec/encryptTDE.html
+
+These steps use local encryption keys. Managaing keys off-server with KMIP (Key Management Interoperability Protocol) is
+also supported by DSE 5.0 but is not addressed by these instructions.
+
+
+https://docs.datastax.com/en/latest-dse/datastax_enterprise/sec/encryptInstallJceAES256.html
+
+
+

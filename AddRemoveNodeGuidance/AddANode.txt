@@ -11,6 +11,7 @@ The basic process to build out a node is:
   2. Update the cassandra.yaml file based on the instructions below (and possibly also the cassandra-rackdc.properties file).
   3. Start the node with: service dse start
   4. Verify node status with 'nodetool -h x.y.z.??? status'. Look for status result of UN for Up/Normal
+  5. Run `nodetool cleanup` on the other nodes on a cluster to rebalance the cluster with the new node.
 
 
 The cassandra-rackdc.properties may need to be updated. Best to just copy an existing one from the other nodes.
