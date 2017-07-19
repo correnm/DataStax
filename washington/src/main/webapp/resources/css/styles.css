@@ -1,13 +1,30 @@
+/*
+
+G2OPS Colors
+
+orange: #da543a
+blue: #28637e
+dark gray: #595a5c
+light gray: #bbbdbf
+black: #231f20
+
+*/
+
+
 body {
-  background-color: #efefef;
+  background-color: #eaebeb;
+  color: #231f20;
   font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
 a:hover { 
   color: red
 }
+
 h1,h2,h3,h4 {
   font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #2f4c6a;
+  /* color: #2f4c6a; */
+  color: #595a5c;
 }
 
 h1 {
@@ -46,9 +63,9 @@ h1.title {
   color: red;
   font-weight: bold;
 }
-th { background-color: #2f4c6a;
+th { background-color: #da543a;
      font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-     color: #dddddd;
+     color: #f8f8f8;
 }
 legend {
   font-weight: bold;
@@ -109,6 +126,8 @@ i.fa {
 	border: 0px; /* removes the border */
 	border-radius: 0px; /* removes the rounded corners */
 	background-image: none; /* removes the linear color gradient */
+	background-color: #da543a; /* sets the color to G2OPS orange */
+	/* background-color: #28637e; */ /* sets the color to G2OPS blue */
 	padding-left: 25px;
 	padding-right: 25px;
 }
@@ -116,11 +135,16 @@ i.fa {
 .navbar-inverse {
 	/* background-color: #446e9b; -- original theme blue -- */
 	/* background-color: #3cb521; -- original theme green -- */
-	background-color: #2f4c6a;
+	/* background-color: #2f4c6a; */
 }
 
 .navbar-brand {
-	padding: 5px 25px;
+	padding: 15px 25px;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+	background-image: none; /* removes the linear color gradient */
+	background-color: #da543a; /* sets the color to G2OPS orange */
 }
 
 .panel-group .panel, .panel {
@@ -142,6 +166,22 @@ i.fa {
 
 .btn-default, .btn-primary {
 	/* background-image: none; */
+}
+
+.btn-primary {
+	background-color: #da543a;
+}
+
+.btn-default {
+	background-color: #bbbdbf;
+}
+
+.btn-default:hover {
+	background-color: #595a5c;
+}
+
+.btn-link {
+	color: #da543a;
 }
 
 .container .jumbotron, .container-fluid .jumbotron {
@@ -184,12 +224,13 @@ i.fa {
 .footer {
 	padding-top: 20px;
 	padding-bottom: 20px;
-	font-size: 10px;
+	font-size: 13px;
 	text-align: right;
+	color: #595a5c;
 }
 
 table.table-striped tbody tr.even {
-	background-color: #dddddd;
+	background-color: #eaebeb;
 }
 
 .businessProcessesByCyvarTableClass {
@@ -210,13 +251,13 @@ table.table-striped tbody tr.even {
 .dataTableDivClass h2 {
 	text-align: center;
 	font-size: 16px;
-	color: #666666;
+	color: #595a5c;
 }
 
 .dataTableDivClass h3 {
 	text-align: center;
 	font-size: 14px;
-	color: #666666;
+	color: #595a5c;
 }
 
 .table-bordered > thead > tr > th {

@@ -16,7 +16,7 @@
 
 				<b:dataTableColumn value="">
 					<f:facet name="header">Click to Edit User</f:facet>
-					<h:link outcome='/administrator/users-table.jsf' value='#{user.userEmail}'><f:param name="userEmail" value="#{user.userEmail}" /></h:link>
+					<h:link outcome='/administrator/user-edit.jsf' value='#{user.userEmail}'><f:param name="userEmail" value="#{user.userEmail}" /></h:link>
 				</b:dataTableColumn>
 
 				<b:dataTableColumn value="#{user.userName}">

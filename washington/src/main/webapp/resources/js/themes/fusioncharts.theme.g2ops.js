@@ -17,8 +17,8 @@ FusionCharts.register('theme', {
 				placeValuesInside: '0',
 				bgcolor: '#ffffff',
 				baseFont: 'Roboto,Open Sans,Helvetica Neue,Helvetica,Arial,sans-serif',
-				baseFontColor: '#666666',
-				divlineColor: '#999999',
+				baseFontColor: '#595a5c',
+				divlineColor: '#bbbdbf',
 				divlineThickness: '1',
 				},
 			trendlines: [{
@@ -53,6 +53,7 @@ FusionCharts.register('theme', {
 		},
 		pie2d: {
 			chart: {
+				paletteColors: '#df382c,#da543a,#efb73e,#38b44a',
 				showPercentInToolTip: '1',
 				showPercentValues: '1',
 				decimals: '1',

@@ -50,7 +50,7 @@ function topologyNodeChartNodeClicked(nodeID) {
 	for (i = 0; i < dataArray.length; i++) {
 		if (dataArray[i].id == nodeID) {
 			// highlight clicked node
-			dataArray[i].color = "#f3f315";
+			dataArray[i].color = "#efb73e";
 			label = dataArray[i].label;
 		} else {
 			// set others to default color
@@ -78,6 +78,9 @@ $( document ).ready(function() {
 
 	// redraw the table with all of its rows (since no node is selected at this point)
 	table.columns( 0 ).search( '' ).draw();
+
+	// hide the first column of the table (so internal IDs are not displayed)
+	table.columns( 0 ).visible( false );
 
 });
 

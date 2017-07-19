@@ -3,27 +3,87 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:b="http://bootsfaces.net/ui"
-	template="/templates/full-width-table.xhtml">
+	template="/templates/full-page-form.xhtml">
 
 	<ui:define name="document-title">Edit User - Washington</ui:define>
 
 	<ui:define name="page-name">Edit User</ui:define>
 
-	<ui:define name="full-width-table">
-		<div class="dataTableDivClass">
-		<h:form>
+	<ui:define name="full-page-form">
 
-			<b:inputText value="#{userEdit.userEmail}">
-			</b:inputText>
+		<h:form id="userEditForm">
 
-			<b:inputText value="#{userEdit.firstName}">
-			</b:inputText>
+			<b:panel look="default">
 
-			<b:inputText value="#{userEdit.lastName}">
-			</b:inputText>
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="8" offset="2">
+						<b:messages></b:messages>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2">Email:</b:column>
+					<b:column col-md="4">
+						#{userEdit.userEmail}
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2">First Name:</b:column>
+					<b:column col-md="4">
+						<b:inputText value="#{userEdit.firstName}"></b:inputText>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2">Last Name:</b:column>
+					<b:column col-md="4">
+						<b:inputText value="#{userEdit.lastName}"></b:inputText>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2">Passcode:</b:column>
+					<b:column col-md="4">
+						<b:inputText value="#{userEdit.hashedPassword}"></b:inputText>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2"></b:column>
+					<b:column col-md="4">
+						<b:commandButton value="Edit" action="#{userEdit.editUserActionControllerMethod}"></b:commandButton>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+			</b:panel>
 
 		</h:form>
-		</div>
+
 	</ui:define>
 
 </ui:composition>

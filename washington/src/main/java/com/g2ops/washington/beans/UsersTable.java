@@ -1,5 +1,6 @@
 package com.g2ops.washington.beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -14,7 +15,9 @@ import com.g2ops.washington.utils.DatabaseQueryService;
 
 @ManagedBean
 @ViewScoped
-public class UsersTable {
+public class UsersTable implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private DatabaseQueryService dqs = new DatabaseQueryService();
 	private ResultSet rs;

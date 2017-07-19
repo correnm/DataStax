@@ -2,7 +2,20 @@ package com.g2ops.washington.beans;
 
 import javax.faces.bean.ManagedBean;
 import com.g2ops.washington.utils.FusionCharts;
-
+/**
+ * @author 		John Reddy, G2 Ops, Virginia Beach, VA
+ * @version 	1.00, May 2017
+ * @see			
+ * @exception
+ * 
+ * <p>Known Bugs: (a list of bugs and other problems)
+ *
+ *
+ * <p>Revision History:
+ * Date				Author				Revision Description
+ * 12-Jul-2017		corren.mccoy		Added additional placeholder data for demo purposes
+ * 
+ */
 	@ManagedBean
 	public class TopNbyCyVaRChart {
 	   
@@ -14,9 +27,9 @@ import com.g2ops.washington.utils.FusionCharts;
 
 			chartData = "{\"chart\": {";
 			chartData = chartData.concat("\"theme\": \"g2ops\",");
-			chartData = chartData.concat("\"caption\": \"Top 10 by CyVaR\",");
+			chartData = chartData.concat("\"caption\": \"Top N by CyVaR\",");
 			chartData = chartData.concat("\"numberPrefix\": \"$\",");
-			chartData = chartData.concat("\"paletteColors\": \"#666666\",");
+			chartData = chartData.concat("\"paletteColors\": \"#595a5c\",");
 			chartData = chartData.concat("\"showShadow\": \"0\",");
 			chartData = chartData.concat("\"showAlternateVGridColor\": \"0\",");
 			chartData = chartData.concat("\"numVDivLines\": \"0\",");
@@ -38,16 +51,14 @@ import com.g2ops.washington.utils.FusionCharts;
 			chartData = chartData.concat("\"showAlternateHGridColor\": \"0\",");
 			chartData = chartData.concat("},"); // end chart
 			chartData = chartData.concat("\"data\": [");
-			chartData = chartData.concat("{\"label\": \"FIN\", \"value\": \"32500000\"},");
-			chartData = chartData.concat("{\"label\": \"Payroll\", \"value\": \"25000000\"},");
-			chartData = chartData.concat("{\"label\": \"AP2\", \"value\": \"22500000\"},");
-			chartData = chartData.concat("{\"label\": \"EMR\", \"value\": \"22000000\"},");
-			chartData = chartData.concat("{\"label\": \"AP\", \"value\": \"19850000\"},");
-			chartData = chartData.concat("{\"label\": \"LAB1\", \"value\": \"19800000\"},");
-			chartData = chartData.concat("{\"label\": \"LAB2\", \"value\": \"17000000\"},");
-			chartData = chartData.concat("{\"label\": \"CMS\", \"value\": \"12000000\"},");
-			chartData = chartData.concat("{\"label\": \"HR\", \"value\": \"8000000\"},");
-			chartData = chartData.concat("{\"label\": \"AR\", \"value\": \"5000000\"},");
+			chartData = chartData.concat("{\"label\": \"Admissions\", \"value\": \"32305337\"},");
+			chartData = chartData.concat("{\"label\": \"Emergency Room\", \"value\": \"27949576\"},");
+			chartData = chartData.concat("{\"label\": \"Lab1\", \"value\": \"24957000\"},");
+			chartData = chartData.concat("{\"label\": \"Finance\", \"value\": \"21402250\"},");
+			chartData = chartData.concat("{\"label\": \"Accounts Payable\", \"value\": \"5542309\"},");
+			chartData = chartData.concat("{\"label\": \"Obstetrics\", \"value\": \"801792\"},");
+			chartData = chartData.concat("{\"label\": \"Normal Newborns\", \"value\": \"748156\"},");
+			chartData = chartData.concat("{\"label\": \"Infectious Diseases\", \"value\": \"281880\"},");
 			chartData = chartData.concat("]"); // end data
 			chartData = chartData.concat("}");
 

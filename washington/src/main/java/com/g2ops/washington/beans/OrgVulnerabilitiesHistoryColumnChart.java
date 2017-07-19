@@ -20,9 +20,9 @@ public class OrgVulnerabilitiesHistoryColumnChart {
 		chartData = chartData.concat("\"lineThickness\": \"2\",");
 		chartData = chartData.concat("\"showCanvasBorder\": \"0\",");
 		chartData = chartData.concat("\"usePlotGradientColor\": \"0\",");
-		chartData = chartData.concat("\"paletteColors\": \"#3e658e,#4b79aa,#638dbb\",");
+		chartData = chartData.concat("\"paletteColors\": \"#1D495D,#28637E,#31799B\",");
 		chartData = chartData.concat("\"placevaluesInside\": \"1\",");
-		chartData = chartData.concat("\"valueFontColor\": \"#f7f7f7\",");
+		chartData = chartData.concat("\"valueFontColor\": \"#bbbdbf\",");
 		chartData = chartData.concat("},");
 		chartData = chartData.concat("\"data\": [");
 		chartData = chartData.concat("{\"label\": \"7/15\",\"value\": \"5000\"},");
