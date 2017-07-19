@@ -45,7 +45,7 @@
 	<!-- Bootsfaces Context Parameters -->
 	<context-param>
 		<param-name>BootsFaces_THEME</param-name>
-		<param-value>spacelab</param-value>
+		<param-value>united</param-value>
 	</context-param>
 	<context-param>
 		<param-name>BootsFaces_USETHEME</param-name>
