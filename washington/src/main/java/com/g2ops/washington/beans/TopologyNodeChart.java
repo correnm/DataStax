@@ -26,7 +26,7 @@ public class TopologyNodeChart {
  
         	StringBuilder result = new StringBuilder("");
         	ClassLoader classLoader = getClass().getClassLoader();
-        	File file = new File(classLoader.getResource("json/topology-simple.json").getFile());
+        	File file = new File(classLoader.getResource("json/topology.json").getFile());
         	Scanner scanner = new Scanner(file);
 
         	while (scanner.hasNextLine()) {
