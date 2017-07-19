@@ -38,9 +38,9 @@ public class Login implements Serializable {
 	final String LOCKOUT_ERROR_MESSAGE = "Your account is locked due to too many incorrect login attempts. Please try again in XX minutes.";
 
 	// form field values
-	private String userOrg = "G2 Ops"; // value set for testing purposes
-	private String userEmail = ""; // value set for testing purposes "john.reddy@g2-ops.com"
-	private String userPassCode = ""; // value set for testing purposes "password"
+	private String userOrg = "";
+	private String userEmail = "";
+	private String userPassCode = "";
 
 	// values retrieved from the application authorization keyspace
 	private String orgKeyspace = "";
@@ -54,6 +54,8 @@ public class Login implements Serializable {
 	private Date loginTimeoutStartTime;
 	private int numConsecutiveFailedAttempts = 0;
 	private String defaultLensView = "";
+	private String orgUnitID = "";
+	private String siteID = "";
 	private String firstName = "";
 	private String lastName = "";
 	private String userName = "";
@@ -170,7 +172,7 @@ public class Login implements Serializable {
 		DBSession = orgDBConnection.getSession();
 
 		// create the prepared statement for selecting the user's info
-		preparedStatement = DBSession.prepare("select active_user_ind, application_role_name, default_lens_view_r, first_name, last_name, user_name, hashed_password, login_timeout_start_time, num_consecutive_failed_attempts, system_administrator_ind from users where user_email = ?");
+		preparedStatement = DBSession.prepare("select active_user_ind, application_role_name, default_lens_view_r, org_unit_id, site_id, first_name, last_name, user_name, hashed_password, login_timeout_start_time, num_consecutive_failed_attempts, system_administrator_ind from users where user_email = ?");
 
 		// create bound statement
 		boundStatement = preparedStatement.bind(userEmailLowerCase);
@@ -197,6 +199,8 @@ public class Login implements Serializable {
 			activeUserInd = row.getBool("active_user_ind");
 			appRoleName = row.getString("application_role_name");
 			defaultLensView = row.getString("default_lens_view_r");
+			orgUnitID = row.getUUID("org_unit_id").toString();
+			siteID = row.getUUID("site_id").toString();
 			firstName = row.getString("first_name");
 			lastName = row.getString("last_name");
 			userName = row.getString("user_name");
@@ -362,18 +366,12 @@ public class Login implements Serializable {
 			User user = new User(userEmailLowerCase, userName, firstName, lastName, appRoleName, defaultLensView, systemAdministratorInd);
 			HttpSession userSession = SessionUtils.getSession();
 			userSession.setAttribute("user", user);
+			
+			// store Organization, OU and Site data in user's session
 			userSession.setAttribute("orgKeyspace", orgKeyspace);
 			userSession.setAttribute("orgID", orgID);
-
-			// *** temporary until OU and Site is stored as a user preference ***
-			if (orgKeyspace.equals("g2")) {
-				userSession.setAttribute("currentOU", "703161c5-eca3-48a0-8ad9-99f2a6b8d5e7");
-				userSession.setAttribute("currentSite", "1b4d46f1-2adc-46b8-aa23-7e1ce03fc04c");
-			}
-			else if (orgKeyspace.equals("vmasc")) {
-				userSession.setAttribute("currentOU", "553f1fac-2eda-4db9-8d11-14a986eb3262");
-				userSession.setAttribute("currentSite", "b363addf-7aa0-4ea5-9983-6bdb9eef69b4");
-			}
+			userSession.setAttribute("currentOU", orgUnitID);
+			userSession.setAttribute("currentSite", siteID);
 
 			// send to default page for this user
 			return(defaultLensView);
