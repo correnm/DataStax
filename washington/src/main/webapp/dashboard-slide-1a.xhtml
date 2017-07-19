@@ -38,6 +38,10 @@
 		<h:form>
 			<b:dataTable widgetVar="retrieve" id="vulnerabilitiesTableID" value="#{vulnerabilitiesTable.vulnerabilities}" var="vulnerability" styleClass="businessProcessesByCyvarTableClass">
 
+				<b:dataTableColumn value="#{vulnerability.ID}">    				
+					<f:facet name="header">ID</f:facet>
+				</b:dataTableColumn>
+
 				<b:dataTableColumn value="#{vulnerability.CVEID}">    				
 					<f:facet name="header">CVEID</f:facet>
 				</b:dataTableColumn>
@@ -46,16 +50,20 @@
 					<f:facet name="header">Description</f:facet>
 				</b:dataTableColumn>
 
+				<b:dataTableColumn value="#{vulnerability.CVSSBase}">
+					<f:facet name="header">CVSS Base</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.CVSSTemporal}">
+					<f:facet name="header">CVSS Temporal</f:facet>
+				</b:dataTableColumn>
+
 				<b:dataTableColumn value="#{vulnerability.IIV}">
 					<f:facet name="header">IIV</f:facet>
 				</b:dataTableColumn>
 
-				<b:dataTableColumn value="#{vulnerability.CVSS}" orderable="false">
-					<f:facet name="header">CVSS Raw/Temporal Scores</f:facet>
-				</b:dataTableColumn>
-
-				<b:dataTableColumn value="#{vulnerability.businessProcesses}" orderable="false">
-					<f:facet name="header">Business Process Associations</f:facet>
+				<b:dataTableColumn value="#{vulnerability.businessProcess}" orderable="false">
+					<f:facet name="header">Business Process</f:facet>
 				</b:dataTableColumn>
 
 				<b:dataTableColumn value="#{vulnerability.patchAvailability}" orderable="false">
