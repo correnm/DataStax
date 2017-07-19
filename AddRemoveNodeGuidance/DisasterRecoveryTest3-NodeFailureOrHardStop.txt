@@ -1,0 +1,23 @@
+Test 3: Node Failure / Hard Stop
+Can a failed node be replaced and the cluster fully restored?
+
+1. Attempt to remove the node
+   Based on: "Removing a node": http://docs.datastax.com/en/dse/5.1/dse-admin/datastax_enterprise/operations/opsRemoveNode.html
+   Assuming that the node is down:
+   nodetool removenode node_host_uuid_from_nodetool_status
+
+2. Monitor removal progress
+   nodetool status
+
+3. When removal doesn't work, assassinate
+   nodetool assassinate node_ip
+
+4. Verify cluster intact
+   nodetool status
+   dsetool ring
+
+5. Add replacement node to the cluster
+   See the "Add Node" instructions
+
+6. Rebalance cluster with by running cleanup on other nodes:
+   nodetool cleanup

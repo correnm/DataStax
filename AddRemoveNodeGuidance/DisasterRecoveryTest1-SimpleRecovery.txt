@@ -1,0 +1,21 @@
+Test 1: Simple Recovery
+Can a single node be partitioned away from the cluster by network partitioning and later recover?
+
+1. Shut down a node
+   Since the node has not been decomissioned or otherwise removed from the cluster, the cluster will assume that it is a temporary network partitioning or disruption.
+
+2. Write some data to the cluster
+   A simple gatling test can accomplish this. The test needs to be sufficiently big to ensure that data must be written to the offline node so it should hit a number of partitions.
+
+3. Restore the downed node
+   Turn the node back on.
+
+4. Verify the node comes up
+    nodetool -h nodeip status
+    dsetool ring
+
+5. Rebalance cluster with by running cleanup on other nodes:
+    nodetool cleanup
+    Verify node catches up
+
+The node should return to green in OpsCenter and show should streaming activity as data is replicated to the node.

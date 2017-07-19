@@ -1,0 +1,35 @@
+Based on these instructions, which seem to have an unhelpful title: http://docs.datastax.com/en/dse/5.1/dse-admin/datastax_enterprise/operations/opsAddNodeToCluster.html
+
+Note the warnings that any new node must have completely bare data directories (sstables, commitlogs, saved_caches, and hints). Reinstalling on an old node could result in corrupted data.
+
+The recommended approach is to use Terraform & Ansible for deployment. That will ensure consistency within the cluster and provide a way to track changes. These instructions are provided as an example of how a manually managed cluster would work.
+
+
+
+The basic process to build out a node is:
+  1. Install DSE, but do not start it.
+  2. Update the cassandra.yaml file based on the instructions below (and possibly also the cassandra-rackdc.properties file).
+  3. Start the node with: service dse start
+  4. Verify node status with 'nodetool -h x.y.z.??? status'. Look for status result of UN for Up/Normal
+
+
+The cassandra-rackdc.properties may need to be updated. Best to just copy an existing one from the other nodes.
+
+Here's the changes to make to the cassandra.yaml file. These are the target values:
+
+    cluster_name: 'YOUR CLUSTER NAME HERE'
+    listen_address: x.y.z.???
+    broadcast_rpc_address: x.y.z.???
+    num_tokens: 128
+    allocate_tokens_for_local_replication_factor: 3
+    seed_provider:
+        - class_name: org.apache.cassandra.locator.SimpleSeedProvider
+          parameters:
+          - seeds: "x.y.z.?,x.y.z.?"
+
+Notes:
+  + The instructions mention an auto_bootstrap value, which is not in the cassandra.yaml file. It is true by default so I see no need to add it.
+  + Verify the num_tokens value. If you are running Solr, then it should be lower, 16 or 32.
+  + The allocate_tokens_for_local_replication_factor is commented out by default in the config. Uncomment it and set the value to 3.
+
+

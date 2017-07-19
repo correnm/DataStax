@@ -1,0 +1,25 @@
+Test 2: Replace Node
+Can an orderly operational process replace a node in a cluster?
+
+1. Add a new node
+   See the instructions sent separately
+
+2. Decommission a node
+   Based on: "Removing a node": http://docs.datastax.com/en/dse/5.1/dse-admin/datastax_enterprise/operations/opsRemoveNode.html
+
+   Assuming that the node is up. If it is not up see the instructions for a node failure / hard stop.
+   nodetool -h nodeip decommission
+
+3. Monitor decommissioning progress
+    nodetool -h nodeip netstats -H
+
+4. Shutdown node after decommissioning is complete
+   service dse stop
+
+5. Verify cluster intact
+   nodetool status
+   dsetool ring
+
+6. Rebalance cluster with by running cleanup on other nodes:
+   nodetool cleanup
+
