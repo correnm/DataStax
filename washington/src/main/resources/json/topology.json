@@ -11,7 +11,7 @@
                 "formtarget": "_blank",
                 "formmethod": "POST",
                 "formbtntitle": "Save",
-                "viewmode": "0",
+                "viewmode": "1",
                 "showplotborder": "1",
                 "plotborderthickness": "4",
                 "theme": "g2ops",
