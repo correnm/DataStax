@@ -45,12 +45,12 @@
 					<f:facet name="header">IIV</f:facet>
 				</b:dataTableColumn>
 
-				<b:dataTableColumn value="#{vulnerability.CVSS}" orderable="false">
-					<f:facet name="header">CVSS Raw/Temporal Scores</f:facet>
+				<b:dataTableColumn value="#{vulnerability.CVSSBase}" orderable="false">
+					<f:facet name="header">CVSS Base</f:facet>
 				</b:dataTableColumn>
 
-				<b:dataTableColumn value="#{vulnerability.businessProcesses}" orderable="false">
-					<f:facet name="header">Business Process Associations</f:facet>
+				<b:dataTableColumn value="#{vulnerability.businessProcess}" orderable="false">
+					<f:facet name="header">Business Process</f:facet>
 				</b:dataTableColumn>
 
 				<b:dataTableColumn value="#{vulnerability.patchAvailability}" orderable="false">
