@@ -1,6 +1,6 @@
 {
             "chart": {
-                "caption": "Topology",
+                "caption": "3rd Floor Data Center",
                 "xaxisminvalue": "0",
                 "xaxismaxvalue": "100",
                 "yaxisminvalue": "0",
@@ -11,9 +11,9 @@
                 "formtarget": "_blank",
                 "formmethod": "POST",
                 "formbtntitle": "Save",
-                "viewmode": "1",
-                "showplotborder": "1",
-                "plotborderthickness": "4",
+                "viewmode": "0",
+                "showplotborder": "0", 
+                "plotborderthickness": "0",
                 "theme": "g2ops",
                 "showcanvasborder": "0",
                 "canvasborderalpha": "20",
@@ -25,7 +25,7 @@
                     "data": [
                         {
                             "id": "01",
-                    		"label": "Router 1",
+                    		"label": "10.106.59.186",
 							"labelalign": "top",
                             "x": "16",
                             "y": "54",
@@ -38,11 +38,11 @@
 							"imagewidth": "64",
 							"imageheight": "64",
                     		"link": "Javascript:topologyNodeChartNodeClicked('01')",
-                    		"tooltext": "Name: Router 1"
+                    		"tooltext": "Netgear Nighthawk AC1750"
                         },
                         {
 							"id": "02",
-							"label" : "Computer 2",
+							"label" : "10.106.248.125",
 							"labelalign": "top",
                             "x": "27",
  							"y": "54",
@@ -55,11 +55,11 @@
 							"imagewidth": "64",
 							"imageheight": "64",
 							"link": "Javascript:topologyNodeChartNodeClicked('02')", 
-							"tooltext": "Name: Computer 2"
+							"tooltext": "Dell Optiplex 980"
                         },
                         {
  							"id" : "03",
- 							"label" : "Computer 3",
+ 							"label" : "10.106.74.246",
                     		"labelalign": "top",
                             "x": "48",
                             "y": "54",
@@ -72,11 +72,11 @@
                     		"imagewidth": "64",
                     		"imageheight": "64", 
                     		"link": "Javascript:topologyNodeChartNodeClicked('03')",
-                    		"tooltext": "Name: Computer 3"
+                    		"tooltext": "Dell Optiplex 980"
                         },
                         {
  							"id" : "04",
- 							"label" : "Computer 4",
+ 							"label" : "10.106.75.243",
                     		"labelalign": "top",
                             "x": "85",
                             "y": "54",
@@ -89,11 +89,11 @@
                     		"imagewidth": "64",
                     		"imageheight": "64", 
                     		"link": "Javascript:topologyNodeChartNodeClicked('04')",
-                    		"tooltext": "Name: Computer 4"
+                    		"tooltext": "Dell Optiplex 980"
                         },
                         {
  							"id" : "05",
- 							"label" : "Part 5",
+ 							"label" : "10.106.61.241",
                     		"labelalign": "top",
                             "x": "85",
                             "y": "80",
@@ -101,16 +101,16 @@
  							"height": "64",
  							"color": "#ffffff",
                     		"imagenode": "1",
-                    		"imageurl": "resources/images/Generic.png",
+                    		"imageurl": "resources/images/Server.png",
                    			"imagealign": "middle",
                     		"imagewidth": "64",
                     		"imageheight": "64",
                     		"link": "Javascript:topologyNodeChartNodeClicked('05')",
-                    		"tooltext": "Name: Part 5"
+                    		"tooltext": "Dell PowerEdge T30"
                         },
                         {
  							"id" : "06",
- 							"label" : "Part 6",
+ 							"label" : "10.106.60.78",
                     		"labelalign": "top",
                             "x": "62",
                             "y": "80",
@@ -118,17 +118,17 @@
  							"height": "64",
  							"color": "#ffffff",
                     		"imagenode": "1",
-                    		"imageurl": "resources/images/Generic.png",
+                    		"imageurl": "resources/images/Firewall.png",
                    			"imagealign": "middle",
                     		"imagewidth": "64",
                     		"imageheight": "64",
                     		"link": "Javascript:topologyNodeChartNodeClicked('06')",
-                    		"tooltext": "Name: Part 6"
+                    		"tooltext": "Netgear ProSAFE SRX5308"
 
                         },
                         {
  							"id" : "07",
- 							"label" : "Part 7",
+ 							"label" : "10.106.56.102",
                     		"labelalign": "top",
                             "x": "40",
                             "y": "30",
@@ -136,16 +136,16 @@
  							"height": "64",
  							"color": "#ffffff",
                     		"imagenode": "1",
-                    		"imageurl": "resources/images/Generic.png",
+                    		"imageurl": "resources/images/AccessPoint.png",
                    			"imagealign": "middle",
                     		"imagewidth": "64",
                     		"imageheight": "64",
                     		"link": "Javascript:topologyNodeChartNodeClicked('07')",
-                    		"tooltext": "Name: Part 7"
+                    		"tooltext": "Netgear WAC104-100NAS "
                         },
                         {
  							"id" : "08",
- 							"label" : "Part 8",
+ 							"label" : "10.106.57.219",
                     		"labelalign": "top",
                             "x": "40",
                             "y": "12",
@@ -153,16 +153,16 @@
  							"height": "64",
  							"color": "#ffffff",
                     		"imagenode": "1",
-                    		"imageurl": "resources/images/Generic.png",
+                    		"imageurl": "resources/images/Database.png",
                    			"imagealign": "middle",
                     		"imagewidth": "64",
                     		"imageheight": "64",
                     		"link": "Javascript:topologyNodeChartNodeClicked('08')",
-                    		"tooltext": "Name: Part 8"
+                    		"tooltext": "HP DDR4-2133 PC4-17000 "
                         },
                         {
  							"id" : "09",
- 							"label" : "Server 9",
+ 							"label" : "10.106.78.3",
                     		"labelalign": "top",
                             "x": "68",
                             "y": "93",
@@ -175,14 +175,14 @@
                     		"imagewidth": "64",
                     		"imageheight": "64" ,
                     		"link": "Javascript:topologyNodeChartNodeClicked('09')",
-                    		"tooltext": "Name: Server 9"
+                    		"tooltext": "HP ProLiant DL380"
                         },
                         {
  							"id" : "10",
- 							"label" : "Server 10",
-                    		"labelalign": "top",
+ 							"label" : "10.106.57.236",
+                    		"labelalign": "top", 
                             "x": "12",
-                            "y": "98",
+                            "y": "88",
                             "width": "64",
  							"height": "64",
  							"color": "#ffffff",
@@ -192,12 +192,12 @@
                     		"imagewidth": "64",
                     		"imageheight": "64" ,
                     		"link": "Javascript:topologyNodeChartNodeClicked('10')",
-                    		"tooltext": "Name: Server 10"
+                    		"tooltext": "HP ProLiant DL380"
 
                         },
                         {
  							"id" : "11",
- 							"label" : "Switch 11",
+ 							"label" : "10.106.61.222",
                     		"labelalign": "top",
                             "x": "18",
                             "y": "80",
@@ -210,11 +210,11 @@
                     		"imagewidth": "64",
                     		"imageheight": "64" ,
                     		"link": "Javascript:topologyNodeChartNodeClicked('11')",
-                    		"tooltext": "Name: Switch 11"
+                    		"tooltext": "Netgear GS105NA"
                         },
                         {
  							"id" : "12",
- 							"label" : "Switch 12",
+ 							"label" : "10.106.57.229",
                     		"labelalign": "top",
                             "x": "12",
                             "y": "10",
@@ -227,11 +227,11 @@
                     		"imagewidth": "64",
                     		"imageheight": "64" ,
                     		"link": "Javascript:topologyNodeChartNodeClicked('12')",
-                    		"tooltext": "Name: Switch 12"
+                    		"tooltext": "Netgear GS105NA"
                         },
                         {
  							"id" : "13",
- 							"label" : "Router 13",
+ 							"label" : "10.106.61.226",
                     		"labelalign": "top",
                             "x": "30",
                             "y": "30",
@@ -244,11 +244,11 @@
                     		"imagewidth": "64",
                     		"imageheight": "64" ,
                     		"link": "Javascript:topologyNodeChartNodeClicked('13')",
-                    		"tooltext": "Name: Router 13"
+                    		"tooltext": "Netgear Nighthawk AC1750"
                         },
                         {
  							"id" : "14",
- 							"label" : "Router 14",
+ 							"label" : "10.106.61.245",
                     		"labelalign": "top",
                             "x": "48",
                             "y": "30",
@@ -261,11 +261,11 @@
                     		"imagewidth": "64",
                     		"imageheight": "64" ,
                     		"link": "Javascript:topologyNodeChartNodeClicked('14')",
-                    		"tooltext": "Name: Router 14"
+                    		"tooltext": "Netgear Nighthawk AC1750"
                         },
                         {
  							"id" : "15",
- 							"label" : "Router 15",
+ 							"label" : "10.106.246.75",
                     		"labelalign": "top",
                             "x": "36",
                             "y": "50",
@@ -278,11 +278,11 @@
                     		"imagewidth": "64",
                     		"imageheight": "64",
                     		"link": "Javascript:topologyNodeChartNodeClicked('15')",
-                    		"tooltext": "Name: Router 15"
+                    		"tooltext": "Netgear Nighthawk AC1750"
                         },
                         {
  							"id" : "16",
- 							"label" : "Router 16",
+ 							"label" : "10.106.253.68",
                     		"labelalign": "top",
                             "x": "38",
                             "y": "60",
@@ -295,14 +295,14 @@
                     		"imagewidth": "64",
                     		"imageheight": "64" ,
                     		"link": "Javascript:topologyNodeChartNodeClicked('16')",
-                    		"tooltext": "Name: Router 16"
+                    		"tooltext": "Netgear Nighthawk AC1750"
                         },
                         {
  							"id" : "17",
- 							"label" : "Switch 17",
+ 							"label" : "10.106.75.213",
                     		"labelalign": "top",
                             "x": "41",
-                            "y": "98",
+                            "y": "88",
                             "width": "64",
  							"height": "64",
  							"color": "#ffffff",
@@ -312,11 +312,11 @@
                     		"imagewidth": "64",
                     		"imageheight": "64",
                     		"link": "Javascript:topologyNodeChartNodeClicked('17')",
-                    		"tooltext": "Name: Switch 17"
+                    		"tooltext": "Netgear GS105NA"
                         },
                         {
  							"id" : "18",
- 							"label" : "Computer 18",
+ 							"label" : "10.106.61.230",
                     		"labelalign": "top",
                             "x": "70",
                             "y": "80",
@@ -329,11 +329,11 @@
                     		"imagewidth": "64",
                     		"imageheight": "64",
                     		"link": "Javascript:topologyNodeChartNodeClicked('18')",
-                    		"tooltext": "Name: Computer 18"
+                    		"tooltext": "Dell Optiplex 980"
                         },
                         {
  							"id" : "19",
- 							"label" : "Switch 19",
+ 							"label" : "10.106.61.233",
                     		"labelalign": "top",
                             "x": "60",
                             "y": "40",
@@ -346,11 +346,11 @@
                     		"imagewidth": "64",
                     		"imageheight": "64" ,
                     		"link": "Javascript:topologyNodeChartNodeClicked('19')",
-                    		"tooltext": "Name: Switch 19"
+                    		"tooltext": "Netgear GS105NA"
                         },
                         {
  							"id" : "20",
- 							"label" : "Server 20",
+ 							"label" : "10.106.75.198",
                     		"labelalign": "top",
                             "x": "80",
                             "y": "10",
@@ -363,11 +363,11 @@
                     		"imagewidth": "64",
                     		"imageheight": "64" ,
                     		"link": "Javascript:topologyNodeChartNodeClicked('20')",
-                    		"tooltext": "Name: Server 20"
+                    		"tooltext": "HP ProLiant DL380"
                         },
                         {
  							"id" : "21",
- 							"label" : "Server 21",
+ 							"label" : "10.106.61.244",
                     		"labelalign": "top",
                             "x": "20",
                             "y": "65",
@@ -380,7 +380,7 @@
                     		"imagewidth": "64",
                     		"imageheight": "64",
                     		"link": "Javascript:topologyNodeChartNodeClicked('21')",
-                    		"tooltext": "Name: Server 21"
+                    		"tooltext": "HP ProLiant DL380"
                         }
                     ]
                 }
@@ -388,7 +388,7 @@
             "connectors": [
                 {
                     "color": "#ffffff",
-                    "stdthickness": "6",
+                    "stdthickness": "3",
                     "connector": [
                         {
                             "strength": "1",
@@ -578,7 +578,7 @@
                             "strength": "1",
                             "from": "09",
                             "to": "11",
-                            "color": "#6d6e70",
+                            "color": "#a6aaad",
                             "arrowatstart": "0",
                             "arrowatend": "0"
                         },
@@ -586,7 +586,7 @@
                             "strength": "1",
                             "from": "09",
                             "to": "13",
-                            "color": "#6d6e70",
+                           "color": "#a6aaad",
                             "arrowatstart": "0",
                             "arrowatend": "0"
                         },
@@ -594,7 +594,7 @@
                             "strength": "1",
                             "from": "09",
                             "to": "19",
-                            "color": "#6d6e70",
+                            "color": "#a6aaad",
                             "arrowatstart": "0",
                             "arrowatend": "0"
                         },
@@ -602,7 +602,7 @@
                             "strength": "1",
                             "from": "10",
                             "to": "17",
-                            "color": "#6d6e70",
+                            "color": "#a6aaad",
                             "arrowatstart": "0",
                             "arrowatend": "0"
                         },
@@ -610,7 +610,7 @@
                             "strength": "1",
                             "from": "10",
                             "to": "19",
-                            "color": "#6d6e70",
+                            "color": "#a6aaad",
                             "arrowatstart": "0",
                             "arrowatend": "0"
                         },
@@ -618,7 +618,7 @@
                             "strength": "1",
                             "from": "12",
                             "to": "14",
-                            "color": "#6d6e70",
+                            "color": "#a6aaad",
                             "arrowatstart": "0",
                             "arrowatend": "0"
                         },
@@ -626,7 +626,7 @@
                             "strength": "1",
                             "from": "12",
                             "to": "17",
-                            "color": "#6d6e70",
+                            "color": "#a6aaad",
                             "arrowatstart": "0",
                             "arrowatend": "0"
                         },
@@ -634,7 +634,7 @@
                             "strength": "1",
                             "from": "16",
                             "to": "13",
-                            "color": "#6d6e70",
+                           "color": "#a6aaad",
                             "arrowatstart": "0",
                             "arrowatend": "0"
                         },
@@ -642,7 +642,7 @@
                             "strength": "1",
                             "from": "15",
                             "to": "13",
-                            "color": "#6d6e70",
+                            "color": "#a6aaad",
                             "arrowatstart": "0",
                             "arrowatend": "0"
                         },
@@ -650,7 +650,7 @@
                             "strength": "1",
                             "from": "14",
                             "to": "16",
-                            "color": "#6d6e70",
+                            "color": "#a6aaad",
                             "arrowatstart": "0",
                             "arrowatend": "0"
                         },
@@ -658,7 +658,7 @@
                             "strength": "1",
                             "from": "15",
                             "to": "20",
-                            "color": "#6d6e70",
+                            "color": "#a6aaad",
                             "arrowatstart": "0",
                             "arrowatend": "0"
                         },
@@ -666,7 +666,7 @@
                             "strength": "1",
                             "from": "16",
                             "to": "18",
-                            "color": "#6d6e70",
+                            "color": "#a6aaad",
                             "arrowatstart": "0",
                             "arrowatend": "0"
                         }
