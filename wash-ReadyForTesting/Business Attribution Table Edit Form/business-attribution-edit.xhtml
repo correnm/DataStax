@@ -1,0 +1,179 @@
+<!-- 
+Author: 	Sara Prokop G2 Ops, Virginia Beach, VA
+Version:	1.00, July 2017
+Purpose: 	This file displays the user interface for editing the Business Attribution Table.
+
+ Date				Author				Revision Description
+ 7-12-2017			Sara Prokop			Creator
+ 7-27-2017			Sara Prokop			Populated the drop downs with data from the business_practice table
+ 
+ -->
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-page-form.xhtml">
+
+	<ui:define name="document-title">Business Attribution Table Edit - Washington</ui:define>
+
+	<ui:define name="page-name">Edit Business Attribution Table</ui:define>
+
+	<ui:define name="full-page-form">
+
+		<h:form id="businessAttributionEditForm">
+
+			<b:panel look="default">
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="8" offset="2">
+						<b:messages></b:messages>
+					</b:column>
+				</b:row>
+
+		<!-- Non-Editable -->
+				<b:row>
+					<b:column col-md="2" offset="2">IP Address: </b:column>
+					<b:column col-md="4">
+						#{businessAttributionEdit.ip}
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2">OS Type: </b:column>
+					<b:column col-md="4">
+						#{businessAttributionEdit.osType}
+					</b:column>
+				</b:row>
+				
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2">System Type: </b:column>
+					<b:column col-md="4">
+						#{businessAttributionEdit.sysType}
+					</b:column>
+				</b:row>
+				
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+		<!-- Drop Downs -->
+				<b:row>
+					<b:column col-md="2" offset="2">Asset Type: </b:column>
+					<b:column col-md="4">
+					
+    				    
+    				    <b:selectOneMenu value="#{businessAttributionEdit.assetType}" itemValue="#{businessAttributionEdit.assetType}" colMd="2" required="true" labelColMd="2">
+            				<f:selectItems value= "#{businessAttributionEdit.ddAssetTypes()}"/>
+        				</b:selectOneMenu>
+    				    
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="2" offset="2">Asset Visibilty: </b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu value="#{businessAttributionEdit.assetVis}" itemValue="#{businessAttributionEdit.assetType}" colMd="2" required="true" labelColMd="2">
+            				<f:selectItems value="#{businessAttributionEdit.ddAssetVisibility()}" />
+            			</b:selectOneMenu>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+				
+				<b:row>
+					<b:column col-md="2" offset="2">Business Interruption Threshold: </b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu value="#{businessAttributionEdit.busIntThreshold}" itemValue="#{businessAttributionEdit.assetType}" colMd="2" required="true" labelColMd="2">
+            				<f:selectItems value="#{businessAttributionEdit.ddBusIntThreshold()}" />
+            			</b:selectOneMenu>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2">Business Criticality: </b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu value="#{businessAttributionEdit.businessCrit}" itemValue="#{businessAttributionEdit.businessCrit}" colMd="2" required="true" labelColMd="2">
+            				<f:selectItems value="#{businessAttributionEdit.ddBusCrit()}" />
+            			</b:selectOneMenu>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+				
+				<b:row>
+					<b:column col-md="2" offset="2">Information Classification: </b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu value="#{businessAttributionEdit.infoClass}" itemValue="#{businessAttributionEdit.infoClass}" colMd="2" required="true" labelColMd="2">
+            				<f:selectItems value="#{businessAttributionEdit.ddInfoClassValue()}" />
+            			</b:selectOneMenu>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+	
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+				
+				<b:row>
+					<b:column col-md="2" offset="2"></b:column>
+					<b:column col-md="4">
+						<b:commandButton value="Edit" action="#{businessAttributionEdit.editBusinessAttributionActionControllerMethod}"></b:commandButton>
+					</b:column>
+				</b:row>
+
+			</b:panel>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
