@@ -68,7 +68,7 @@ import com.g2ops.washington.utils.DatabaseQueryService;
 
 		private void populateBusinessAtt() {
 
-			rs = dqs.RunQuery("site_or_ou_name,ip_subnet_or_building, internal_system_id, select ip_address, os_general, system_type, asset_type, asset_visibility, business_interruption_threshold, business_criticality, "
-					+ "information_classification_value from hardware");
+			rs = dqs.RunQuery("select ip_address, os_general, system_type, asset_type, asset_visibility, business_interruption_threshold, business_criticality, "
+					+ "information_classification_value, site_or_ou_name, ip_subnet_or_building, internal_system_id from hardware");
 		}
 }
