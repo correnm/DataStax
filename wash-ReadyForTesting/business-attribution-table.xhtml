@@ -12,12 +12,17 @@
 	<ui:define name="full-width-table">
 		<div class="dataTableDivClass">
 		<h:form>
+		<!-- Getting data from BusinessAttributionTable bean and getting values for each att record -->
 			<b:dataTable value="#{businessAttributionTable.businessAttData}" var="att" styleClass="businessProcessesByCyvarTableClass" >
 
  				<b:dataTableColumn value="">
 					<f:facet name="header">Click to Edit</f:facet>
-					<h:link outcome='/administrator/business-attribution-table.jsf'>
-						<f:param name="ip" value="#{att.ip}" />
+					<h:link outcome='/administrator/business-attribution-edit.jsf'>
+				    	<!-- Adding multiple paramaters to capture the primary keys to get the unique row -->
+				   <!-- <f:param name = "keys" value= "#{businessAttributionTable.getKeys()}" />
+					 	<f:param name="site" value="#{att.siteORouName}" />-->
+						<f:param name="ipSub" value="#{att.ipSubOrBuilding}" />
+					<!--<f:param name="intSysID" value="#{att.internalSysID}" /> -->
 						<i class="fa fa-pencil-square-o fa-lg"></i>
 					</h:link>
 				</b:dataTableColumn>
