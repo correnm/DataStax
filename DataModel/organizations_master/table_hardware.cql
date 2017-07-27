@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS hardware (
 	os_general							text,		// windows, linus
 	operating_system					text		// specific operating system
 	installed_software					list <frozen <installed_software>>, 
+	host_name						    text,
     PRIMARY KEY ((site_or_ou_name), ip_subnet_or_building, internal_system_id)
 ) WITH COMMENT = 'Infrastructure maintained for the site obtained via a vulnerability scan or a physical survey' ;
 
