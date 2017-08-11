@@ -14,7 +14,8 @@ import com.g2ops.washington.utils.FusionCharts;
  * <p>Revision History:
  * Date				Author				Revision Description
  * 10-Aug-2017		corren.mccoy		Changed visual to a stacked column with a break down by severity
- * 
+ * 11-Aug-2017		corren.mccoy		The height of the associated container where this chart displays
+ * 										can impact whether x-axis labels are displayed or not.
  */
 @ManagedBean
 public class OrgVulnerabilitiesHistoryColumnChart {
@@ -35,9 +36,8 @@ public class OrgVulnerabilitiesHistoryColumnChart {
 		chartData = chartData.concat("\"showCanvasBorder\": \"0\",");
 		chartData = chartData.concat("\"showplotborder\": \"0\",");
 		chartData = chartData.concat("\"usePlotGradientColor\": \"0\",");
+		// 11-aug-2017 corren.mccoy: make sure the container on the dashboard is sufficient height.
 		chartData = chartData.concat("\"showLabels\": \"1\",");
-		// Low, medium, high, critical
-		//chartData = chartData.concat("\"paletteColors\": \"#2b8118,#F4FA58,#FE9A2E,#FF0404\",");
 		chartData = chartData.concat("\"showSum\": \"0\",");
 		chartData = chartData.concat("\"valueFontColor\": \"#bbbdbf\"");
 		chartData = chartData.concat("},");
@@ -78,6 +78,112 @@ public class OrgVulnerabilitiesHistoryColumnChart {
 		chartData = chartData.concat("],"); 
 		// add the dataset based on the defined categories
 		chartData = chartData.concat("\"dataset\": [");
+		
+		// begin series
+		chartData = chartData.concat("{"); 	
+				chartData = chartData.concat("\"seriesname\": \"Critical\",");
+				chartData = chartData.concat("\"color\": \"#df382c\",");
+				chartData = chartData.concat("\"showValues\": \"0\",");
+				chartData = chartData.concat("\"data\":"); 	
+				chartData = chartData.concat("["); 
+				chartData = chartData.concat("{\"value\": \"29\"},");
+				chartData = chartData.concat("{\"value\": \"28\"},");	
+				chartData = chartData.concat("{\"value\": \"29\"},");	
+				chartData = chartData.concat("{\"value\": \"37\"},");
+				chartData = chartData.concat("{\"value\": \"36\"},");
+				chartData = chartData.concat("{\"value\": \"33\"},");
+				chartData = chartData.concat("{\"value\": \"28\"},");	
+				chartData = chartData.concat("{\"value\": \"39\"},");
+				chartData = chartData.concat("{\"value\": \"48\"},");	
+				chartData = chartData.concat("{\"value\": \"49\"},");
+				chartData = chartData.concat("{\"value\": \"37\"},");	
+				chartData = chartData.concat("{\"value\": \"39\"},");
+				chartData = chartData.concat("{\"value\": \"27\"},");	
+				chartData = chartData.concat("{\"value\": \"29\"},");
+				chartData = chartData.concat("{\"value\": \"41\"},");	
+				chartData = chartData.concat("{\"value\": \"37\"},");
+				chartData = chartData.concat("{\"value\": \"34\"},");	
+				chartData = chartData.concat("{\"value\": \"29\"},");
+				chartData = chartData.concat("{\"value\": \"28\"},");	
+				chartData = chartData.concat("{\"value\": \"51\"},");
+				chartData = chartData.concat("{\"value\": \"48\"},");	
+				chartData = chartData.concat("{\"value\": \"19\"},");
+				chartData = chartData.concat("{\"value\": \"14\"},");	
+				chartData = chartData.concat("{\"value\": \"50\"}");
+				chartData = chartData.concat("]"); 
+		chartData = chartData.concat("},"); 	
+		// end series
+		
+		// begin series
+		chartData = chartData.concat("{"); 	
+				chartData = chartData.concat("\"seriesname\": \"High\",");
+				chartData = chartData.concat("\"color\": \"#e95420\",");
+				chartData = chartData.concat("\"showValues\": \"0\",");
+				chartData = chartData.concat("\"data\":"); 	
+				chartData = chartData.concat("[");
+				chartData = chartData.concat("{\"value\": \"267\"},");
+				chartData = chartData.concat("{\"value\": \"241\"},");	
+				chartData = chartData.concat("{\"value\": \"309\"},");	
+				chartData = chartData.concat("{\"value\": \"415\"},");
+				chartData = chartData.concat("{\"value\": \"203\"},");
+				chartData = chartData.concat("{\"value\": \"261\"},");
+				chartData = chartData.concat("{\"value\": \"241\"},");	
+				chartData = chartData.concat("{\"value\": \"306\"},");
+				chartData = chartData.concat("{\"value\": \"241\"},");	
+				chartData = chartData.concat("{\"value\": \"267\"},");
+				chartData = chartData.concat("{\"value\": \"241\"},");	
+				chartData = chartData.concat("{\"value\": \"247\"},");
+				chartData = chartData.concat("{\"value\": \"241\"},");	
+				chartData = chartData.concat("{\"value\": \"287\"},");
+				chartData = chartData.concat("{\"value\": \"211\"},");	
+				chartData = chartData.concat("{\"value\": \"207\"},");
+				chartData = chartData.concat("{\"value\": \"241\"},");	
+				chartData = chartData.concat("{\"value\": \"167\"},");
+				chartData = chartData.concat("{\"value\": \"141\"},");	
+				chartData = chartData.concat("{\"value\": \"296\"},");
+				chartData = chartData.concat("{\"value\": \"209\"},");	
+				chartData = chartData.concat("{\"value\": \"184\"},");
+				chartData = chartData.concat("{\"value\": \"179\"},");	
+				chartData = chartData.concat("{\"value\": \"147\"}");
+				chartData = chartData.concat("]"); 
+		chartData = chartData.concat("},"); 	
+		// end series	
+		
+		// begin series
+		chartData = chartData.concat("{"); 	
+				chartData = chartData.concat("\"seriesname\": \"Medium\",");
+				chartData = chartData.concat("\"color\": \"#efb73e\",");
+				chartData = chartData.concat("\"showValues\": \"0\",");
+				chartData = chartData.concat("\"data\":"); 	
+				chartData = chartData.concat("["); 
+				chartData = chartData.concat("{\"value\": \"99\"},");
+				chartData = chartData.concat("{\"value\": \"88\"},");	
+				chartData = chartData.concat("{\"value\": \"74\"},");	
+				chartData = chartData.concat("{\"value\": \"69\"},");
+				chartData = chartData.concat("{\"value\": \"105\"},");
+				chartData = chartData.concat("{\"value\": \"93\"},");
+				chartData = chartData.concat("{\"value\": \"86\"},");	
+				chartData = chartData.concat("{\"value\": \"74\"},");	
+				chartData = chartData.concat("{\"value\": \"169\"},");
+				chartData = chartData.concat("{\"value\": \"105\"},");
+				chartData = chartData.concat("{\"value\": \"99\"},");
+				chartData = chartData.concat("{\"value\": \"78\"},");	
+				chartData = chartData.concat("{\"value\": \"94\"},");	
+				chartData = chartData.concat("{\"value\": \"69\"},");
+				chartData = chartData.concat("{\"value\": \"105\"},");
+				chartData = chartData.concat("{\"value\": \"59\"},");
+				chartData = chartData.concat("{\"value\": \"98\"},");	
+				chartData = chartData.concat("{\"value\": \"79\"},");	
+				chartData = chartData.concat("{\"value\": \"69\"},");
+				chartData = chartData.concat("{\"value\": \"105\"},");
+				chartData = chartData.concat("{\"value\": \"99\"},");
+				chartData = chartData.concat("{\"value\": \"69\"},");
+				chartData = chartData.concat("{\"value\": \"106\"},");
+				chartData = chartData.concat("{\"value\": \"224\"}");
+				chartData = chartData.concat("]"); 
+		chartData = chartData.concat("},"); 	
+		// end series
+		
 		// begin series
 			chartData = chartData.concat("{"); 	
 				chartData = chartData.concat("\"seriesname\": \"Low\",");
@@ -110,113 +216,9 @@ public class OrgVulnerabilitiesHistoryColumnChart {
 				chartData = chartData.concat("{\"value\": \"129\"},");
 				chartData = chartData.concat("{\"value\": \"155\"}");
 				chartData = chartData.concat("]"); 
-				chartData = chartData.concat("},"); 	
+				chartData = chartData.concat("}"); 	
 			// end series
-			// begin series
-			chartData = chartData.concat("{"); 	
-					chartData = chartData.concat("\"seriesname\": \"Medium\",");
-					chartData = chartData.concat("\"color\": \"#efb73e\",");
-					chartData = chartData.concat("\"showValues\": \"0\",");
-					chartData = chartData.concat("\"data\":"); 	
-					chartData = chartData.concat("["); 
 
-					chartData = chartData.concat("{\"value\": \"99\"},");
-					chartData = chartData.concat("{\"value\": \"88\"},");	
-					chartData = chartData.concat("{\"value\": \"74\"},");	
-					chartData = chartData.concat("{\"value\": \"69\"},");
-					chartData = chartData.concat("{\"value\": \"105\"},");
-					chartData = chartData.concat("{\"value\": \"93\"},");
-					chartData = chartData.concat("{\"value\": \"86\"},");	
-					chartData = chartData.concat("{\"value\": \"74\"},");	
-					chartData = chartData.concat("{\"value\": \"169\"},");
-					chartData = chartData.concat("{\"value\": \"105\"},");
-					chartData = chartData.concat("{\"value\": \"99\"},");
-					chartData = chartData.concat("{\"value\": \"78\"},");	
-					chartData = chartData.concat("{\"value\": \"94\"},");	
-					chartData = chartData.concat("{\"value\": \"69\"},");
-					chartData = chartData.concat("{\"value\": \"105\"},");
-					chartData = chartData.concat("{\"value\": \"59\"},");
-					chartData = chartData.concat("{\"value\": \"98\"},");	
-					chartData = chartData.concat("{\"value\": \"79\"},");	
-					chartData = chartData.concat("{\"value\": \"69\"},");
-					chartData = chartData.concat("{\"value\": \"105\"},");
-					chartData = chartData.concat("{\"value\": \"99\"},");
-					chartData = chartData.concat("{\"value\": \"69\"},");
-					chartData = chartData.concat("{\"value\": \"106\"},");
-					chartData = chartData.concat("{\"value\": \"224\"}");
-					chartData = chartData.concat("]"); 
-			chartData = chartData.concat("},"); 	
-			// end series
-			// begin series
-			chartData = chartData.concat("{"); 	
-					chartData = chartData.concat("\"seriesname\": \"High\",");
-					chartData = chartData.concat("\"color\": \"#e95420\",");
-					chartData = chartData.concat("\"showValues\": \"0\",");
-					chartData = chartData.concat("\"data\":"); 	
-					chartData = chartData.concat("["); 
-
-					chartData = chartData.concat("{\"value\": \"267\"},");
-					chartData = chartData.concat("{\"value\": \"241\"},");	
-					chartData = chartData.concat("{\"value\": \"309\"},");	
-					chartData = chartData.concat("{\"value\": \"415\"},");
-					chartData = chartData.concat("{\"value\": \"203\"},");
-					chartData = chartData.concat("{\"value\": \"261\"},");
-					chartData = chartData.concat("{\"value\": \"241\"},");	
-					chartData = chartData.concat("{\"value\": \"306\"},");
-					chartData = chartData.concat("{\"value\": \"241\"},");	
-					chartData = chartData.concat("{\"value\": \"267\"},");
-					chartData = chartData.concat("{\"value\": \"241\"},");	
-					chartData = chartData.concat("{\"value\": \"247\"},");
-					chartData = chartData.concat("{\"value\": \"241\"},");	
-					chartData = chartData.concat("{\"value\": \"287\"},");
-					chartData = chartData.concat("{\"value\": \"211\"},");	
-					chartData = chartData.concat("{\"value\": \"207\"},");
-					chartData = chartData.concat("{\"value\": \"241\"},");	
-					chartData = chartData.concat("{\"value\": \"167\"},");
-					chartData = chartData.concat("{\"value\": \"141\"},");	
-					chartData = chartData.concat("{\"value\": \"296\"},");
-					chartData = chartData.concat("{\"value\": \"209\"},");	
-					chartData = chartData.concat("{\"value\": \"184\"},");
-					chartData = chartData.concat("{\"value\": \"179\"},");	
-					chartData = chartData.concat("{\"value\": \"147\"}");
-					chartData = chartData.concat("]"); 
-			chartData = chartData.concat("},"); 	
-			// end series
-			// begin series
-			chartData = chartData.concat("{"); 	
-					chartData = chartData.concat("\"seriesname\": \"Critical\",");
-					chartData = chartData.concat("\"color\": \"#df382c\",");
-					chartData = chartData.concat("\"showValues\": \"0\",");
-					chartData = chartData.concat("\"data\":"); 	
-					chartData = chartData.concat("["); 
-
-					chartData = chartData.concat("{\"value\": \"19\"},");
-					chartData = chartData.concat("{\"value\": \"18\"},");	
-					chartData = chartData.concat("{\"value\": \"19\"},");	
-					chartData = chartData.concat("{\"value\": \"27\"},");
-					chartData = chartData.concat("{\"value\": \"26\"},");
-					chartData = chartData.concat("{\"value\": \"23\"},");
-					chartData = chartData.concat("{\"value\": \"18\"},");	
-					chartData = chartData.concat("{\"value\": \"29\"},");
-					chartData = chartData.concat("{\"value\": \"38\"},");	
-					chartData = chartData.concat("{\"value\": \"39\"},");
-					chartData = chartData.concat("{\"value\": \"27\"},");	
-					chartData = chartData.concat("{\"value\": \"29\"},");
-					chartData = chartData.concat("{\"value\": \"17\"},");	
-					chartData = chartData.concat("{\"value\": \"19\"},");
-					chartData = chartData.concat("{\"value\": \"31\"},");	
-					chartData = chartData.concat("{\"value\": \"27\"},");
-					chartData = chartData.concat("{\"value\": \"27\"},");	
-					chartData = chartData.concat("{\"value\": \"19\"},");
-					chartData = chartData.concat("{\"value\": \"18\"},");	
-					chartData = chartData.concat("{\"value\": \"41\"},");
-					chartData = chartData.concat("{\"value\": \"48\"},");	
-					chartData = chartData.concat("{\"value\": \"19\"},");
-					chartData = chartData.concat("{\"value\": \"14\"},");	
-					chartData = chartData.concat("{\"value\": \"32\"}");
-					chartData = chartData.concat("]"); 
-			chartData = chartData.concat("}"); 	
-			// end series
 			//end of data set
 		chartData = chartData.concat("]"); 
 		// end of chart
