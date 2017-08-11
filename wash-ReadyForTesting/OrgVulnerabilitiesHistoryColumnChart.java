@@ -33,6 +33,7 @@ public class OrgVulnerabilitiesHistoryColumnChart {
 		chartData = chartData.concat("\"yAxisName\": \"\",");
 		chartData = chartData.concat("\"lineThickness\": \"2\",");
 		chartData = chartData.concat("\"showCanvasBorder\": \"0\",");
+		chartData = chartData.concat("\"showplotborder\": \"0\",");
 		chartData = chartData.concat("\"usePlotGradientColor\": \"0\",");
 		chartData = chartData.concat("\"showLabels\": \"1\",");
 		// Low, medium, high, critical
@@ -80,7 +81,7 @@ public class OrgVulnerabilitiesHistoryColumnChart {
 		// begin series
 			chartData = chartData.concat("{"); 	
 				chartData = chartData.concat("\"seriesname\": \"Low\",");
-				chartData = chartData.concat("\"color\": \"#2b8118\",");
+				chartData = chartData.concat("\"color\": \"#38b44a\",");
 				chartData = chartData.concat("\"showValues\": \"0\",");
 				chartData = chartData.concat("\"data\":"); 	
 				chartData = chartData.concat("["); 
@@ -114,7 +115,7 @@ public class OrgVulnerabilitiesHistoryColumnChart {
 			// begin series
 			chartData = chartData.concat("{"); 	
 					chartData = chartData.concat("\"seriesname\": \"Medium\",");
-					chartData = chartData.concat("\"color\": \"#F4FA58\",");
+					chartData = chartData.concat("\"color\": \"#efb73e\",");
 					chartData = chartData.concat("\"showValues\": \"0\",");
 					chartData = chartData.concat("\"data\":"); 	
 					chartData = chartData.concat("["); 
@@ -149,7 +150,7 @@ public class OrgVulnerabilitiesHistoryColumnChart {
 			// begin series
 			chartData = chartData.concat("{"); 	
 					chartData = chartData.concat("\"seriesname\": \"High\",");
-					chartData = chartData.concat("\"color\": \"#FE9A2E\",");
+					chartData = chartData.concat("\"color\": \"#e95420\",");
 					chartData = chartData.concat("\"showValues\": \"0\",");
 					chartData = chartData.concat("\"data\":"); 	
 					chartData = chartData.concat("["); 
@@ -184,7 +185,7 @@ public class OrgVulnerabilitiesHistoryColumnChart {
 			// begin series
 			chartData = chartData.concat("{"); 	
 					chartData = chartData.concat("\"seriesname\": \"Critical\",");
-					chartData = chartData.concat("\"color\": \"#FF0404\",");
+					chartData = chartData.concat("\"color\": \"#df382c\",");
 					chartData = chartData.concat("\"showValues\": \"0\",");
 					chartData = chartData.concat("\"data\":"); 	
 					chartData = chartData.concat("["); 
