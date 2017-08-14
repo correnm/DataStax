@@ -1,7 +1,15 @@
 package com.g2ops.washington.beans;
 
+import java.util.Iterator;
+
 import javax.faces.bean.ManagedBean;
+import javax.servlet.http.HttpSession;
+
+import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.Row;
+import com.g2ops.washington.utils.DatabaseQueryService;
 import com.g2ops.washington.utils.FusionCharts;
+import com.g2ops.washington.utils.SessionUtils;
 
 /**
  * @author 		Dang Le, G2 Ops, Virginia Beach, VA
@@ -15,17 +23,42 @@ import com.g2ops.washington.utils.FusionCharts;
  * <p>Revision History:
  * Date				Author				Revision Description
  * 12-Jul-2017		corren.mccoy		Added additional placeholder data for demo purposes
- * 
+ * 14-Aug-2017		corren.mccoy		Removed sublabel on treemap
  */
 @ManagedBean
 public class BusinessProcessTreeMap {
 
+	private DatabaseQueryService dqs = new DatabaseQueryService();
+	private ResultSet rs;
+	private Iterator<Row> iterator;
+
+	private String selectedSite, ip_address, node_impact_value, vulnerability_count;
+	private Integer vulnerability_count_sum = 0;
+
 	private String data;
 	private String chartData;
+	private String nodeData = "";
 	private FusionCharts businessProcessTreeMap;
 
 	public BusinessProcessTreeMap() {
 
+		HttpSession userSession = SessionUtils.getSession();
+		selectedSite = (String)userSession.getAttribute("currentSite");
+
+		queryHardwareNodes();
+		
+		iterator = rs.iterator();
+
+		//iterate over the results. 
+		while (iterator.hasNext()) {
+			Row row = iterator.next();
+			ip_address = row.getString("ip_address");
+			node_impact_value = Float.toString(row.getFloat("node_impact_value"));
+			vulnerability_count = Integer.toString(row.getInt("vulnerability_count"));
+			vulnerability_count_sum += row.getInt("vulnerability_count");
+			nodeData = nodeData.concat("{\"label\": \"" + ip_address + "\", \"value\": \"" + vulnerability_count + "\", \"svalue\": \"" + node_impact_value + "\"},");
+		}
+			
 		chartData = "{";
 
 			chartData = chartData.concat("\"chart\": {");
@@ -37,11 +70,11 @@ public class BusinessProcessTreeMap {
 				chartData = chartData.concat("\"verticalPadding\": \"0\",");
 
 				chartData = chartData.concat("\"algorithm\": \"squarified\",");
-				chartData = chartData.concat("\"caption\": \"Business Process View\",");
+				chartData = chartData.concat("\"caption\": \"Organizational Risk View\",");
 
 				chartData = chartData.concat("\"plotToolText\": \"<div><b>$label</b><br/> <b>Vulnerabilities: </b>$value<br/><b>Severity: </b>$svalue</div>\",");
 				chartData = chartData.concat("\"plotborderthickness\": \".5\",");
-				chartData = chartData.concat("\"plotbordercolor\": \"666666\",");
+				chartData = chartData.concat("\"plotbordercolor\": \"595a5c\",");
 
 				chartData = chartData.concat("\"labelGlow\": \"0\",");
 				chartData = chartData.concat("\"labelFontColor\": \"ffffff\",");
@@ -52,7 +85,7 @@ public class BusinessProcessTreeMap {
 				chartData = chartData.concat("\"legendpadding\": \"0\",");
 				chartData = chartData.concat("\"legendItemFontSize\": \"10\",");
 				chartData = chartData.concat("\"legendItemFontBold\": \"1\",");
-				chartData = chartData.concat("\"legenditemfontcolor\": \"ffffff\",");
+				chartData = chartData.concat("\"legenditemfontcolor\": \"595a5c\",");
 				chartData = chartData.concat("\"legendScaleLineThickness\": \"0\",");
 				chartData = chartData.concat("\"legendCaptionFontSize\": \"10\",");
 				chartData = chartData.concat("\"legendaxisbordercolor\": \"bfbfbf\",");
@@ -61,8 +94,11 @@ public class BusinessProcessTreeMap {
 			chartData = chartData.concat("},");  // chart
 
 			chartData = chartData.concat("\"data\": [{"); // data
-				chartData = chartData.concat("\"label\": \"Vulnerabilities by Node\", \"fillcolor\": \"666666\", \"value\": \"452\", \"svalue\": \"50\", ");
+				chartData = chartData.concat("\"label\": \"\", \"fillcolor\": \"595a5c\", \"value\": \"" + Integer.toString(vulnerability_count_sum) + "\", ");
 				chartData = chartData.concat("\"data\": ["); // subnets
+				chartData = chartData.concat(nodeData); // node data
+
+				/*	
 				chartData = chartData.concat("{\"label\": \"10.106.253.80\", \"value\": \"13\", \"svalue\":  	\"9.59\"},");
 				chartData = chartData.concat("{\"label\": \"10.106.75.198\", \"value\": \"4\",  \"svalue\":  	\"5.26\"},");
 				chartData = chartData.concat("{\"label\": \"10.106.61.242\", \"value\": \"1\",  \"svalue\":  	\"7.96\"},");
@@ -115,7 +151,7 @@ public class BusinessProcessTreeMap {
 				chartData = chartData.concat("{\"label\": \"10.106.246.163\", \"value\": \"3\",  \"svalue\": 	\"4.05\"},");
 				chartData = chartData.concat("{\"label\": \"10.106.248.132\", \"value\": \"15\",  \"svalue\": 	\"8.02\"},");
 				chartData = chartData.concat("{\"label\": \"10.106.60.90\", \"value\": \"39\",  \"svalue\": 	\"6.94\"},");
-				
+				*/
 				
 				/*		
 					chartData = chartData.concat("{\"label\": \"10.10.1.*\", \"value\": \"75\", \"svalue\": \"22\"},");
@@ -202,5 +238,11 @@ public class BusinessProcessTreeMap {
     public String getBusinessProcessTreeMap() {
     	return data;
     }
+
+	private void queryHardwareNodes() {
+
+		rs = dqs.RunQuery("select ip_address, node_impact_value, vulnerability_count from hardware where site_or_ou_name = '" + selectedSite + "'");
+
+	}
 
 }
