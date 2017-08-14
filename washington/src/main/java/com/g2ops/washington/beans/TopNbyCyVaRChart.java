@@ -1,7 +1,21 @@
 package com.g2ops.washington.beans;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.faces.bean.ManagedBean;
+import javax.servlet.http.HttpSession;
+
+import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.Row;
+
+import com.g2ops.washington.types.BusinessProcessTopByCyVar;
+import com.g2ops.washington.utils.DatabaseQueryService;
 import com.g2ops.washington.utils.FusionCharts;
+import com.g2ops.washington.utils.SessionUtils;
+
 /**
  * @author 		John Reddy, G2 Ops, Virginia Beach, VA
  * @version 	1.00, May 2017
@@ -22,12 +36,39 @@ import com.g2ops.washington.utils.FusionCharts;
 		private String data;
 		private String chartData;
 		private FusionCharts topNbyCyVaRChart;
+		private DatabaseQueryService dqs = new DatabaseQueryService();
+		private Iterator<Row> iterator;
 
 		public TopNbyCyVaRChart() {
 
+			// get the user's session
+			HttpSession userSession = SessionUtils.getSession();
+
+			// get the currently active Site from the user's session
+			String selectedSite = (String)userSession.getAttribute("currentSite");
+
+			// do DB query
+			ResultSet rs = dqs.RunQuery("select business_process_name, cyber_value_at_risk from business_value_attribution where site_id = " + selectedSite);
+
+			//iterate over the results. 
+			iterator = rs.iterator();
+			List<BusinessProcessTopByCyVar> businessProcessTopByCyVarArrayList = new ArrayList<BusinessProcessTopByCyVar>();
+			BusinessProcessTopByCyVar businessProcessTopByCyVarInstance;
+			while (iterator.hasNext()) {
+				Row row = iterator.next();
+				businessProcessTopByCyVarInstance = new BusinessProcessTopByCyVar(row.getString("business_process_name"), row.getDecimal("cyber_value_at_risk"));
+				businessProcessTopByCyVarArrayList.add(businessProcessTopByCyVarInstance);
+			}
+			
+			// create array for storing the business process names and cyber at risk values
+			BusinessProcessTopByCyVar[] businessProcessTopByCyVarArray = (BusinessProcessTopByCyVar[]) businessProcessTopByCyVarArrayList.toArray(new BusinessProcessTopByCyVar[businessProcessTopByCyVarArrayList.size()]);
+			
+			// sort the Array by CyVar value descending
+			Arrays.sort(businessProcessTopByCyVarArray);
+			
 			chartData = "{\"chart\": {";
 			chartData = chartData.concat("\"theme\": \"g2ops\",");
-			chartData = chartData.concat("\"caption\": \"Top N by CyVaR\",");
+			chartData = chartData.concat("\"caption\": \"Top Business Processes by CyVar\",");
 			chartData = chartData.concat("\"numberPrefix\": \"$\",");
 			chartData = chartData.concat("\"paletteColors\": \"#595a5c\",");
 			chartData = chartData.concat("\"showShadow\": \"0\",");
@@ -51,6 +92,17 @@ import com.g2ops.washington.utils.FusionCharts;
 			chartData = chartData.concat("\"showAlternateHGridColor\": \"0\",");
 			chartData = chartData.concat("},"); // end chart
 			chartData = chartData.concat("\"data\": [");
+
+			// loop through the array
+			for(int i=0; i<businessProcessTopByCyVarArray.length; i++) {
+			    //System.out.println(businessProcessTopByCyVarArray[i].getBusinessProcessName());
+				// only display the top 8
+				if (i < 8) {
+					chartData = chartData.concat("{\"label\": \"" + businessProcessTopByCyVarArray[i].getBusinessProcessName() + "\", \"value\": \"" + businessProcessTopByCyVarArray[i].getCyVarValue().toString() + "\"},");
+				}
+			}			
+			
+			/*
 			chartData = chartData.concat("{\"label\": \"Admissions\", \"value\": \"32305337\"},");
 			chartData = chartData.concat("{\"label\": \"Emergency Room\", \"value\": \"27949576\"},");
 			chartData = chartData.concat("{\"label\": \"Lab1\", \"value\": \"24957000\"},");
@@ -59,6 +111,7 @@ import com.g2ops.washington.utils.FusionCharts;
 			chartData = chartData.concat("{\"label\": \"Obstetrics\", \"value\": \"801792\"},");
 			chartData = chartData.concat("{\"label\": \"Normal Newborns\", \"value\": \"748156\"},");
 			chartData = chartData.concat("{\"label\": \"Infectious Diseases\", \"value\": \"281880\"},");
+			*/
 			chartData = chartData.concat("]"); // end data
 			chartData = chartData.concat("}");
 
@@ -78,4 +131,3 @@ import com.g2ops.washington.utils.FusionCharts;
 	    }
 
 	}
-
