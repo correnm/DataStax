@@ -14,7 +14,7 @@
 		<div id="timelineChartContainer" align="center" style="height: 140px;"></div>
 		<h:outputText value="#{timelineManagementChart.getTimelineChart()}" escape="false" />
 		-->
-		<div id="orgVulnerabilitiesHistoryColumnChartContainer" align="center" style="height: 140px;"></div>
+		<div id="orgVulnerabilitiesHistoryColumnChartContainer" align="center" style="height: 200px;"></div>
 		<h:outputText value="#{orgVulnerabilitiesHistoryColumnChart.getOrgVulnerabilitiesHistoryColumnChart()}" escape="false" />
 	</ui:define>
 
@@ -70,8 +70,11 @@
 					<f:facet name="header">Patch Availability</f:facet>
 				</b:dataTableColumn>
 
-				<b:dataTableColumn value="#{vulnerability.criticalAssets}" orderable="false">
+				<b:dataTableColumn value="" orderable="false">
 					<f:facet name="header">Critical Assets</f:facet>
+					<h:graphicImage id="PII" rendered="#{vulnerability.criticalAssets eq 'PCI'}" value="resources/images/CreditCard.png" title="PCI" />
+					<h:graphicImage id="PHI" rendered="#{vulnerability.criticalAssets eq 'PII'}" value="resources/images/Family.png" title="PII"/>
+					<h:graphicImage id="PKI" rendered="#{vulnerability.criticalAssets eq 'PHI'}" value="resources/images/Medical.png" title="PHI"/>
 				</b:dataTableColumn>
 
 			</b:dataTable>
