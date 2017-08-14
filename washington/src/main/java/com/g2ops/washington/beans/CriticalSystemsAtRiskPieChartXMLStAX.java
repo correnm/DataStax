@@ -28,7 +28,7 @@ public class CriticalSystemsAtRiskPieChartXMLStAX {
 			//xMLStreamWriter.writeStartDocument();
 			xMLStreamWriter.writeStartElement("chart");
 			xMLStreamWriter.writeAttribute("theme", "g2ops");
-			xMLStreamWriter.writeAttribute("caption", "% Critical Processes at Risk");
+			xMLStreamWriter.writeAttribute("caption", "% Critical Processes at Risk (BPIV)");
 			xMLStreamWriter.writeAttribute("pieRadius", "60");
 			//xMLStreamWriter.writeAttribute("paletteColors", "#CC2A1F,#FFC80D,#2b8118");
 			//xMLStreamWriter.writeAttribute("paletteColors", "#1D495D,#28637E,#31799B");
