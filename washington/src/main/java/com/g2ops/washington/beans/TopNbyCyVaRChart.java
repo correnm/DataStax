@@ -28,7 +28,7 @@ import com.g2ops.washington.utils.SessionUtils;
  * <p>Revision History:
  * Date				Author				Revision Description
  * 12-Jul-2017		corren.mccoy		Added additional placeholder data for demo purposes
- * 
+ * 14-Aug-2017		corren.mccoy		Change position of caption alignment
  */
 	@ManagedBean
 	public class TopNbyCyVaRChart {
@@ -69,6 +69,12 @@ import com.g2ops.washington.utils.SessionUtils;
 			chartData = "{\"chart\": {";
 			chartData = chartData.concat("\"theme\": \"g2ops\",");
 			chartData = chartData.concat("\"caption\": \"Top Business Processes by CyVar\",");
+			
+			// 14-Aug-2017 corren.mccoy: changed alignment and orientation of caption to entire chart area
+			chartData = chartData.concat("\"captionAlignment\": \"center\",");
+			chartData = chartData.concat("\"alignCaptionWithCanvas\": \"0\",");
+			// 14-Aug 2017
+			
 			chartData = chartData.concat("\"numberPrefix\": \"$\",");
 			chartData = chartData.concat("\"paletteColors\": \"#595a5c\",");
 			chartData = chartData.concat("\"showShadow\": \"0\",");
