@@ -23,7 +23,7 @@ import com.g2ops.washington.utils.SessionUtils;
  * <p>Revision History:
  * Date				Author				Revision Description
  * 12-Jul-2017		corren.mccoy		Added additional placeholder data for demo purposes
- * 
+ * 14-Aug-2017		corren.mccoy		Removed sublabel on treemap
  */
 @ManagedBean
 public class BusinessProcessTreeMap {
@@ -70,7 +70,7 @@ public class BusinessProcessTreeMap {
 				chartData = chartData.concat("\"verticalPadding\": \"0\",");
 
 				chartData = chartData.concat("\"algorithm\": \"squarified\",");
-				chartData = chartData.concat("\"caption\": \"Business Process View\",");
+				chartData = chartData.concat("\"caption\": \"Organizational Risk View\",");
 
 				chartData = chartData.concat("\"plotToolText\": \"<div><b>$label</b><br/> <b>Vulnerabilities: </b>$value<br/><b>Severity: </b>$svalue</div>\",");
 				chartData = chartData.concat("\"plotborderthickness\": \".5\",");
@@ -94,7 +94,7 @@ public class BusinessProcessTreeMap {
 			chartData = chartData.concat("},");  // chart
 
 			chartData = chartData.concat("\"data\": [{"); // data
-				chartData = chartData.concat("\"label\": \"Vulnerabilities by Node\", \"fillcolor\": \"595a5c\", \"value\": \"" + Integer.toString(vulnerability_count_sum) + "\", ");
+				chartData = chartData.concat("\"label\": \"\", \"fillcolor\": \"595a5c\", \"value\": \"" + Integer.toString(vulnerability_count_sum) + "\", ");
 				chartData = chartData.concat("\"data\": ["); // subnets
 				chartData = chartData.concat(nodeData); // node data
 
