@@ -349,7 +349,8 @@ public class Login implements Serializable {
 			userSession.setAttribute("currentSite", siteID);
 
 			// send to default page for this user
-			return(defaultLensView);
+			
+			return(defaultLensView + "?faces-redirect=true");
 
 		}
 				
