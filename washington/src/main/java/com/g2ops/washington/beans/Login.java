@@ -140,26 +140,11 @@ public class Login implements Serializable {
 
 			// save values retrieved by query
 			orgKeyspace = row.getString("keyspace_name");
-			//orgUsername = row.getString("username");
-			//orgPassword = row.getString("hashed_password");
 
 		}
 
 		// print statement for troubleshooting
 		System.out.println("Organization Keyspace Name: " + orgKeyspace);
-		//System.out.println("Organization DB Username: " + orgUsername);
-		//System.out.println("Organization DB Password: " + orgPassword);
-
-		// authenticate user in corresponding keyspace with userEmail and userPassCode and set user's preferences
-		//String[] cPoints = ctx.getInitParameter("db_CONTACT_POINTS").split(",");
-		//String port = ctx.getInitParameter("db_PORT");
-		
-		// create database connection to organization's keyspace
-		//orgDBConnection = new DatabaseConnectionManager(orgUsername, orgPassword, cPoints, port, orgKeyspace);
-
-		// put the database connection into the user's session
-		//HttpSession userSession = SessionUtils.getSession();
-		//userSession.setAttribute("orgDBManager", orgDBConnection);
 
 		// get the Hash Map of the Organization database connections
 		@SuppressWarnings("unchecked")
@@ -212,22 +197,19 @@ public class Login implements Serializable {
 		}
 		
 		// print statements for troubleshooting
-		System.out.println("Active User Ind: " + activeUserInd);
-		System.out.println("Application Role Name: " + appRoleName);
-		System.out.println("Default Lens View: " + defaultLensView);
-		System.out.println("First Name: " + firstName);
-		System.out.println("Last Name: " + lastName);
+		//System.out.println("Active User Ind: " + activeUserInd);
+		//System.out.println("Application Role Name: " + appRoleName);
+		//System.out.println("Default Lens View: " + defaultLensView);
+		//System.out.println("First Name: " + firstName);
+		//System.out.println("Last Name: " + lastName);
 		System.out.println("User Name: " + userName);
 		System.out.println("Hashed Password: " + hashedPassword);
 		if (!(loginTimeoutStartTime == null)) {
 			System.out.println("Login Timeout Start Time: " + loginTimeoutStartTime.toString());
 		}
 		System.out.println("Num Consecutive Failed Attempts: " + numConsecutiveFailedAttempts);
-		System.out.println("System Administrator Ind: " + systemAdministratorInd);
+		//System.out.println("System Administrator Ind: " + systemAdministratorInd);
 
-		// hash the passcode entered by the user
-		//userPassCode = userPassCode;
-		
 		// if not an active user, send back to login page
 		if (!activeUserInd) {
 			
@@ -278,28 +260,21 @@ public class Login implements Serializable {
 
 		// if passcode is invalid, update users table and send back to login page
 		/*
-		String[] passCodeElementsArray = hashedPassword.split("***");
+		String[] passCodeElementsArray = hashedPassword.split("[*]{3}");
 		int iterations = Integer.parseInt(passCodeElementsArray[0]);
-		byte[] salt = passCodeElementsArray[1].getBytes();
-		byte[] encryptedPasscode = passCodeElementsArray[2].getBytes();
+		byte[] salt = passCodeElementsArray[1].getBytes("UTF-8");
+		byte[] encryptedPasscode = passCodeElementsArray[2].getBytes("UTF-8");
 		String saltString = new String(salt);
 		String encryptedPasscodeString = new String(encryptedPasscode);
+		*/
 
-		//byte[] testencryptedPasscode = PasscodeEncryptionService.getEncryptedPasscode("password", salt, iterations);
-		//String testencryptedPasscodeString = new String(testencryptedPasscode);
-		
-		System.out.println("salt as a string: " + passCodeElementsArray[1]);
-		System.out.println("passcode as a string: " + passCodeElementsArray[2]);
+		/*
+		System.out.println("iterations: " + iterations);
 		System.out.println("salt as a string post conversions: " + saltString);
 		System.out.println("passcode as a string post conversions: " + encryptedPasscodeString);
-		System.out.println("iterations: " + iterations);
-		System.out.println("salt: " + salt);
-		System.out.println("encryptedPasscode: " + encryptedPasscode);
-		//System.out.println("userPassCode: " + userPassCode);
-		//System.out.println("testencryptedPasscodeString: " + testencryptedPasscodeString);
-		
-		boolean userPassCodeEncrypted = PasscodeEncryptionService.authenticate(userPassCode, encryptedPasscode, salt, iterations);
 		*/
+		
+		//boolean userPassCodeEncrypted = PasscodeEncryptionService.authenticate(userPassCode, encryptedPasscode, salt, iterations);
 		
 		if (!userPassCode.equals(hashedPassword)) {
 		//if (!userPassCodeEncrypted) {
@@ -389,8 +364,8 @@ public class Login implements Serializable {
 		// destroy user's session
 		session.invalidate();
 		
-		// send user to login page
-		return "login";
+		// send user to login page and use URL parameter to ensure page URL changes
+		return "/login?faces-redirect=true";
 
 	}
 
