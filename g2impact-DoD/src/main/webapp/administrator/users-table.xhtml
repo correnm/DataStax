@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-width-table.xhtml">
+
+	<ui:define name="document-title">Users - Washington</ui:define>
+
+	<ui:define name="page-name">Users</ui:define>
+
+	<ui:define name="full-width-table">
+		<div class="dataTableDivClass">
+		<h:form>
+			<b:dataTable value="#{usersTable.usersData}" var="user" styleClass="businessProcessesByCyvarTableClass">
+
+				<b:dataTableColumn value="">
+					<f:facet name="header">Click to Edit User</f:facet>
+					<h:link outcome='/administrator/user-edit.jsf' value='#{user.userEmail}'><f:param name="userEmail" value="#{user.userEmail}" /></h:link>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{user.userName}">
+					<f:facet name="header">Username</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{user.firstName}">
+					<f:facet name="header">First Name</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{user.lastName}">
+					<f:facet name="header">Last Name</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{user.appRoleName}">    				
+					<f:facet name="header">Role</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{user.defaultLensView}">
+					<f:facet name="header">Default View</f:facet>
+				</b:dataTableColumn>
+
+			</b:dataTable>
+		</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

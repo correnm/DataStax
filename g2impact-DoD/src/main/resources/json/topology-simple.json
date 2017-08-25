@@ -1,0 +1,81 @@
+{
+	"chart": {
+		"caption": "Topology",
+		"xaxisminvalue": "0",
+		"xaxismaxvalue": "100",
+		"yaxisminvalue": "0",
+		"yaxismaxvalue": "100",
+		"is3d": "0",
+		"viewmode": "1",
+		"showplotborder": "1",
+		"plotborderthickness": "3",
+		"theme": "g2ops",
+		"showcanvasborder": "0",
+		"canvasborderalpha": "20",
+		"showLabels": "1",
+		"animation": "1",
+		"showHoverEffect": "1",
+		"plotHoverEffect": "1"
+	},
+	"dataset": [
+		{
+			"color":"#00aee4",
+			"allowDrag": "1",
+			"data": [
+				{
+					"id": "201789342",
+					"label": "Router 1",
+					"link": "Javascript:topologyNodeChartNodeClicked('201789342')",
+					"color": "#ffffff",
+					"radius": "35",
+					"shape": "circle",
+					"x": "50",
+					"y": "50"
+				},
+				{
+					"id": "210787854",
+					"label": "Computer 1",
+					"link": "Javascript:topologyNodeChartNodeClicked('210787854')",
+					"color": "#ffffff",
+					"radius": "40",
+					"shape": "circle",
+					"x": "25",
+					"y": "75"
+				},
+				{
+					"id": "201683421",
+					"label": "Computer 2",
+					"link": "Javascript:topologyNodeChartNodeClicked('201683421')",
+					"color": "#ffffff",
+					"radius": "40",
+					"shape": "circle",
+					"x": "75",
+					"y": "75"
+				}
+			]
+		}
+	],
+	"connectors": [
+		{
+			"color": "#a6aaad",
+			"stdthickness": "3",
+			"connector": [
+				{
+					"from": "201789342",
+					"to": "201683421",
+					"strength": "1",
+					"arrowatstart": "0",
+					"arrowatend": "0"
+				},
+				{
+					"from": "201789342",
+					"to": "210787854",
+					"strength": "1",
+					"arrowatstart": "0",
+					"arrowatend": "0"
+				}
+			]
+		}
+	]
+
+}
