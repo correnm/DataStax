@@ -27,13 +27,14 @@
 	</ui:define>
 
 	<ui:define name="right-charts">
-		<div id="topologyMapContainer" style="height: 800px; width: 100%; background-color: #ffffff;"></div>
-		<!-- <h:outputText value="#{topologyNodeChart.getTopologyMap()}" escape="false" /> -->
+		<div id="topologyMapContainer" style="height: 800px; width: 100%; background-color: #ffffff; display: none;"></div>
+		<h:outputText value="#{topologyNodeChart.getTopologyMap()}" escape="false" />
+		<div id="topologyCoSeMapContainer" style="height: 800px; width: 100%; background-color: #ffffff;"></div>
 		<script>
 		/* <![CDATA[ */
 			var cy = cytoscape({
 
-				container: document.getElementById('topologyMapContainer'), // container to render in
+				container: document.getElementById('topologyCoSeMapContainer'), // container to render in
 
 				elements: [ // list of graph elements to start with
 					//nodes
@@ -493,11 +494,17 @@
 				topologyNodeChartNodeClicked('01');
 			});
 
+			function toggleCharts() {
+				$("#topologyMapContainer").toggle();
+				$("#topologyCoSeMapContainer").toggle();
+			}
+			
 		/* ]]> */
 		</script>
 	</ui:define>
 
 	<ui:define name="full-width-table">
+		<div align="center"><input type="button" value="Toggle Chart" onclick="toggleCharts();" /><br /><br /></div>
 		<div class="dataTableDivClass">
 		<h2>Vulnerabilities Detail</h2>
 		<h3 id="nodeLabelID">All</h3>
