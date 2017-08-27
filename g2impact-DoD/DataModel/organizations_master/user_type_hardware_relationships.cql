@@ -1,4 +1,4 @@
-USE keyspacename;
+USE dod;
 
 CREATE TYPE IF NOT EXISTS hardware_relationships(
     site_or_ou_name 					text,

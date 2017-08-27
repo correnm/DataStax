@@ -1,4 +1,4 @@
-USE keyspacename;
+USE dod;
 
 CREATE TABLE IF NOT EXISTS scanner_hardware_staging (
  	site_or_ou_name 				text,

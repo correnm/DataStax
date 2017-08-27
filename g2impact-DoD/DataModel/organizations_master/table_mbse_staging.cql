@@ -1,7 +1,6 @@
-USE keyspacename;
+USE dod;
 
 CREATE TABLE IF NOT EXISTS mbse_staging (
-    org_id 					uuid,
     site_or_ou_name 		text,
     building 				text,
     magic_draw_id 			text,
@@ -22,5 +21,5 @@ CREATE TABLE IF NOT EXISTS mbse_staging (
     firmware_version_update text,
     product_subsystem 		text, 		// Line of business
     connected_elements 	list <frozen<connected_elements>>, // magic_draw_id of (from, to)
-    PRIMARY KEY ((org_id,site_or_ou_name,building),magic_draw_id)
+    PRIMARY KEY ((site_or_ou_name,building),magic_draw_id)
 ) WITH COMMENT = 'Staging data from export of SysML data.';

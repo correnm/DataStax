@@ -1,7 +1,6 @@
-USE keyspacename;
+USE dod;
 
 CREATE TABLE IF NOT EXISTS hardware_statistics (
-    org_id 							uuid,
     site_or_ou_name 				text,
     ip_subnet_or_building 			text,  // 192.168.0.0, site/building
     internal_system_id 				text,  // UUID computed to ensure uniqueness
@@ -10,11 +9,10 @@ CREATE TABLE IF NOT EXISTS hardware_statistics (
     node_impact_value 				float,
     risk_likelihood 				float,
     cyvar 							float,  // Cyber Value at Risk
-    PRIMARY KEY ((org_id, site_or_ou_name), ip_subnet_or_building, internal_system_id, observation_date)
+    PRIMARY KEY ((site_or_ou_name), ip_subnet_or_building, internal_system_id, observation_date)
 ) WITH COMMENT = 'Maintains a daily temporal history of analytics information for each component.';
 
 CREATE TABLE IF NOT EXISTS hardware_stat_rollup (
-  org_id 							uuid,
   site_or_ou_name 					text,
   ip_subnet_or_building 			text,	// 192.168.0.0, site/building
   internal_system_id 				text,   // UUID computed to ensure uniqueness
@@ -23,6 +21,6 @@ CREATE TABLE IF NOT EXISTS hardware_stat_rollup (
   vulnerability_count 				int,
   node_impact_value 				float,
   risk_likelihood 					float,
-  cyvar 							float,                  // Cyber Value at Risk
-  PRIMARY KEY ((org_id, site_or_ou_name), ip_subnet_or_building, internal_system_id, reporting_date)
+  cyvar 							float,   // Cyber Value at Risk
+  PRIMARY KEY ((site_or_ou_name), ip_subnet_or_building, internal_system_id, reporting_date)
 ) WITH COMMENT = 'Year-Quarterly aggregation of the hardware statistics.';

@@ -1,4 +1,4 @@
-USE keyspacename;
+USE dod;
 
 CREATE TABLE IF NOT EXISTS business_practice (
 category						text,				// e.g. asset_type
@@ -15,5 +15,5 @@ availability_req_current		decimal,
 availability_req_default		decimal,
 audit_upsert 					frozen<audit_upsert>,
 PRIMARY KEY (category, business_value)
-)
+) 
 WITH COMMENT = 'Defines the business practice attributes needed to calculate the node impact value';

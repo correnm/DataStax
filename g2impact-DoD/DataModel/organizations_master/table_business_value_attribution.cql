@@ -1,4 +1,4 @@
-USE keyspacename;
+USE dod;
 
 CREATE TABLE IF NOT EXISTS business_value_attribution (
 site_id								uuid,		// must exist in the SITES table
@@ -14,7 +14,7 @@ stored_records						set <frozen<record_types>>,
 cyber_value_at_risk					decimal,
 annual_revenue						decimal,
 annual_revenue_year					int,			// YYYY
-business_process_impact_value		double,		// BPIV as aggregated from NIV for runs_on_hardware
+business_process_impact_value		decimal,		// BPIV as aggregated from NIV for runs_on_hardware
 PRIMARY KEY (site_id, business_process_id)
 )
 WITH COMMENT = 'Defines the business processes at this organization and assigns the metrics needed to calculate the BPIV';

@@ -1,4 +1,4 @@
-USE keyspacename;
+USE dod;
 
 CREATE TABLE IF NOT EXISTS application_modules (
 	industry_name_r 	text,		// references.industry_name = "private", "public"

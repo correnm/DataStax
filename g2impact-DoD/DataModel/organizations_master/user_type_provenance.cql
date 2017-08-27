@@ -1,6 +1,6 @@
-USE keyspacename;
+USE dod;
 
-CREATE TYPE audit_upsert (
-    datechanged		timestamp,
+CREATE TYPE IF NOT EXISTS audit_upsert (
+    datechanged			timestamp,
     changedbyusername 	text
 );

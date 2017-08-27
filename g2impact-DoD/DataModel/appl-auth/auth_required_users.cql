@@ -13,6 +13,7 @@ GRANT g2_developer to washington;
 GRANT select on KEYSPACE appl_auth to washington;
 GRANT select on KEYSPACE g2 to washington;
 GRANT select on KEYSPACE vmasc to washington;
+GRANT select on KEYSPACE dod to washington;
 
 // Each organization (tenant) will have a separate keyspace and superuser account that's used for 
 // connection pooling with the application
@@ -22,6 +23,9 @@ GRANT g2_developer to g2;
 CREATE ROLE vmasc WITH SUPERUSER = false AND LOGIN = true AND password = 'super_secret_password_only_known_to_a_few';
 GRANT vmasc_developer to vmasc;
 
+// 8/26/2017
+CREATE ROLE dod WITH SUPERUSER = false AND LOGIN = true AND password = 'super_secret_password_only_known_to_a_few';
+GRANT dod_developer to dod;
 
 
 

@@ -1,6 +1,6 @@
-USE keyspacename;
+USE dod;
 
-CREATE TYPE reference_values (
+CREATE TYPE IF NOT EXISTS reference_values (
 optgroup				text,   			// <optgroup label="Swedish Cars">
 option_values			map<text, text>,	// <option value="volvo">Volvo</option>
 );

@@ -1,4 +1,4 @@
-USE keyspacename;
+USE dod;
 
 CREATE TABLE IF NOT EXISTS hardware (
     site_or_ou_name 					text,
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS hardware (
 	business_criticality				text,		// business practice metrics
 	information_classification_value	text,		// business practice metrics
 	os_general							text,		// windows, linus
-	operating_system					text		// specific operating system
+	operating_system					text,		// specific operating system
 	installed_software					list <frozen <installed_software>>, 
 	host_name						    text,
     PRIMARY KEY ((site_or_ou_name), ip_subnet_or_building, internal_system_id)

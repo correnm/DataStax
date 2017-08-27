@@ -1,9 +1,9 @@
-USER keyspacename;
+USE dod;
 
 // a few seed records
 insert into organizations (org_id, organization_name, industry_name_r, audit_upsert)
 VALUES
-(uuid(), 'VMASC', 'private', {datechanged: toUnixTimestamp(now()), changedbyusername: 'corren.mccoy@g2-ops.com'});
+(uuid(), 'DOD', 'private', {datechanged: toUnixTimestamp(now()), changedbyusername: 'corren.mccoy@g2-ops.com'});
 
 
 // a few seed records

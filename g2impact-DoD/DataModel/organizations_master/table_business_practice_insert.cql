@@ -1,4 +1,4 @@
-﻿USE keyspacename;
+﻿USE dod;
 
 INSERT INTO business_practice(category,business_value,collateral_damage_current,collateral_damage_default,target_distribution_current,target_distribution_default,confidentiality_req_current,confidentiality_req_default,integrity_req_current,integrity_req_default,availability_req_current,availability_req_default) VALUES (
 'Asset Type','Infrastructure',0.5,0.5,1,1,1.5,1.5,1.5,1.5,1.5,1.5);

@@ -1,4 +1,4 @@
-USE keyspaceName;
+USE dod;
 
 CREATE MATERIALIZED VIEW hardware_by_internal_system_id
 AS SELECT internal_system_id, site_or_ou_name, ip_subnet_or_building, ip_address

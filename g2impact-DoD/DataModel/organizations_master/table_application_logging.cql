@@ -1,4 +1,4 @@
-USE keyspaceName;
+USE dod;
 CREATE TABLE IF NOT EXISTS application_logging (
     app_module_id		uuid,			// must exist in the application_modules table
     event_ts_mask 		text,   		// Stored format is: yyyy-mm-dd 04:00 GMT

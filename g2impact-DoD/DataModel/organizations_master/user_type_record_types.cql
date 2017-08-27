@@ -1,4 +1,4 @@
-USE keyspacename;
+USE dod;
 
 CREATE TYPE IF NOT EXISTS record_types(
 	record_type_name					text,

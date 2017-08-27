@@ -1,6 +1,6 @@
-USE keyspacename;
+USE dod;
 
-CREATE TYPE installed_software(
+CREATE TYPE IF NOT EXISTS installed_software(
     software 		text,		// name of the application or cpe id
     iiv_score		decimal		// calculated a precursor for node impact value
 );

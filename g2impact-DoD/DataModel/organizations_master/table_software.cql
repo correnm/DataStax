@@ -1,4 +1,4 @@
-USE keyspacename;
+USE dod;
 
 CREATE TABLE  IF NOT EXISTS software (
 internal_system_id 			uuid,      // FK to hardware table, UUID computed to ensure uniqueness

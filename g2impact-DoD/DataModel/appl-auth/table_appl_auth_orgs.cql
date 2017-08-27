@@ -19,7 +19,8 @@ insert into appl_auth.organizations
 values
 ('vmasc','vmasc','vmasc','7575551212','private');
 
+//08/26/2017
 insert into appl_auth.organizations
 (organization_name, keyspace_name, username, hashed_password, industry)
 values
-('defense','defense','defense','7579659330','public');
+('dod','dod','dod','7579659330','public');

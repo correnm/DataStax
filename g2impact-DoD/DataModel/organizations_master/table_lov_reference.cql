@@ -1,4 +1,4 @@
-USE keyspacename;
+USE dod;
 
 CREATE TABLE IF NOT EXISTS lov_references (
   reference_key 	text,		// lowercase: should match the name of the database column in an associated table

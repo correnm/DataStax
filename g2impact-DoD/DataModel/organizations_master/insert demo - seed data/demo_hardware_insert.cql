@@ -1,5 +1,5 @@
-﻿USE keyspacename;
-truncate table hardware;
+﻿USE dod;
+truncate table dod.hardware;
 
 INSERT INTO hardware (site_or_ou_name,ip_subnet_or_building,internal_system_id,vendor,mac_Address,ip_address,OS_General,operating_system,system_type,run_date,vulnerability_count,asset_type,asset_visibility,Business_Interruption_Threshold,Business_Criticality,Information_Classification_value,audit_upsert,node_impact_value) VALUES ('96a3378e-2f67-4b9d-ab67-9ee9d533b88f','10.106',uuid(),'','','10.106.23.34','linux','Linux Kernel','','2017-01-28',1,'Production','Internal Workforce Only','24-48 Hours','Medium','Confidential',{datechanged: toUnixTimestamp(now()), changedbyusername: 'corren.mccoy'},6.96);
 INSERT INTO hardware (site_or_ou_name,ip_subnet_or_building,internal_system_id,vendor,mac_Address,ip_address,OS_General,operating_system,system_type,run_date,vulnerability_count,asset_type,asset_visibility,Business_Interruption_Threshold,Business_Criticality,Information_Classification_value,audit_upsert,node_impact_value) VALUES ('96a3378e-2f67-4b9d-ab67-9ee9d533b88f','10.106',uuid(),'','','10.106.23.35','linux','Linux Kernel','','2017-01-28',1,'Production','Internal Workforce Only','24-48 Hours','Medium','Confidential',{datechanged: toUnixTimestamp(now()), changedbyusername: 'corren.mccoy'},6.96);

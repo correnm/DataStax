@@ -1,6 +1,6 @@
-USE keyspacename;
+USE dod;
 
-CREATE TABLE scanner_software_staging (
+CREATE TABLE IF NOT EXISTS scanner_software_staging (
     internal_system_id 				uuid,      	// UUID computed to ensure uniqueness
     cpe_id 							text,      	// product
     part 							text,      	// [A]pplication, [O]perating System
