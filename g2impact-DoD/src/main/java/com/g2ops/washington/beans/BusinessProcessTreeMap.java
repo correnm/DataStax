@@ -24,6 +24,7 @@ import com.g2ops.washington.utils.SessionUtils;
  * Date				Author				Revision Description
  * 12-Jul-2017		corren.mccoy		Added additional placeholder data for demo purposes
  * 14-Aug-2017		corren.mccoy		Removed sublabel on treemap
+ * 26-Aug-2017  	corren.mccoy		Changed treemap caption
  */
 @ManagedBean
 public class BusinessProcessTreeMap {
@@ -70,7 +71,7 @@ public class BusinessProcessTreeMap {
 				chartData = chartData.concat("\"verticalPadding\": \"0\",");
 
 				chartData = chartData.concat("\"algorithm\": \"squarified\",");
-				chartData = chartData.concat("\"caption\": \"Organizational Risk View\",");
+				chartData = chartData.concat("\"caption\": \"Component Risk View\",");
 
 				chartData = chartData.concat("\"plotToolText\": \"<div><b>$label</b><br/> <b>Vulnerabilities: </b>$value<br/><b>Severity: </b>$svalue</div>\",");
 				chartData = chartData.concat("\"plotborderthickness\": \".5\",");
