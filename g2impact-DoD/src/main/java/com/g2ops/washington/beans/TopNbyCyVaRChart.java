@@ -29,6 +29,7 @@ import com.g2ops.washington.utils.SessionUtils;
  * Date				Author				Revision Description
  * 12-Jul-2017		corren.mccoy		Added additional placeholder data for demo purposes
  * 14-Aug-2017		corren.mccoy		Change position of caption alignment
+ * 26-AUg-2017		corren.mccoy		Order by BPIV not cyvar
  */
 	@ManagedBean
 	public class TopNbyCyVaRChart {
@@ -48,7 +49,8 @@ import com.g2ops.washington.utils.SessionUtils;
 			String selectedSite = (String)userSession.getAttribute("currentSite");
 
 			// do DB query
-			ResultSet rs = dqs.RunQuery("select business_process_name, cyber_value_at_risk from business_value_attribution where site_id = " + selectedSite);
+			// 08-26-2017: changed value from cyvar to bpiv (cmccoy)
+			ResultSet rs = dqs.RunQuery("select business_process_name, business_process_impact_value from business_value_attribution where site_id = " + selectedSite);
 
 			//iterate over the results. 
 			iterator = rs.iterator();
@@ -56,7 +58,7 @@ import com.g2ops.washington.utils.SessionUtils;
 			BusinessProcessTopByCyVar businessProcessTopByCyVarInstance;
 			while (iterator.hasNext()) {
 				Row row = iterator.next();
-				businessProcessTopByCyVarInstance = new BusinessProcessTopByCyVar(row.getString("business_process_name"), row.getDecimal("cyber_value_at_risk"));
+				businessProcessTopByCyVarInstance = new BusinessProcessTopByCyVar(row.getString("business_process_name"), row.getDecimal("business_process_impact_value"));
 				businessProcessTopByCyVarArrayList.add(businessProcessTopByCyVarInstance);
 			}
 			
@@ -68,14 +70,14 @@ import com.g2ops.washington.utils.SessionUtils;
 			
 			chartData = "{\"chart\": {";
 			chartData = chartData.concat("\"theme\": \"g2ops\",");
-			chartData = chartData.concat("\"caption\": \"Top Business Processes by CyVar\",");
+			chartData = chartData.concat("\"caption\": \"Top Messages by Mission Impact (MIV)\",");
 			
 			// 14-Aug-2017 corren.mccoy: changed alignment and orientation of caption to entire chart area
 			chartData = chartData.concat("\"captionAlignment\": \"center\",");
 			chartData = chartData.concat("\"alignCaptionWithCanvas\": \"0\",");
 			// 14-Aug 2017
 			
-			chartData = chartData.concat("\"numberPrefix\": \"$\",");
+			chartData = chartData.concat("\"numberPrefix\": \"\",");
 			chartData = chartData.concat("\"paletteColors\": \"#595a5c\",");
 			chartData = chartData.concat("\"showShadow\": \"0\",");
 			chartData = chartData.concat("\"showAlternateVGridColor\": \"0\",");
