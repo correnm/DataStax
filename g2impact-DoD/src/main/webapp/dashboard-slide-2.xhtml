@@ -5,9 +5,9 @@
 	xmlns:b="http://bootsfaces.net/ui"
 	template="/templates/dashboard-3-9.xhtml">
 
-	<ui:define name="document-title">Business Process Impact Analysis - Washington</ui:define>
+	<ui:define name="document-title">Mission Impact Analysis - G2IMPact-DoD</ui:define>
 
-	<ui:define name="page-name">Business Process Impact Analysis</ui:define>
+	<ui:define name="page-name">Mission Impact Analysis</ui:define>
 
 	<ui:define name="top-chart">
 		<!--
@@ -33,20 +33,22 @@
 
 	<ui:define name="full-width-table">
 		<div class="dataTableDivClass">
-		<h2>Business Process Detail</h2>
+		<h2>Mission / Message Type Detail</h2>
 		<h:form>
 			<b:dataTable value="#{businessProcessesByCyvarTable.businessProcesses}" var="businessProcess" styleClass="businessProcessesByCyvarTableClass">
 
 				<b:dataTableColumn value="#{businessProcess.processName}">    				
-					<f:facet name="header">Business Process</f:facet>
+					<f:facet name="header">Message Type</f:facet>
 				</b:dataTableColumn>
-
+				
+				<!--
 				<b:dataTableColumn value="#{businessProcess.recordType}">
 					<f:facet name="header">Record Type</f:facet>
 				</b:dataTableColumn>
-
+				-->
+				
 				<b:dataTableColumn value="#{businessProcess.numRecords}" style="text-align:right;">
-					<f:facet name="header"># Records</f:facet>
+					<f:facet name="header">Messages YTD</f:facet>
 				</b:dataTableColumn>
 				
 				<!--
@@ -58,18 +60,18 @@
 					<f:facet name="header">Dark Web Cost (per Record)</f:facet>
 				</b:dataTableColumn>
 				-->
-				<b:dataTableColumn value="#{businessProcess.annualRevenue}" style="text-align:right;">
-					<f:facet name="header">Annual Revenue</f:facet>
-				</b:dataTableColumn>	
+				<b:dataTableColumn value="#{businessProcess.cyvarValue}" style="text-align:right;">
+					<f:facet name="header">Precedence</f:facet>
+				</b:dataTableColumn>
 							
 				<b:dataTableColumn value="#{businessProcess.nivScore}" style="text-align:right;">
-					<f:facet name="header">BPIV</f:facet>
+					<f:facet name="header">Mission Impact <br/> Value (MIV)</f:facet>
 				</b:dataTableColumn>
 
-				<b:dataTableColumn value="#{businessProcess.cyvarValue}" style="text-align:right;">
-					<f:facet name="header">CyVaR<br/>(Max Breach Loss)</f:facet>
-				</b:dataTableColumn>
 
+				<b:dataTableColumn value="#{businessProcess.annualRevenue}" style="text-align:right;">
+					<f:facet name="header">Risk<br/>Likelihood</f:facet>
+				</b:dataTableColumn>	
 			</b:dataTable>
 		</h:form>
 		</div>
