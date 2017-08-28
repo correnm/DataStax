@@ -504,7 +504,7 @@
 	</ui:define>
 
 	<ui:define name="full-width-table">
-		<div align="center"><input type="button" value="Toggle Chart" onclick="toggleCharts();" /><br /><br /></div>
+		<div align="center"><input type="button" value="Switch View" onclick="toggleCharts();" /><br /><br /></div>
 		<div class="dataTableDivClass">
 		<h2>Vulnerabilities Detail</h2>
 		<h3 id="nodeLabelID">All</h3>
@@ -535,20 +535,22 @@
 					<f:facet name="header">IIV</f:facet>
 				</b:dataTableColumn>
 
-				<b:dataTableColumn value="#{vulnerability.businessProcess}" orderable="false">
-					<f:facet name="header">Business Process</f:facet>
+				<b:dataTableColumn value="#{vulnerability.businessProcess}">
+					<f:facet name="header">Mission</f:facet>
 				</b:dataTableColumn>
 
 				<b:dataTableColumn value="#{vulnerability.patchAvailability}" orderable="false">
 					<f:facet name="header">Patch Availability</f:facet>
 				</b:dataTableColumn>
 
+				<!--
 				<b:dataTableColumn value="" orderable="false">
 					<f:facet name="header">Critical Assets</f:facet>
 					<h:graphicImage id="PII" rendered="#{vulnerability.criticalAssets eq 'PCI'}" value="resources/images/CreditCard.png" title="PCI" />
 					<h:graphicImage id="PHI" rendered="#{vulnerability.criticalAssets eq 'PII'}" value="resources/images/Family.png" title="PII"/>
 					<h:graphicImage id="PKI" rendered="#{vulnerability.criticalAssets eq 'PHI'}" value="resources/images/Medical.png" title="PHI"/>
 				</b:dataTableColumn>
+				-->
 
 			</b:dataTable>
 		</h:form>
