@@ -60,6 +60,9 @@ public class ViewFilterBean implements Serializable {
 		else if (orgKeyspace.equals("vmasc")) {
 			org_id = "2cd3bc78-350f-47ce-bd53-7525b93f0640";
 		}
+		else if (orgKeyspace.equals("dod")) {
+			org_id = "df72e1dd-a385-4ab9-ba30-70b9df8d539b";
+		}
 		
 		createOrgUnitList();
 		createSiteList();
