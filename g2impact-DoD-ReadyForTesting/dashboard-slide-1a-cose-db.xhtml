@@ -1,0 +1,129 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/dashboard-3-9.xhtml">
+
+	<ui:define name="document-title">Operational Impact Analysis - Washington</ui:define>
+
+	<ui:define name="page-name">Operational Impact Analysis</ui:define>
+
+	<ui:define name="top-chart">
+		<!--
+		<div id="timelineChartContainer" align="center" style="height: 140px;"></div>
+		<h:outputText value="#{timelineManagementChart.getTimelineChart()}" escape="false" />
+		-->
+		<div id="orgVulnerabilitiesHistoryColumnChartContainer" align="center" style="height: 200px;"></div>
+		<h:outputText value="#{orgVulnerabilitiesHistoryColumnChart.getOrgVulnerabilitiesHistoryColumnChart()}" escape="false" />
+	</ui:define>
+
+	<ui:define name="left-charts">
+		<div id="patchesExceedingThresholdPieChartXMLContainer" align="center" style="height: 280px;"></div>
+		<h:outputText value="#{patchesExceedingThresholdPieChartXML.getPatchesExceedingThresholdPieChartXML()}" escape="false" />
+		<span class="rowSpace"><br/></span>
+		<div id="vulnerabilitiesByBusinessProcessChartContainer" align="center" style="height: 500px;"></div>
+		<h:outputText value="#{vulnerabilitiesByBusinessProcessChart.getVulnerabilitiesByBusinessProcessChart()}" escape="false" />
+	</ui:define>
+
+	<ui:define name="right-charts">
+		<div id="topologyMapContainer" style="height: 800px; width: 100%; background-color: #ffffff; display: none;"></div>
+		<h:outputText value="#{topologyNodeChart.getTopologyMap()}" escape="false" />
+		<div id="topologyCoSeMapContainer" style="height: 800px; width: 100%; background-color: #ffffff;"></div>
+		<script>
+		/* <![CDATA[ */
+
+			#{topologyNodeChartDB.getTopologyNodeChartJS()}
+
+			cy.nodes("[niv<10]").classes('critical');
+			cy.nodes("[niv<9]").classes('high');
+			cy.nodes("[niv<7]").classes('medium');
+			cy.nodes("[niv<4]").classes('low');
+			cy.nodes("[niv='0.0']").classes('grayedout');
+			
+			<!--
+			//console.log("cy.width: " + cy.width());
+			//console.log("cy.height: " + cy.height());
+			-->
+
+			cy.on('tap', function(evt){
+				topologyNodeChartReset();
+			});
+
+			cy.on('tap', 'node', function(evt){
+				console.log( 'event.target.id: ' + evt.target.id() );
+				topologyNodeChartNodeClicked('01');
+			});
+
+			function toggleCharts() {
+				$("#topologyMapContainer").toggle();
+				$("#topologyCoSeMapContainer").toggle();
+			}
+			
+		/* ]]> */
+		</script>
+	</ui:define>
+
+	<ui:define name="full-width-table">
+		<div align="center"><input type="button" value="Switch View" onclick="toggleCharts();" /><br /><br /></div>
+		<div class="dataTableDivClass">
+		<h2>Vulnerabilities Detail</h2>
+		<h3 id="nodeLabelID">All</h3>
+		<h:form>
+			<b:dataTable widgetVar="retrieve" id="vulnerabilitiesTableID" value="#{vulnerabilitiesTable.vulnerabilities}" var="vulnerability" styleClass="businessProcessesByCyvarTableClass">
+
+				<b:dataTableColumn value="#{vulnerability.ID}">    				
+					<f:facet name="header">ID</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.CVEID}">    				
+					<f:facet name="header">CVEID</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.description}">
+					<f:facet name="header">Description</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.CVSSBase}">
+					<f:facet name="header">CVSS Base</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.CVSSTemporal}">
+					<f:facet name="header">CVSS Temporal</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.IIV}">
+					<f:facet name="header">IIV</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.businessProcess}">
+					<f:facet name="header">Mission</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.patchAvailability}" orderable="false">
+					<f:facet name="header">Patch Availability</f:facet>
+				</b:dataTableColumn>
+
+				<!--
+				<b:dataTableColumn value="" orderable="false">
+					<f:facet name="header">Critical Assets</f:facet>
+					<h:graphicImage id="PII" rendered="#{vulnerability.criticalAssets eq 'PCI'}" value="resources/images/CreditCard.png" title="PCI" />
+					<h:graphicImage id="PHI" rendered="#{vulnerability.criticalAssets eq 'PII'}" value="resources/images/Family.png" title="PII"/>
+					<h:graphicImage id="PKI" rendered="#{vulnerability.criticalAssets eq 'PHI'}" value="resources/images/Medical.png" title="PHI"/>
+				</b:dataTableColumn>
+				-->
+
+			</b:dataTable>
+		</h:form>
+		</div>
+	</ui:define>
+
+	<ui:define name="body-javascript">
+
+		<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+
+		<script type="text/javascript" src="#{request.contextPath}/resources/js/pages/dashboard-slide-1a-cose.js"></script>
+
+	</ui:define>
+
+</ui:composition>
