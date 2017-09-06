@@ -62,30 +62,47 @@ public class TopologyNodeChartDB implements Serializable {
 		// use an iterator to loop through the query results
 		iterator = rs.iterator();
 		
+		// initialize the variable for holding the edge js code
 		jsCode2 = "";
-		
+
+		// call function to start the js code string
 		startTopologyNodeChartJS();
-		
+
+		// loop through query results
 		while (iterator.hasNext()) {
+
+			// grab row (record)
 			row = iterator.next();
+
+			// extract the data elements
 			internalSystemID = row.getUUID("internal_system_id");
 			ipAddress = row.getString("ip_address");
 			nodeImpactValue = row.getFloat("node_impact_value");
 			List<UDTValue> udtDataList = row.getList("connected_elements", UDTValue.class);
-			//connectionsList = row.getList("connected_elements", TopologyConnectedNode.class);
-	    	jsCode += "{ data: { id: '" + internalSystemID.toString() + "', ip: '" + ipAddress + "', niv: '" + nodeImpactValue + "' } },";
-    	    //System.out.println("internalSystemID: " + internalSystemID);
-	    	for(UDTValue connectedElement : udtDataList) {
-	    		edgeCounter += 1;
-	    	    //System.out.println("connectedElement: " + connectedElement);
-	    	    destinationID = connectedElement.getString("destination_id");
-	    	    //System.out.println("destinationID: " + destinationID);
-	    	    jsCode2 += "{ data: { id: '" + edgeCounter + "', source: '" + internalSystemID.toString() + "', target: '" + destinationID + "' } },";
-	    	}			
-		}
 
+			// add the js code for the node
+			jsCode += "{ data: { id: '" + internalSystemID.toString() + "', ip: '" + ipAddress + "', niv: '" + nodeImpactValue + "' } },";
+
+			// for each connected element
+			for (UDTValue connectedElement : udtDataList) {
+				
+				// increment edge counter (used as the id of the edges)
+	    		edgeCounter += 1;
+	    		
+	    		// get the ID of the connected element
+	    	    destinationID = connectedElement.getString("destination_id");
+	    	    
+	    	    // add the js code for the edge
+	    	    jsCode2 += "{ data: { id: '" + edgeCounter + "', source: '" + internalSystemID.toString() + "', target: '" + destinationID + "' } },";
+
+			} // end for loop
+
+		} // end while loop
+
+		// add the edge js code to the node js code
 		jsCode += jsCode2;
 		
+		// call function to finish the js code string
 		endTopologyNodeChartJS();
 		
 	}
@@ -106,7 +123,8 @@ public class TopologyNodeChartDB implements Serializable {
     	
     	jsCode += "],";
     	jsCode += "style: [";
-    	jsCode += "{ selector: 'node', style: { 'background-color': '#595a5c', 'label': '' } },";
+    	jsCode += "{ selector: 'node', style: { 'background-color': '#595a5c', 'label': '', 'width': 15, 'height': 15 } },";
+    	jsCode += "{ selector: 'edge', style: { 'width': 1 } },";
     	jsCode += "{ selector: '.critical', style: { 'background-color': '#df382c', } },";
     	jsCode += "{ selector: '.high', style: { 'background-color': '#e95420', } },";
     	jsCode += "{ selector: '.medium', style: { 'background-color': '#efb73e', } },";
@@ -114,6 +132,7 @@ public class TopologyNodeChartDB implements Serializable {
     	jsCode += "],";
     	jsCode += "layout: {";
     	jsCode += "name: 'cose',";
+    	jsCode += "componentSpacing: 40,";
     	jsCode += "}";
     	jsCode += "});";
     	
