@@ -44,8 +44,6 @@ public class Login implements Serializable {
 
 	// values retrieved from the application authorization keyspace
 	private String orgKeyspace = "";
-	//private String orgUsername = "";
-	//private String orgPassword = "";
 
 	// values retrieved from the user's organization keyspace
 	private Boolean activeUserInd = false;
@@ -87,13 +85,14 @@ public class Login implements Serializable {
 	public void setUserPassCode(String userPassCode) {
 		this.userPassCode = userPassCode;
 	}
-  
+
+
 	public String loginActionControllerMethod() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 
-		// trim and convert to lower case the userOrg value for use in query
+		// trim and convert to lower case the submitted userOrg value for use in query
 		String userOrgLowerCase = userOrg.trim().toLowerCase();
 
-		// trim and convert to lower case the userEmail value for use in query
+		// trim and convert to lower case the submitted userEmail value for use in query
 		String userEmailLowerCase = userEmail.trim().toLowerCase();
 
 		// make sure the userOrg value has a length of at least 3
@@ -130,7 +129,7 @@ public class Login implements Serializable {
 		if (row == null) {
 
 			// return to login form with error message
-			messageText = "Organization Name is invalid";
+			messageText = "the submitted Organization Name is invalid";
 			FacesMessage errorMessage = new FacesMessage(messageText);
 			errorMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, errorMessage);
@@ -143,12 +142,9 @@ public class Login implements Serializable {
 
 		}
 
-		// print statement for troubleshooting
-		System.out.println("Organization Keyspace Name: " + orgKeyspace);
-
 		// get the Hash Map of the Organization database connections
 		@SuppressWarnings("unchecked")
-		Map<String, DatabaseConnectionManager> DBConnectionsHashMap = (Map<String, DatabaseConnectionManager>) ctx.getAttribute("OrgDBConnections");
+		Map<String, DatabaseConnectionManager> DBConnectionsHashMap = (Map<String, DatabaseConnectionManager>)ctx.getAttribute("OrgDBConnections");
 		
 		// get the database connection for this user's organization
 		DatabaseConnectionManager orgDBConnection = DBConnectionsHashMap.get(orgKeyspace);
@@ -172,7 +168,7 @@ public class Login implements Serializable {
 		if (row == null) {
 
 			// return to login form with error message
-			messageText = "Login failed - userEmail is invalid";
+			messageText = "the submitted Email Address is invalid";
 			FacesMessage errorMessage = new FacesMessage(messageText);
 			errorMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, errorMessage);
@@ -196,25 +192,11 @@ public class Login implements Serializable {
 
 		}
 		
-		// print statements for troubleshooting
-		//System.out.println("Active User Ind: " + activeUserInd);
-		//System.out.println("Application Role Name: " + appRoleName);
-		//System.out.println("Default Lens View: " + defaultLensView);
-		//System.out.println("First Name: " + firstName);
-		//System.out.println("Last Name: " + lastName);
-		System.out.println("User Name: " + userName);
-		System.out.println("Hashed Password: " + hashedPassword);
-		if (!(loginTimeoutStartTime == null)) {
-			System.out.println("Login Timeout Start Time: " + loginTimeoutStartTime.toString());
-		}
-		System.out.println("Num Consecutive Failed Attempts: " + numConsecutiveFailedAttempts);
-		//System.out.println("System Administrator Ind: " + systemAdministratorInd);
-
 		// if not an active user, send back to login page
 		if (!activeUserInd) {
 			
 			// return to login form with error message
-			messageText = "Login failed - inactive user";
+			messageText = "this user's account is Inactive";
 			FacesMessage errorMessage = new FacesMessage(messageText);
 			errorMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, errorMessage);
@@ -236,7 +218,7 @@ public class Login implements Serializable {
 				// return to login form with error message
 				long currentDateTimeInMs = currentDateTime.getTime();
 				long loginTimeoutEndTimeInMs = loginTimeoutEndTime.getTime();
-				int remainingLockoutMinutes = (int) ((loginTimeoutEndTimeInMs - currentDateTimeInMs) / ONE_MINUTE_IN_MILLIS);
+				int remainingLockoutMinutes = (int)((loginTimeoutEndTimeInMs - currentDateTimeInMs) / ONE_MINUTE_IN_MILLIS);
 				if (remainingLockoutMinutes < 2) {
 					remainingLockoutMinutes = 2;
 				}
@@ -247,9 +229,9 @@ public class Login implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(null, errorMessage);
 				return(null);
 
-			}
+			} // if still locked out
 			
-		}
+		} // if user is locked out
 		
 		// get the client IP address
 		HttpServletRequest request = SessionUtils.getRequest();
@@ -259,25 +241,13 @@ public class Login implements Serializable {
 		}
 
 		// if passcode is invalid, update users table and send back to login page
-		/*
 		String[] passCodeElementsArray = hashedPassword.split("[*]{3}");
 		int iterations = Integer.parseInt(passCodeElementsArray[0]);
 		byte[] salt = passCodeElementsArray[1].getBytes("UTF-8");
 		byte[] encryptedPasscode = passCodeElementsArray[2].getBytes("UTF-8");
-		String saltString = new String(salt);
-		String encryptedPasscodeString = new String(encryptedPasscode);
-		*/
-
-		/*
-		System.out.println("iterations: " + iterations);
-		System.out.println("salt as a string post conversions: " + saltString);
-		System.out.println("passcode as a string post conversions: " + encryptedPasscodeString);
-		*/
+		boolean userPassCodeEncrypted = PasscodeEncryptionService.authenticate(userPassCode, encryptedPasscode, salt, iterations);
 		
-		//boolean userPassCodeEncrypted = PasscodeEncryptionService.authenticate(userPassCode, encryptedPasscode, salt, iterations);
-		
-		if (!userPassCode.equals(hashedPassword)) {
-		//if (!userPassCodeEncrypted) {
+		if (!userPassCodeEncrypted) {
 
 			// if was locked out, reset counter
 			if (numConsecutiveFailedAttempts >= LOCKOUT_THRESHOLD) {
@@ -301,7 +271,7 @@ public class Login implements Serializable {
 				messageText = LOCKOUT_ERROR_MESSAGE;
 				messageText = messageText.replaceAll("XX", Integer.toString(NUM_LOCKOUT_MINUTES));
 			} else {
-				messageText = "Login failed - userPassCode is invalid";
+				messageText = "the submitted PassCode is invalid";
 			}
 			FacesMessage errorMessage = new FacesMessage(messageText);
 			errorMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
@@ -349,12 +319,12 @@ public class Login implements Serializable {
 			userSession.setAttribute("currentSite", siteID);
 
 			// send to default page for this user
-			
 			return(defaultLensView + "?faces-redirect=true");
 
-		}
+		} // if login was successful or not
 				
 	}
+
 
 	// logout event, invalidate session
 	public String logoutActionControllerMethod() {
@@ -370,8 +340,10 @@ public class Login implements Serializable {
 
 	}
 
+
 	public String helpActionControllerMethod() {
 		return "page-b";
 	}
 	
+
 }
