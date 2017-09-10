@@ -1,5 +1,6 @@
 package com.g2ops.washington.utils;
 
+import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -12,13 +13,12 @@ import javax.crypto.spec.PBEKeySpec;
 public class PasscodeEncryptionService {
 
 	public static boolean authenticate(String attemptedPasscode, byte[] encryptedPasscode, byte[] salt, int iterations)
-			throws NoSuchAlgorithmException, InvalidKeySpecException {
+			throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 
-		attemptedPasscode = "password";
-		
 		// Encrypt the clear-text passcode using the same salt that was used to encrypt the original passcode
 		byte[] encryptedAttemptedPasscode = getEncryptedPasscode(attemptedPasscode, salt, iterations);
 
+		/*
 		String saltString = new String(salt);
 		String encryptedPasscodeString = new String(encryptedPasscode);
 		String encryptedAttemptedPasscodeString = new String(encryptedAttemptedPasscode);
@@ -26,17 +26,18 @@ public class PasscodeEncryptionService {
 		System.out.println("attemptedPasscode: " + attemptedPasscode);
 		System.out.println("iterations: " + iterations);
 		System.out.println("saltString: " + saltString);
-		System.out.println("encryptedPasscodeString: " + encryptedPasscodeString);
-		System.out.println("encryptedAttemptedPasscodeString: " + encryptedAttemptedPasscodeString);
+		System.out.println("encryptedPasscodeString: ***" + encryptedPasscodeString + "***");
+		System.out.println("encryptedAttemptedPasscodeString: ***" + encryptedAttemptedPasscodeString + "***");
 		System.out.println("*** PasscodeEncryptionService ***");
+		*/
 		
-		// Authentication succeeds if encrypted passcode that the user entered is equal to the stored hash
+		// Authentication succeeds if encrypted passcode that the user entered is equal to the encrypted passcode from the DB
 		return Arrays.equals(encryptedPasscode, encryptedAttemptedPasscode);
 
 	}
 
 	public static byte[] getEncryptedPasscode(String passcode, byte[] salt, int iterations)
-			throws NoSuchAlgorithmException, InvalidKeySpecException {
+			throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 
 		// PBKDF2 with SHA-1 as the hashing algorithm. Note that the NIST specifically names SHA-1 as an acceptable hashing algorithm for PBKDF2
 		String algorithm = "PBKDF2WithHmacSHA1";
@@ -46,17 +47,26 @@ public class PasscodeEncryptionService {
 
 		// Pick an iteration count that works for you. The NIST recommends at least 1,000 iterations:
 		// http://csrc.nist.gov/publications/nistpubs/800-132/nist-sp800-132.pdf
-		//int iterations = 20000;
 
 		KeySpec spec = new PBEKeySpec(passcode.toCharArray(), salt, iterations, derivedKeyLength);
 		SecretKeyFactory f = SecretKeyFactory.getInstance(algorithm);
 
-		return f.generateSecret(spec).getEncoded();
+		// get byte array in UTF-16 (Java default encoding)
+		byte[] tempBytes = f.generateSecret(spec).getEncoded();
+		
+		// convert byte array to a string
+		String tempSecret = new String(tempBytes, "UTF-16");
+		
+		// convert string to a byte array in UTF-8 (Cassandra encoding)
+		byte[] finalBytes = tempSecret.getBytes("UTF-8");
+		
+		/* return f.generateSecret(spec).getEncoded(); */
+		// return a UTF-8 encoded byte array
+		return finalBytes;
 
 	}
 
-	public static byte[] generateSalt() throws NoSuchAlgorithmException {
-	// public static String generateSalt() throws NoSuchAlgorithmException {
+	public static byte[] generateSalt() throws NoSuchAlgorithmException, UnsupportedEncodingException {
 
 		// VERY important to use SecureRandom instead of just Random
 		SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
@@ -64,8 +74,14 @@ public class PasscodeEncryptionService {
 		// Generate a 8 byte (64 bit) salt as recommended by RSA PKCS5
 		byte[] salt = new byte[8];
 		random.nextBytes(salt);
-		// String salt = new String(saltByteArray);
 
+		// convert byte array to a string
+		String tempSalt = new String(salt, "UTF-16");
+		
+		// convert string to a byte array in UTF-8 (Cassandra encoding)
+		salt = tempSalt.getBytes("UTF-8");
+		
+		// return a UTF-8 encoded byte array
 		return salt;
 
 	}
