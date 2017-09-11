@@ -11,14 +11,14 @@ CREATE TABLE IF NOT EXISTS hardware (
     mac_address 						text,	// Search w/ Solr or MV
     cvss_scores							list<frozen<cvss_scores>>, //
     patch_availability 					text,
-    import_date 						date,    // based on import job
+    import_date 						date,    // based on import job in format YYYY-MM-DD
     cpe_id 								text,    // product
     part 								text,    // should always be [h]ardware
     vendor 								text,
     product 							text,
     version 							text,
     version_update 						text,
-    run_date 							date,   // From scan file
+    run_date 							date,   // From scan file in format YYYY-MM-DD
     end_of_sale 						date,
     end_of_life_date 					date,
     end_of_support_date 				date,
