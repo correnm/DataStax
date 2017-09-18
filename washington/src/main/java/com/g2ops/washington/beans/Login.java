@@ -17,6 +17,7 @@ import javax.servlet.ServletContext;
 
 import com.g2ops.washington.types.User;
 import com.g2ops.washington.utils.DatabaseConnectionManager;
+import com.g2ops.washington.utils.DatabaseQueryService;
 import com.g2ops.washington.utils.PasscodeEncryptionService;
 import com.g2ops.washington.utils.SessionUtils;
 
@@ -56,7 +57,6 @@ public class Login implements Serializable {
 	private String siteID = "";
 	private String firstName = "";
 	private String lastName = "";
-	private String userName = "";
 	private String hashedPassword = "";
 	
 	// used to return error messages to the login form
@@ -153,7 +153,7 @@ public class Login implements Serializable {
 		DBSession = orgDBConnection.getSession();
 
 		// create the prepared statement for selecting the user's info
-		preparedStatement = DBSession.prepare("select active_user_ind, application_role_name, default_lens_view_r, org_unit_id, site_id, first_name, last_name, user_name, hashed_password, login_timeout_start_time, num_consecutive_failed_attempts, system_administrator_ind from users where user_email = ?");
+		preparedStatement = DBSession.prepare("select active_user_ind, application_role_name, default_lens_view_r, org_unit_id, site_id, first_name, last_name, hashed_password, login_timeout_start_time, num_consecutive_failed_attempts, system_administrator_ind from users where user_email = ?");
 
 		// create bound statement
 		boundStatement = preparedStatement.bind(userEmailLowerCase);
@@ -184,7 +184,6 @@ public class Login implements Serializable {
 			siteID = row.getUUID("site_id").toString();
 			firstName = row.getString("first_name");
 			lastName = row.getString("last_name");
-			userName = row.getString("user_name");
 			hashedPassword = row.getString("hashed_password");
 			loginTimeoutStartTime = row.getTimestamp("login_timeout_start_time");
 			numConsecutiveFailedAttempts = row.getInt("num_consecutive_failed_attempts");
@@ -308,7 +307,7 @@ public class Login implements Serializable {
 			String orgID = row.getUUID("org_id").toString();
 			
 			// create user object and store in user's session
-			User user = new User(userEmailLowerCase, userName, firstName, lastName, appRoleName, defaultLensView, systemAdministratorInd);
+			User user = new User(userEmailLowerCase, firstName, lastName, appRoleName, defaultLensView, systemAdministratorInd);
 			HttpSession userSession = SessionUtils.getSession();
 			userSession.setAttribute("user", user);
 			
@@ -318,6 +317,10 @@ public class Login implements Serializable {
 			userSession.setAttribute("currentOU", orgUnitID);
 			userSession.setAttribute("currentSite", siteID);
 
+			// create an instance of the Database Query Service class and store in the user's session
+			DatabaseQueryService databaseQueryService = new DatabaseQueryService();
+			userSession.setAttribute("databaseQueryService", databaseQueryService);
+			
 			// send to default page for this user
 			return(defaultLensView + "?faces-redirect=true");
 
