@@ -28,7 +28,7 @@ import com.g2ops.washington.utils.SessionUtils;
 @ManagedBean
 public class BusinessProcessTreeMap {
 
-	private DatabaseQueryService dqs = new DatabaseQueryService();
+	private DatabaseQueryService databaseQueryService;
 	private ResultSet rs;
 	private Iterator<Row> iterator;
 
@@ -241,7 +241,14 @@ public class BusinessProcessTreeMap {
 
 	private void queryHardwareNodes() {
 
-		rs = dqs.RunQuery("select ip_address, node_impact_value, vulnerability_count from hardware where site_or_ou_name = '" + selectedSite + "'");
+		// get the user's session
+		HttpSession userSession = SessionUtils.getSession();
+		
+		// get the Database Query Service instance from the user's session
+		databaseQueryService = (DatabaseQueryService)userSession.getAttribute("databaseQueryService");
+		
+		// execute the query
+		rs = databaseQueryService.runQuery("select ip_address, node_impact_value, vulnerability_count from hardware where site_or_ou_name = '" + selectedSite + "'");
 
 	}
 
