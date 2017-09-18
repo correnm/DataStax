@@ -6,17 +6,19 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.servlet.http.HttpSession;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.g2ops.washington.types.BusinessAttribution;
 import com.g2ops.washington.utils.DatabaseQueryService;
+import com.g2ops.washington.utils.SessionUtils;
 
 	@ManagedBean
 	@ViewScoped
 	public class BusinessAttributionTable {
 
-		private DatabaseQueryService dqs = new DatabaseQueryService();
+		private DatabaseQueryService databaseQueryService;
 		private ResultSet rs;
 		private Iterator<Row> iterator;
 		private BusinessAttribution att;
@@ -53,6 +55,14 @@ import com.g2ops.washington.utils.DatabaseQueryService;
 
 		private void populateBusinessAtt() {
 
-			rs = dqs.RunQuery("select ip_address, os_general, system_type, asset_type, asset_visibility, business_interruption_threshold, business_criticality, information_classification_value from hardware");
+			// get the user's session
+			HttpSession userSession = SessionUtils.getSession();
+			
+			// get the Database Query Service instance from the user's session
+			databaseQueryService = (DatabaseQueryService)userSession.getAttribute("databaseQueryService");
+			
+			// execute the query
+			rs = databaseQueryService.runQuery("select ip_address, os_general, system_type, asset_type, asset_visibility, business_interruption_threshold, business_criticality, information_classification_value from hardware");
+
 		}
 }
