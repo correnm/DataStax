@@ -36,7 +36,7 @@ import com.g2ops.washington.utils.SessionUtils;
 		private String data;
 		private String chartData;
 		private FusionCharts topNbyCyVaRChart;
-		private DatabaseQueryService dqs = new DatabaseQueryService();
+		private DatabaseQueryService databaseQueryService;
 		private Iterator<Row> iterator;
 
 		public TopNbyCyVaRChart() {
@@ -44,11 +44,14 @@ import com.g2ops.washington.utils.SessionUtils;
 			// get the user's session
 			HttpSession userSession = SessionUtils.getSession();
 
+			// get the Database Query Service instance from the user's session
+			databaseQueryService = (DatabaseQueryService)userSession.getAttribute("databaseQueryService");
+			
 			// get the currently active Site from the user's session
 			String selectedSite = (String)userSession.getAttribute("currentSite");
 
 			// do DB query
-			ResultSet rs = dqs.RunQuery("select business_process_name, cyber_value_at_risk from business_value_attribution where site_id = " + selectedSite);
+			ResultSet rs = databaseQueryService.runQuery("select business_process_name, cyber_value_at_risk from business_value_attribution where site_id = " + selectedSite);
 
 			//iterate over the results. 
 			iterator = rs.iterator();
