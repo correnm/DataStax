@@ -209,8 +209,8 @@ public class UserEdit implements Serializable {
 
 		}
 
-		// update the audit info in the Users table for the user that was edited
-		rs = databaseQueryService.runQuery("update users set first_name = '" + this.firstName + "', last_name = '" + this.lastName + "', audit_upsert = { datechanged : dateof(now()), changedbyusername : '" + user.getUserEmail() + "' } where user_email = '" + userEmail + "'");
+		// update the user's info in the Users table for the user that was edited
+		rs = databaseQueryService.runQuery("update users set first_name = '" + this.firstName + "', last_name = '" + this.lastName + "', application_role_name = '" + this.role + "', audit_upsert = { datechanged : dateof(now()), changedbyusername : '" + user.getUserEmail() + "' } where user_email = '" + userEmail + "'");
 
 		return "users-table";
 
