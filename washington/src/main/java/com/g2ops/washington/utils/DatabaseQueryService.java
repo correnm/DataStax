@@ -1,41 +1,33 @@
 package com.g2ops.washington.utils;
 
-import com.g2ops.washington.utils.DatabaseConnectionManager;
 import com.g2ops.washington.utils.SessionUtils;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Session;
 
-import java.util.Map;
+import java.io.Serializable;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
+public class DatabaseQueryService implements Serializable {
 
-public class DatabaseQueryService {
+	private static final long serialVersionUID = 1L;
 
-	public ResultSet RunQuery(String query) {
+	private Session dbSession;
 
-		// get the servlet's context
-		ServletContext ctx = SessionUtils.getRequest().getServletContext();
-
-		// get the user's session
-		HttpSession userSession = SessionUtils.getSession();
-
-		// get the orgKeyspace from the session
-		String orgKeyspace = (String)userSession.getAttribute("orgKeyspace");
-
-		// get the Hash Map of the Organization database connections
-		@SuppressWarnings("unchecked")
-		Map<String, DatabaseConnectionManager> DBConnectionsHashMap = (Map<String, DatabaseConnectionManager>) ctx.getAttribute("OrgDBConnections");
+	public DatabaseQueryService() {
 		
-		// get the database connection for this user's organization
-		DatabaseConnectionManager orgDBConnection = DBConnectionsHashMap.get(orgKeyspace);
+		System.out.println("start DatabaseQueryService constructor");
 		
 		// get the database connection session
-		Session DBSession = orgDBConnection.getSession();
+		dbSession = SessionUtils.getOrgDBSession();
 
-		// execute the query
-		ResultSet rs = DBSession.execute(query);
+		System.out.println("end DatabaseQueryService constructor");
+
+	}
+	
+	public ResultSet runQuery(String query) {
+
+		// execute the query that was passed in
+		ResultSet rs = dbSession.execute(query);
 
 		// return the result set
 		return rs;
