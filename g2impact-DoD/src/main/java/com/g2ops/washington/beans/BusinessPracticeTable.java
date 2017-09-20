@@ -6,17 +6,19 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.servlet.http.HttpSession;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.g2ops.washington.types.BusinessPractice;
 import com.g2ops.washington.utils.DatabaseQueryService;
+import com.g2ops.washington.utils.SessionUtils;
 
 @ManagedBean
 @ViewScoped
 public class BusinessPracticeTable {
 
-	private DatabaseQueryService dqs = new DatabaseQueryService();
+	private DatabaseQueryService databaseQueryService;
 	private ResultSet rs;
 	private Iterator<Row> iterator;
 	private BusinessPractice biz;
@@ -52,7 +54,14 @@ public class BusinessPracticeTable {
 
 	private void populateBusinessData () {
 
-		rs = dqs.RunQuery("select category, business_value,collateral_damage_current, target_distribution_current, confidentiality_req_current, integrity_req_current, availability_req_current from business_practice");
+		// get the user's session
+		HttpSession userSession = SessionUtils.getSession();
+		
+		// get the Database Query Service instance from the user's session
+		databaseQueryService = (DatabaseQueryService)userSession.getAttribute("databaseQueryService");
+		
+		// execute the query
+		rs = databaseQueryService.runQuery("select category, business_value,collateral_damage_current, target_distribution_current, confidentiality_req_current, integrity_req_current, availability_req_current from business_practice");
 
 	}
 
