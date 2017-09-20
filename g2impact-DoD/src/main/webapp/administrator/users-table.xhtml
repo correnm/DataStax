@@ -19,10 +19,6 @@
 					<h:link outcome='/administrator/user-edit.jsf' value='#{user.userEmail}'><f:param name="userEmail" value="#{user.userEmail}" /></h:link>
 				</b:dataTableColumn>
 
-				<b:dataTableColumn value="#{user.userName}">
-					<f:facet name="header">Username</f:facet>
-				</b:dataTableColumn>
-
 				<b:dataTableColumn value="#{user.firstName}">
 					<f:facet name="header">First Name</f:facet>
 				</b:dataTableColumn>
