@@ -9,6 +9,7 @@ package com.g2ops.washington.beans;
  * 
  * Date				Author				Revision Description
  * 7-27-2017		Sara Prokop			Creator
+ * 14-Sept-2017		Sara Prokop			Added database entry capability 
  * 
  * 
  */
@@ -17,17 +18,23 @@ import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
+import com.datastax.driver.core.BoundStatement;
+import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
+import com.g2ops.washington.filters.BusinessAttributionFilter;
 import com.g2ops.washington.utils.PasscodeEncryptionService;
 import com.g2ops.washington.utils.SessionUtils;
 
@@ -40,69 +47,110 @@ public class BusinessAttributionEdit {
 	private Session dbSession = SessionUtils.getOrgDBSession();
 	private ResultSet rs;
 	private Row row;
-	private String ip, osType, sysType, assetType, assetVis, busIntThreshold, businessCrit, infoClass ;
+	private String ip, osType, sysType, assetType, assetVis, vendor;
+	private boolean reportable;
 	private String siteORouName,ipSubOrBuilding;
 	private UUID internalSysID;
+	private String site, sub, id;
+	private UUID UUid;
 	private Iterator<Row> iterator;
 	private String colValue;
 	private List<String> ddOptions = new ArrayList<String>();
 	
-
 	public BusinessAttributionEdit() {
+	
+		//getting the parmaters (keys) when the edit icon is pressed
+		FacesContext fc = FacesContext.getCurrentInstance();
+		this.UUid = getIdParam(fc);
+		this.site = getSiteParam(fc);
+		this.sub = getSubParam(fc);
+		
+		//queries the specific entry
+		String query = "select vendor, ip_address, os_general, system_type, asset_type, asset_visibility, reportable_flag from hardware"
+				+ " where internal_system_id = ? and site_or_ou_name = ? and ip_subnet_or_building = ?"; //site_or_ou_name = '96a3378e-2f67-4b9d-ab67-9ee9d533b88f' and ip_subnet_or_building = '10.106'";
 
-		// execute sample query
-		rs = dbSession.execute("select ip_address, os_general, system_type, asset_type, asset_visibility, business_interruption_threshold,"
-				+ "business_criticality, information_classification_value, site_or_ou_name, ip_subnet_or_building, internal_system_id from hardware "
-				+ "where site_or_ou_name = '96a3378e-2f67-4b9d-ab67-9ee9d533b88f' and ip_subnet_or_building = '10.106' and internal_system_id = 012878d1-eff0-49b7-9a43-95c1bae4a508");
-
+		PreparedStatement prepared = dbSession.prepare(query);
+		BoundStatement bound = prepared.bind(UUid, site, sub);
+		rs = dbSession.execute(bound);
+		
 		// get the result values
 		row = rs.one();
 
 		// set values to what was returned by the query
+		vendor= row.getString("vendor");
 		ip = row.getString("ip_address");
 		osType = row.getString("os_general");
 		sysType = row.getString("system_type");
 		assetType = row.getString("asset_type");
 		assetVis = row.getString("asset_visibility");
-		busIntThreshold = row.getString("business_interruption_threshold");
-		businessCrit = row.getString("business_criticality");
-		infoClass = row.getString("information_classification_value");
-		siteORouName = row.getString("site_or_ou_name");
-		ipSubOrBuilding = row.getString("ip_subnet_or_building");
-		internalSysID = row.getUUID("internal_system_id");
+		reportable = row.getBool("reportable_flag");
+//		siteORouName = row.getString("site_or_ou_name");
+//		ipSubOrBuilding = row.getString("ip_subnet_or_building");
+//		internalSysID = row.getUUID("internal_system_id");
 		
 	}
+	//methods utilize a map that maps the name of the parameter to its value 
+	public UUID getIdParam(FacesContext fc){
+		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
+		String id = params.get("id");
+		UUID UUid = UUID.fromString(id);
+		return UUid;
+	}
+	
+	public String getSiteParam(FacesContext fc){
+		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
+		String site = params.get("site");
+		return site;
+	}
 
+	public String getSubParam(FacesContext fc){
+		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
+		String sub = params.get("sub");
+		return sub;
+	}
+	public void setVendor(String vendor){
+		this.vendor = vendor;
+	}
+	public String getVendor(){
+		return vendor;
+	}
+	public void setIp(String ip){
+		this.ip = ip;
+	}
 	public String getIp() {
 		return ip;
 	}
-
+	public void setOsType(String type){
+		this.osType = type;
+	}
 	public String getOsType() {
 		return osType;
 	}
-
+	public void setSysType(String type){
+		this.sysType = type;
+	}
 	public String getSysType() {
 		return sysType;
+	}
+	public void setAssetType(String type){
+		this.assetType = type;
 	}
 	public String getAssetType() {
 		return assetType;
 	}
-
+	public void setAssetVis(String vis){
+		this.assetVis = vis;
+	}
 	public String getAssetVis() {
 		return assetVis;
 	}
-	
-	public String getBusIntThreshold() {
-		return busIntThreshold;
+	public void setReportable(boolean flag){
+		this.reportable = flag;
+	}
+	public boolean getReportable(){
+		return reportable;
 	}
 	
-	public String getBusinessCrit() {
-		return businessCrit;
-	}
-
-	public String getInfoClass() {
-		return infoClass;
-	}
 	
 	//get keys for editing unique rows
 	public String getSiteORouName(){
@@ -120,38 +168,42 @@ public class BusinessAttributionEdit {
 	//methods called by the business-attribution-edit.xhtml to set category value
 	public List<String> ddAssetTypes(){
 		//ddOptions.clear();
-		populateDropDowns("'Asset Type'");
+		populateDropDowns("Asset Type");
 		return ddOptions;
 	}
 	
 	public List<String> ddAssetVisibility(){
 		ddOptions.clear();
-		populateDropDowns("'Asset Visibility'");
+		populateDropDowns("Asset Visibility");
 		return ddOptions;
 	}
 	
-	public List<String> ddBusIntThreshold(){
+	public List<String> ddVendors(){
 		ddOptions.clear();
-		populateDropDowns("'Business Interruption Threshold'");
+		ddOptions = BusinessAttributionFilter.ddVendors();;
 		return ddOptions;
 	}
 	
-	public List<String> ddBusCrit(){
+	public List<String> ddOS(){
 		ddOptions.clear();
-		populateDropDowns("'Business Criticality'");
+		ddOptions = BusinessAttributionFilter.ddOS();
 		return ddOptions;
 	}
 	
-	public List<String> ddInfoClassValue(){
+	public List<String> ddSysTypes(){
 		ddOptions.clear();
-		populateDropDowns("'Information Classification Value'");
+		ddOptions = BusinessAttributionFilter.ddSysTypes();
 		return ddOptions;
 	}
 	
 	//populates the options for the dropdowns
 	public void populateDropDowns(String col){
 		// execute query to get drop down options for each column in the table
-		rs = dbSession.execute("select business_value from business_practice where category = " + col);
+		String query = "select business_value from business_practice where category = ?";
+		PreparedStatement prepared = dbSession.prepare(query);
+		BoundStatement bound = prepared.bind(col);
+		rs = dbSession.execute(bound);
+//		rs = dbSession.execute("select business_value from business_practice where category =" + col);
 		
 		iterator = rs.iterator();
 
@@ -164,13 +216,18 @@ public class BusinessAttributionEdit {
 		}
 	}
 
-	public String editBusinessAttributionActionControllerMethod() {
-
-		//will be used to edit contents of the hardware table in the database
+	//saves the new entry into the Cassandra database
+	public void editBusinessAttributionActionControllerMethod() {
 
 		
-		return "edit table";
+		String query = "UPDATE hardware SET vendor = ?, ip_address = ?, os_general = ? , system_type = ?, asset_type = ?, asset_visibility = ?, reportable_flag = ?"
+				+ " where internal_system_id = ? and site_or_ou_name = ? and ip_subnet_or_building = ?" ;
+		PreparedStatement prepared = dbSession.prepare(query);
 		
+		BoundStatement bound = prepared.bind(vendor, ip, osType, sysType, assetType, assetVis, reportable, UUid, site, sub);
+		
+		dbSession.execute(bound);
+
 	}
 	
 }

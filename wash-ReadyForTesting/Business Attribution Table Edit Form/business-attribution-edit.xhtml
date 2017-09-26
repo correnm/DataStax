@@ -1,11 +1,16 @@
 <!-- 
 Author: 	Sara Prokop G2 Ops, Virginia Beach, VA
 Version:	1.00, July 2017
-Purpose: 	This file displays the user interface for editing the Business Attribution Table.
+Purpose: 	This file creates an edit form for the Node Value Attribution table. It will allow users to change values within the form ,
+			including the ip address, os type, and system type; as well as asset type and asset visibility, which each's drop down values 
+			are obtained from the business_practice table in the DB. 
 
  Date				Author				Revision Description
- 7-12-2017			Sara Prokop			Creator
- 7-27-2017			Sara Prokop			Populated the drop downs with data from the business_practice table
+ 12-July-2017		sara.prokop			Creator
+ 27-July-2017		sar.prokop			Populated the drop downs with data from the business_practice table
+ 14-Sept-2017		sara.prokop			added parameters for hardware lookup
+ 										added vendor as editable
+ 26-Sept-2017		sara.prokop			set the vendor, os, and system type fields as drop down options
  
  -->
 
@@ -17,13 +22,13 @@ Purpose: 	This file displays the user interface for editing the Business Attribu
 	xmlns:b="http://bootsfaces.net/ui"
 	template="/templates/full-page-form.xhtml">
 
-	<ui:define name="document-title">Business Attribution Table Edit - Washington</ui:define>
+	<ui:define name="document-title">Node Attribution Table Edit - Washington</ui:define>
 
-	<ui:define name="page-name">Edit Business Attribution Table</ui:define>
+	<ui:define name="page-name">Edit Node Attribution Table</ui:define>
 
 	<ui:define name="full-page-form">
 
-		<h:form id="businessAttributionEditForm">
+		<h:form id="BusinessAttributionEditForm">
 
 			<b:panel look="default">
 
@@ -40,11 +45,25 @@ Purpose: 	This file displays the user interface for editing the Business Attribu
 				</b:row>
 
 		<!-- Non-Editable -->
+				 <b:row>
+				 	<b:column col-md="2" offset="2">Vendor: </b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu value="#{businessAttributionEdit.vendor}" itemValue="#{businessAttributionEdit.vendor}" colMd="2" required="true" labelColMd="2">
+            				<f:selectItems value= "#{businessAttributionEdit.ddVendors()}"/>
+        				</b:selectOneMenu>
+					</b:column> 
+				</b:row>
+
 				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+				 <b:row>
 					<b:column col-md="2" offset="2">IP Address: </b:column>
 					<b:column col-md="4">
-						#{businessAttributionEdit.ip}
-					</b:column>
+						<b:inputText value="#{businessAttributionEdit.ip}" />
+					</b:column> 
 				</b:row>
 
 				<b:row>
@@ -56,7 +75,10 @@ Purpose: 	This file displays the user interface for editing the Business Attribu
 				<b:row>
 					<b:column col-md="2" offset="2">OS Type: </b:column>
 					<b:column col-md="4">
-						#{businessAttributionEdit.osType}
+						<b:selectOneMenu value="#{businessAttributionEdit.osType}" itemValue="#{businessAttributionEdit.osType}" colMd="2" required="true" labelColMd="2">
+            				<f:selectItems value= "#{businessAttributionEdit.ddOS()}"/>
+        				</b:selectOneMenu>
+	
 					</b:column>
 				</b:row>
 				
@@ -69,7 +91,9 @@ Purpose: 	This file displays the user interface for editing the Business Attribu
 				<b:row>
 					<b:column col-md="2" offset="2">System Type: </b:column>
 					<b:column col-md="4">
-						#{businessAttributionEdit.sysType}
+						<b:selectOneMenu value="#{businessAttributionEdit.sysType}" itemValue="#{businessAttributionEdit.sysType}" colMd="2" required="true" labelColMd="2">
+            				<f:selectItems value= "#{businessAttributionEdit.ddSysTypes()}"/>
+        				</b:selectOneMenu>
 					</b:column>
 				</b:row>
 				
@@ -83,8 +107,6 @@ Purpose: 	This file displays the user interface for editing the Business Attribu
 				<b:row>
 					<b:column col-md="2" offset="2">Asset Type: </b:column>
 					<b:column col-md="4">
-					
-    				    
     				    <b:selectOneMenu value="#{businessAttributionEdit.assetType}" itemValue="#{businessAttributionEdit.assetType}" colMd="2" required="true" labelColMd="2">
             				<f:selectItems value= "#{businessAttributionEdit.ddAssetTypes()}"/>
         				</b:selectOneMenu>
@@ -105,34 +127,15 @@ Purpose: 	This file displays the user interface for editing the Business Attribu
             			</b:selectOneMenu>
 					</b:column>
 				</b:row>
-
 				<b:row>
 					<b:column col-md="12">
 						<span class="rowSpace"><br/></span>
 					</b:column>
 				</b:row>
-				
 				<b:row>
-					<b:column col-md="2" offset="2">Business Interruption Threshold: </b:column>
+					<b:column col-md="2" offset="2">Reportable: </b:column>
 					<b:column col-md="4">
-						<b:selectOneMenu value="#{businessAttributionEdit.busIntThreshold}" itemValue="#{businessAttributionEdit.assetType}" colMd="2" required="true" labelColMd="2">
-            				<f:selectItems value="#{businessAttributionEdit.ddBusIntThreshold()}" />
-            			</b:selectOneMenu>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="2" offset="2">Business Criticality: </b:column>
-					<b:column col-md="4">
-						<b:selectOneMenu value="#{businessAttributionEdit.businessCrit}" itemValue="#{businessAttributionEdit.businessCrit}" colMd="2" required="true" labelColMd="2">
-            				<f:selectItems value="#{businessAttributionEdit.ddBusCrit()}" />
-            			</b:selectOneMenu>
+						<b:selectBooleanCheckbox value="#{businessAttributionEdit.reportable}" itemValue="#{businessAttributionEdit.reportable}" colMd="2" required="true" labelColMd="2"/>
 					</b:column>
 				</b:row>
 
@@ -142,15 +145,6 @@ Purpose: 	This file displays the user interface for editing the Business Attribu
 					</b:column>
 				</b:row>
 				
-				<b:row>
-					<b:column col-md="2" offset="2">Information Classification: </b:column>
-					<b:column col-md="4">
-						<b:selectOneMenu value="#{businessAttributionEdit.infoClass}" itemValue="#{businessAttributionEdit.infoClass}" colMd="2" required="true" labelColMd="2">
-            				<f:selectItems value="#{businessAttributionEdit.ddInfoClassValue()}" />
-            			</b:selectOneMenu>
-					</b:column>
-				</b:row>
-
 				<b:row>
 					<b:column col-md="12">
 						<span class="rowSpace"><br/></span>

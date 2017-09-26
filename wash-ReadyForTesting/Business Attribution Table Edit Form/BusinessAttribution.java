@@ -3,48 +3,58 @@ package com.g2ops.washington.types;
 import java.util.UUID;
 
 /**
- * @author 		 Sara Prokop G2 Ops, Virginia Beach, VA
+ * @author 		Sara PRokop, G2 Ops, Virginia Beach, VA
  * @version 	1.00, July 2017
+ * @see			<a href="URL#value">label</a>
+ * @exception
  * 
- * This class sets a type for populating the Business Value Attribution Table. 
- * It is initialized in the BusinessAttributionTable.java class 
- * 
+ * <p>Known Bugs: (a list of bugs and other problems)
+ *
+ *
+ * <p>Revision History:
  * Date				Author				Revision Description
- * 7-12-2017		Sara Prokop			Creator
- * 7-27-2017		Sara Prokop			Added the primary key fields
- * 
+ * 12-July-2017		sara.prokop		Created this Java class
+ * 11-Sept-2017		sara.prokop		took out business interruption threshold, business criticality, and classification
+ * 12-Sept-2017		sara.prokop		added keys into attributes
+ * 14-Sept-2017 	sara.prokop		added reportable_flag and vendor 
  */
 
 public class BusinessAttribution {
+	
 
 	// declare the variables which coincide with fields in the business_practice table
-	private String ip, osType, sysType, assetType, assetVis, busIntThreshold, businessCrit, infoClass ;
-	private String siteORouName, build;// partition keys
-	private UUID intSysID;//partition keys
+	private String ip, osType, sysType, assetType, assetVis, siteOrOuName, ipSubOrBuilding, vendor;
+	boolean reportable;
+	private UUID internalSysId;
 	
+	public BusinessAttribution(){
+		
+	}
 	
-	// constructor for variable initialization. 
-	public BusinessAttribution (String ip, 		String osType, 
-			String sysType, 		String assetType, 
-			String assetVis, 	String busIntThreshold, 
-			String businessCrit, String infoClass, String siteORouName, 
-			String iPsubORbuilding, UUID intSysID) {
+	// constructor for variable initialization. BigDecimal is the Java equivalent to the
+	// decimal data type in Cassandra.
+	public BusinessAttribution (String vendor, String ip, 		String osType, 
+			String sysType, String assetType,
+			String assetVis, boolean reportable, UUID internalSysId, String siteOrOuName, String ipSubOrBuilding) {
 
+		this.vendor 						= vendor; 
 		this.ip 							= ip;
 		this.osType 						= osType;
 		this.sysType 						= sysType;
 		this.assetType						= assetType;
 		this.assetVis 						= assetVis;
-		this.busIntThreshold 			  	= busIntThreshold;
-		this.businessCrit 					= businessCrit;
-		this.infoClass 						= infoClass;
-		this.siteORouName					= siteORouName;
-		this.build							= iPsubORbuilding;
-		this.intSysID 						= intSysID;
+		this.reportable						= reportable;
+		this.internalSysId					= internalSysId;
+		this.siteOrOuName					= siteOrOuName;
+		this.ipSubOrBuilding 				= ipSubOrBuilding;
 
 	}
 
 	// Setters and getters for each of the class variables that will referenced in xhtml
+	public String getVendor(){
+		return vendor;
+	}
+	
 	public String getIp() {
 		return ip;
 	}
@@ -63,32 +73,14 @@ public class BusinessAttribution {
 	public String getAssetVis() {
 		return assetVis;
 	}
+//	public String getReportable(){
+//		return reportable;
+//	}
 	
-	public String getBusIntThreshold() {
-		return busIntThreshold;
-	}
-	
-	public String getBusinessCrit() {
-		return businessCrit;
-	}
-	
-	public String getInfoClass() {
-		return infoClass;
-	}
-
-	public String getSiteORouName() {
-		return siteORouName;
+	public void setVendor(String vendor){
+		this.vendor = vendor;
 	}
 	
-	public String getIPsubORbuilding() {
-		return build;
-	}
-	
-	public UUID getIntSysID() {
-		return intSysID;
-	}
-
-
 	public void setIp(String ip) {
 		this.ip= ip;
 	}
@@ -107,29 +99,28 @@ public class BusinessAttribution {
 	public void setAssetVis(String assetVis) {
 		this.assetVis = assetVis;
 	}
-
-	public void setBusIntThreshold(String busIntThreshold) {
-		this.busIntThreshold = busIntThreshold;
-	}
-
-	public void setBusinessCrit(String businessCrit) {
-		this.businessCrit = businessCrit;
-	}
+//	public void setReportable(String flag){
+//		this.reportable = flag;
+//	}
 	
-	public void setInfoClass(String infoClass) {
-		this.infoClass = infoClass;
+	/**keys **/
+	public UUID getInternalSysId(){
+		return internalSysId;
 	}
-	
-	public void setSiteORouName(String siteORouName) {
-		this.siteORouName = siteORouName;
+	public String getSiteOrOuName(){
+		return siteOrOuName;
 	}
-	
-	public void setIPsubORbuilding(String iPsubORbuilding) {
-		this.build = iPsubORbuilding;
+	public String getIpSubOrBuilding(){
+		return ipSubOrBuilding;
 	}
-	
-	public void setIntSysID(UUID intSysID) {
-		this.intSysID = intSysID;
+	public void setInternalSysId(UUID id){
+		this.internalSysId = id;
+	}
+	public void setSiteOrOuName(String site){
+		this.siteOrOuName = site;
+	}
+	public void setIpSubOrBuilding(String sub){
+		this.ipSubOrBuilding = sub;
 	}
 
 }
