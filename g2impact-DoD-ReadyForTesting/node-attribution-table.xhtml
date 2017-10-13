@@ -1,0 +1,101 @@
+<!--  
+Author: 	Sara Prokop G2 Ops, Virginia Beach, VA
+Version:	1.00, July 2017
+
+Purpose: 	to display the IP address, os type, system type, and asset type of every device within the hardware table
+			It also allows users to:
+				- filter globally as well as by column
+				- update/delete multiple rows
+
+Modifications
+Date			Name			Description
+12-July-2017	sara.prokop		created
+14-Sept-2017	sara.prokop		added parameters for hardware lookup. 
+								added vendor as a column. 
+26-Sept-2017	sara.prokop		added some drop down fields for a soon-to-be-working filtering by column
+6-Oct-2017		sara.bergman	changed the name of the file class from business-attribution-table to node-attribution-table
+ -->
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-width-table.xhtml">
+
+	<ui:define name="document-title">Node Value Attribution - IMPACT</ui:define>
+
+	<ui:define name="page-name">Node Value Attribution</ui:define>
+
+	<ui:define name="full-width-table">
+		<div class="dataTableDivClass">
+		<h:form>
+			<b:dataTable value="#{nodeAttributionTable.nodeAttData}" var="att" styleClass="businessProcessesByCyvarTableClass" >
+
+ 				<b:column value="" >
+					<f:facet name="header">Click to Edit</f:facet>
+					<h:link outcome='/administrator/node-attribution-edit.jsf'>
+					<!-- parameters needed for hardware look-up -->
+					<f:param name="id" value="#{att.internalSysId}" />
+					<f:param name="site" value="#{att.siteOrOuName}" />
+					<f:param name="sub" value="#{att.ipSubOrBuilding}" /> 
+						<i class="fa fa-pencil-square-o fa-lg"></i>
+					</h:link>
+				</b:column>
+				
+							
+  		      <b:column value="#{att.vendor}" filterBy="#{car.id}" headerText="Id" footerText="contains" filterMatchMode="contains">
+					<f:facet name="header">Vendor<br/>
+                		<b:selectOneMenu onchange="PF('attTable').filter()" >
+                   		 	<f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                   			<f:selectItems value= "#{dtFilterView.ddVendors()}"/>
+                		</b:selectOneMenu>	</f:facet> 
+				</b:column>
+				
+				<b:column value="#{att.ip}" order="asc" >
+					<f:facet name="header">IP Address <br/>
+						<b:inputText itemLabel="Enter Ip" />
+					</f:facet>
+				</b:column>
+
+				<b:column value="#{att.osType}">
+					<f:facet name="header">OS Type<br/>
+                		<b:selectOneMenu onchange="PF('attTable').filter()" >
+                   		 	<f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                   			<f:selectItems value= "#{dtFilterView.ddOS()}"/>
+                		</b:selectOneMenu>	</f:facet>
+				</b:column>
+
+				<b:column value="#{att.sysType}" filterBy="#{att.sysType}" headerText="System Type" footerText="exact" filterMatchMode="exact">
+					<f:facet name="header">System Type<br/>
+                		<b:selectOneMenu onchange="PF('attTable').filter()" >
+                   		 	<f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                   			<f:selectItems value= "#{dtFilterView.ddSysTypes()}"/>
+                		</b:selectOneMenu>	</f:facet>
+				</b:column>
+
+				<b:column value="#{att.assetType}" filterBy="#{att.assetType}" headerText="Asset Type" footerText="exact" filterMatchMode="exact">    				
+					<f:facet name="header">Asset Type <br/>
+                		<b:selectOneMenu onchange="PF('attTable').filter()" >
+                   		 	<f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                   			<f:selectItems value= "#{dtFilterView.ddAssetTypes()}"/>
+                		</b:selectOneMenu>	
+                	</f:facet>				
+				</b:column>
+
+				<b:column value="#{att.assetVis}" filterBy="#{att.assetVis}" headerText="Asset Visibility" footerText="exact" filterMatchMode="exact">
+					<f:facet name="header">Asset Visibility<br/>
+						<b:selectOneMenu onchange="PF('attTable').filter()" >
+                   		 	<f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                   			<f:selectItems value= "#{dtFilterView.ddAssetVisibility()}"/>
+                		</b:selectOneMenu>
+                	</f:facet>
+				</b:column>
+		
+			</b:dataTable>
+		</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>
