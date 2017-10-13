@@ -7,15 +7,15 @@
 <b:navBar brand-img="#{request.contextPath}/resources/images/G2OPS-logo-navbar.png" brand-href="#{request.contextPath}/index.jsf" fluid="true" class="navbar-default">
 	<b:navbarLinks pull="right">
 		<b:dropMenu value="Dashboards" iconAwesome="dashboard">
-			<b:navLink value="Mission Impact Analysis" href="#{request.contextPath}/dashboard-slide-2.jsf"></b:navLink>
+			<b:navLink value="Business Process Impact Analysis" href="#{request.contextPath}/dashboard-slide-2.jsf"></b:navLink>
 			<!-- <b:navLink value="Technical Lens – Message Map" href="#{request.contextPath}/dashboard-slide-1.jsf"></b:navLink> -->
-			<b:navLink value="Operational Impact Analysis" href="#{request.contextPath}/dashboard-slide-1a-cose.jsf"></b:navLink>
+			<b:navLink value="Operational Impact Analysis" href="#{request.contextPath}/dashboard-slide-1a.jsf"></b:navLink>
 		</b:dropMenu>
 		<b:dropMenu value="Super Admin" iconAwesome="briefcase" iconAlign="left" rendered="${user.systemAdministratorInd}">
 			<b:navLink value="Business Value Metrics" href="#{request.contextPath}/administrator/business-practice-table.jsf"></b:navLink>
 		</b:dropMenu>
 		<b:dropMenu value="Administrator" iconAwesome="gears" iconAlign="left" rendered="${user.appRoleName eq 'admin'}">
-			<b:navLink value="Mission Value Attribution" href="#{request.contextPath}/administrator/business-attribution-table.jsf"></b:navLink>
+			<b:navLink value="Node Value Attribution" href="#{request.contextPath}/administrator/node-attribution-table.jsf"></b:navLink>
 			<b:navLink value="Manage Users" href="#{request.contextPath}/administrator/users-table.jsf"></b:navLink>
 			<b:navLink value="Organization Settings" href="#"></b:navLink>
 		</b:dropMenu>
