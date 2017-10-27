@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/dashboard.xhtml">
+
+	<ui:define name="document-title">Business Process Impact Analysis - Washington</ui:define>
+
+	<ui:define name="page-name">Business Process Impact Analysis</ui:define>
+
+	<ui:define name="top-left-chart">
+		<div id="orgRiskHistoryLineChartContainer" align="center" style="height: 200px;"></div>
+		<h:outputText value="#{orgRiskHistoryLineChart.getOrgRiskHistoryLineChart()}" escape="false" />
+	</ui:define>
+
+	<ui:define name="top-right-chart">
+		<div id="riskAppetiteGaugeContainer" align="center" style="height: 200px;"></div>
+		<h:outputText value="#{riskAppetiteGauge.getRiskAppetiteGauge()}" escape="false" />
+	</ui:define>
+
+	<ui:define name="left-charts">
+		<div id="criticalSystemsAtRiskPieChartXMLContainer" align="center" style="height: 400px;"></div>
+		<h:outputText value="#{criticalSystemsAtRiskPieChartXMLStAX.getCriticalSystemsAtRiskPieChartXMLStAX()}" escape="false" />
+		<!--
+		<span class="rowSpace"><br/></span>
+		<div id="topNbyCyVaRChartContainer" align="center" style="height: 400px;"></div>
+		<h:outputText value="#{topNbyCyVaRChart.getTopNbyCyVaRChart()}" escape="false" />
+		-->
+	</ui:define>
+
+	<ui:define name="right-charts">
+		<div id="businessProcessesCyVaRChartContainer" align="center" style="height: 400px;"></div>
+		<h:outputText value="#{businessProcessesCyVaRChart.getBusinessProcessesCyVaRChart()}" escape="false" />
+	</ui:define>
+
+	<ui:define name="full-width-table">
+		<div class="dataTableDivClass">
+		<h2>Business Process Detail</h2>
+		<h3 id="businessProcessNameID">All</h3>
+		<h:form>
+			<b:dataTable value="#{businessProcessesByCyvarTable.businessProcesses}" var="businessProcess" styleClass="businessProcessesByCyvarTableClass">
+
+				<f:facet name="header">
+					<tr>
+						<th rowspan="2">Business Process</th>
+						<th rowspan="2">Record Type</th>
+						<th rowspan="2"># Records</th>
+						<th rowspan="2">Annual Revenue</th>
+						<th rowspan="2">BPIV</th>
+						<th colspan="3">Expected Loss Value</th>
+						<th rowspan="2">CyVaR</th>
+						<th rowspan="2">Max Breach Loss</th>
+					</tr>
+					<tr>
+						<th>Min</th>
+						<th>ELV</th>
+						<th>Max</th>
+					</tr>
+				</f:facet>
+
+				<b:dataTableColumn value="#{businessProcess.processName}" />
+
+				<b:dataTableColumn value="#{businessProcess.recordType}" />
+
+				<b:dataTableColumn value="#{businessProcess.numRecords}" style="text-align:right;" />
+
+				<b:dataTableColumn value="#{businessProcess.annualRevenue}" style="text-align:right;" />
+							
+				<b:dataTableColumn value="#{businessProcess.nivScore}" style="text-align:right;" />
+
+				<b:dataTableColumn value="$9,999" style="text-align:right;" />
+				<b:dataTableColumn value="Spark Chart Goes Here" style="text-align:right;" />
+				<b:dataTableColumn value="$9,999,999" style="text-align:right;" />
+
+				<b:dataTableColumn value="#{businessProcess.cyvarValue}" style="text-align:right;" />
+
+				<b:dataTableColumn value="#{businessProcess.cyvarValue}" style="text-align:right;" />
+
+			</b:dataTable>
+		</h:form>
+		</div>
+	</ui:define>
+
+	<ui:define name="body-javascript">
+
+		<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+
+		<script type="text/javascript" src="#{request.contextPath}/resources/js/pages/dashboard-business-process-impact.js"></script>
+
+	</ui:define>
+
+</ui:composition>
