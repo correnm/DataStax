@@ -25,4 +25,4 @@ values
 insert into appl_auth.organizations
 (organization_name, keyspace_name, username, hashed_password, industry, webapp_name, country_name)
 values
-('dod','dod','dod','7579659330','Public', 'g2Impact-DoD','United States');
+('dod','dod','dod','7579659330','Public Sector', 'g2Impact-DoD','United States');

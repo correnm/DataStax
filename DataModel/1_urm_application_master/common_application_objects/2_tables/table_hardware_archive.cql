@@ -1,7 +1,7 @@
 USE keyspacename;
 
 CREATE TABLE IF NOT EXISTS hardware_archive (
-    site_or_ou_name 					text,
+    site_id								uuid,
     ip_subnet_or_building 				text,  	// 192.168.0.0, site/building
 	archive_date 						date,   // date the current architecture was archived
     internal_system_id 					uuid,  	// UUID computed to ensure uniqueness
@@ -39,6 +39,6 @@ CREATE TABLE IF NOT EXISTS hardware_archive (
 	installed_software					list <frozen <installed_software>>, 
 	host_name						    text,
 	business_processes					list<text>, // valid entries in business_value_attribution table
-    PRIMARY KEY ((site_or_ou_name), ip_subnet_or_building, archive_date, internal_system_id)
+    PRIMARY KEY (site_id, ip_subnet_or_building, archive_date, internal_system_id)
 ) WITH COMMENT = 'Historical Infrastructure (by archive date) maintained for the site obtained via a vulnerability scan or a physical survey' ;
 

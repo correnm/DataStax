@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS hardware_staging (
+    site_id			 		uuid,
+    ip_subnet_or_building 	text,
+    internal_system_id 		uuid,
+    connected_elements 		list<frozen<connected_elements>>,
+    cpe_id 					text,
+    cvss_scores 			list<frozen<cvss_scores>>,
+    host_name 				text,
+    run_date 				date,
+    installed_software 		list<frozen<installed_software>>,
+    ip_address 				text,
+    mac_address 			text,
+    operating_system 		text,
+    os_general 				text,
+    patch_availability 		text,
+    system_type 			text,
+    vendor 					text,
+    vulnerability_count 	int,
+	reportable_flag			boolean,
+    PRIMARY KEY (site_id, ip_subnet_or_building, internal_system_id)
+)  WITH COMMENT = 'Data from Nessus scans or SysML models are loaded here for review before porting to the hardware table for permanent storage';

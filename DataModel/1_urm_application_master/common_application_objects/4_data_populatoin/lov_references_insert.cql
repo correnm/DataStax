@@ -15,9 +15,23 @@ values
 ('industry', 
 'Industry', 
 		{
-		'PUB':'Public Sector',
-		'ED':'Education',
-		'TEC':'Technology'
+		'PUB': 'Public Sector',
+		'ED':  'Education',
+		'TEC': 'Technology',
+		'HLT': 'Health',
+		'FIN': 'Financial',
+		'SRV': 'Services',
+		'LSC': 'Life Science',
+		'RET': 'Retail',
+		'COM': 'Communications',
+		'IND': 'Industrial',
+		'NRG': 'Energy',
+		'CON': 'Consumer',
+		'ENT': 'Entertainment',
+		'HSP': 'Hospitality',
+		'TRN': 'Transportation',
+		'MDA': 'Media',
+		'RES': 'Research'
 		}
 );
 
