@@ -112,3 +112,25 @@ values
 		'NON':'None'
 		}
 );
+
+// Countries represented in the IBM Cost of Breach Study
+insert into lov_references (database_column, optgroup_label, option_values)
+values
+('country', 
+'United States', 
+		{
+		'US':'United States',
+		'UK':'United Kingdom',
+		'DE':'Germany',
+		'AU':'Australia',
+		'FR':'France',
+		'BR':'Brazil',
+		'JP':'Japan',
+		'IT':'Italy',
+		'IN':'India',
+		'CA':'Canada',
+		'ZA':'South Africa',
+		'ME':'Middle East (incl United Arab Emirates and Saudi Arabia',
+		'AS':'ASEAN Region (incl Singaport, Indonesia, the Philippines and Malaysis'
+		}
+);
