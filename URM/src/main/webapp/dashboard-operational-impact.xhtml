@@ -1,0 +1,83 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/dashboard-temp.xhtml">
+
+	<ui:define name="document-title">Operational Impact Analysis</ui:define>
+
+	<ui:define name="top-left-chart">
+		<div id="orgVulnerabilitiesHistoryColumnChartContainer" align="center" style="height: 200px;"></div>
+		<h:outputText value="#{orgVulnerabilitiesHistoryColumnChart.getOrgVulnerabilitiesHistoryColumnChart()}" escape="false" />
+	</ui:define>
+
+	<ui:define name="left-charts">
+		<div id="patchesExceedingThresholdPieChartContainer" align="center" style="height: 280px;"></div>
+		<h:outputText value="#{patchesExceedingThresholdPieChart.getPatchesExceedingThresholdPieChart()}" escape="false" />
+		<span class="rowSpace"><br/></span>
+		<div id="vulnerabilitiesByBusinessProcessChartContainer" align="center" style="height: 500px;"></div>
+		<h:outputText value="#{vulnerabilitiesByBusinessProcessChart.getVulnerabilitiesByBusinessProcessChart()}" escape="false" />
+	</ui:define>
+
+	<ui:define name="right-charts">
+		<div id="businessProcessTreeMapContainer" align="center" style="height: 800px;"></div>
+		<h:outputText value="#{businessProcessTreeMap.getBusinessProcessTreeMap()}" escape="false" />
+	</ui:define>
+
+	<ui:define name="full-width-table">
+		<div class="dataTableDivClass">
+		<h2>Vulnerabilities Detail</h2>
+		<h3 id="nodeLabelID">All</h3>
+		<h:form>
+			<b:dataTable widgetVar="retrieve" id="vulnerabilitiesTableID" value="#{vulnerabilitiesTable.vulnerabilities}" var="vulnerability" styleClass="businessProcessesByCyvarTableClass">
+
+				<b:dataTableColumn value="#{vulnerability.ID}">    				
+					<f:facet name="header">ID</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.CVEID}">    				
+					<f:facet name="header">CVEID</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.description}">
+					<f:facet name="header">Description</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.CVSSBase}">
+					<f:facet name="header">CVSS Base</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.CVSSTemporal}">
+					<f:facet name="header">CVSS Temporal</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.IIV}">
+					<f:facet name="header">IIV</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.businessProcess}" orderable="false">
+					<f:facet name="header">Business Process</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.patchAvailability}" orderable="false">
+					<f:facet name="header">Patch Availability</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="" orderable="false">
+					<f:facet name="header">Critical Assets</f:facet>
+					<h:graphicImage id="PII" rendered="#{vulnerability.criticalAssets eq 'PCI'}" value="resources/images/CreditCard.png" title="PCI" />
+					<h:graphicImage id="PHI" rendered="#{vulnerability.criticalAssets eq 'PII'}" value="resources/images/Family.png" title="PII"/>
+					<h:graphicImage id="PKI" rendered="#{vulnerability.criticalAssets eq 'PHI'}" value="resources/images/Medical.png" title="PHI"/>
+				</b:dataTableColumn>
+
+			</b:dataTable>
+		</h:form>
+		</div>
+	</ui:define>
+
+	<ui:define name="body-javascript">
+
+	</ui:define>
+
+</ui:composition>
