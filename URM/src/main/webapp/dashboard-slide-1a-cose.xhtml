@@ -1,0 +1,557 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/dashboard-3-9.xhtml">
+
+	<ui:define name="document-title">Operational Impact Analysis - Washington</ui:define>
+
+	<ui:define name="page-name">Operational Impact Analysis</ui:define>
+
+	<ui:define name="top-chart">
+		<!--
+		<div id="timelineChartContainer" align="center" style="height: 140px;"></div>
+		<h:outputText value="#{timelineManagementChart.getTimelineChart()}" escape="false" />
+		-->
+		<div id="orgVulnerabilitiesHistoryColumnChartContainer" align="center" style="height: 200px;"></div>
+		<h:outputText value="#{orgVulnerabilitiesHistoryColumnChart.getOrgVulnerabilitiesHistoryColumnChart()}" escape="false" />
+	</ui:define>
+
+	<ui:define name="left-charts">
+		<div id="patchesExceedingThresholdPieChartContainer" align="center" style="height: 280px;"></div>
+		<h:outputText value="#{patchesExceedingThresholdPieChart.getPatchesExceedingThresholdPieChart()}" escape="false" />
+		<span class="rowSpace"><br/></span>
+		<div id="vulnerabilitiesByBusinessProcessChartContainer" align="center" style="height: 500px;"></div>
+		<h:outputText value="#{vulnerabilitiesByBusinessProcessChart.getVulnerabilitiesByBusinessProcessChart()}" escape="false" />
+	</ui:define>
+
+	<ui:define name="right-charts">
+		<div id="topologyMapContainer" style="height: 800px; width: 100%; background-color: #ffffff;"></div>
+		<!-- <h:outputText value="#{topologyNodeChart.getTopologyMap()}" escape="false" /> -->
+		<script>
+		/* <![CDATA[ */
+			var cy = cytoscape({
+
+				container: document.getElementById('topologyMapContainer'), // container to render in
+
+				elements: [ // list of graph elements to start with
+					//nodes
+{ data: { id: '10.106.61.248', bpiv: '7.961963734' } },
+{ data: { id: '10.106.75.213', bpiv: '' } },
+{ data: { id: '10.106.57.215', bpiv: '6.118372069' } },
+{ data: { id: '10.106.74.251', bpiv: '' } },
+{ data: { id: '10.106.61.231', bpiv: '7.961297989' } },
+{ data: { id: '10.106.55.235', bpiv: '7.962313539' } },
+{ data: { id: '10.106.62.213', bpiv: '7.962890009' } },
+{ data: { id: '10.106.248.97', bpiv: '6.424462024' } },
+{ data: { id: '10.106.61.226', bpiv: '7.962151657' } },
+{ data: { id: '10.106.75.211', bpiv: '' } },
+{ data: { id: '10.106.61.239', bpiv: '7.964597048' } },
+{ data: { id: '10.106.74.10', bpiv: '6.778189321' } },
+{ data: { id: '10.106.75.202', bpiv: '' } },
+{ data: { id: '10.106.56.87', bpiv: '7.430538351' } },
+{ data: { id: '10.106.74.250', bpiv: '' } },
+{ data: { id: '10.106.74.248', bpiv: '' } },
+{ data: { id: '10.106.61.243', bpiv: '7.964986851' } },
+{ data: { id: '10.106.248.132', bpiv: '8.032022129' } },
+{ data: { id: '10.106.57.232', bpiv: '7.257667328' } },
+{ data: { id: '10.106.61.246', bpiv: '7.965375431' } },
+{ data: { id: '10.106.61.251', bpiv: '7.962006194' } },
+{ data: { id: '10.106.246.77', bpiv: '4.044894462' } },
+{ data: { id: '10.106.57.217', bpiv: '7.257667328' } },
+{ data: { id: '10.106.245.12', bpiv: '6.446303' } },
+{ data: { id: '10.106.248.98', bpiv: '6.425261274' } },
+{ data: { id: '10.106.252.220', bpiv: '7.073311459' } },
+{ data: { id: '10.106.75.248', bpiv: '7.956785174' } },
+{ data: { id: '10.106.75.212', bpiv: '' } },
+{ data: { id: '10.106.246.107', bpiv: '9.038435129' } },
+{ data: { id: '10.106.61.229', bpiv: '7.962181803' } },
+{ data: { id: '10.106.61.227', bpiv: '7.962049746' } },
+{ data: { id: '10.106.74.245', bpiv: '' } },
+{ data: { id: '10.106.245.253', bpiv: '7.371710959' } },
+{ data: { id: '10.106.75.250', bpiv: '7.957963412' } },
+{ data: { id: '10.106.246.84', bpiv: '9.036780157' } },
+{ data: { id: '10.106.79.9', bpiv: '' } },
+{ data: { id: '10.106.61.235', bpiv: '7.959717393' } },
+{ data: { id: '10.106.60.78', bpiv: '7.429266601' } },
+{ data: { id: '10.106.75.240', bpiv: '7.957262188' } },
+{ data: { id: '10.106.75.203', bpiv: '' } },
+{ data: { id: '10.106.75.191', bpiv: '' } },
+{ data: { id: '10.106.74.12', bpiv: '7.503271933' } },
+{ data: { id: '10.106.60.124', bpiv: '7.569797984' } },
+{ data: { id: '10.106.75.205', bpiv: '' } },
+{ data: { id: '10.106.252.208', bpiv: '6.41944879' } },
+{ data: { id: '10.106.74.246', bpiv: '' } },
+{ data: { id: '10.106.74.29', bpiv: '7.98583446' } },
+{ data: { id: '10.106.61.245', bpiv: '7.96524604' } },
+{ data: { id: '10.106.57.235', bpiv: '7.257667328' } },
+{ data: { id: '10.106.59.177', bpiv: '7.257725558' } },
+{ data: { id: '10.106.61.222', bpiv: '7.960005404' } },
+{ data: { id: '10.106.74.249', bpiv: '' } },
+{ data: { id: '10.106.246.86', bpiv: '9.037608505' } },
+{ data: { id: '10.106.61.224', bpiv: '7.96049958' } },
+{ data: { id: '10.106.59.243', bpiv: '' } },
+{ data: { id: '10.106.75.204', bpiv: '' } },
+{ data: { id: '10.106.61.244', bpiv: '7.965116513' } },
+{ data: { id: '10.106.75.206', bpiv: '' } },
+{ data: { id: '10.106.74.23', bpiv: '5.832522936' } },
+{ data: { id: '10.106.75.214', bpiv: '' } },
+{ data: { id: '10.106.62.241', bpiv: '7.962758332' } },
+{ data: { id: '10.106.56.102', bpiv: '7.963722216' } },
+{ data: { id: '10.106.75.197', bpiv: '7.960975246' } },
+{ data: { id: '10.106.248.100', bpiv: '6.958814012' } },
+{ data: { id: '10.106.246.101', bpiv: '7.269944742' } },
+{ data: { id: '10.106.248.133', bpiv: '6.825653907' } },
+{ data: { id: '10.106.74.52', bpiv: '6.430522866' } },
+{ data: { id: '10.106.252.217', bpiv: '6.709274082' } },
+{ data: { id: '10.106.248.125', bpiv: '5.453767375' } },
+{ data: { id: '10.106.248.106', bpiv: '6.426540651' } },
+{ data: { id: '10.106.61.236', bpiv: '7.961076635' } },
+{ data: { id: '10.106.246.163', bpiv: '4.04965439' } },
+{ data: { id: '10.106.252.218', bpiv: '6.585819655' } },
+{ data: { id: '10.106.246.161', bpiv: '6.447226293' } },
+{ data: { id: '10.106.75.242', bpiv: '7.957611475' } },
+{ data: { id: '10.106.63.73', bpiv: '7.962839541' } },
+{ data: { id: '10.106.248.127', bpiv: '6.629928062' } },
+{ data: { id: '10.106.74.135', bpiv: '7.966198576' } },
+{ data: { id: '10.106.23.41', bpiv: '7.593694632' } },
+{ data: { id: '10.106.253.80', bpiv: '6.59883403' } },
+{ data: { id: '10.106.74.252', bpiv: '8.310675852' } },
+{ data: { id: '10.106.248.89', bpiv: '6.29845491' } },
+{ data: { id: '10.106.75.241', bpiv: '7.957544129' } },
+{ data: { id: '10.106.57.225', bpiv: '7.257725558' } },
+{ data: { id: '10.106.248.130', bpiv: '6.594056475' } },
+{ data: { id: '10.106.57.227', bpiv: '6.118372069' } },
+{ data: { id: '10.106.248.95', bpiv: '6.592858245' } },
+{ data: { id: '10.106.61.237', bpiv: '7.961343098' } },
+{ data: { id: '10.106.248.126', bpiv: '6.626653322' } },
+{ data: { id: '10.106.57.228', bpiv: '7.257725558' } },
+{ data: { id: '10.106.61.250', bpiv: '7.962228985' } },
+{ data: { id: '10.106.246.76', bpiv: '4.047565845' } },
+{ data: { id: '10.106.23.39', bpiv: '6.954273205' } },
+{ data: { id: '10.106.248.248', bpiv: '6.940646094' } },
+{ data: { id: '10.106.57.221', bpiv: '6.118372069' } },
+{ data: { id: '10.106.75.192', bpiv: '' } },
+{ data: { id: '10.106.75.190', bpiv: '' } },
+{ data: { id: '10.106.60.87', bpiv: '7.429258785' } },
+{ data: { id: '10.106.75.221', bpiv: '7.957537378' } },
+{ data: { id: '10.101.0.238', bpiv: '' } },
+{ data: { id: '10.106.63.76', bpiv: '7.963101776' } },
+{ data: { id: '10.106.74.170', bpiv: '8.362291313' } },
+{ data: { id: '10.106.252.23', bpiv: '6.419540392' } },
+{ data: { id: '10.106.61.234', bpiv: '7.961431188' } },
+{ data: { id: '10.106.75.189', bpiv: '7.964466842' } },
+{ data: { id: '10.106.75.218', bpiv: '7.956986385' } },
+{ data: { id: '10.106.61.233', bpiv: '7.95944662' } },
+{ data: { id: '10.106.59.245', bpiv: '' } },
+{ data: { id: '10.106.59.178', bpiv: '7.257667328' } },
+{ data: { id: '10.106.57.239', bpiv: '7.257725558' } },
+{ data: { id: '10.106.55.234', bpiv: '7.962576967' } },
+{ data: { id: '10.106.59.244', bpiv: '' } },
+{ data: { id: '10.106.57.226', bpiv: '7.257667328' } },
+{ data: { id: '10.106.57.218', bpiv: '6.118372069' } },
+{ data: { id: '10.106.57.231', bpiv: '7.257725558' } },
+{ data: { id: '10.106.248.91', bpiv: '6.80620873' } },
+{ data: { id: '10.106.253.81', bpiv: '6.598771194' } },
+{ data: { id: '10.106.57.237', bpiv: '6.118372069' } },
+{ data: { id: '10.106.248.96', bpiv: '6.588623512' } },
+{ data: { id: '10.106.60.88', bpiv: '6.935144995' } },
+{ data: { id: '10.106.57.234', bpiv: '7.257725558' } },
+{ data: { id: '10.106.248.107', bpiv: '6.426268656' } },
+{ data: { id: '10.106.246.106', bpiv: '9.038022032' } },
+{ data: { id: '10.106.57.233', bpiv: '6.118372069' } },
+{ data: { id: '10.106.246.132', bpiv: '5.491322201' } },
+{ data: { id: '10.106.61.242', bpiv: '7.964857053' } },
+{ data: { id: '10.106.63.77', bpiv: '' } },
+{ data: { id: '10.106.57.224', bpiv: '6.118372069' } },
+{ data: { id: '10.106.79.8', bpiv: '7.927859414' } },
+{ data: { id: '10.106.75.215', bpiv: '' } },
+{ data: { id: '10.106.75.198', bpiv: '5.271638204' } },
+{ data: { id: '10.106.248.69', bpiv: '6.595242748' } },
+{ data: { id: '10.106.246.165', bpiv: '4.048550935' } },
+{ data: { id: '10.106.74.99', bpiv: '5.832096019' } },
+{ data: { id: '10.106.248.101', bpiv: '6.629004675' } },
+{ data: { id: '10.106.61.238', bpiv: '7.961209936' } },
+{ data: { id: '10.106.59.242', bpiv: '' } },
+{ data: { id: '10.106.246.83', bpiv: '9.037194546' } },
+{ data: { id: '10.106.245.17', bpiv: '6.445383461' } },
+{ data: { id: '10.106.55.237', bpiv: '7.962445322' } },
+{ data: { id: '10.106.59.176', bpiv: '7.257667328' } },
+{ data: { id: '10.106.57.219', bpiv: '7.257725558' } },
+{ data: { id: '10.106.57.223', bpiv: '7.257667328' } },
+{ data: { id: '10.106.246.71', bpiv: '7.267913903' } },
+{ data: { id: '10.106.246.78', bpiv: '4.04578686' } },
+{ data: { id: '10.106.246.133', bpiv: '6.235153852' } },
+{ data: { id: '10.106.57.216', bpiv: '7.257725558' } },
+{ data: { id: '10.106.246.75', bpiv: '4.046369106' } },
+{ data: { id: '10.106.62.247', bpiv: '7.963100016' } },
+{ data: { id: '10.106.56.115', bpiv: '' } },
+{ data: { id: '10.106.61.241', bpiv: '7.964727118' } },
+{ data: { id: '10.106.63.74', bpiv: '7.962970776' } },
+{ data: { id: '10.106.248.108', bpiv: '6.423460403' } },
+{ data: { id: '10.106.248.70', bpiv: '6.59338192' } },
+{ data: { id: '10.106.75.243', bpiv: '7.957453435' } },
+{ data: { id: '10.106.70.199', bpiv: '6.835190776' } },
+{ data: { id: '10.106.61.247', bpiv: '7.965504687' } },
+{ data: { id: '10.106.57.220', bpiv: '7.257667328' } },
+{ data: { id: '10.106.246.171', bpiv: '5.942306607' } },
+{ data: { id: '10.101.0.242', bpiv: '' } },
+{ data: { id: '10.106.61.252', bpiv: '7.96171515' } },
+{ data: { id: '10.106.75.216', bpiv: '' } },
+{ data: { id: '10.106.246.131', bpiv: '5.640535552' } },
+{ data: { id: '10.106.55.238', bpiv: '7.963600291' } },
+{ data: { id: '10.106.57.230', bpiv: '6.118372069' } },
+{ data: { id: '10.106.75.210', bpiv: '' } },
+{ data: { id: '10.106.253.68', bpiv: '6.590819333' } },
+{ data: { id: '10.106.61.221', bpiv: '6.935871805' } },
+{ data: { id: '10.106.61.232', bpiv: '7.959582077' } },
+{ data: { id: '10.106.57.222', bpiv: '7.257725558' } },
+{ data: { id: '10.106.75.236', bpiv: '7.95712369' } },
+{ data: { id: '10.106.75.201', bpiv: '' } },
+{ data: { id: '10.106.75.209', bpiv: '' } },
+{ data: { id: '10.106.61.253', bpiv: '7.962138526' } },
+{ data: { id: '10.106.60.131', bpiv: '7.426305816' } },
+{ data: { id: '10.106.75.200', bpiv: '' } },
+{ data: { id: '10.106.61.249', bpiv: '7.961608626' } },
+{ data: { id: '10.106.63.75', bpiv: '7.963232738' } },
+{ data: { id: '10.106.245.10', bpiv: '6.441574101' } },
+{ data: { id: '10.106.75.208', bpiv: '' } },
+{ data: { id: '10.106.246.85', bpiv: '' } },
+{ data: { id: '10.106.57.229', bpiv: '7.257667328' } },
+{ data: { id: '10.106.247.246', bpiv: '6.288270908' } },
+					//edges
+{ data: { id: '15', source: '10.101.0.238', target: '10.106.23.39' } },
+{ data: { id: '16', source: '10.101.0.238', target: '10.106.23.41' } },
+{ data: { id: '17', source: '10.101.0.238', target: '10.106.245.10' } },
+{ data: { id: '18', source: '10.101.0.238', target: '10.106.245.12' } },
+{ data: { id: '19', source: '10.101.0.238', target: '10.106.245.17' } },
+{ data: { id: '20', source: '10.101.0.242', target: '10.106.245.253' } },
+{ data: { id: '21', source: '10.101.0.238', target: '10.106.246.101' } },
+{ data: { id: '22', source: '10.101.0.238', target: '10.106.246.106' } },
+{ data: { id: '23', source: '10.101.0.238', target: '10.106.246.107' } },
+{ data: { id: '24', source: '10.101.0.238', target: '10.106.246.131' } },
+{ data: { id: '25', source: '10.101.0.238', target: '10.106.246.132' } },
+{ data: { id: '26', source: '10.101.0.238', target: '10.106.246.133' } },
+{ data: { id: '27', source: '10.101.0.238', target: '10.106.246.161' } },
+{ data: { id: '28', source: '10.101.0.238', target: '10.106.246.163' } },
+{ data: { id: '29', source: '10.101.0.238', target: '10.106.246.165' } },
+{ data: { id: '30', source: '10.101.0.238', target: '10.106.246.171' } },
+{ data: { id: '31', source: '10.101.0.238', target: '10.106.246.71' } },
+{ data: { id: '32', source: '10.101.0.238', target: '10.106.246.75' } },
+{ data: { id: '33', source: '10.101.0.238', target: '10.106.246.76' } },
+{ data: { id: '34', source: '10.101.0.238', target: '10.106.246.77' } },
+{ data: { id: '35', source: '10.101.0.238', target: '10.106.246.78' } },
+{ data: { id: '36', source: '10.101.0.238', target: '10.106.246.83' } },
+{ data: { id: '37', source: '10.101.0.238', target: '10.106.246.84' } },
+{ data: { id: '38', source: '10.101.0.238', target: '10.106.246.85' } },
+{ data: { id: '39', source: '10.101.0.242', target: '10.106.246.86' } },
+{ data: { id: '40', source: '10.101.0.238', target: '10.106.247.246' } },
+{ data: { id: '41', source: '10.101.0.238', target: '10.106.248.100' } },
+{ data: { id: '42', source: '10.101.0.238', target: '10.106.248.101' } },
+{ data: { id: '43', source: '10.101.0.238', target: '10.106.248.106' } },
+{ data: { id: '44', source: '10.101.0.238', target: '10.106.248.107' } },
+{ data: { id: '45', source: '10.101.0.238', target: '10.106.248.108' } },
+{ data: { id: '46', source: '10.101.0.238', target: '10.106.248.125' } },
+{ data: { id: '47', source: '10.101.0.242', target: '10.106.248.126' } },
+{ data: { id: '48', source: '10.101.0.238', target: '10.106.248.127' } },
+{ data: { id: '49', source: '10.101.0.242', target: '10.106.248.130' } },
+{ data: { id: '50', source: '10.101.0.238', target: '10.106.248.132' } },
+{ data: { id: '51', source: '10.101.0.238', target: '10.106.248.133' } },
+{ data: { id: '52', source: '10.101.0.238', target: '10.106.248.248' } },
+{ data: { id: '53', source: '10.101.0.238', target: '10.106.248.69' } },
+{ data: { id: '54', source: '10.101.0.238', target: '10.106.248.70' } },
+{ data: { id: '55', source: '10.101.0.238', target: '10.106.248.89' } },
+{ data: { id: '56', source: '10.101.0.242', target: '10.106.248.91' } },
+{ data: { id: '57', source: '10.101.0.238', target: '10.106.248.95' } },
+{ data: { id: '58', source: '10.101.0.238', target: '10.106.248.96' } },
+{ data: { id: '59', source: '10.101.0.238', target: '10.106.248.97' } },
+{ data: { id: '60', source: '10.101.0.242', target: '10.106.248.98' } },
+{ data: { id: '61', source: '10.101.0.238', target: '10.106.252.208' } },
+{ data: { id: '62', source: '10.101.0.242', target: '10.106.252.217' } },
+{ data: { id: '63', source: '10.101.0.238', target: '10.106.252.218' } },
+{ data: { id: '64', source: '10.101.0.238', target: '10.106.252.220' } },
+{ data: { id: '65', source: '10.101.0.238', target: '10.106.252.23' } },
+{ data: { id: '66', source: '10.101.0.238', target: '10.106.253.68' } },
+{ data: { id: '67', source: '10.101.0.238', target: '10.106.253.80' } },
+{ data: { id: '68', source: '10.101.0.238', target: '10.106.253.81' } },
+{ data: { id: '69', source: '10.101.0.238', target: '10.106.55.234' } },
+{ data: { id: '70', source: '10.101.0.238', target: '10.106.55.235' } },
+{ data: { id: '71', source: '10.101.0.238', target: '10.106.55.237' } },
+{ data: { id: '72', source: '10.101.0.242', target: '10.106.55.238' } },
+{ data: { id: '73', source: '10.101.0.238', target: '10.106.56.102' } },
+{ data: { id: '74', source: '10.101.0.238', target: '10.106.56.115' } },
+{ data: { id: '75', source: '10.101.0.238', target: '10.106.56.87' } },
+{ data: { id: '76', source: '10.101.0.238', target: '10.106.57.215' } },
+{ data: { id: '77', source: '10.101.0.238', target: '10.106.57.216' } },
+{ data: { id: '78', source: '10.101.0.238', target: '10.106.57.217' } },
+{ data: { id: '79', source: '10.101.0.238', target: '10.106.57.218' } },
+{ data: { id: '80', source: '10.101.0.242', target: '10.106.57.219' } },
+{ data: { id: '81', source: '10.101.0.238', target: '10.106.57.220' } },
+{ data: { id: '82', source: '10.101.0.238', target: '10.106.57.221' } },
+{ data: { id: '83', source: '10.101.0.238', target: '10.106.57.222' } },
+{ data: { id: '84', source: '10.101.0.242', target: '10.106.57.223' } },
+{ data: { id: '85', source: '10.101.0.242', target: '10.106.57.224' } },
+{ data: { id: '86', source: '10.101.0.238', target: '10.106.57.225' } },
+{ data: { id: '87', source: '10.101.0.242', target: '10.106.57.226' } },
+{ data: { id: '88', source: '10.101.0.242', target: '10.106.57.227' } },
+{ data: { id: '89', source: '10.101.0.242', target: '10.106.57.228' } },
+{ data: { id: '90', source: '10.101.0.242', target: '10.106.57.229' } },
+{ data: { id: '91', source: '10.101.0.238', target: '10.106.57.230' } },
+{ data: { id: '92', source: '10.101.0.238', target: '10.106.57.231' } },
+{ data: { id: '93', source: '10.101.0.238', target: '10.106.57.232' } },
+{ data: { id: '94', source: '10.101.0.238', target: '10.106.57.233' } },
+{ data: { id: '95', source: '10.101.0.238', target: '10.106.57.234' } },
+{ data: { id: '96', source: '10.101.0.238', target: '10.106.57.235' } },
+{ data: { id: '97', source: '10.101.0.238', target: '10.106.57.237' } },
+{ data: { id: '98', source: '10.101.0.238', target: '10.106.57.239' } },
+{ data: { id: '99', source: '10.101.0.238', target: '10.106.59.176' } },
+{ data: { id: '100', source: '10.101.0.238', target: '10.106.59.177' } },
+{ data: { id: '101', source: '10.101.0.238', target: '10.106.59.178' } },
+{ data: { id: '102', source: '10.101.0.242', target: '10.106.59.242' } },
+{ data: { id: '103', source: '10.101.0.238', target: '10.106.59.243' } },
+{ data: { id: '104', source: '10.101.0.238', target: '10.106.59.244' } },
+{ data: { id: '105', source: '10.101.0.242', target: '10.106.59.245' } },
+{ data: { id: '106', source: '10.101.0.238', target: '10.106.60.124' } },
+{ data: { id: '107', source: '10.101.0.238', target: '10.106.60.131' } },
+{ data: { id: '108', source: '10.101.0.238', target: '10.106.60.78' } },
+{ data: { id: '109', source: '10.101.0.238', target: '10.106.60.87' } },
+{ data: { id: '110', source: '10.101.0.242', target: '10.106.60.88' } },
+{ data: { id: '111', source: '10.101.0.242', target: '10.106.61.221' } },
+{ data: { id: '112', source: '10.101.0.238', target: '10.106.61.222' } },
+{ data: { id: '113', source: '10.101.0.238', target: '10.106.61.224' } },
+{ data: { id: '114', source: '10.101.0.242', target: '10.106.61.226' } },
+{ data: { id: '115', source: '10.101.0.238', target: '10.106.61.227' } },
+{ data: { id: '116', source: '10.101.0.238', target: '10.106.61.229' } },
+{ data: { id: '117', source: '10.101.0.238', target: '10.106.61.231' } },
+{ data: { id: '118', source: '10.101.0.242', target: '10.106.61.232' } },
+{ data: { id: '119', source: '10.101.0.242', target: '10.106.61.233' } },
+{ data: { id: '120', source: '10.101.0.238', target: '10.106.61.234' } },
+{ data: { id: '121', source: '10.101.0.238', target: '10.106.61.235' } },
+{ data: { id: '122', source: '10.101.0.238', target: '10.106.61.236' } },
+{ data: { id: '123', source: '10.101.0.238', target: '10.106.61.237' } },
+{ data: { id: '124', source: '10.101.0.242', target: '10.106.61.238' } },
+{ data: { id: '125', source: '10.101.0.238', target: '10.106.61.239' } },
+{ data: { id: '126', source: '10.101.0.238', target: '10.106.61.241' } },
+{ data: { id: '127', source: '10.101.0.238', target: '10.106.61.242' } },
+{ data: { id: '128', source: '10.101.0.238', target: '10.106.61.243' } },
+{ data: { id: '129', source: '10.101.0.242', target: '10.106.61.244' } },
+{ data: { id: '130', source: '10.101.0.238', target: '10.106.61.245' } },
+{ data: { id: '131', source: '10.101.0.238', target: '10.106.61.246' } },
+{ data: { id: '132', source: '10.101.0.242', target: '10.106.61.247' } },
+{ data: { id: '133', source: '10.101.0.242', target: '10.106.61.248' } },
+{ data: { id: '134', source: '10.101.0.238', target: '10.106.61.249' } },
+{ data: { id: '135', source: '10.101.0.238', target: '10.106.61.250' } },
+{ data: { id: '136', source: '10.101.0.238', target: '10.106.61.251' } },
+{ data: { id: '137', source: '10.101.0.238', target: '10.106.61.252' } },
+{ data: { id: '138', source: '10.101.0.238', target: '10.106.61.253' } },
+{ data: { id: '139', source: '10.101.0.238', target: '10.106.62.213' } },
+{ data: { id: '140', source: '10.101.0.238', target: '10.106.62.241' } },
+{ data: { id: '141', source: '10.101.0.238', target: '10.106.62.247' } },
+{ data: { id: '142', source: '10.101.0.238', target: '10.106.63.73' } },
+{ data: { id: '143', source: '10.101.0.238', target: '10.106.63.74' } },
+{ data: { id: '144', source: '10.101.0.238', target: '10.106.63.75' } },
+{ data: { id: '145', source: '10.101.0.242', target: '10.106.63.76' } },
+{ data: { id: '146', source: '10.101.0.238', target: '10.106.63.77' } },
+{ data: { id: '147', source: '10.101.0.242', target: '10.106.70.199' } },
+{ data: { id: '148', source: '10.101.0.238', target: '10.106.74.10' } },
+{ data: { id: '149', source: '10.101.0.238', target: '10.106.74.12' } },
+{ data: { id: '150', source: '10.101.0.238', target: '10.106.74.135' } },
+{ data: { id: '151', source: '10.101.0.242', target: '10.106.74.170' } },
+{ data: { id: '152', source: '10.101.0.238', target: '10.106.74.23' } },
+{ data: { id: '153', source: '10.101.0.238', target: '10.106.74.245' } },
+{ data: { id: '154', source: '10.101.0.238', target: '10.106.74.246' } },
+{ data: { id: '155', source: '10.101.0.242', target: '10.106.74.248' } },
+{ data: { id: '156', source: '10.101.0.238', target: '10.106.74.249' } },
+{ data: { id: '157', source: '10.101.0.238', target: '10.106.74.250' } },
+{ data: { id: '158', source: '10.101.0.238', target: '10.106.74.251' } },
+{ data: { id: '159', source: '10.101.0.238', target: '10.106.74.252' } },
+{ data: { id: '160', source: '10.101.0.238', target: '10.106.74.29' } },
+{ data: { id: '161', source: '10.101.0.238', target: '10.106.74.52' } },
+{ data: { id: '162', source: '10.101.0.242', target: '10.106.74.99' } },
+{ data: { id: '163', source: '10.101.0.238', target: '10.106.75.189' } },
+{ data: { id: '164', source: '10.101.0.238', target: '10.106.75.190' } },
+{ data: { id: '165', source: '10.101.0.238', target: '10.106.75.191' } },
+{ data: { id: '166', source: '10.101.0.238', target: '10.106.75.192' } },
+{ data: { id: '167', source: '10.101.0.238', target: '10.106.75.197' } },
+{ data: { id: '168', source: '10.101.0.238', target: '10.106.75.198' } },
+{ data: { id: '169', source: '10.101.0.238', target: '10.106.75.200' } },
+{ data: { id: '170', source: '10.101.0.242', target: '10.106.75.201' } },
+{ data: { id: '171', source: '10.101.0.242', target: '10.106.75.202' } },
+{ data: { id: '172', source: '10.101.0.238', target: '10.106.75.203' } },
+{ data: { id: '173', source: '10.101.0.238', target: '10.106.75.204' } },
+{ data: { id: '174', source: '10.101.0.238', target: '10.106.75.205' } },
+{ data: { id: '175', source: '10.101.0.238', target: '10.106.75.206' } },
+{ data: { id: '176', source: '10.101.0.238', target: '10.106.75.208' } },
+{ data: { id: '177', source: '10.101.0.238', target: '10.106.75.209' } },
+{ data: { id: '178', source: '10.101.0.238', target: '10.106.75.210' } },
+{ data: { id: '179', source: '10.101.0.242', target: '10.106.75.211' } },
+{ data: { id: '180', source: '10.101.0.242', target: '10.106.75.212' } },
+{ data: { id: '181', source: '10.101.0.238', target: '10.106.75.213' } },
+{ data: { id: '182', source: '10.101.0.238', target: '10.106.75.214' } },
+{ data: { id: '183', source: '10.101.0.238', target: '10.106.75.215' } },
+{ data: { id: '184', source: '10.101.0.238', target: '10.106.75.216' } },
+{ data: { id: '185', source: '10.101.0.238', target: '10.106.75.218' } },
+{ data: { id: '186', source: '10.101.0.242', target: '10.106.75.221' } },
+{ data: { id: '187', source: '10.101.0.238', target: '10.106.75.236' } },
+{ data: { id: '188', source: '10.101.0.242', target: '10.106.75.240' } },
+{ data: { id: '189', source: '10.101.0.238', target: '10.106.75.241' } },
+{ data: { id: '190', source: '10.101.0.242', target: '10.106.75.242' } },
+{ data: { id: '191', source: '10.101.0.238', target: '10.106.75.243' } },
+{ data: { id: '192', source: '10.101.0.238', target: '10.106.75.248' } },
+{ data: { id: '193', source: '10.101.0.238', target: '10.106.75.250' } },
+{ data: { id: '194', source: '10.101.0.242', target: '10.106.79.8' } },
+{ data: { id: '195', source: '10.101.0.242', target: '10.106.79.9' } },
+				],
+
+				style: [ // the stylesheet for the graph
+					{
+						selector: 'node',
+						style: {
+							'background-color': '#595a5c',
+							//'label': 'data(id)'
+							'label': ''
+						}
+					},
+					{
+						selector: 'edge',
+						style: {
+							'width': 3,
+							'line-color': '#cccccc',
+							'curve-style': 'bezier',
+							'target-arrow-color': '#aaa',
+							'target-arrow-shape': 'triangle'
+						}
+					},
+					{
+						selector: '.critical',
+						style: {
+							'background-color': '#df382c',
+						}
+					},
+					{
+						selector: '.high',
+						style: {
+							'background-color': '#e95420',
+						},
+						
+					},
+					{
+						selector: '.medium',
+						style: {
+							'background-color': '#efb73e',
+						},
+						
+					},
+					{
+						selector: '.low',
+						style: {
+							'background-color': '#38b44a',
+						},
+						
+					},
+					{
+						selector: '.grayedout',
+						style: {
+							'background-color': '#595a5c',
+						},
+						
+					},
+					{
+						selector: ':selected',
+						style: {
+							'border-width': 3,
+							'border-style': 'solid',
+							'border-color': 'black'
+						}
+					}
+				],
+
+				layout: {
+					name: 'cose',
+				}
+
+			});
+
+			cy.nodes("[bpiv<10]").classes('critical');
+			cy.nodes("[bpiv<9]").classes('high');
+			cy.nodes("[bpiv<7]").classes('medium');
+			cy.nodes("[bpiv<4]").classes('low');
+			cy.nodes("[bpiv='']").classes('grayedout');
+			
+			<!--
+			//console.log("cy.width: " + cy.width());
+			//console.log("cy.height: " + cy.height());
+			-->
+
+			cy.on('tap', function(evt){
+				topologyNodeChartReset();
+			});
+
+			cy.on('tap', 'node', function(evt){
+				console.log( 'event.target.id: ' + evt.target.id() );
+				topologyNodeChartNodeClicked('01');
+			});
+
+		/* ]]> */
+		</script>
+	</ui:define>
+
+	<ui:define name="full-width-table">
+		<div class="dataTableDivClass">
+		<h2>Vulnerabilities Detail</h2>
+		<h3 id="nodeLabelID">All</h3>
+		<h:form>
+			<b:dataTable widgetVar="retrieve" id="vulnerabilitiesTableID" value="#{vulnerabilitiesTable.vulnerabilities}" var="vulnerability" styleClass="businessProcessesByCyvarTableClass">
+
+				<b:dataTableColumn value="#{vulnerability.ID}">    				
+					<f:facet name="header">ID</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.CVEID}">    				
+					<f:facet name="header">CVEID</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.description}">
+					<f:facet name="header">Description</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.CVSSBase}">
+					<f:facet name="header">CVSS Base</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.CVSSTemporal}">
+					<f:facet name="header">CVSS Temporal</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.IIV}">
+					<f:facet name="header">IIV</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.businessProcess}" orderable="false">
+					<f:facet name="header">Business Process</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{vulnerability.patchAvailability}" orderable="false">
+					<f:facet name="header">Patch Availability</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="" orderable="false">
+					<f:facet name="header">Critical Assets</f:facet>
+					<h:graphicImage id="PII" rendered="#{vulnerability.criticalAssets eq 'PCI'}" value="resources/images/CreditCard.png" title="PCI" />
+					<h:graphicImage id="PHI" rendered="#{vulnerability.criticalAssets eq 'PII'}" value="resources/images/Family.png" title="PII"/>
+					<h:graphicImage id="PKI" rendered="#{vulnerability.criticalAssets eq 'PHI'}" value="resources/images/Medical.png" title="PHI"/>
+				</b:dataTableColumn>
+
+			</b:dataTable>
+		</h:form>
+		</div>
+	</ui:define>
+
+	<ui:define name="body-javascript">
+
+		<script type="text/javascript" src="#{request.contextPath}/resources/js/pages/dashboard-slide-1a-cose.js"></script>
+
+	</ui:define>
+
+</ui:composition>
