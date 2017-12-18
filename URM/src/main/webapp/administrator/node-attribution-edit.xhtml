@@ -1,0 +1,174 @@
+<!-- 
+Author: 	Sara Prokop G2 Ops, Virginia Beach, VA
+Version:	1.00, July 2017
+Purpose: 	This file creates an edit form for the Node Value Attribution table. It will allow users to change values within the form ,
+			including the ip address, os type, and system type; as well as asset type and asset visibility, which each's drop down values 
+			are obtained from the business_practice table in the DB. 
+
+ Date				Author				Revision Description
+ 12-July-2017		sara.prokop			Creator
+ 27-July-2017		sar.prokop			Populated the drop downs with data from the business_practice table
+ 14-Sept-2017		sara.prokop			added parameters for hardware lookup
+ 										added vendor as editable
+ 26-Sept-2017		sara.prokop			set the vendor, os, and system type fields as drop down options
+ 6-Oct-2017			sara.bergman		changed file name form business-attribution-edit to node-attribution-edit
+ 
+ -->
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-page-form.xhtml">
+
+	<ui:define name="document-title">Node Attribution Table Edit - Washington</ui:define>
+
+	<ui:define name="page-name">Edit Node Attribution Table</ui:define>
+
+	<ui:define name="full-page-form">
+
+		<h:form id="NodeAttributionEditForm">
+
+			<b:panel look="default">
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="8" offset="2">
+						<b:messages></b:messages>
+					</b:column>
+				</b:row>
+
+		<!-- Non-Editable -->
+				 <b:row>
+				 	<b:column col-md="2" offset="2">Vendor: </b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu value="#{nodeAttributionEdit.vendor}" itemValue="#{nodeAttributionEdit.vendor}" required="false" >
+            				<f:selectItem value="" itemValue = ""/>
+            				<f:selectItems value= "#{nodeAttributionEdit.ddVendors()}"/>
+        				</b:selectOneMenu>
+					</b:column> 
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+				 <b:row>
+					<b:column col-md="2" offset="2">IP Address: </b:column>
+					<b:column col-md="4">
+						<b:inputText value="#{nodeAttributionEdit.ip}" required="true" />
+					</b:column> 
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2">OS Type: </b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu value="#{nodeAttributionEdit.osType}" itemValue="#{nodeAttributionEdit.osType}" required="false">
+            				<f:selectItem value="" itemValue = ""/>
+            				<f:selectItems value= "#{nodeAttributionEdit.ddOS()}"/>
+        				</b:selectOneMenu>
+	
+					</b:column>
+				</b:row>
+				
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2">System Type: </b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu value="#{nodeAttributionEdit.sysType}" itemValue="#{nodeAttributionEdit.sysType}" required="false" >
+            				<f:selectItem value="" itemValue = ""/>
+            				<f:selectItems value= "#{nodeAttributionEdit.ddSysTypes()}"/>
+        				</b:selectOneMenu>
+					</b:column>
+				</b:row>
+				
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+		<!-- Drop Downs -->
+				<b:row>
+					<b:column col-md="2" offset="2">Asset Type: </b:column>
+					<b:column col-md="4">
+    				    <b:selectOneMenu value="#{nodeAttributionEdit.assetType}" itemValue="#{nodeAttributionEdit.assetType}"  required="false" >
+    				   		<f:selectItem value="" itemValue = ""/>
+            				<f:selectItems value= "#{nodeAttributionEdit.ddAssetTypes()}"/>
+        				</b:selectOneMenu>
+    				    
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="2" offset="2">Asset Visibilty: </b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu value="#{nodeAttributionEdit.assetVis}" itemValue="#{nodeAttributionEdit.assetVis}"  required="false" >
+            				<f:selectItem value="" itemValue = "" />
+            				<f:selectItems value="#{nodeAttributionEdit.ddAssetVisibility()}" />
+            			</b:selectOneMenu>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="2" offset="2">Reportable: </b:column>
+					<b:column col-md="4">
+						<b:selectBooleanCheckbox value="#{nodeAttributionEdit.reportable}" itemValue="#{nodeAttributionEdit.reportable}" required="false" />
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+				
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+				
+				<b:row>
+					<b:column col-md="2" offset="2"></b:column>
+					<b:column col-md="8">
+						<b:commandButton value="Save" action="#{nodeAttributionEdit.editNodeAttributionActionControllerMethod}"></b:commandButton>
+						<b:commandButton value="Return to Table" action="node-attribution-table.jsf"></b:commandButton>
+					</b:column>
+				</b:row>
+
+			</b:panel>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
