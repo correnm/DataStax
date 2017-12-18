@@ -1,0 +1,112 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-page-form.xhtml">
+
+	<ui:define name="document-title">Edit User</ui:define>
+
+	<ui:define name="page-name">Edit User</ui:define>
+
+	<ui:define name="full-page-form">
+
+		<h:form id="userEditForm">
+
+			<b:panel look="default">
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="8" offset="2">
+						<b:messages></b:messages>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2">Email:</b:column>
+					<b:column col-md="4"><strong>#{userEdit.userEmail}</strong></b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2">First Name:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="firstName" value="#{userEdit.firstName}" required="true" requiredMessage="First Name is required">
+							<b:focus />
+						</b:inputText>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2">Last Name:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="lastName" value="#{userEdit.lastName}" required="true" requiredMessage="Last Name is required">
+						</b:inputText>
+					</b:column>
+				</b:row>
+
+				<!-- in meeting 9/15/17, decided to nix the user name entirely
+				<b:row>
+					<b:column col-md="2" offset="2">User Name:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="userName" value="#{userEdit.userName}" required="true" requiredMessage="User Name is required" validatorMessage="User Name is at least 4 characters">
+							<f:validateLength minimum="4" />
+						</b:inputText>
+					</b:column>
+				</b:row>
+				-->
+
+				<b:row>
+					<b:column col-md="2" offset="2">Passcode:</b:column>
+					<b:column col-md="4">
+						<b:inputText value="#{userEdit.newPasscode}">
+						</b:inputText>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2">Role:</b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu label="Role" render-label="false" id="role" value="#{userEdit.role}" tooltip="Choose a Role">
+							<f:selectItems value="#{userEdit.roles}" var="role" itemValue="#{role}" itemLabel="#{role}"></f:selectItems>
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2"></b:column>
+					<b:column col-md="4">
+						<b:commandButton value="Edit" action="#{userEdit.editUserActionControllerMethod}">
+						</b:commandButton>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+			</b:panel>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
