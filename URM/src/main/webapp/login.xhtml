@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<title>Login</title>
+	<h:outputStylesheet name="styles.css" library="css" position="last" />
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+</h:head>
+
+<h:body>
+
+<b:container fluid="true">
+
+<b:navBar brand-img="#{request.contextPath}/resources/images/G2OPS-logo-navbar.png" brand-href="#{request.contextPath}/index.jsf" fluid="true" class="navbar-default">
+<!-- <b:navBar fluid="true" class="navbar-default"> -->
+	<b:navbarLinks pull="right">
+		<b:navLink value="Help" href="#" iconAwesome="info-circle" iconAlign="left"></b:navLink>
+	</b:navbarLinks>
+</b:navBar>
+
+<b:row>
+	<b:column col-xs="12">
+		<div class="page-name" style="text-align: center; padding-top: 50px; padding-bottom: 40px;">
+			<!-- <h1>Washington Login</h1> -->
+			<h:graphicImage name="G2OPS-logo-stacked.png" library="images" />
+		</div>
+	</b:column>
+</b:row>
+
+<b:row>
+    <b:column col-md="4" offset="4">
+
+		<h:form id="loginForm">
+
+		<!-- <b:panel title="Washington Login" look="primary" collapsible="false"> -->
+		<b:panel look="default">
+
+			<b:row>
+				<b:column col-md="12">
+					<span class="rowSpace"><br/></span>
+				</b:column>
+			</b:row>
+
+			<b:row>
+				<b:column col-md="8" offset="2">
+					<b:messages></b:messages>
+				</b:column>
+			</b:row>
+
+			<b:row>
+				<b:column col-md="8" offset="2">
+					<b:inputText placeholder="Organization Name" id="userOrg" value="#{login.userOrg}" required="true" requiredMessage="Organization Name is required" validatorMessage="Organization Name is at least 3 characters">
+						<f:facet name="prepend"><b:iconAwesome name="institution" size="lg"/></f:facet>
+						<f:validateLength minimum="3"/>
+						<b:focus />
+					</b:inputText>
+				</b:column>
+			</b:row>
+			<!--
+			<b:row>
+				<b:column col-md="8" offset="2" style-class="message">
+					<b:message for="userOrg" />
+				</b:column>
+			</b:row>
+			-->
+
+			<b:row>
+				<b:column col-md="8" offset="2">
+					<b:inputText placeholder="Email Address" id="userEmail" value="#{login.userEmail}" required="true" requiredMessage="Email Address is required">
+						<f:facet name="prepend"><b:iconAwesome name="envelope" size="lg"/></f:facet>
+					</b:inputText>
+				</b:column>
+			</b:row>
+			<!--
+			<b:row>
+				<b:column col-md="8" offset="2" style-class="message">
+					<b:message for="userEmail" />
+				</b:column>
+			</b:row>
+			-->
+
+			<b:row>
+				<b:column col-md="8" offset="2">
+					<b:inputSecret placeholder="Passcode" id="passCode" value="#{login.userPassCode}" required="true" requiredMessage="Passcode is required" validatorMessage="Passcode is at least 6 characters">
+						<f:facet name="prepend"><b:iconAwesome name="key" size="lg"/></f:facet>
+						<f:validateLength minimum="6"/>
+					</b:inputSecret>
+				</b:column>
+			</b:row>
+			<!--
+			<b:row>
+				<b:column col-md="8" offset="2" style-class="message">
+					<b:message for="passCode" />
+				</b:column>
+			</b:row>
+			-->
+
+			<b:row>
+				<b:column col-md="12">
+					<span class="rowSpace"><br/></span>
+				</b:column>
+			</b:row>
+
+			<b:row>
+				<b:column col-md="6" offset="3">
+					<b:commandButton value="Login" action="#{login.loginActionControllerMethod}" ajax="false" look="primary" />
+					<a href="#" class="btn btn-link">Forgot Passcode?</a>
+				</b:column>
+			</b:row>
+
+			<b:row>
+				<b:column col-md="12">
+					<span class="rowSpace"><br/></span>
+				</b:column>
+			</b:row>
+
+		</b:panel>
+
+		</h:form>
+
+	</b:column>
+</b:row>
+
+<b:row>
+	<b:column col-xs="8" style-class="footer">
+		<!-- footer include file -->
+		<ui:include src="/snippets/footer.xhtml" />
+	</b:column>
+</b:row>
+
+</b:container>
+
+</h:body>
+</html>
