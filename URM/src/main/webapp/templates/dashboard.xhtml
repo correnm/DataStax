@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+
+	<title>
+		<ui:insert name="document-title">This Page Needs a Document Title</ui:insert>
+	</title>
+
+	<h:outputStylesheet name="styles.css" library="css" position="last" />
+
+	<script type="text/javascript" src="#{request.contextPath}/resources/js/fusioncharts.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/resources/js/fusioncharts.charts.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/resources/js/fusioncharts.powercharts.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/resources/js/fusioncharts.treemap.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/resources/js/themes/fusioncharts.theme.g2ops.js"></script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.2.1/cytoscape.min.js"></script>
+
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+
+</h:head>
+
+
+<h:body>
+
+<b:container fluid="true">
+
+<!-- navigation bar include file -->
+<ui:include src="/snippets/navbar.xhtml" />
+
+<!-- page name -->
+<!--
+<b:row>
+	<b:column col-xs="12">
+		<div class="page-name">
+			<h1>
+				<ui:insert name="page-name">This Page Needs a Name</ui:insert>
+			</h1>
+		</div>
+	</b:column>
+</b:row>
+-->
+
+<b:form style-class="viewFilterFormClass">
+<b:row>
+    <!-- Color Legend -->
+	<b:column col-md="2">
+		<b:panel class="legend-panel" tooltip="Severity Levels">
+			<div class="legend"><span class="critical"></span> Critical</div>
+			<div class="legend"><span class="high"></span> High</div>
+			<div class="legend"><span class="medium"></span> Medium</div>
+			<div class="legend"><span class="low"></span> Low</div>
+		</b:panel>
+	</b:column>
+    <!-- View Criteria Form -->
+	<b:column col-md="2" offset="1">
+		<b:selectOneMenu label="Organizational Unit" render-label="false" value="#{viewFilterBean.selectedOrgUnit}" tooltip="Choose an Organizational Unit">
+		<f:selectItems value="#{viewFilterBean.orgUnits}" var="orgUnit" itemValue="#{orgUnit.orgUnitCode}" itemLabel="#{orgUnit.orgUnitName}"></f:selectItems>
+		<f:ajax event="change" render="siteListID"></f:ajax>
+		</b:selectOneMenu>
+	</b:column>
+	<b:column col-md="2">
+		<b:selectOneMenu label="Organizational Site" render-label="false" id="siteListID" value="#{viewFilterBean.selectedSite}" tooltip="Choose a Site">
+		<f:selectItems value="#{viewFilterBean.sites}" var="site" itemValue="#{site.siteCode}" itemLabel="#{site.siteName}"></f:selectItems>
+		</b:selectOneMenu>
+	</b:column>
+	<b:column col-md="2">
+		<b:commandButton value="Refresh View" action="#{viewFilterBean.refreshView}" ajax="false" look="default" size="sm"></b:commandButton>
+	</b:column>
+</b:row>
+</b:form>
+
+<!-- row for spacing
+<b:row>
+	<b:column col-xs="12">
+		<span class="rowSpace"><br/></span>
+	</b:column>
+</b:row>
+-->
+
+<b:row>
+	<!-- top-left chart -->
+    <b:column col-md="9">
+    	<ui:insert name="top-left-chart"><p style="text-align:center;">Top-Left Chart Goes Here</p></ui:insert>
+    </b:column>
+	<!-- top-right chart -->
+    <b:column col-md="3">
+    	<ui:insert name="top-right-chart"><p style="text-align:center;">Top-Right Chart Goes Here</p></ui:insert>
+    </b:column>
+</b:row>
+
+<!-- OU and Site -->
+<!--
+<b:row>
+	<b:column col-xs="12">
+		<div class="ou-site-name">
+			<h2>
+				#{viewFilterBean.selectedOrgUnitName} - #{viewFilterBean.selectedSiteName}
+			</h2>
+		</div>
+	</b:column>
+</b:row>
+-->
+<!-- row for spacing -->
+<b:row>
+	<b:column col-xs="12">
+		<span class="rowSpace"><br/></span>
+	</b:column>
+</b:row>
+
+<b:row>
+	<b:column col-md="3">
+    	<ui:insert name="left-charts"><p style="text-align:center;">Left Charts Go Here</p></ui:insert>
+	</b:column>
+	<b:column col-md="9">
+    	<ui:insert name="right-charts"><p style="text-align:center;">Right Charts Go Here</p></ui:insert>
+	</b:column>
+</b:row>
+
+<!-- row for spacing -->
+<b:row>
+	<b:column col-xs="12">
+		<span class="rowSpace"><br/></span>
+	</b:column>
+</b:row>
+
+<b:row>
+	<b:column col-md="12">
+    	<ui:insert name="full-width-table"><p style="text-align:center;">Full Width Table Goes Here</p></ui:insert>
+	</b:column>
+</b:row>
+
+<b:row>
+	<b:column col-xs="12" style-class="footer">
+		<!-- footer include file -->
+		<ui:include src="/snippets/footer.xhtml" />
+	</b:column>
+</b:row>
+
+</b:container>
+
+<ui:insert name="body-javascript">
+	<script type="text/javascript"></script>
+</ui:insert>
+
+</h:body>
+</html>
