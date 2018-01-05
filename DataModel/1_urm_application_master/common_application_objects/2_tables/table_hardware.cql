@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS hardware (
 	asset_type							text,		// business practice metrics
 	asset_visibility					text,		// business practice metrics
 	os_general							text,		// windows, linus
-	operating_system					text		// specific operating system
+	operating_system					text,		// specific operating system
 	installed_software					list <frozen <installed_software>>, 
 	host_name						    text,
 	business_processes					list<text>, // valid entries in business_value_attribution table

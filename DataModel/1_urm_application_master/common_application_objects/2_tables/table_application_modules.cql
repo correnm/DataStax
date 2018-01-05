@@ -13,7 +13,7 @@ WITH COMMENT='Manages application modules that are available to each organizatio
 
 INSERT INTO application_modules
 (menu_name, module_name, file_name, module_description, role_name_r)
-VALUES('Dashboards', 'Business Process Impact Analysis', 'dashboard-slide-2.jsf', 'visualizations from a business perspective', ['user', 'admin']);
+VALUES('Dashboards', 'Mission Process Impact Analysis', 'dashboard-slide-2.jsf', 'visualizations from a mission perspective', ['user', 'admin']);
 
 INSERT INTO application_modules
 (menu_name, module_name, file_name, module_description, role_name_r)

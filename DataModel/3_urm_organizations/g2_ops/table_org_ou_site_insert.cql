@@ -18,14 +18,14 @@ VALUES
 
 
 // a few seed records for the SITE
-insert into sites (org_id, org_unit_id, site_id, site_name, audit_upsert)
+insert into sites (org_unit_id, site_id, site_name, audit_upsert)
 VALUES
-(df72e1dd-a385-4ab9-ba30-70b9df8d539b, ed820389-e7d2-4d5d-88f4-681e39099aa6, uuid(), 'San Diego', {datechanged: toUnixTimestamp(now()), changedbyusername: 'corren.mccoy@g2-ops.com'});
+(ed820389-e7d2-4d5d-88f4-681e39099aa6, uuid(), 'San Diego', {datechanged: toUnixTimestamp(now()), changedbyusername: 'corren.mccoy@g2-ops.com'});
 
-insert into sites (org_id, org_unit_id, site_id, site_name, audit_upsert)
+insert into sites (org_unit_id, site_id, site_name, audit_upsert)
 VALUES
-(df72e1dd-a385-4ab9-ba30-70b9df8d539b,  703161c5-eca3-48a0-8ad9-99f2a6b8d5e7, uuid(), 'Virginia Beach', {datechanged: toUnixTimestamp(now()), changedbyusername: 'corren.mccoy@g2-ops.com'});
+(703161c5-eca3-48a0-8ad9-99f2a6b8d5e7, uuid(), 'Virginia Beach', {datechanged: toUnixTimestamp(now()), changedbyusername: 'corren.mccoy@g2-ops.com'});
 
-insert into sites (org_id, org_unit_id, site_id, site_name, audit_upsert)
+insert into sites (org_unit_id, site_id, site_name, audit_upsert)
 VALUES
-(df72e1dd-a385-4ab9-ba30-70b9df8d539b,  703161c5-eca3-48a0-8ad9-99f2a6b8d5e7, uuid(), 'Washington, DC', {datechanged: toUnixTimestamp(now()), changedbyusername: 'corren.mccoy@g2-ops.com'});
+(703161c5-eca3-48a0-8ad9-99f2a6b8d5e7, uuid(), 'Washington, DC', {datechanged: toUnixTimestamp(now()), changedbyusername: 'corren.mccoy@g2-ops.com'});

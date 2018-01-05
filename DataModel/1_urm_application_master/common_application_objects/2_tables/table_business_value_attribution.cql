@@ -14,11 +14,11 @@ stored_records						set <frozen<record_types>>,
 cyber_value_at_risk					decimal,
 annual_revenue						decimal,
 annual_revenue_year					int,			// YYYY
-business_process_impact_value		double,		// BPIV as aggregated from NIV for runs_on_hardware,
+business_process_impact_value		decimal,		// BPIV as aggregated from NIV for runs_on_hardware,
 expected_loss_value_min				decimal,
 expected_loss_value_max				decimal,
 expected_loss_value_distribution	list<decimal>,
-risk_appetite						double,
+risk_appetite						decimal,
 max_breach_loss						decimal
 PRIMARY KEY (site_id, business_process_id)
 )
@@ -35,9 +35,8 @@ alter table business_value_attribution
 add  expected_loss_value_distribution list<decimal>;
 
 alter table business_value_attribution
-add risk_appetite double;
+add risk_appetite decimal;
 
 alter table business_value_attribution
 add max_breach_loss decimal;
-
 
