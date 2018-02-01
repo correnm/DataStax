@@ -21,8 +21,31 @@
 	</ui:define>
 
 	<ui:define name="right-charts">
-		<div id="businessProcessTreeMapContainer" align="center" style="height: 800px;"></div>
-		<h:outputText value="#{businessProcessTreeMap.getBusinessProcessTreeMap()}" escape="false" />
+
+		<b:row>
+			<b:column col-xs="12">
+				<div id="businessProcessTreeMapContainer" align="center" style="height: 740px; width: 100%; display: none;"></div>
+				<h:outputText value="#{businessProcessTreeMap.getBusinessProcessTreeMap()}" escape="false" />
+				<div id="topologyCoseChartContainer" style="height: 740px; width: 100%; background-color: #ffffff;"></div>
+			</b:column>
+		</b:row>
+
+		<!-- row for spacing -->
+		<b:row>
+			<b:column col-xs="12">
+				<span class="rowSpace"><br/></span>
+			</b:column>
+		</b:row>
+
+		<!-- button for switching between Treemap Chart and COSE Graph -->
+		<b:row>
+			<b:column col-xs="12">
+				<div align="center">
+					<b:button id="rightChartUpdateButtonID" value="Switch to COSE Graph" look="default" onclick="updateRightChart();" />
+				</div>
+			</b:column>
+		</b:row>
+
 	</ui:define>
 
 	<ui:define name="full-width-table">
@@ -77,6 +100,154 @@
 	</ui:define>
 
 	<ui:define name="body-javascript">
+
+		<script>
+		/* <![CDATA[ */
+			
+			var cy = cytoscape({
+
+				container: document.getElementById('topologyCoseChartContainer'), // container to render in
+				
+				elements: [ // list of graph elements to start with
+					//nodes
+					#{topologyCoseChart.getTopologyCoseChartElementsData()}
+					//edges
+					#{topologyCoseChart.getTopologyCoseChartEdgesData()}
+					
+				],
+
+				style: [ // the stylesheet for the graph
+					{
+						selector: 'node',
+						style: {
+							'background-color': '#595a5c',
+							//'label': 'data(id)'
+							'label': ''
+						}
+					},
+					{
+						selector: 'edge',
+						style: {
+							'width': 3,
+							'line-color': '#cccccc',
+							'curve-style': 'bezier',
+							'target-arrow-color': '#aaa',
+							'target-arrow-shape': 'triangle'
+						}
+					},
+					{
+						selector: '.critical',
+						style: {
+							'background-color': '#df382c',
+						}
+					},
+					{
+						selector: '.high',
+						style: {
+							'background-color': '#e95420',
+						},
+								
+					},
+					{
+						selector: '.medium',
+						style: {
+							'background-color': '#efb73e',
+						},
+								
+					},
+					{
+						selector: '.low',
+						style: {
+							'background-color': '#38b44a',
+						},
+			
+					},
+					{
+						selector: '.grayedout',
+						style: {
+							'background-color': '#595a5c',
+						},
+								
+					},
+					{
+						selector: ':selected',
+						style: {
+							'border-width': 3,
+							'border-style': 'solid',
+							'border-color': 'black'
+						}
+					}
+				],
+
+				layout: {
+					name: 'cose',
+					fit: true,
+					padding: 30,
+				}
+
+			});
+
+			cy.nodes("[bpiv<10]").classes('critical');
+			cy.nodes("[bpiv<9]").classes('high');
+			cy.nodes("[bpiv<7]").classes('medium');
+			cy.nodes("[bpiv<4]").classes('low');
+			cy.nodes("[bpiv='']").classes('grayedout');
+					
+			//console.log("cy.width: " + cy.width());
+			//console.log("cy.height: " + cy.height());
+
+			//cy.resize();
+			//cy.reset();
+			//cy.fit();
+			//cy.center();
+			//cy.layout().run();
+					
+			//cy.on('tap', function(evt){
+				//topologyNodeChartReset();
+			//});
+
+			//cy.on('tap', 'node', function(evt){
+				//console.log( 'event.target.id: ' + evt.target.id() );
+				//topologyNodeChartNodeClicked('01');
+			//});
+
+			// function for toggling between the Treemap Chart and the COSE Graph
+			function updateRightChart() {
+
+				if ( $( "#businessProcessTreeMapContainer" ).is(":visible") ) {
+					//var topologyCoseChartContainerWidth = $( "#businessProcessTreeMapContainer" ).width();
+					//var topologyCoseChartContainerHeight = $( "#businessProcessTreeMapContainer" ).height();
+					$( "#businessProcessTreeMapContainer" ).css( "display", "none" );
+					$( "#topologyCoseChartContainer" ).css( "display", "block" );
+					//$( "#topologyCoseChartContainer" ).width( topologyCoseChartContainerWidth );
+					//$( "#topologyCoseChartContainer" ).height( topologyCoseChartContainerHeight );
+					//console.log("cy.width: " + cy.width());
+					//console.log("cy.height: " + cy.height());
+					//cy.resize();
+					//cy.reset();
+					//console.log("cy.width: " + cy.width());
+					//console.log("cy.height: " + cy.height());
+					//var layout = cy.layout({
+						  //name: 'cose',
+						  //fit: true,
+						  //padding: 30
+						//});
+					//layout.run();
+					$( "#rightChartUpdateButtonID" ).html("Switch to Treemap Chart");
+				} else {
+					$( "#businessProcessTreeMapContainer" ).css( "display", "block" );
+					$( "#topologyCoseChartContainer" ).css( "display", "none" );
+					$( "#rightChartUpdateButtonID" ).html("Switch to COSE Graph");
+				}
+
+			}
+
+			// call the function on page load so that the COSE graph is created to the correct size,
+			// but the Treemap chart is displayed first
+			updateRightChart();
+			
+		/* ]]> */
+		</script>
 
 	</ui:define>
 
