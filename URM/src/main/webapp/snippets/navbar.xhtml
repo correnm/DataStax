@@ -15,10 +15,10 @@
 			<b:navLink value="Operational Impact Analysis" href="#{request.contextPath}/dashboard-operational-impact.jsf"></b:navLink>
 			-->
 		</b:dropMenu>
-		<b:dropMenu value="Super Admin" iconAwesome="briefcase" iconAlign="left" rendered="${user.systemAdministratorInd}">
+		<b:dropMenu value="Super Admin" iconAwesome="briefcase" iconAlign="left" rendered="${userBean.systemAdministratorInd}">
 			<b:navLink value="Business Value Metrics" href="#{request.contextPath}/administrator/business-practice-table.jsf"></b:navLink>
 		</b:dropMenu>
-		<b:dropMenu value="Administrator" iconAwesome="gears" iconAlign="left" rendered="${user.appRoleName eq 'admin'}">
+		<b:dropMenu value="Administrator" iconAwesome="gears" iconAlign="left" rendered="${userBean.appRoleName eq 'admin'}">
 			<ui:repeat value="#{navMenu.administratorNavMenuItemList}" var="menuItem">
 				<b:navLink value="#{menuItem.displayName}" href="#{request.contextPath}/administrator/#{menuItem.fileName}"></b:navLink>
 			</ui:repeat>
@@ -37,7 +37,7 @@
 			<b:navLink value="Change Passcode" href="#"></b:navLink>
 			-->
 		</b:dropMenu>
-		<b:navCommandLink value="Logout" action="#{login.logoutActionControllerMethod}" iconAwesome="unlock" iconAlign="left"></b:navCommandLink>
+		<b:navCommandLink value="Logout" action="#{userBean.logout}" iconAwesome="unlock" iconAlign="left"></b:navCommandLink>
 	</b:navbarLinks>
 </b:navBar>
 </b:form>
