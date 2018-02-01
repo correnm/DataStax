@@ -29,8 +29,9 @@ h1,h2,h3,h4 {
 }
 
 h1 {
-	font-size: 22px;
+	font-size: 32px;
 	font-weight: bold;
+	color: #28637e;
 	margin-top: 0px;
 	margin-bottom: 0px;
 }
@@ -252,7 +253,9 @@ i.fa {
 }
 
 .page-name h1 {
+	padding-top: 20px;
 	padding-bottom: 20px;
+	valign: middle;
 	text-align: center;
 }
 
@@ -314,7 +317,26 @@ table.table-striped tbody tr.even {
 }
 
 .viewFilterFormClass .form-control {
-	height: 30px;
+	height: 40px;
 	padding: 4px 12px;
-	font-size: 12px;
+	font-size: 20px;
+}
+
+/* basic positioning */
+.legend-panel .panel-body { padding: 6px; }
+.legend { float: left; width: 25%; font-size: 12px; }
+/*.legend li { margin-bottom: 10px; }*/
+.legend span { border: 1px solid #ccc; float: left; width: 14px; height: 14px; margin-right: 4px; }
+/* your colors */
+.legend .critical { background-color: #df382c; }
+.legend .high { background-color: #e95420; }
+.legend .medium { background-color: #efb73e; }
+.legend .low { background-color: #38b44a; }
+
+.panel_title {
+	font-size: 16px;
+	text-align: center;
+	font-weight: bold;
+	color: #595a5c;
+	padding-bottom: 15px;
 }
