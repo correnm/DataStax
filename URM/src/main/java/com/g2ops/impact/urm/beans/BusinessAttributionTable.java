@@ -1,5 +1,7 @@
 package com.g2ops.impact.urm.beans;
 
+import javax.annotation.PostConstruct;
+
 /**
  * @author 		Sara Prokop, G2 Ops, Virginia Beach, VA
  * @version 	1.00, May 2017
@@ -15,6 +17,7 @@ package com.g2ops.impact.urm.beans;
  */
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import java.util.ArrayList;
@@ -32,12 +35,21 @@ import com.g2ops.impact.urm.utils.SessionUtils;
 @RequestScoped
 public class BusinessAttributionTable {
 
+	@Inject private UserBean currentUser;
+
 	private ResultSet rs;
 	private Iterator<Row> iterator;
 	private BusinessAttribution att;
 	private List<BusinessAttribution> attList = new ArrayList<BusinessAttribution>();
 		
-	public List<BusinessAttribution> getBusinessAttData() {
+	public BusinessAttributionTable() {
+
+		System.out.println("*** in BusinessAttributionTable constructor ***");
+
+	}
+	
+	@PostConstruct
+	public void init() {
 
 		// clear out any old content before retrieving new database info
 		attList.clear();
@@ -60,17 +72,21 @@ public class BusinessAttributionTable {
 			attList.add(att);
 		}
 			
-		return attList;
-
 	}
 
 	private void populateBusinessAtt() {
 
 		// get the Database Query Service object for this Org
-		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService();
+		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
 			
 		// execute the query
 		rs = databaseQueryService.runQuery("select ip_address, os_general, system_type, asset_type, asset_visibility from hardware");
+
+	}
+
+	public List<BusinessAttribution> getBusinessAttData() {
+
+		return attList;
 
 	}
 
