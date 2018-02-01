@@ -13,7 +13,9 @@ package com.g2ops.impact.urm.beans;
  * Date				Author				Revision Description
  */
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import java.io.Serializable;
@@ -35,6 +37,8 @@ public class NavMenu implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Inject private UserBean currentUser;
+
 	private ResultSet rs;
 	private Iterator<Row> iterator;
 	private NavMenuItem navMenuItem;
@@ -45,10 +49,18 @@ public class NavMenu implements Serializable {
 
 	public NavMenu() {
 
-		System.out.println("*** start NavMenu constructor ***");
+		System.out.println("*** in NavMenu constructor ***");
+		
+	}
+	
+	@PostConstruct
+	public void init() {
+
+		System.out.println("*** in PostConstruct init method ***");
+		System.out.println("orgKeyspace is: " + currentUser.getOrgKeyspace());
 		
 		// get the Database Query Service object for this Org
-		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService();
+		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
 
 		// get the menu items
 
@@ -88,7 +100,7 @@ public class NavMenu implements Serializable {
 
 		}
 			
-		System.out.println("*** end NavMenu constructor ***");
+		System.out.println("*** end PostConstruct init method ***");
 		
 	}
 
