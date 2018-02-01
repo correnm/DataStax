@@ -39,7 +39,8 @@ public class AuthorizationFilter implements Filter {
 		//this.context.log("Requested Resource::" + uri);
 		
 		// set flags
-		boolean loggedIn = (session != null) && (session.getAttribute("user") != null); // is user logged in?
+		//boolean loggedIn = (session != null) && (session.getAttribute("user") != null); // is user logged in?
+		boolean loggedIn = (session != null) && (session.getAttribute("loggedIn") != null); // is user logged in?
 		boolean loginRequest = uri.equals(loginURL); // is request for login page?
 		boolean resourceRequest = uri.startsWith(resourcesURL) || uri.startsWith(resourcesURL2); // is request for css/js/img file?
 		boolean ajaxRequest = "partial/ajax".equals(req.getHeader("Faces-Request")); // is an AJAX request?
