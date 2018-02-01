@@ -13,7 +13,9 @@ package com.g2ops.impact.urm.beans;
  * Date				Author				Revision Description
  */
 	
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import java.math.BigDecimal;
@@ -23,8 +25,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.servlet.http.HttpSession;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
@@ -37,13 +37,15 @@ import com.g2ops.impact.urm.utils.SessionUtils;
 @Named("businessProcessesCyVaRChart")
 @RequestScoped
 public class BusinessProcessesCyVaRChart {
-	   
+
+	@Inject private UserBean currentUser;
+	
 	private String data;
 	private String chartData;
 	private FusionCharts businessProcessesCyVaRChart;
 	private Iterator<Row> iterator;
-	private BigDecimal BPIV;
-	private BigDecimal lowCutoffValue, mediumCutoffValue, highCutoffValue;
+	private BigDecimal BPIV, tempBPIV;
+	private BigDecimal lowCutoffValue, mediumCutoffValue, highCutoffValue, nullBPIVValue;
 	private String columnColor;
 	private DecimalFormat myFormatter = new DecimalFormat("###,###,###.##");
 
@@ -53,14 +55,19 @@ public class BusinessProcessesCyVaRChart {
 		mediumCutoffValue = new BigDecimal("7.0");
 		highCutoffValue = new BigDecimal("9.0");
 		
-		// get the user's session
-		HttpSession userSession = SessionUtils.getSession();
+		nullBPIVValue = new BigDecimal("0.0");
+		
+	}
+
+	@PostConstruct
+	public void init() {
 
 		// get the Database Query Service object for this Org
-		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService();
+		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
 
 		// get the currently active Site from the user's session
-		String selectedSite = (String)userSession.getAttribute("currentSite");
+		//String selectedSite = (String)userSession.getAttribute("currentSite");
+		String selectedSite = currentUser.getSiteID();
 
 		// do DB query
 		ResultSet rs = databaseQueryService.runQuery("select business_process_name, annual_revenue, cyber_value_at_risk, business_process_impact_value from business_value_attribution where site_id = " + selectedSite);
@@ -71,7 +78,12 @@ public class BusinessProcessesCyVaRChart {
 		BusinessProcessCyVar businessProcessCyVarInstance;
 		while (iterator.hasNext()) {
 			Row row = iterator.next();
-			businessProcessCyVarInstance = new BusinessProcessCyVar(row.getString("business_process_name"), row.getDecimal("annual_revenue"), row.getDecimal("cyber_value_at_risk"), row.getDecimal("business_process_impact_value"));
+			if (row.isNull("business_process_impact_value")) {
+				tempBPIV = nullBPIVValue;
+			} else {
+				tempBPIV = row.getDecimal("business_process_impact_value");
+			}
+			businessProcessCyVarInstance = new BusinessProcessCyVar(row.getString("business_process_name"), row.getDecimal("annual_revenue"), row.getDecimal("cyber_value_at_risk"), tempBPIV);
 			businessProcessCyVarArrayList.add(businessProcessCyVarInstance);
 		}
 			
