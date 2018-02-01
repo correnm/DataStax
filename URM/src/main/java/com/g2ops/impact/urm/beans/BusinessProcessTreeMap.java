@@ -15,12 +15,12 @@ package com.g2ops.impact.urm.beans;
  * 14-Aug-2017		corren.mccoy		Removed sublabel on treemap
  */
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import java.util.Iterator;
-
-import javax.servlet.http.HttpSession;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
@@ -33,10 +33,12 @@ import com.g2ops.impact.urm.utils.SessionUtils;
 @RequestScoped
 public class BusinessProcessTreeMap {
 
+	@Inject private UserBean currentUser;
+
 	private ResultSet rs;
 	private Iterator<Row> iterator;
 
-	private String selectedSite, ip_address, node_impact_value, vulnerability_count;
+	private String ip_address, node_impact_value, vulnerability_count;
 	private Integer vulnerability_count_sum = 0;
 
 	private String data;
@@ -46,8 +48,10 @@ public class BusinessProcessTreeMap {
 
 	public BusinessProcessTreeMap() {
 
-		HttpSession userSession = SessionUtils.getSession();
-		selectedSite = (String)userSession.getAttribute("currentSite");
+	}
+	
+	@PostConstruct
+	public void init() {
 
 		queryHardwareNodes();
 		
@@ -246,10 +250,10 @@ public class BusinessProcessTreeMap {
 	private void queryHardwareNodes() {
 
 		// get the Database Query Service object for this Org
-		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService();
+		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
 
 		// execute the query
-		rs = databaseQueryService.runQuery("select ip_address, node_impact_value, vulnerability_count from hardware where site_or_ou_name = '" + selectedSite + "'");
+		rs = databaseQueryService.runQuery("select ip_address, node_impact_value, vulnerability_count from hardware where site_id = " + currentUser.getSiteID());
 
 	}
 
