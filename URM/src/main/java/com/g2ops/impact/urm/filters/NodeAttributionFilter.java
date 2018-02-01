@@ -37,14 +37,14 @@ import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.g2ops.impact.urm.beans.NodeAttributionTable;
+import com.g2ops.impact.urm.beans.UserBean;
 import com.g2ops.impact.urm.types.NodeAttribution;
 import com.g2ops.impact.urm.utils.SessionUtils;
 
 @Named("dtFilterView")
 @RequestScoped
 public class NodeAttributionFilter {
-	
-	
+
 	private List<NodeAttribution> attList;
 	//private List<NodeAttribution> filteredAttList;
 	
@@ -56,17 +56,19 @@ public class NodeAttributionFilter {
 	private String assetType 	= null;
 	private String assetVis		= null;
 	
-	private Session dbSession = SessionUtils.getOrgDBSession();
+	private Session dbSession;
 	private ResultSet rs;
 	private Row row;
 	private Iterator<Row> iterator;
 	private String colValue;
 	private List<String> ddOptions = new ArrayList<String>();
 	
+	@Inject private UserBean currentUser;
 	@Inject private NodeAttributionTable table;
 	
 	@PostConstruct
 	public void init(){
+		dbSession = SessionUtils.getOrgDBSession(currentUser.getOrgKeyspace());
 		attList = filter();
 	}
 	
