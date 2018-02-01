@@ -49,8 +49,19 @@
 
 <b:form style-class="viewFilterFormClass">
 <b:row>
+	<b:column col-md="3">
+		<b:panel class="legend-panel" tooltip="Dashboard Name">
+			<div>Dashboard: <strong>Business Process Impact Analysis</strong></div>
+		</b:panel>
+	</b:column>
+    <!-- OU/Site View Form -->
+	<b:column col-md="4" offset="1">
+		<b:selectOneMenu label="Organizational Unit + Site" render-label="false" id="OUSiteListID" value="#{OUSiteBean.selectedOUSite}" tooltip="Choose a Site" onchange="submit()" valueChangeListener="#{OUSiteBean.OUSiteChanged}">
+		<f:selectItems value="#{OUSiteBean.OUSiteArray}" var="site" itemValue="#{site.OUSiteCodes}" itemLabel="#{site.OUSiteNames}"></f:selectItems>
+		</b:selectOneMenu>
+	</b:column>
     <!-- Color Legend -->
-	<b:column col-md="2">
+	<b:column col-md="3" offset="1">
 		<b:panel class="legend-panel" tooltip="Severity Levels">
 			<div class="legend"><span class="critical"></span> Critical</div>
 			<div class="legend"><span class="high"></span> High</div>
@@ -58,7 +69,7 @@
 			<div class="legend"><span class="low"></span> Low</div>
 		</b:panel>
 	</b:column>
-    <!-- View Criteria Form -->
+    <!--
 	<b:column col-md="2" offset="1">
 		<b:selectOneMenu label="Organizational Unit" render-label="false" value="#{viewFilterBean.selectedOrgUnit}" tooltip="Choose an Organizational Unit">
 		<f:selectItems value="#{viewFilterBean.orgUnits}" var="orgUnit" itemValue="#{orgUnit.orgUnitCode}" itemLabel="#{orgUnit.orgUnitName}"></f:selectItems>
@@ -70,19 +81,21 @@
 		<f:selectItems value="#{viewFilterBean.sites}" var="site" itemValue="#{site.siteCode}" itemLabel="#{site.siteName}"></f:selectItems>
 		</b:selectOneMenu>
 	</b:column>
+	-->
+	<!--
 	<b:column col-md="2">
 		<b:commandButton value="Refresh View" action="#{viewFilterBean.refreshView}" ajax="false" look="default" size="sm"></b:commandButton>
 	</b:column>
+	-->
 </b:row>
 </b:form>
 
-<!-- row for spacing
+<!-- row for spacing -->
 <b:row>
 	<b:column col-xs="12">
 		<span class="rowSpace"><br/></span>
 	</b:column>
 </b:row>
--->
 
 <b:row>
 	<!-- top-left chart -->
