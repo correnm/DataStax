@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/dashboard.xhtml">
+
+	<ui:define name="document-title">Mission Impact Analysis - Unified Risk Management</ui:define>
+
+	<ui:define name="top-left-chart">
+		<div id="orgRiskHistoryLineChartContainer" align="center" style="height: 200px;"></div>
+		<h:outputText value="#{orgRiskHistoryLineChartDoD.getOrgRiskHistoryLineChartDoD()}" escape="false" />
+	</ui:define>
+
+	<ui:define name="top-right-chart">
+		<!--
+		<div id="riskAppetiteGaugeContainer" align="center" style="height: 200px;"></div>
+		<h:outputText value="#{riskAppetiteGauge.getRiskAppetiteGauge()}" escape="false" />
+		-->
+	</ui:define>
+
+	<ui:define name="left-charts">
+		<div id="criticalSystemsAtRiskPieChartContainer" align="center" style="height: 240px;"></div>
+		<h:outputText value="#{criticalSystemsAtRiskPieChartDoD.getCriticalSystemsAtRiskPieChartDoD()}" escape="false" />
+		<span class="rowSpace"><br/></span>
+		<div id="topNbyCyVaRChartContainer" align="center" style="height: 400px;"></div>
+		<h:outputText value="#{topNbyCyVaRChartDoD.getTopNbyCyVaRChartDoD()}" escape="false" />
+	</ui:define>
+
+	<ui:define name="right-charts">
+		<div id="businessProcessTreeMapContainer" align="center" style="height: 640px;"></div>
+		<h:outputText value="#{businessProcessTreeMapDoD.getBusinessProcessTreeMapDoD()}" escape="false" />
+	</ui:define>
+
+	<ui:define name="full-width-table">
+		<div class="dataTableDivClass">
+		<h2>Mission Thread Impact Analysis</h2>
+		<h:form>
+			<b:dataTable value="#{businessProcessesByCyvarTableDoD.businessProcesses}" var="businessProcess" styleClass="businessProcessesByCyvarTableClass">
+
+				<b:dataTableColumn value="#{businessProcess.missionName}">    				
+					<f:facet name="header">Mission Thread / Message</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{businessProcess.capability}">
+					<f:facet name="header">Capability</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{businessProcess.MIV}" style="text-align:right;">
+					<f:facet name="header">Mission Impact Value (MIV)</f:facet>
+				</b:dataTableColumn>
+				
+				<b:dataTableColumn value="#{businessProcess.riskLikelyhood}" style="text-align:right;">
+					<f:facet name="header">Risk Likelihood</f:facet>
+				</b:dataTableColumn>
+
+			</b:dataTable>
+		</h:form>
+		</div>
+	</ui:define>
+
+	<ui:define name="body-javascript">
+
+		<script type="text/javascript">
+
+			function businessProcessTreeMapNodeClicked(nodeName) {
+				console.log("nodeName: " + nodeName + " was clicked");
+			}
+		
+		</script>
+
+	</ui:define>
+
+</ui:composition>
