@@ -14,7 +14,9 @@ package com.g2ops.impact.urm.beans;
  * 
  */
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import java.io.Serializable;
@@ -23,8 +25,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
-
-import javax.servlet.http.HttpSession;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
@@ -40,6 +40,8 @@ public class ViewFilterBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Inject UserBean currentUser;
+
 	//private String org_id;
 	private String selectedOrgUnit;
 	private String selectedSite;
@@ -51,21 +53,19 @@ public class ViewFilterBean implements Serializable {
 
 	public ViewFilterBean() {
 		
+		System.out.println("*** in ViewFilterBean constructor ***");
+		
+	}
+	
+	@PostConstruct
+	public void init() {
+
 		this.orgUnits = new ArrayList<OrgUnit>();
 		this.sites = new ArrayList<Site>();
 
-		HttpSession userSession = SessionUtils.getSession();
-
-		// get the default OU and Site from the user's session
-		selectedOrgUnit = (String)userSession.getAttribute("currentOU");
-		selectedSite = (String)userSession.getAttribute("currentSite");
-		//String orgKeyspace = (String)userSession.getAttribute("orgKeyspace");
-		//if (orgKeyspace.equals("g2")) {
-			//org_id = "df72e1dd-a385-4ab9-ba30-70b9df8d539b";
-		//}
-		//else if (orgKeyspace.equals("vmasc")) {
-			//org_id = "2cd3bc78-350f-47ce-bd53-7525b93f0640";
-		//}
+		// get the selected OU and Site from the userBean
+		selectedOrgUnit = currentUser.getOrgUnitID();
+		selectedSite = currentUser.getSiteID();
 		
 		createOrgUnitList();
 		createSiteList(selectedOrgUnit);
@@ -75,7 +75,7 @@ public class ViewFilterBean implements Serializable {
 	private void createOrgUnitList() {
 		
 		// get the Database Query Service object for this Org
-		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService();
+		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
 
 		// execute the query
 		ResultSet rs = databaseQueryService.runQuery("select org_unit_id, org_unit_name from organizational_units");
@@ -92,7 +92,7 @@ public class ViewFilterBean implements Serializable {
 	private void createSiteList(String orgUnit) {
 
 		// get the Database Query Service object for this Org
-		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService();
+		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
 
 		// clear out the current list
 		this.sites.clear();
@@ -121,7 +121,7 @@ public class ViewFilterBean implements Serializable {
 	public String getSelectedOrgUnitName() {
 
 		// get the Database Query Service object for this Org
-		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService();
+		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
 
 		// execute the query
 		//ResultSet rs = databaseQueryService.runQuery("select org_unit_name from organizational_units where org_id = " + UUID.fromString(org_id) + " and org_unit_id = " + UUID.fromString(selectedOrgUnit));
@@ -151,7 +151,7 @@ public class ViewFilterBean implements Serializable {
 	public String getSelectedSiteName() {
 
 		// get the Database Query Service object for this Org
-		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService();
+		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
 
 		// execute the query
 		//ResultSet rs = databaseQueryService.runQuery("select site_name from sites where org_id = " + UUID.fromString(org_id) + " and org_unit_id = " + UUID.fromString(selectedOrgUnit) + " and site_id = " + UUID.fromString(selectedSite));
@@ -179,10 +179,12 @@ public class ViewFilterBean implements Serializable {
 		System.out.println("refreshView - selectedOrgUnit: " + selectedOrgUnit);
 		System.out.println("refreshView - selectedSite: " + selectedSite);
 
-		HttpSession userSession = SessionUtils.getSession();
+		//HttpSession userSession = SessionUtils.getSession();
 
-		userSession.setAttribute("currentOU", selectedOrgUnit);
-		userSession.setAttribute("currentSite", selectedSite);
+		currentUser.setOrgUnitID(selectedOrgUnit);
+		currentUser.setSiteID(selectedSite);
+		//userSession.setAttribute("currentOU", selectedOrgUnit);
+		//userSession.setAttribute("currentSite", selectedSite);
 
 		return(null);
 
