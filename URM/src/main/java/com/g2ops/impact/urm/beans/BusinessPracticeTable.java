@@ -14,7 +14,9 @@ package com.g2ops.impact.urm.beans;
  * 
  */
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import java.util.ArrayList;
@@ -32,13 +34,23 @@ import com.g2ops.impact.urm.utils.SessionUtils;
 @RequestScoped
 public class BusinessPracticeTable {
 
+	@Inject private UserBean currentUser;
+
 	private DatabaseQueryService databaseQueryService;
 	private ResultSet rs;
 	private Iterator<Row> iterator;
 	private BusinessPractice biz;
 	private List<BusinessPractice> bizList = new ArrayList<BusinessPractice>();
 	
-	public List<BusinessPractice> getBusinessData() {
+	public BusinessPracticeTable() {
+
+		System.out.println("*** in BusinessPracticeTable constructor ***");
+
+	}
+	
+	@PostConstruct
+	public void init() {
+
 		// clear out any old content before retrieving new database info
 		bizList.clear();
 		
@@ -62,17 +74,21 @@ public class BusinessPracticeTable {
 			bizList.add(biz);
 		}
 		
-		return bizList;
-
 	}
 
 	private void populateBusinessData () {
 
 		// get the Database Query Service object for this Org
-		databaseQueryService = SessionUtils.getOrgDBQueryService();
+		databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
 		
 		// execute the query
 		rs = databaseQueryService.runQuery("select category, business_value, collateral_damage_current, target_distribution_current, confidentiality_req_current, integrity_req_current, availability_req_current from business_practice");
+
+	}
+
+	public List<BusinessPractice> getBusinessData() {
+
+		return bizList;
 
 	}
 
