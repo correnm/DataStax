@@ -14,7 +14,9 @@ package com.g2ops.impact.urm.beans;
  * 
  */
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import java.util.ArrayList;
@@ -31,16 +33,24 @@ import com.g2ops.impact.urm.utils.SessionUtils;
 @RequestScoped
 public class UsersTable {
 
+	@Inject private UserBean currentUser;
+
+	private List<User> userList = new ArrayList<User>();
+
 	public UsersTable() {
 		
 	}
 	
-	public List<User> getUsersData() {
+	@PostConstruct
+	public void init() {
 
-		ResultSet rs = populateUsersData();
+		// get the Database Query Service object for this Org
+		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
+		
+		// execute the query
+		ResultSet rs = databaseQueryService.runQuery("select user_email, application_role_name, default_lens_view_r, first_name, last_name, system_administrator_ind from users");
 
 		Iterator<Row> iterator = rs.iterator();
-		List<User> userList = new ArrayList<User>();
 		
 		while (iterator.hasNext()) {
 			Row row = iterator.next();
@@ -48,19 +58,11 @@ public class UsersTable {
 			userList.add(user);
 		}
 		
-		return userList;
-
 	}
 
-	private ResultSet populateUsersData () {
+	public List<User> getUsersData() {
 
-		// get the Database Query Service object for this Org
-		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService();
-		
-		// execute the query
-		ResultSet rs = databaseQueryService.runQuery("select user_email, application_role_name, default_lens_view_r, first_name, last_name, system_administrator_ind from users");
-
-		return rs;
+		return userList;
 		
 	}
 
