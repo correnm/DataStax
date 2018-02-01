@@ -1,5 +1,20 @@
 package com.g2ops.impact.urm.beans;
 
+/**
+ * @author 		John Reddy, G2 Ops, Virginia Beach, VA
+ * @version 	1.00, May 2017
+ * @see			
+ * @exception
+ * 
+ * <p>Known Bugs: (a list of bugs and other problems)
+ *
+ *
+ * <p>Revision History:
+ * Date				Author				Revision Description
+ * 12-Jul-2017		corren.mccoy		Added additional placeholder data for demo purposes
+ * 14-Aug-2017		corren.mccoy		Change position of caption alignment
+ */
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
@@ -18,20 +33,6 @@ import com.g2ops.impact.urm.utils.DatabaseQueryService;
 import com.g2ops.impact.urm.utils.FusionCharts;
 import com.g2ops.impact.urm.utils.SessionUtils;
 
-/**
- * @author 		John Reddy, G2 Ops, Virginia Beach, VA
- * @version 	1.00, May 2017
- * @see			
- * @exception
- * 
- * <p>Known Bugs: (a list of bugs and other problems)
- *
- *
- * <p>Revision History:
- * Date				Author				Revision Description
- * 12-Jul-2017		corren.mccoy		Added additional placeholder data for demo purposes
- * 14-Aug-2017		corren.mccoy		Change position of caption alignment
- */
 @Named("topNbyCyVaRChart")
 @RequestScoped
 	public class TopNbyCyVaRChart {
