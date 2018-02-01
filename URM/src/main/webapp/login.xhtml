@@ -54,7 +54,7 @@
 
 			<b:row>
 				<b:column col-md="8" offset="2">
-					<b:inputText placeholder="Organization Name" id="userOrg" value="#{login.userOrg}" required="true" requiredMessage="Organization Name is required" validatorMessage="Organization Name is at least 3 characters">
+					<b:inputText placeholder="Organization Name" id="orgName" value="#{userBean.orgName}" required="true" requiredMessage="Organization Name is required" validatorMessage="Organization Name is at least 3 characters">
 						<f:facet name="prepend"><b:iconAwesome name="institution" size="lg"/></f:facet>
 						<f:validateLength minimum="3"/>
 						<b:focus />
@@ -71,7 +71,7 @@
 
 			<b:row>
 				<b:column col-md="8" offset="2">
-					<b:inputText placeholder="Email Address" id="userEmail" value="#{login.userEmail}" required="true" requiredMessage="Email Address is required">
+					<b:inputText placeholder="Email Address" id="email" value="#{userBean.email}" required="true" requiredMessage="Email Address is required">
 						<f:facet name="prepend"><b:iconAwesome name="envelope" size="lg"/></f:facet>
 					</b:inputText>
 				</b:column>
@@ -86,7 +86,7 @@
 
 			<b:row>
 				<b:column col-md="8" offset="2">
-					<b:inputSecret placeholder="Passcode" id="passCode" value="#{login.userPassCode}" required="true" requiredMessage="Passcode is required" validatorMessage="Passcode is at least 6 characters">
+					<b:inputSecret placeholder="Passcode" id="passCode" value="#{userBean.passCode}" required="true" requiredMessage="Passcode is required" validatorMessage="Passcode is at least 6 characters">
 						<f:facet name="prepend"><b:iconAwesome name="key" size="lg"/></f:facet>
 						<f:validateLength minimum="6"/>
 					</b:inputSecret>
@@ -108,7 +108,7 @@
 
 			<b:row>
 				<b:column col-md="6" offset="3">
-					<b:commandButton value="Login" action="#{login.loginActionControllerMethod}" ajax="false" look="primary" />
+					<b:commandButton value="Login" action="#{userBean.login}" ajax="false" look="primary" />
 					<a href="#" class="btn btn-link">Forgot Passcode?</a>
 				</b:column>
 			</b:row>
