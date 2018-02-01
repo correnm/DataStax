@@ -1,5 +1,7 @@
 package com.g2ops.impact.urm.beans;
 
+import javax.annotation.PostConstruct;
+
 /**
  * @author 		Sara PRokop, G2 Ops, Virginia Beach, VA
  * @version 	1.00, July 2017
@@ -20,6 +22,7 @@ package com.g2ops.impact.urm.beans;
  */
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import java.util.ArrayList;
@@ -41,34 +44,46 @@ import com.g2ops.impact.urm.utils.SessionUtils;
 @RequestScoped
 public class NodeAttributionTable {
 
-		private Session dbSession = SessionUtils.getOrgDBSession();
-		private ResultSet rs;
-		private Iterator<Row> iterator;
-		private NodeAttribution att;
-		private List<NodeAttribution> attList = new ArrayList<NodeAttribution>();
+	@Inject private UserBean currentUser;
+
+	private Session dbSession;
+	private ResultSet rs;
+	private Iterator<Row> iterator;
+	private NodeAttribution att;
+	private List<NodeAttribution> attList = new ArrayList<NodeAttribution>();
 	
-		//table column fields
-		//private String vendor;
-		//private String ip;
-		//private String os;
-		//private String sysType;
-		//private String assetType;
-		//private String assetVis;
-		//private boolean flag;
+	//table column fields
+	//private String vendor;
+	//private String ip;
+	//private String os;
+	//private String sysType;
+	//private String assetType;
+	//private String assetVis;
+	//private boolean flag;
+		
+	public NodeAttributionTable() {
+
+		System.out.println("*** in NodeAttributionTable constructor ***");
+		
+	}
+	
+	@PostConstruct
+	public void init() {
+
+		dbSession = SessionUtils.getOrgDBSession(currentUser.getOrgKeyspace());
 		
 		// get the Database Query Service object for this Org
-		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService();
+		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
 
+		// gets all entries with no filter
+		String query = "select vendor, ip_address, os_general, system_type, asset_type, asset_visibility, reportable_flag, "
+				+ "internal_system_id, ip_subnet_or_building, ip_subnet_or_building from hardware";
+		rs = databaseQueryService.runQuery(query);
+	
+		setRows();
+
+	}
 		
-		public List<NodeAttribution> getNodeAttData() {
-			 // gets all entries with no filter
-			String query = "select vendor, ip_address, os_general, system_type, asset_type, asset_visibility, reportable_flag, "
-					+ "internal_system_id, site_or_ou_name, ip_subnet_or_building from hardware";
-			rs = databaseQueryService.runQuery(query);
-			
-			setRows();
-			return attList;
-		}
 		//set as seperate method to allow for filtering
 		public void setRows(){
 			// clear out any old content before retrieving new database info
@@ -86,7 +101,7 @@ public class NodeAttributionTable {
 				String assetVis = row.getString("asset_visibility");
 				boolean flag = row.getBool("reportable_flag");
 				UUID UUid = row.getUUID("internal_system_id");
-				String site = row.getString("site_or_ou_name");
+				String site = row.getString("ip_subnet_or_building");
 				String sub = row.getString("ip_subnet_or_building");
 				
 				att = new NodeAttribution(vendor, ip, os, sysType, assetType, assetVis,
@@ -151,4 +166,11 @@ public class NodeAttributionTable {
 			}
 			return attList;
 		}
+
+	public List<NodeAttribution> getNodeAttData() {
+
+		return attList;
+
+	}
+
 }
