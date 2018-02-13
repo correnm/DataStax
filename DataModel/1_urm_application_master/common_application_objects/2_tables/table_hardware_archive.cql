@@ -1,3 +1,12 @@
+
+
+/**
+Modifications
+date				author			description
+2/13/2018			sara.bergman	removed risk_likelihood float, to be placed into business_value_attribution
+
+*/
+
 USE keyspacename;
 
 CREATE TABLE IF NOT EXISTS hardware_archive (
@@ -29,7 +38,6 @@ CREATE TABLE IF NOT EXISTS hardware_archive (
     vendor_stencil_icon					text,   	// refers to file location on web server for icons to use in viz
     cyvar 								float,		// output of Cyber Value at Risk (TBD)
     vulnerability_count 				int,		// total number of CVE IDs identified for this item
-    risk_likelihood 					float,  	//
     audit_upsert 						frozen<audit_upsert>,
 	connected_elements					list <frozen <connected_elements>>, // traceroute,
 	asset_type							text,		// business practice metrics

@@ -1,3 +1,13 @@
+
+
+/**
+Modifications
+date				author			description
+2/13/2018			sara.bergman	added risk_likelihood
+									removed connected_to_hardware
+
+*
+
 USE keyspacename;
 
 CREATE TABLE IF NOT EXISTS business_value_attribution (
