@@ -9,7 +9,9 @@ CREATE ROLE IF NOT EXISTS dod_admin;
 GRANT CREATE    ON KEYSPACE dod TO dod_admin;
 GRANT ALTER     ON KEYSPACE dod TO dod_admin;
 GRANT DROP      ON KEYSPACE dod TO dod_admin;
+GRANT SELECT    ON KEYSPACE appl_auth to dod_admin;
 
 CREATE ROLE IF NOT EXISTS dod_developer;
 GRANT SELECT    ON KEYSPACE dod TO dod_developer;
 GRANT MODIFY    ON KEYSPACE dod TO dod_developer;
+GRANT SELECT    ON KEYSPACE appl_auth to dod_developer;

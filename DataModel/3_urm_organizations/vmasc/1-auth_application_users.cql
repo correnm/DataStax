@@ -9,7 +9,10 @@ CREATE ROLE IF NOT EXISTS vmasc_admin;
 GRANT CREATE    ON KEYSPACE vmasc TO vmasc_admin;
 GRANT ALTER     ON KEYSPACE vmasc TO vmasc_admin;
 GRANT DROP      ON KEYSPACE vmasc TO vmasc_admin;
+GRANT SELECT    ON KEYSPACE appl_auth to vmasc_admin;
 
 CREATE ROLE IF NOT EXISTS vmasc_developer;
 GRANT SELECT    ON KEYSPACE vmasc TO vmasc_developer;
 GRANT MODIFY    ON KEYSPACE vmasc TO vmasc_developer;
+GRANT ALTER 	ON KEYSPACE vmasc to vmasc_developer;
+GRANT SELECT    ON KEYSPACE appl_auth to vmasc_developer;
