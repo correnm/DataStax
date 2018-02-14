@@ -1,5 +1,7 @@
 package com.g2ops.impact.urm.beans;
 
+import javax.annotation.PostConstruct;
+
 /**
  * @author 		John Reddy, G2 Ops, Virginia Beach, VA
  * @version 	1.00, May 2017
@@ -16,6 +18,7 @@ package com.g2ops.impact.urm.beans;
  */
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import java.util.ArrayList;
@@ -37,6 +40,8 @@ import com.g2ops.impact.urm.utils.SessionUtils;
 @RequestScoped
 	public class TopNbyCyVaRChart {
 	   
+		@Inject private UserBean currentUser;
+
 		private String data;
 		private String chartData;
 		private FusionCharts topNbyCyVaRChart;
@@ -44,6 +49,11 @@ import com.g2ops.impact.urm.utils.SessionUtils;
 		private Iterator<Row> iterator;
 
 		public TopNbyCyVaRChart() {
+			
+		}
+		
+		@PostConstruct
+		public void init() {
 
 			// get the user's session
 			HttpSession userSession = SessionUtils.getSession();
@@ -51,7 +61,7 @@ import com.g2ops.impact.urm.utils.SessionUtils;
 			// get the Database Query Service instance from the user's session
 			//databaseQueryService = (DatabaseQueryService)userSession.getAttribute("databaseQueryService");
 			// get the Database Query Service object for this Org
-			databaseQueryService = SessionUtils.getOrgDBQueryService();
+			databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
 			
 			// get the currently active Site from the user's session
 			String selectedSite = (String)userSession.getAttribute("currentSite");
