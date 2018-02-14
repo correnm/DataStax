@@ -66,4 +66,8 @@ public class UsersTable {
 		
 	}
 
+	public String editUser() {
+		return "/administrator/user-edit.jsf";
+	}
+	
 }
