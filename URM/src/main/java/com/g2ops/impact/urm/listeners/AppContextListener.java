@@ -80,7 +80,7 @@ public class AppContextListener implements ServletContextListener {
 		Map<String, DatabaseQueryService> DBQueryServicesHashMap = new HashMap<String, DatabaseQueryService>();
 
 		// create the prepared statement for selecting the organizations database connection info
-		preparedStatement = session.prepare("select keyspace_name, username, hashed_password from organizations");
+		preparedStatement = session.prepare("select keyspace_name, username, encrypted_password from organizations");
 
 		// create bound statement
 		BoundStatement boundStatement = preparedStatement.bind();
@@ -98,7 +98,7 @@ public class AppContextListener implements ServletContextListener {
 			Row row = rows.next();
 
 			// create database connection
-			DatabaseConnectionManager orgDBConnection = new DatabaseConnectionManager(row.getString("username"), row.getString("hashed_password"), cPoints, port, row.getString("keyspace_name"));
+			DatabaseConnectionManager orgDBConnection = new DatabaseConnectionManager(row.getString("username"), row.getString("encrypted_password"), cPoints, port, row.getString("keyspace_name"));
 
 			// create database query service object
 			dbQueryService = new DatabaseQueryService(orgDBConnection);
