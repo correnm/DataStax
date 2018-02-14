@@ -1,5 +1,7 @@
 package com.g2ops.impact.urm.beans;
 
+import javax.annotation.PostConstruct;
+
 /**
  * @author 		Sara Prokop, G2 Ops, Virginia Beach, VA
  * @version 	1.00, July 2017
@@ -16,6 +18,7 @@ package com.g2ops.impact.urm.beans;
  */
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import java.util.ArrayList;
@@ -38,7 +41,9 @@ import com.g2ops.impact.urm.utils.SessionUtils;
 @RequestScoped
 public class NodeAttributionEdit {
 	
-	private Session dbSession = SessionUtils.getOrgDBSession();
+	@Inject private UserBean currentUser;
+
+	private Session dbSession;
 	private ResultSet rs;
 	private Row row;
 	private String ip, osType, sysType, assetType, assetVis, vendor;
@@ -53,6 +58,13 @@ public class NodeAttributionEdit {
 	
 	public NodeAttributionEdit() {
 	
+	}
+	
+	@PostConstruct
+	public void init() {
+
+		dbSession = SessionUtils.getOrgDBSession(currentUser.getOrgKeyspace());
+		
 		//getting the parameters (keys) when the edit icon is pressed
 		FacesContext fc = FacesContext.getCurrentInstance();
 		this.UUid = getIdParam(fc);
