@@ -7,8 +7,8 @@ CREATE TABLE common_vulnerabilities (
 	cve_id text, //CVE ID in format CVE-YYYY-XXXX
 	cve_name text,//Public name associated with a CVE ID, normally after exposure (Ex. WannaCry)
 	date_published text, //Original release date 
-	date_modified text, //Last revised date
-	cvss_base_score float, //CVSS base score v2.0; temporal scores and environmental scores not currently provided by NVD
+	date_modified text, //Last revised date. WIll default to published_date if modified_date is null
+	cvss_base_score decimal, //CVSS base score v2.0; temporal scores and environmental scores not currently provided by NVD
 	cve_description text, //Describes vulnerability
 	cpe_effected list<text>, //List of v2.2 CPE IDs
 	patch_references list<text>, //Reference links associated with each CVE that could apply to any CPE within list

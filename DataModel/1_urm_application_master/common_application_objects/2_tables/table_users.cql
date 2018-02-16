@@ -2,8 +2,7 @@ USE keyspacename;
 
 CREATE TABLE IF NOT EXISTS users (
 user_email 						text,
-hashed_password					text,	// dropping after login.jsf is updated
-encrypted_password  			text,	// using aes256 encryption
+hashed_password					text,	// user passwords will not be encrypted. Users change passwords if forgotten.
 default_lens_view_r				text,	// references.lens
 first_name						text,
 last_name						text,

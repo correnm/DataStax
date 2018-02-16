@@ -18,8 +18,7 @@ business_interruption_threshold		text,		// must exist in BUSINESS_PRACTICE table
 business_criticality				text,		// must exist in BUSINESS_PRACTICE table
 information_classification			text,		// must exist in BUSINESS_PRACTICE table
 audit_upsert 						frozen<audit_upsert>,
-connected_to_hardware				set <frozen<hardware_relationships>>,
-runs_on_hardware					set <frozen<hardware_relationships>>,
+runs_on_hosts						set <frozen<hardware_relationships>>,
 stored_records						set <frozen<record_types>>,
 cyber_value_at_risk					decimal,
 annual_revenue						decimal,
@@ -29,6 +28,7 @@ expected_loss_value_min				decimal,
 expected_loss_value_max				decimal,
 expected_loss_value_distribution	list<decimal>,
 risk_appetite						decimal,
+risk_likelihood                     decimal,
 max_breach_loss						decimal
 PRIMARY KEY (site_id, business_process_id)
 )
