@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-page-form.xhtml">
+
+	<ui:define name="document-title">Change Passcode</ui:define>
+
+	<ui:define name="page-name">User: &#160; <strong>Change Passcode</strong></ui:define>
+
+	<ui:define name="full-page-form">
+
+		<h:form id="changePasscodeForm">
+
+			<b:panel look="default">
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="6" offset="3">
+						<b:messages></b:messages>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="4" offset="4" class="form-title">#{userEdit.userToEditEmail}</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Old Passcode:</b:column>
+					<b:column col-md="3">
+						<b:inputText id="oldPasscode" value="#{changePasscode.oldPasscode}" required="true" requiredMessage="enter your current passcode">
+						</b:inputText>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">New Passcode:</b:column>
+					<b:column col-md="3">
+						<b:inputText id="newPasscode" value="#{changePasscode.newPasscode}" required="true" requiredMessage="enter your new passcode">
+						</b:inputText>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Re-enter New Passcode:</b:column>
+					<b:column col-md="3">
+						<b:inputText id="newPasscode2" value="#{changePasscode.newPasscode2}" required="true" requiredMessage="re-enter your new passcode">
+						</b:inputText>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2"></b:column>
+					<b:column col-md="4">
+						<b:commandButton value="Save" action="#{changePasscode.changePasscodeActionControllerMethod}"></b:commandButton>
+						<b:button value="Cancel" href="/URM/#{userBean.defaultLensView}"></b:button>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+			</b:panel>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
