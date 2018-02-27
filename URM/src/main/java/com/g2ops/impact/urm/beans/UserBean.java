@@ -98,6 +98,10 @@ public class UserBean implements Serializable {
 		return(appRoleName);
 	}
 
+	public String getDefaultLensView() {
+		return(defaultLensView);
+	}
+
 	public String getOrgUnitID() {
 		return(orgUnitID);
 	}
