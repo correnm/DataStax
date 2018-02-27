@@ -28,12 +28,17 @@
 
 <!-- page name -->
 <b:row>
+	<b:column col-md="3">
+		<b:panel class="legend-panel" tooltip="Page Name">
+			<div class="page-name"><ui:insert name="page-name">Type of Page: &#160; <strong>Page Name</strong></ui:insert></div>
+		</b:panel>
+	</b:column>
+</b:row>
+
+<!-- row for spacing -->
+<b:row>
 	<b:column col-xs="12">
-		<div class="page-name">
-			<h1>
-				<ui:insert name="page-name">This Page Needs a Name</ui:insert>
-			</h1>
-		</div>
+		<span class="rowSpace"><br/></span>
 	</b:column>
 </b:row>
 
