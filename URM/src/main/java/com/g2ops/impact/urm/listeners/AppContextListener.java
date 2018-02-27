@@ -16,6 +16,7 @@ import com.datastax.driver.core.Session;
 
 import com.g2ops.impact.urm.utils.DatabaseConnectionManager;
 import com.g2ops.impact.urm.utils.DatabaseQueryService;
+import com.g2ops.impact.urm.utils.EncryptionDecryptionService;
 
 public class AppContextListener implements ServletContextListener {
 
@@ -97,8 +98,31 @@ public class AppContextListener implements ServletContextListener {
 			// get each organization's data
 			Row row = rows.next();
 
+			
+			// *** for testing ***
+			String encrypted_password = "";
+			String decrypted_password = "";
+			System.out.println("keyspace_name: " + row.getString("keyspace_name") + " - password: " + row.getString("encrypted_password"));
+			try {
+				encrypted_password = EncryptionDecryptionService.encrypt(row.getString("encrypted_password"));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("encrypted_password: " + encrypted_password);
+			try {
+				decrypted_password = EncryptionDecryptionService.decrypt(encrypted_password);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("decrypted_password: " + decrypted_password);
+			// *** end for testing ***
+			
+			
 			// create database connection
 			DatabaseConnectionManager orgDBConnection = new DatabaseConnectionManager(row.getString("username"), row.getString("encrypted_password"), cPoints, port, row.getString("keyspace_name"));
+			//DatabaseConnectionManager orgDBConnection = new DatabaseConnectionManager(row.getString("username"), decrypted_password, cPoints, port, row.getString("keyspace_name"));
 
 			// create database query service object
 			dbQueryService = new DatabaseQueryService(orgDBConnection);
