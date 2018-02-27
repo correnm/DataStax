@@ -5,9 +5,14 @@
 	xmlns:b="http://bootsfaces.net/ui"
 	template="/templates/full-page-form.xhtml">
 
+	<f:metadata>
+		<f:viewParam name="email" value="#{userEdit.userToEditEmail}"></f:viewParam>
+		<f:event type="preRenderView" listener="#{userEdit.retrieveUserData}"></f:event>
+	</f:metadata>
+
 	<ui:define name="document-title">Edit User</ui:define>
 
-	<ui:define name="page-name">Edit User</ui:define>
+	<ui:define name="page-name">Administrator: &#160; <strong>Edit User</strong></ui:define>
 
 	<ui:define name="full-page-form">
 
@@ -22,25 +27,24 @@
 				</b:row>
 
 				<b:row>
-					<b:column col-md="8" offset="2">
+					<b:column col-md="6" offset="3">
 						<b:messages></b:messages>
 					</b:column>
 				</b:row>
 
 				<b:row>
-					<b:column col-md="2" offset="2">Email:</b:column>
-					<b:column col-md="4"><strong>#{userEdit.userEmail}</strong></b:column>
+					<b:column col-md="8" offset="4" class="form-title">#{userEdit.userToEditEmail}</b:column>
 				</b:row>
 
 				<b:row>
 					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
+						<span class="rowSpace"><br/><br/></span>
 					</b:column>
 				</b:row>
 
 				<b:row>
-					<b:column col-md="2" offset="2">First Name:</b:column>
-					<b:column col-md="4">
+					<b:column col-md="3" offset="1" class="form-input-label">First Name:</b:column>
+					<b:column col-md="3">
 						<b:inputText id="firstName" value="#{userEdit.firstName}" required="true" requiredMessage="First Name is required">
 							<b:focus />
 						</b:inputText>
@@ -48,24 +52,14 @@
 				</b:row>
 
 				<b:row>
-					<b:column col-md="2" offset="2">Last Name:</b:column>
+					<b:column col-md="3" offset="1" class="form-input-label">Last Name:</b:column>
 					<b:column col-md="4">
 						<b:inputText id="lastName" value="#{userEdit.lastName}" required="true" requiredMessage="Last Name is required">
 						</b:inputText>
 					</b:column>
 				</b:row>
 
-				<!-- in meeting 9/15/17, decided to nix the user name entirely
-				<b:row>
-					<b:column col-md="2" offset="2">User Name:</b:column>
-					<b:column col-md="4">
-						<b:inputText id="userName" value="#{userEdit.userName}" required="true" requiredMessage="User Name is required" validatorMessage="User Name is at least 4 characters">
-							<f:validateLength minimum="4" />
-						</b:inputText>
-					</b:column>
-				</b:row>
-				-->
-
+				<!--
 				<b:row>
 					<b:column col-md="2" offset="2">Passcode:</b:column>
 					<b:column col-md="4">
@@ -73,15 +67,64 @@
 						</b:inputText>
 					</b:column>
 				</b:row>
+				-->
 
 				<b:row>
-					<b:column col-md="2" offset="2">Role:</b:column>
+					<b:column col-md="3" offset="1" class="form-input-label">Role:</b:column>
 					<b:column col-md="4">
 						<b:selectOneMenu label="Role" render-label="false" id="role" value="#{userEdit.role}" tooltip="Choose a Role">
 							<f:selectItems value="#{userEdit.roles}" var="role" itemValue="#{role}" itemLabel="#{role}"></f:selectItems>
 						</b:selectOneMenu>
 					</b:column>
 				</b:row>
+
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Site:</b:column>
+					<b:column col-md="6">
+						<b:selectOneMenu label="Organizational Unit + Site" render-label="false" id="OUSiteListID" value="#{userEdit.selectedOUSite}" tooltip="Choose a Site">
+							<f:selectItems value="#{userEdit.OUSiteArray}" var="site" itemValue="#{site.OUSiteCodes}" itemLabel="#{site.OUSiteNames}"></f:selectItems>
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Dashboard:</b:column>
+					<b:column col-md="6">
+						<b:selectOneMenu label="Dashboard" render-label="false" id="dashboardListID" value="#{userEdit.selectedDashboard}" tooltip="Choose a Dashboard">
+							<f:selectItems value="#{userEdit.dashboardArray}" var="dashboard" itemValue="#{dashboard.fileName}" itemLabel="#{dashboard.displayName}"></f:selectItems>
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Status:</b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu label="Status" render-label="false" id="statusID" value="#{userEdit.activeUserInd}" tooltip="Choose a Status">
+							<f:selectItem itemValue="true" itemLabel="active"></f:selectItem>
+							<f:selectItem itemValue="false" itemLabel="inactive"></f:selectItem>
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+
+<!--
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Organizational Unit:</b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu label="OrgUnit" render-label="false" id="orgUnit" value="#{userEdit.orgUnit}" tooltip="Choose an Organizational Unit">
+							<f:selectItems value="#{userEdit.orgUnits}" var="orgUnit" itemValue="#{orgUnit.orgUnitCode}" itemLabel="#{orgUnit.orgUnitName}"></f:selectItems>
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Site:</b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu label="Site" render-label="false" id="site" value="#{userEdit.site}" tooltip="Choose a Site">
+							<f:selectItems value="#{userEdit.sites}" var="site" itemValue="#{site.siteCode}" itemLabel="#{site.siteName}"></f:selectItems>
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+-->
 
 				<b:row>
 					<b:column col-md="12">
@@ -92,8 +135,8 @@
 				<b:row>
 					<b:column col-md="2" offset="2"></b:column>
 					<b:column col-md="4">
-						<b:commandButton value="Edit" action="#{userEdit.editUserActionControllerMethod}">
-						</b:commandButton>
+						<b:commandButton value="Save" action="#{userEdit.editUserActionControllerMethod}"></b:commandButton>
+						<b:button value="Cancel" href="users-table.jsf"></b:button>
 					</b:column>
 				</b:row>
 
