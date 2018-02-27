@@ -35,54 +35,37 @@
 <ui:include src="/snippets/navbar.xhtml" />
 
 <!-- page name -->
-<!--
-<b:row>
-	<b:column col-xs="12">
-		<div class="page-name">
-			<h1>
-				<ui:insert name="page-name">This Page Needs a Name</ui:insert>
-			</h1>
-		</div>
-	</b:column>
-</b:row>
--->
-
 <b:form style-class="viewFilterFormClass">
 <b:row>
-    <!-- Color Legend -->
-	<b:column col-md="2">
-		<b:panel class="legend-panel" tooltip="Severity Levels">
-			<div class="legend"><span class="critical"></span> Critical</div>
-			<div class="legend"><span class="high"></span> High</div>
-			<div class="legend"><span class="medium"></span> Medium</div>
-			<div class="legend"><span class="low"></span> Low</div>
+	<b:column col-md="3">
+		<b:panel class="legend-panel" tooltip="Page Name">
+			<div class="page-name"><ui:insert name="page-name">Type of Page: &#160; <strong>Page Name</strong></ui:insert></div>
 		</b:panel>
 	</b:column>
-    <!-- View Criteria Form -->
-	<b:column col-md="2" offset="1">
-		<b:selectOneMenu label="Organizational Unit" render-label="false" value="#{viewFilterBean.selectedOrgUnit}" tooltip="Choose an Organizational Unit">
-		<f:selectItems value="#{viewFilterBean.orgUnits}" var="orgUnit" itemValue="#{orgUnit.orgUnitCode}" itemLabel="#{orgUnit.orgUnitName}"></f:selectItems>
-		<f:ajax event="change" render="siteListID"></f:ajax>
+    <!-- OU/Site View Form -->
+	<b:column col-md="4" offset="1">
+		<b:selectOneMenu label="Organizational Unit + Site" render-label="false" id="OUSiteListID" value="#{OUSiteBean.selectedOUSite}" tooltip="Choose a Site" onchange="submit()" valueChangeListener="#{OUSiteBean.OUSiteChanged}">
+		<f:selectItems value="#{OUSiteBean.OUSiteArray}" var="site" itemValue="#{site.OUSiteCodes}" itemLabel="#{site.OUSiteNames}"></f:selectItems>
 		</b:selectOneMenu>
 	</b:column>
-	<b:column col-md="2">
-		<b:selectOneMenu label="Organizational Site" render-label="false" id="siteListID" value="#{viewFilterBean.selectedSite}" tooltip="Choose a Site">
-		<f:selectItems value="#{viewFilterBean.sites}" var="site" itemValue="#{site.siteCode}" itemLabel="#{site.siteName}"></f:selectItems>
-		</b:selectOneMenu>
-	</b:column>
-	<b:column col-md="2">
-		<b:commandButton value="Refresh View" action="#{viewFilterBean.refreshView}" ajax="false" look="default" size="sm"></b:commandButton>
+    <!-- Color Legend -->
+	<b:column col-md="3" offset="1">
+		<b:panel class="legend-panel" tooltip="Severity Levels">
+			<div class="legend"><div class="critical"></div> Critical</div>
+			<div class="legend"><div class="high"></div> High</div>
+			<div class="legend"><div class="medium"></div> Medium</div>
+			<div class="legend"><div class="low"></div> Low</div>
+		</b:panel>
 	</b:column>
 </b:row>
 </b:form>
 
-<!-- row for spacing
+<!-- row for spacing -->
 <b:row>
 	<b:column col-xs="12">
 		<span class="rowSpace"><br/></span>
 	</b:column>
 </b:row>
--->
 
 <b:row>
 	<!-- top-left chart -->
