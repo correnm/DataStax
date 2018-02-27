@@ -56,7 +56,7 @@ public class OUSiteBean {
 		selectedSite = currentUser.getSiteID();
 		selectedOUSite = selectedOU + "|" + selectedSite;
 
-		// get the Database Query Service object for this Org
+		// get the Database Query Service object for this Organization
 		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
 
 		// do DB query to get OUs
