@@ -4,7 +4,7 @@
 Modifications
 date				author			description
 2/13/2018			sara.bergman	removed risk_likelihood float, to be placed into business_value_attribution
-
+02-28-2018			corren.mccoy		column changed to business_process_ids to list<uuid>
 */
 
 USE keyspacename;
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS hardware_archive (
 	operating_system					text,		// specific operating system
 	installed_software					list <frozen <installed_software>>, 
 	host_name						    text,
-	business_processes					list<text>, // valid entries in business_value_attribution table
+	business_process_ids				list<uuid>, // valid entries in business_value_attribution table
     PRIMARY KEY (site_id, ip_subnet_or_building, archive_date, internal_system_id)
 ) WITH COMMENT = 'Historical Infrastructure (by archive date) maintained for the site obtained via a vulnerability scan or a physical survey' ;
 

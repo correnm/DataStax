@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS application_modules (
 	role_name_r			list<text>,		// references.role_name_r = "admin", "user"
 	module_description	text,	
 	menu_module_order	int,
-    PRIMARY KEY (menu_name, module_name)
+    PRIMARY KEY ((menu_name), module_name)
 ) 
 WITH COMMENT='Manages application modules that are available to each organization based upon their industry and the user based on their role.';
 

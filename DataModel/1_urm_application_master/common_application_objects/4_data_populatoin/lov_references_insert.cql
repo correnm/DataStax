@@ -1,3 +1,10 @@
+/*
+Mod Date		author				Description
+02-28-2018		corren.mccoy		changed the option_label and database_column for country. Changed to country_name to match tables
+02-28-2018		corren.mccoy		added new lookup for breach types to IBM Ponemon study
+*/
+
+
 // Referenced by Table: users
 insert into lov_references (database_column, optgroup_label, option_values)
 values
@@ -116,8 +123,8 @@ values
 // Countries represented in the IBM Cost of Breach Study
 insert into lov_references (database_column, optgroup_label, option_values)
 values
-('country', 
-'United States', 
+('country_name', 
+'Country', 
 		{
 		'US':'United States',
 		'UK':'United Kingdom',
@@ -132,5 +139,19 @@ values
 		'ZA':'South Africa',
 		'ME':'Middle East (incl United Arab Emirates and Saudi Arabia',
 		'AS':'ASEAN Region (incl Singaport, Indonesia, the Philippines and Malaysis'
+		}
+);
+
+// Referenced by business_value_attribution, industry_breach_costs
+// See IBM Ponemon, Figure 5
+insert into lov_references (database_column, optgroup_label, option_values)
+values
+('breach_type', 
+'Breach Type', 
+		{
+		'MCA':'Malicious and criminal attach',
+		'SG':'System glith',
+		'HE':'Human error',
+		'UNK':'Unspecified'
 		}
 );

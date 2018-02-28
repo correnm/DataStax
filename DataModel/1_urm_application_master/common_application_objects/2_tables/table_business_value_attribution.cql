@@ -1,12 +1,13 @@
-
-
 /**
 Modifications
 date				author			description
 2/13/2018			sara.bergman	added risk_likelihood
 									removed connected_to_hardware
 
-*
+02/28/2018			corren.mccoy	added column default_breach_type for financial impact scoring
+02/28/2018			corren.mccoy	drop column max_breach_loss
+*/
+
 
 USE keyspacename;
 
@@ -29,7 +30,7 @@ expected_loss_value_max				decimal,
 expected_loss_value_distribution	list<decimal>,
 risk_appetite						decimal,
 risk_likelihood                     decimal,
-max_breach_loss						decimal
+default_breach_type					text,		// see LOV_REFERENCES for descriptions as defined in IBM Ponemone
 PRIMARY KEY (site_id, business_process_id)
 )
 WITH COMMENT = 'Defines the business processes at this organization and assigns the metrics needed to calculate the BPIV';
@@ -50,3 +51,9 @@ add risk_appetite decimal;
 alter table business_value_attribution
 add max_breach_loss decimal;
 
+// 02-28-2018 corren.mccoy
+alter table business_value_attribution
+add default_breach_type text;
+
+alter table business_value_attribution
+drop  max_breach_loss;
