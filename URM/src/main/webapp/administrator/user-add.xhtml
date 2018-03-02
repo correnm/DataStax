@@ -28,6 +28,12 @@
 				</b:row>
 
 				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
 					<b:column col-md="3" offset="1" class="form-input-label">Email:</b:column>
 					<b:column col-md="4">
 						<b:inputText id="userEmail" value="#{userAdd.userEmail}" required="true" requiredMessage="Email is required">
@@ -124,7 +130,7 @@
 				<b:row>
 					<b:column col-md="2" offset="2"></b:column>
 					<b:column col-md="4">
-						<b:commandButton value="Save" action="#{userAdd.addUserActionControllerMethod}"></b:commandButton>
+						<b:commandButton value="Save New User" look="primary" action="#{userAdd.addUserActionControllerMethod}"></b:commandButton>
 						<b:button value="Cancel" href="users-table.jsf"></b:button>
 					</b:column>
 				</b:row>
