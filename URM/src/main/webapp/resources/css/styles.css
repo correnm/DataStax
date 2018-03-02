@@ -72,6 +72,7 @@ h1.title {
   color: red;
   font-weight: bold;
 }
+
 th { background-color: #c44900;
      font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
      color: #f4f5f5;
@@ -204,22 +205,21 @@ i.fa {
 .btn, .btn:hover {
 	background-image: none; /* removes the linear color gradient */
 	margin: 0px 10px;
-}
-
-.btn-default, .btn-primary {
-	/* background-image: none; */
+	border-radius: 4px;
 }
 
 .btn-primary {
-	background-color: #c44900;
+	background-color: #cf6c33;
+	border-color: #cf6c33;
 }
 
 .btn-primary:hover, .btn-primary:focus {
-	background-color: #a33c00;
+	background-color: #c44900; /* #a33c00 */
 }
 
+/* */
 .btn-default {
-	background-color: #bbbdbf;
+	background-color: #8a8b8c;
 }
 
 .btn-default:hover {
