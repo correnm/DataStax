@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS appl_auth.industry_security_incidents (
 	breaches_small					double,
 	breaches_large					double,
 	breaches_unk					double,	
-	probability_of_attack			double,		// breaches_total/incidents_total
+	probability_of_attack			double,		// breaches_total/incidents_total expressed as a whole number rounded to (nn.nn) e.g., 15.43
     PRIMARY KEY (publication_year, verizon_dbir_industry_name)	
 )
 with comment = 'Used to collect metrics published in Verizon Data Breach Incident Report';
