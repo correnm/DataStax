@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-width-table.xhtml">
+
+	<ui:define name="document-title">Manage Organizations</ui:define>
+
+	<ui:define name="page-name">Super Admin: &#160; <strong>Manage Organizations</strong></ui:define>
+
+	<ui:define name="full-width-table">
+
+		<div class="dataTableDivClass">
+
+		<!--
+		<div style="text-align: center;">
+		<h:link outcome='/administrator/user-add.jsf'>
+			<b:button value="Add User" look="default" iconAwesome="plus"></b:button>
+		</h:link>
+		</div>
+		-->
+
+		<h:form>
+			<b:dataTable value="#{organizationsTable.organizationsData}" var="organization" styleClass="dataTableClass">
+
+				<b:dataTableColumn value="#{organization.organizationName}" order="asc">
+					<f:facet name="header">Organization Name</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{organization.keyspaceName}">
+					<f:facet name="header">Keyspace Name</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{organization.userName}">
+					<f:facet name="header">Username</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{organization.countryName}">
+					<f:facet name="header">Country</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{organization.industry}">
+					<f:facet name="header">Industry</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="" orderable="false" styleClass="dataTableSingleButtonColumnClass">
+					<f:facet name="header">Action</f:facet>
+					<h:link outcome='/superadmin/organization-edit.jsf?orgName=#{organization.organizationName}'>
+						<b:button value="Edit" size="sm" look="default" iconAwesome="edit"></b:button>
+					</h:link>
+				</b:dataTableColumn>
+ 
+			</b:dataTable>
+		</h:form>
+
+		</div>
+
+	</ui:define>
+
+</ui:composition>
