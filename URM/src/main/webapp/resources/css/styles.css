@@ -217,9 +217,10 @@ i.fa {
 	background-color: #c44900; /* #a33c00 */
 }
 
-/* */
 .btn-default {
-	background-color: #8a8b8c;
+	background-color: #7a7b7c;
+	border-color: #7a7b7c;
+	text-shadow: none;
 }
 
 .btn-default:hover {
@@ -320,11 +321,11 @@ table.table-striped tbody tr.even {
 }
 
 .dataTableSingleButtonColumnClass {
-	width: 100px;
+	width: 120px;
 }
 
 .dataTableDoubleButtonColumnClass {
-	width: 200px;
+	width: 240px;
 }
 
 .table-bordered > thead > tr > th {
@@ -344,6 +345,11 @@ table.table-striped tbody tr.even {
 .form-title {
 	font-size: 22px;
 	font-weight: bold;
+}
+
+.form-title-label {
+	font-size: 22px;
+	text-align: right;
 }
 
 .form-input-label {
