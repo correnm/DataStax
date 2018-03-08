@@ -100,9 +100,9 @@ public class AppContextListener implements ServletContextListener {
 
 			
 			// *** for testing ***
-			String encrypted_password = "";
 			String decrypted_password = "";
 			System.out.println("keyspace_name: " + row.getString("keyspace_name") + " - password: " + row.getString("encrypted_password"));
+			/*
 			try {
 				encrypted_password = EncryptionDecryptionService.encrypt(row.getString("encrypted_password"));
 			} catch (Exception e) {
@@ -110,8 +110,9 @@ public class AppContextListener implements ServletContextListener {
 				e.printStackTrace();
 			}
 			System.out.println("encrypted_password: " + encrypted_password);
+			*/
 			try {
-				decrypted_password = EncryptionDecryptionService.decrypt(encrypted_password);
+				decrypted_password = EncryptionDecryptionService.decrypt(row.getString("encrypted_password"));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -121,8 +122,8 @@ public class AppContextListener implements ServletContextListener {
 			
 			
 			// create database connection
-			DatabaseConnectionManager orgDBConnection = new DatabaseConnectionManager(row.getString("username"), row.getString("encrypted_password"), cPoints, port, row.getString("keyspace_name"));
-			//DatabaseConnectionManager orgDBConnection = new DatabaseConnectionManager(row.getString("username"), decrypted_password, cPoints, port, row.getString("keyspace_name"));
+			//DatabaseConnectionManager orgDBConnection = new DatabaseConnectionManager(row.getString("username"), row.getString("encrypted_password"), cPoints, port, row.getString("keyspace_name"));
+			DatabaseConnectionManager orgDBConnection = new DatabaseConnectionManager(row.getString("username"), decrypted_password, cPoints, port, row.getString("keyspace_name"));
 
 			// create database query service object
 			dbQueryService = new DatabaseQueryService(orgDBConnection);
