@@ -152,8 +152,6 @@ public class UserBean implements Serializable {
 		// trim and convert to lower case the submitted orgName value for use in query
 		orgName = orgName.trim().toLowerCase();
 
-System.out.println("in userBean.login method - orgName: " + orgName);
-		
 		// trim and convert to lower case the submitted userEmail value for use in query
 		email = email.trim().toLowerCase();
 
