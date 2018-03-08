@@ -44,8 +44,8 @@ public class BusinessProcessesCyVaRChart {
 	private String chartData;
 	private FusionCharts businessProcessesCyVaRChart;
 	private Iterator<Row> iterator;
-	private BigDecimal BPIV, tempBPIV;
-	private BigDecimal lowCutoffValue, mediumCutoffValue, highCutoffValue, nullBPIVValue;
+	private BigDecimal BPIV, tempCyVaR, tempAnnualRevenue, tempBPIV;
+	private BigDecimal lowCutoffValue, mediumCutoffValue, highCutoffValue, nullAnnualRevenueValue, nullCyVaRValue, nullBPIVValue;
 	private String columnColor;
 	private DecimalFormat myFormatter = new DecimalFormat("###,###,###.##");
 
@@ -55,6 +55,8 @@ public class BusinessProcessesCyVaRChart {
 		mediumCutoffValue = new BigDecimal("7.0");
 		highCutoffValue = new BigDecimal("9.0");
 		
+		nullAnnualRevenueValue = new BigDecimal("0.0");
+		nullCyVaRValue = new BigDecimal("0.0");
 		nullBPIVValue = new BigDecimal("0.0");
 		
 	}
@@ -76,15 +78,32 @@ public class BusinessProcessesCyVaRChart {
 		iterator = rs.iterator();
 		List<BusinessProcessCyVar> businessProcessCyVarArrayList = new ArrayList<BusinessProcessCyVar>();
 		BusinessProcessCyVar businessProcessCyVarInstance;
+
 		while (iterator.hasNext()) {
+
 			Row row = iterator.next();
+
+			if (row.isNull("annual_revenue")) {
+				tempAnnualRevenue = nullAnnualRevenueValue;
+			} else {
+				tempAnnualRevenue = row.getDecimal("annual_revenue");
+			}
+
+			if (row.isNull("cyber_value_at_risk")) {
+				tempCyVaR = nullCyVaRValue;
+			} else {
+				tempCyVaR = row.getDecimal("cyber_value_at_risk");
+			}
+
 			if (row.isNull("business_process_impact_value")) {
 				tempBPIV = nullBPIVValue;
 			} else {
 				tempBPIV = row.getDecimal("business_process_impact_value");
 			}
-			businessProcessCyVarInstance = new BusinessProcessCyVar(row.getString("business_process_name"), row.getDecimal("annual_revenue"), row.getDecimal("cyber_value_at_risk"), tempBPIV);
+
+			businessProcessCyVarInstance = new BusinessProcessCyVar(row.getString("business_process_name"), tempAnnualRevenue, tempCyVaR, tempBPIV);
 			businessProcessCyVarArrayList.add(businessProcessCyVarInstance);
+
 		}
 			
 		// create array for storing the business process names and cyber at risk values
