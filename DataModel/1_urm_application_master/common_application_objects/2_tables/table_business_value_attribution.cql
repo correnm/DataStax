@@ -6,6 +6,7 @@ date				author			description
 
 02/28/2018			corren.mccoy	added column default_breach_type for financial impact scoring
 02/28/2018			corren.mccoy	drop column max_breach_loss
+03/07/2018			corren.mccoy	add column resistance_strength for alignment with FAIR
 */
 
 
@@ -30,7 +31,8 @@ expected_loss_value_max				decimal,
 expected_loss_value_distribution	list<decimal>,
 risk_appetite						decimal,
 risk_likelihood                     decimal,
-default_breach_type					text,		// see LOV_REFERENCES for descriptions as defined in IBM Ponemone
+default_breach_type					text,		// see LOV_REFERENCES for descriptions as defined in IBM Ponemon
+resistance_strength					decimal,	// range is 0 to 1
 PRIMARY KEY (site_id, business_process_id)
 )
 WITH COMMENT = 'Defines the business processes at this organization and assigns the metrics needed to calculate the BPIV';
@@ -57,3 +59,7 @@ add default_breach_type text;
 
 alter table business_value_attribution
 drop  max_breach_loss;
+
+// 03-8-2018 cmccoy
+alter table business_value_attribution
+add resistance_strength decimal;
