@@ -51,13 +51,13 @@
 					<f:facet name="header">Status</f:facet>
 				</b:dataTableColumn>
 
-				<b:dataTableColumn value="" orderable="false" styleClass="dataTableDoubleButtonColumnClass">
+				<b:dataTableColumn value="" orderable="false">
 					<f:facet name="header">Action</f:facet>
 					<h:link outcome='/administrator/user-edit.jsf?email=#{user.userEmail}'>
 						<b:button value="Edit" size="sm" look="default" iconAwesome="edit"></b:button>
 					</h:link>
 					<!-- would use h:link with b:button for delete -> this is just for show -->
-					<b:commandButton value="Delete" size="sm" look="default" iconAwesome="trash"></b:commandButton>
+					<b:commandButton value="Reset Passcode" size="sm" look="default" disabled="true" iconAwesome="key"></b:commandButton>
 				</b:dataTableColumn>
  
 			</b:dataTable>
