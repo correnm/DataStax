@@ -18,3 +18,10 @@ GRANT MODIFY    ON KEYSPACE vmasc TO vmasc_developer;
 GRANT ALTER 	ON KEYSPACE vmasc to vmasc_developer;
 GRANT SELECT    ON KEYSPACE appl_auth to vmasc_developer;
 GRANT MODIFY	ON KEYSPACE appl_auth to vmasc_developer;
+
+// Role created for VMASC researchers. No data changes allowed in appl_auth.
+CREATE ROLE IF NOT EXISTS vmasc_limited_developer;
+GRANT SELECT    ON KEYSPACE vmasc TO vmasc_limited_developer;
+GRANT MODIFY    ON KEYSPACE vmasc TO vmasc_limited_developer;
+GRANT ALTER 	ON KEYSPACE vmasc to vmasc_limited_developer;
+GRANT SELECT    ON KEYSPACE appl_auth to vmasc_limited_developer;
