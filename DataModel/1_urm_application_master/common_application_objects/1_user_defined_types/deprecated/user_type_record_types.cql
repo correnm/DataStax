@@ -1,4 +1,4 @@
-USE keyspacename;
+// 03-15-2018 corren.mccoy  DEPRECATED
 
 CREATE TYPE IF NOT EXISTS record_types(
 	record_type_name					text,

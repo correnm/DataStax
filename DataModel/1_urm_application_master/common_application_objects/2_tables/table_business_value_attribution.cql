@@ -8,6 +8,8 @@ date				author			description
 02/28/2018			corren.mccoy	drop column max_breach_loss
 03/07/2018			corren.mccoy	add column resistance_strength for alignment with FAIR
 03/07/2018			corren.mccoy	add column record_count
+03/15/2018			corren.mccoy	drop column stored_records. Replaced by record_count. 
+03/15/2018			corren.mccoy	drop associated UDT record_types
 */
 
 
@@ -69,3 +71,10 @@ add resistance_strength decimal;
 // 03-09-2018
 alter table business_value_attribution
 add record_count decimal;
+
+//03-15-2018
+alter table business_value_attribution
+drop  stored_records;
+
+DROP TYPE IF exists record_types;
+
