@@ -17,7 +17,8 @@ package com.g2ops.impact.urm.beans;
 import javax.annotation.PostConstruct;
 
 import javax.enterprise.context.RequestScoped;
-
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -137,7 +138,7 @@ public class UserAdd {
 
 	public void setUserEmail(String userEmail) {
 		System.out.println("in UserAdd setUserEmail method");
-    	this.userEmail = userEmail;
+    	this.userEmail = userEmail.toLowerCase();
     }
 
     public void setPasscode(String passcode) {
@@ -173,6 +174,25 @@ public class UserAdd {
 		// get the Database Query Service object for this Organization
 		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
 		
+		// check that the user email is available
+		rs = databaseQueryService.runQuery("select user_email from users where user_email = '" + this.userEmail + "'");
+		Boolean userEmailFound = false;
+		for (@SuppressWarnings("unused") Row row : rs) {
+			userEmailFound = true;
+		}
+		// if already in use, generate error message
+		if (userEmailFound) {
+			String messageText = "The user email " + this.userEmail + " already exists!";
+			FacesMessage errorMessage = new FacesMessage(messageText);
+			errorMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage("userAddForm", errorMessage);
+			return(null);
+		}
+		
+		// *****
+		// check that the user email matches the organization's top level domain?
+		// *****
+		
 		// hash the password
 		byte[] salt = PasscodeEncryptionService.generateSalt();
 		byte[] encryptedPasscode = PasscodeEncryptionService.getEncryptedPasscode(passcode, salt, iterations);
@@ -199,24 +219,19 @@ public class UserAdd {
 		// split the OU and Site UUIDs into an array
 		String[] newOUSiteArray = selectedOUSite.split("[|]{1}");
 
-		/*
-		System.out.println("in UserAdd addUserActionControllerMethod - userEmail: " + userEmail);
-		System.out.println("in UserAdd addUserActionControllerMethod - passcode: " + passcode);
-		System.out.println("in UserAdd addUserActionControllerMethod - firstName: " + firstName);
-		System.out.println("in UserAdd addUserActionControllerMethod - lastName: " + lastName);
-		System.out.println("in UserAdd addUserActionControllerMethod - role: " + role);
-		System.out.println("in UserAdd addUserActionControllerMethod - selectedOUSite: " + selectedOUSite);
-		System.out.println("in UserAdd addUserActionControllerMethod - selectedDashboard: " + selectedDashboard);
-		System.out.println("in UserAdd addUserActionControllerMethod - activeUserInd: " + activeUserInd);
-		System.out.println("in UserAdd addUserActionControllerMethod - passcodeValueToStore: " + passcodeValueToStore);
-		*/
-
 		// insert the user's info in the Users table
 		String queryString = "insert into users (user_email, hashed_password, first_name, last_name, application_role_name, org_unit_id, site_id, default_lens_view_r, active_user_ind, send_notification_email, system_administrator_ind, audit_upsert)";
 		queryString = queryString.concat(" values ('" + this.userEmail + "', '" + passcodeValueToStore + "', '" + this.firstName + "', '" + this.lastName + "', '" + this.role + "', " + UUID.fromString(newOUSiteArray[0]) + ", " + UUID.fromString(newOUSiteArray[1]) + ", '" + this.selectedDashboard + "', " + activeUserInd + ", " + sendNotificationEmail + ", " + systemAdministratorInd + ", { datechanged : dateof(now()), changedbyusername : '" + currentUser.getEmail() + "' })");
 		//System.out.println("in UserAdd addUserActionControllerMethod - queryString: " + queryString);
 		databaseQueryService.runUpdateQuery(queryString);
 
+		// *****
+		// send email to new user
+			// generate key
+			// insert record into appl_auth table
+			// send email with link to new user page (including key parameter)
+		// *****
+		
 		// go back to the Manage Users page
 		return "users-table";
 
