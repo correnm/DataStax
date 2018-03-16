@@ -17,7 +17,7 @@
 		</b:dropMenu>
 		<b:dropMenu value="Super Admin" iconAwesome="briefcase" iconAlign="left" rendered="${userBean.systemAdministratorInd}">
 			<b:navLink value="Business Value Metrics" href="#{request.contextPath}/administrator/business-practice-table.jsf"></b:navLink>
-			<b:navLink value="Manage Oranizations" href="#{request.contextPath}/superadmin/organizations-table.jsf"></b:navLink>
+			<b:navLink value="Manage Organizations" href="#{request.contextPath}/superadmin/organizations-table.jsf"></b:navLink>
 		</b:dropMenu>
 		<b:dropMenu value="Administrator" iconAwesome="gears" iconAlign="left" rendered="${userBean.appRoleName eq 'admin'}">
 			<ui:repeat value="#{navMenu.administratorNavMenuItemList}" var="menuItem">
