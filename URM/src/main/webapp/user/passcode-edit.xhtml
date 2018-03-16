@@ -11,6 +11,25 @@
 
 	<ui:define name="full-page-form">
 
+		<b:well>
+			<b:row>
+				<b:column col-md="8" offset="2">
+					<h3 style="text-align: center;">Passcode Requirements</h3>
+					<span class="rowSpace"><br/></span>
+					All user passcodes must:
+					<span class="rowSpace"><br/><br/></span>
+					<ul>
+						<li>contain at least one upper case letter</li>
+						<li>contain at least one lower case letter</li>
+						<li>contain at least one number</li>
+						<li>contain at least one special character ('!', '@', '#', '$', '&amp;', or '*')</li>
+						<li>be at least eight characters in length</li>
+						<li>only contain letters, numbers and the special characters listed above</li>
+					</ul>
+				</b:column>
+			</b:row>
+		</b:well>
+
 		<h:form id="changePasscodeForm">
 
 			<b:panel look="default">
@@ -22,7 +41,7 @@
 				</b:row>
 
 				<b:row>
-					<b:column col-md="6" offset="3">
+					<b:column col-md="8" offset="2">
 						<b:messages></b:messages>
 					</b:column>
 				</b:row>
@@ -36,21 +55,26 @@
 				<b:row>
 					<b:column col-md="3" offset="2" class="form-input-label">Current Passcode:</b:column>
 					<b:column col-md="4">
-						<b:inputSecret id="oldPasscode" value="#{changePasscode.oldPasscode}" required="true" requiredMessage="enter your current passcode"></b:inputSecret>
+						<b:inputSecret id="oldPasscode" value="#{changePasscode.oldPasscode}" required="true" requiredMessage="enter your current passcode">
+							<b:focus/>
+						</b:inputSecret>
 					</b:column>
 				</b:row>
 
 				<b:row>
 					<b:column col-md="3" offset="2" class="form-input-label">New Passcode:</b:column>
 					<b:column col-md="4">
-						<b:inputSecret id="newPasscode" value="#{changePasscode.newPasscode}" required="true" requiredMessage="enter your new passcode"></b:inputSecret>
+						<b:inputSecret id="newPasscode" value="#{changePasscode.newPasscode}" required="true" requiredMessage="enter your new passcode" validatorMessage="your new passcode must contain a minimum of 8 characters">
+							<f:validateLength minimum="8"/>
+						</b:inputSecret>
 					</b:column>
 				</b:row>
 
 				<b:row>
 					<b:column col-md="3" offset="2" class="form-input-label">Re-enter New Passcode:</b:column>
 					<b:column col-md="4">
-						<b:inputSecret id="newPasscode2" value="#{changePasscode.newPasscode2}" required="true" requiredMessage="re-enter your new passcode"></b:inputSecret>
+						<b:inputSecret id="newPasscode2" value="#{changePasscode.newPasscode2}" required="true" requiredMessage="re-enter your new passcode">
+						</b:inputSecret>
 					</b:column>
 				</b:row>
 
@@ -63,8 +87,9 @@
 				<b:row>
 					<b:column col-md="3" offset="2"></b:column>
 					<b:column col-md="4">
-						<b:commandButton value="Save New Passcode" look="primary" action="#{changePasscode.changePasscodeActionControllerMethod}"></b:commandButton>
-						<b:button value="Cancel" href="/URM/#{userBean.defaultLensView}"></b:button>
+						<b:commandButton value="Save New Passcode" look="primary" action="#{changePasscode.changePasscodeActionControllerMethod}"/>
+						<!-- <b:button value="Cancel" href="/URM/#{userBean.defaultLensView}"></b:button> -->
+						<b:commandButton value="Cancel" action="#{changePasscode.changePasscodeCancelControllerMethod}" immediate="true"/>
 					</b:column>
 				</b:row>
 
