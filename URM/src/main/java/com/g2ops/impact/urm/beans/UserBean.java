@@ -365,7 +365,7 @@ System.out.println("in UserBean login method - orgKeyspace: " + orgKeyspace);
 System.out.println("end of userBean.login method - sending to defaultLensView: " + defaultLensView);
 			
 			// send to default page for this user
-			return(defaultLensView + "?faces-redirect=true");
+			return("/" + defaultLensView + "?faces-redirect=true");
 
 		} // if login was successful or not
 		
