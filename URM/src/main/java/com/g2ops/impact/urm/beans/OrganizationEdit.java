@@ -71,7 +71,7 @@ public class OrganizationEdit implements Serializable {
 		psSelectOrgInfo = appAuthDBSession.prepare("select keyspace_name, username, encrypted_password, country_name, industry from organizations where organization_name = ?");
 
 		// create the prepared statement for updating the organization info
-		psUpdateOrgInfo = appAuthDBSession.prepare("update organizations set keyspace_name = ?, username = ?, encrypted_password = ?, country_name = ?, industry = ? where organization_name = ? and webapp_name = 'URM'");
+		psUpdateOrgInfo = appAuthDBSession.prepare("update organizations set keyspace_name = ?, username = ?, encrypted_password = ?, country_name = ?, industry = ? where organization_name = ?");
 
 	}
 
