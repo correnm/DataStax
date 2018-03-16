@@ -28,13 +28,9 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
+import com.g2ops.impact.urm.utils.ApplicationUtils;
 import com.g2ops.impact.urm.utils.DatabaseQueryService;
 import com.g2ops.impact.urm.utils.SessionUtils;
 import com.g2ops.impact.urm.utils.PasscodeEncryptionService;
@@ -45,15 +41,17 @@ public class ChangePasscode implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Inject private ApplicationUtils applicationUtils;
 	@Inject private UserBean currentUser;
 
 	private DatabaseQueryService databaseQueryService;
 	private ResultSet rs;
 	private Row row;
 
-	private String oldPasscode, newPasscode, newPasscode2, hashedPasscodeString, messageText, saltString, encryptedPasscodeString;
-	private Integer iterations;
+	//private Boolean meetsRequirements;
 	private byte[] salt, encryptedPasscode;
+	private Integer iterations;
+	private String oldPasscode, newPasscode, newPasscode2, hashedPasscodeString, messageText, saltString, encryptedPasscodeString;
 
 	//private Integer iterations = 20000;
 	private String passcodeValueDelimiter = "***";
@@ -121,9 +119,19 @@ public class ChangePasscode implements Serializable {
 		System.out.println("in changePasscodeActionControllerMethod - newPasscode: " + newPasscode);
 		System.out.println("in changePasscodeActionControllerMethod - newPasscode2: " + newPasscode2);
 
+		// does the new passcode meet all the requirements?
+		//meetsRequirements = applicationUtils.meetsPasscodeRequirements(newPasscode);
+		if (!applicationUtils.meetsPasscodeRequirements(newPasscode)) {
+			messageText = "your New Passcode doesn't meet the minimum requirements!";
+			FacesMessage errorMessage = new FacesMessage(messageText);
+			errorMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage("changePasscodeForm", errorMessage);
+			return(null);			
+		}
+
 		// check that the two new passcode entries match
 		if (!newPasscode.equals(newPasscode2)) {
-			messageText = "The two new passcode entries don't match!";
+			messageText = "your two New Passcode entries don't match!";
 			FacesMessage errorMessage = new FacesMessage(messageText);
 			errorMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage("changePasscodeForm", errorMessage);
@@ -132,15 +140,12 @@ public class ChangePasscode implements Serializable {
 
 		// check that the old passcode entry is valid
 		if (!PasscodeEncryptionService.authenticate(oldPasscode, encryptedPasscode, salt, iterations)) {
-			messageText = "The old passcode entered is invalid!";
+			messageText = "the Current Passcode entered is invalid!";
 			FacesMessage errorMessage = new FacesMessage(messageText);
 			errorMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage("changePasscodeForm", errorMessage);
 			return(null);
 		};
-
-		// does the new passcode meet all the requirements?
-
 
 		// hash and save the new passcode
 		encryptedPasscode = PasscodeEncryptionService.getEncryptedPasscode(newPasscode, salt, iterations);
@@ -166,44 +171,18 @@ public class ChangePasscode implements Serializable {
 		passcodeValueToStore = passcodeValueToStore.concat(encryptedPasscodeString);
 
 		// execute the query to update the passcode in the database
-		databaseQueryService.runUpdateQuery("update users set hashed_password = '" + passcodeValueToStore + "', password_last_reset = toDate(now()) where user_email = '" + currentUser.getEmail() + "'");
+//		databaseQueryService.runUpdateQuery("update users set hashed_password = '" + passcodeValueToStore + "', password_last_reset = toDate(now()) where user_email = '" + currentUser.getEmail() + "'");
 
-		// go back to where?
-		return(null);
+		// go back to the user's default dashboard?
+		return("/" + currentUser.getDefaultLensView() + "?faces-redirect=true");
 
 	}
 
-	// if setting a new password
-	//if (!newPasscode.equals("")) {
+	public String changePasscodeCancelControllerMethod() {
+		
+		// go back to the user's default dashboard
+		return("/" + currentUser.getDefaultLensView() + "?faces-redirect=true");
 
-		//byte[] salt = PasscodeEncryptionService.generateSalt();
-		//byte[] encryptedPasscode = PasscodeEncryptionService.getEncryptedPasscode(newPasscode, salt, iterations);
-		//String saltString = null;
-		//try {
-			//saltString = new String(salt, "UTF-8");
-		//} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			//e1.printStackTrace();
-		//}
-		//String encryptedPasscodeString = null;
-		//try {
-			//encryptedPasscodeString = new String(encryptedPasscode, "UTF-8");
-		// catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			//e1.printStackTrace();
-		//}
-		//String passcodeValueToStore = iterations.toString();
-		//passcodeValueToStore = passcodeValueToStore.concat(passcodeValueDelimiter);
-		//passcodeValueToStore = passcodeValueToStore.concat(saltString);
-		//passcodeValueToStore = passcodeValueToStore.concat(passcodeValueDelimiter);
-		//passcodeValueToStore = passcodeValueToStore.concat(encryptedPasscodeString);
-	
-		// execute the query to update the passcode in the database
-		//databaseQueryService.runUpdateQuery("update users set hashed_password = '" + passcodeValueToStore + "' where user_email = '" + userToEditEmail + "'");
-
-	//}
-
-	// update the user's info in the Users table for the user that was edited
-	// databaseQueryService.runUpdateQuery("update users set first_name = '" + this.firstName + "', last_name = '" + this.lastName + "', application_role_name = '" + this.role + "', org_unit_id = " + UUID.fromString(newOUSiteArray[0]) + ", site_id = " + UUID.fromString(newOUSiteArray[1]) + ", default_lens_view_r = '" + selectedDashboard + "', active_user_ind = " + activeUserInd + ", audit_upsert = { datechanged : dateof(now()), changedbyusername : '" + currentUser.getEmail() + "' } where user_email = '" + userToEditEmail + "'");
+	}
 
 }
