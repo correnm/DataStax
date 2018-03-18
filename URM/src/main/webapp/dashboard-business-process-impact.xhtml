@@ -41,15 +41,13 @@
 				<f:facet name="header">
 					<tr>
 						<th rowspan="2">Business Process</th>
-						<th rowspan="2">Record Type</th>
 						<th rowspan="2"># Records</th>
 						<th rowspan="2">Annual Revenue</th>
 						<th rowspan="2">BPIV</th>
 						<th rowspan="2">Expected Loss Value</th>
 						<th rowspan="2">Expected Loss Value2</th>
 						<th rowspan="2">Expected Loss Value3</th>
-						<th rowspan="2">CyVaR</th>
-						<th rowspan="2">Max Breach Loss</th>
+						<th rowspan="2">Loss Magnitude</th>
 					</tr>
 					<tr>
 						<th>Minimum</th>
@@ -62,11 +60,13 @@
 				<b:dataTableColumn value="#{businessProcess.processName}">
 					<f:facet name="header">Business Process</f:facet>
 				</b:dataTableColumn>
-
+				
+				<!-- corren.mccoy
 				<b:dataTableColumn value="#{businessProcess.recordType}">
 					<f:facet name="header">Record Type(s)</f:facet>
 				</b:dataTableColumn>
-
+				-->
+				
 				<b:dataTableColumn value="#{businessProcess.numRecords}" style="text-align:right;">
 					<f:facet name="header"># Records</f:facet>
 				</b:dataTableColumn>
@@ -80,28 +80,35 @@
 				</b:dataTableColumn>
 
 				<b:dataTableColumn value="#{businessProcess.minELV}" style="text-align:right;">
-					<f:facet name="header">Min ELV</f:facet>
+					<f:facet name="header">Min Loss Exposure</f:facet>
 				</b:dataTableColumn>
+				
 				<!--
 				<b:dataTableColumn value="Spark Chart Goes Here" style="text-align:right;">
 					<f:facet name="header">Distribution of ELV</f:facet>
 				</b:dataTableColumn>
 				-->
+
+				<b:dataTableColumn value="#{businessProcess.maxBreachLoss}" style="text-align:right;">
+					<f:facet name="header">Avg Loss Exposure</f:facet>
+				</b:dataTableColumn>
+				
+				
 				<b:dataTableColumn value="#{businessProcess.maxELV}" style="text-align:right;">
-					<f:facet name="header">Max ELV</f:facet>
+					<f:facet name="header">Max Loss Exposure</f:facet>
 				</b:dataTableColumn>
 
+				<!-- corren.mccoy
 				<b:dataTableColumn value="#{businessProcess.CYVAR}" style="text-align:right;">
 					<f:facet name="header">CyVaR</f:facet>
-				</b:dataTableColumn>
+				</b:dataTableColumn>			
 
 				<b:dataTableColumn value="#{businessProcess.riskAppetite}" style="text-align:right;">
 					<f:facet name="header">Risk Appetite</f:facet>
 				</b:dataTableColumn>
+				-->
+	
 
-				<b:dataTableColumn value="#{businessProcess.maxBreachLoss}" style="text-align:right;">
-					<f:facet name="header">Max Breach Loss</f:facet>
-				</b:dataTableColumn>
 
 				<!--  
 				<b:dataTableColumn value="#{businessProcess.processName}" />
