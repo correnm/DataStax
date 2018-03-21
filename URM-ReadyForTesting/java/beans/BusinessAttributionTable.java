@@ -41,6 +41,7 @@ public class BusinessAttributionTable {
 	@Inject private UserBean currentUser;
 
 	private Session dbSession;
+	private String siteID;
 	private ResultSet rs;
 	private Iterator<Row> iterator;
 	private BusinessAttribution att;
@@ -71,7 +72,8 @@ public class BusinessAttributionTable {
 		//iterate over the results. 
 		while (iterator.hasNext()) {
 			Row row = iterator.next();
-			UUID siteID = row.getUUID("site_id");
+			siteID = row.getUUID("site_id").toString();
+			this.setSiteID(siteID);
 			UUID busProcID = row.getUUID("business_process_id");
 			String busName = row.getString("business_process_name");
 			String BIT = row.getString("business_interruption_threshold");
@@ -85,11 +87,11 @@ public class BusinessAttributionTable {
 			BigDecimal riskAppetite = row.getDecimal("risk_appetite");
 
 				
-				att = new BusinessAttribution(siteID, busProcID, busName, BIT, busCrit, infoClass, breachType, annRev, annRevYear, recCount, resStrength, riskAppetite);
+				att = new BusinessAttribution(UUID.fromString(siteID), busProcID, busName, BIT, busCrit, infoClass, breachType, annRev, annRevYear, recCount, resStrength, riskAppetite);
 				// Save each database record to the list.
 				attList.add(att);
-			}
-		}
+			}	//end of while
+		}	//end of init
 
 
 	public List<BusinessAttribution> getBusinessAttData() {
@@ -97,5 +99,15 @@ public class BusinessAttributionTable {
 		return attList;
 
 	}
+
+	public String getSiteID() {
+		return siteID;
+	}
+
+	public void setSiteID(String siteID) {
+		this.siteID = siteID;
+	}
+	
+	
 
 }

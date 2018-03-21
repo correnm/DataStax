@@ -1,0 +1,132 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-page-form.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="siteID" value="#{BusinessAttributionEdit.siteID}"></f:viewParam>
+		<f:viewParam name="busProcID" value="#{BusinessAttributionEdit.busProcID}"></f:viewParam>
+		<f:event type="preRenderView" listener="#{BusinessAttributionEdit.retrievebvaData()}"></f:event>
+	</f:metadata>
+
+	<ui:define name="document-title">Edit Business Value Attribution</ui:define>
+
+	<ui:define name="page-name">Administrator: &#160; <strong>Edit Business Value Attribution</strong></ui:define>
+
+	<ui:define name="full-page-form">
+
+		<h:form id="BusinessAttributionEditForm">
+
+			<b:panel look="default">
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="6" offset="3">
+						<b:messages></b:messages>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="8" offset="4" class="form-title">#{BusinessAttributionEdit.bvaToEditName}</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Business Interruption Threshold:</b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu label="" render-label="false" id="bit" value="#{BusinessAttributionEdit.BITs}" tooltip="Choose a Business Interruption Threshold" required="true" requiredMessage="Business Interruption Threshold is required">
+							<f:selectItems value="#{BusinessAttributionEdit.BITs}" var="bit" itemValue="#{bit}" itemLabel="#{bit}"></f:selectItems>
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Business Criticality:</b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu label="" render-label="false" id="busCrit" value="#{BusinessAttributionEdit.bCRITs}" tooltip="Choose a Business Criticality Level" required="true" requiredMessage="Business Criticality Level is required.">
+							<f:selectItems value="#{BusinessAttributionEdit.bCRITs}" var="busCrit" itemValue="#{busCrit}" itemLabel="#{busCrit}"></f:selectItems>
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Breach Types:</b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu label="" render-label="false" id="dBType" value="#{BusinessAttributionEdit.bTypes}" tooltip="Choose a default Breach Type" required="true" requiredMessage="Business Criticality Level is required.">
+							<f:selectItems value="#{BusinessAttributionEdit.bTypes}" var="dBType" itemValue="#{dBType}" itemLabel="#{dBType}"></f:selectItems>
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Information Classification:</b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu label="" render-label="false" id="infClass" value="#{BusinessAttributionEdit.iClass}" tooltip="Choose a level of classification" required="true" requiredMessage="Business Criticality Level is required.">
+							<f:selectItems value="#{BusinessAttributionEdit.iClass}" var="infClass" itemValue="#{infClass}" itemLabel="#{infClass}"></f:selectItems>
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Risk Appetite:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="riskAppetite" value="#{BusinessAttributionEdit.riskAppetite}" required="true" requiredMessage="Risk Appetite is required">
+						</b:inputText>
+					</b:column>
+				</b:row>
+			<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Annual Revenue:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="annRev" value="#{BusinessAttributionEdit.annRev}" required="true" requiredMessage="Annual Revenue is required">
+						</b:inputText>
+					</b:column>
+				</b:row>  
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Annual Revenue Year:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="annRevYear" value="#{BusinessAttributionEdit.annRevYear}" required="false">
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Record Count:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="recordCount" value="#{BusinessAttributionEdit.recordCount}" required="true" requiredMessage="Record Count is required">
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2"></b:column>
+					<b:column col-md="4">
+						<b:commandButton value="Save Changes" look="primary" action="#{BusinessAttributionEdit.editBVAControllerMethod}"></b:commandButton>
+						<b:button value="Cancel" href="business-attribution-table.jsf"></b:button>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+			</b:panel>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

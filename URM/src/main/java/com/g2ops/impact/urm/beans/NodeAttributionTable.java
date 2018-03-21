@@ -84,7 +84,7 @@ public class NodeAttributionTable {
 
 	}
 		
-		//set as seperate method to allow for filtering
+		//set as separate method to allow for filtering
 		public void setRows(){
 			// clear out any old content before retrieving new database info
 			attList.clear();

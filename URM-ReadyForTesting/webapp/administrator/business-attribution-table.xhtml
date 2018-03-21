@@ -14,21 +14,28 @@ Date			Name			Description
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:pe="http://primefaces.org/ui"
+
 	template="/templates/full-width-table.xhtml">
 
-	<ui:define name="document-title">Business Value Attribution</ui:define>
+	<ui:define name="document-title">Business Value Attributiosn</ui:define>
 
-	<ui:define name="page-name">Administrator: &#160;<strong>Business Value Attribution</strong></ui:define>
+	<ui:define name="page-name">Administrator: &#160;<strong>Business Value Attributions</strong></ui:define>
 
 	<ui:define name="full-width-table">
 		<div class="dataTableDivClass">
+			<div style="text-align: center;">
+				<h:link outcome='/administrator/business-attribution-add.jsf'>
+					<b:button value="Add Busines Process" look="default" iconAwesome="plus"></b:button>
+				</h:link>
+			</div>
+	
 			<h:form>
 				<b:dataTable value="#{businessAttributionTable.businessAttData}" var="att" styleClass="businessProcessesByCyvarTableClass" >
 
 			<b:dataTableColumn value="" orderable="false">
 					<f:facet name="header">Click to Edit</f:facet>
 					<h:link outcome='/administrator/business-attribution-edit.jsf?siteID=#{att.siteID}&amp;busProcID=#{att.busProcID}'>
-						<!--  parameters needed for business value attribution lookup--> 
 						<b:button value="Edit" size="sm" look="default" iconAwesome="edit"></b:button>
 					</h:link>
 				</b:dataTableColumn>
@@ -49,9 +56,10 @@ Date			Name			Description
 				</b:dataTableColumn>
 				<b:dataTableColumn value="#{att.riskAppetite}">
 					<f:facet name="header">Risk Appetite</f:facet>
-				</b:dataTableColumn>	
-				<b:dataTableColumn value="#{att.annRevenue}">
-					<f:facet name="header">Annual Revenue</f:facet>
+				</b:dataTableColumn>
+				<b:dataTableColumn>
+					<f:facet name="header">Risk Appetite</f:facet>
+					$  #{att.annRevenue}						
 				</b:dataTableColumn>
 				<b:dataTableColumn value="#{att.annRevenueYear}">
 					<f:facet name="header">Annual Revenue Year</f:facet>
