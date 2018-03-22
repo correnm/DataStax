@@ -1,4 +1,4 @@
-CREATE MATERIALIZED VIEW vmasc.hardware_by_vendor AS 
+CREATE MATERIALIZED VIEW hardware_by_vendor AS 
 SELECT vendor, internal_system_id,  site_id,  ip_subnet_or_building 
 FROM hardware 
 WHERE vendor IS NOT NULL 
