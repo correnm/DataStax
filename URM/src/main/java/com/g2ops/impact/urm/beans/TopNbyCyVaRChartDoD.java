@@ -22,6 +22,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -45,8 +46,11 @@ public class TopNbyCyVaRChartDoD {
 	private String chartData;
 	private FusionCharts topNbyCyVaRChartDoD;
 	private Iterator<Row> iterator;
+	private BigDecimal tempBPIV, nullBPIVValue;
 
 	public TopNbyCyVaRChartDoD() {
+
+		nullBPIVValue = new BigDecimal("0.0");
 
 	}
 	
@@ -68,9 +72,18 @@ public class TopNbyCyVaRChartDoD {
 			List<BusinessProcessTopByCyVar> businessProcessTopByCyVarArrayList = new ArrayList<BusinessProcessTopByCyVar>();
 			BusinessProcessTopByCyVar businessProcessTopByCyVarInstance;
 			while (iterator.hasNext()) {
+
 				Row row = iterator.next();
-				businessProcessTopByCyVarInstance = new BusinessProcessTopByCyVar(row.getString("business_process_name"), row.getDecimal("business_process_impact_value"));
+
+				if (row.isNull("business_process_impact_value")) {
+					tempBPIV = nullBPIVValue;
+				} else {
+					tempBPIV = row.getDecimal("business_process_impact_value");
+				}
+
+				businessProcessTopByCyVarInstance = new BusinessProcessTopByCyVar(row.getString("business_process_name"), tempBPIV);
 				businessProcessTopByCyVarArrayList.add(businessProcessTopByCyVarInstance);
+
 			}
 			
 			// create array for storing the business process names and cyber at risk values
