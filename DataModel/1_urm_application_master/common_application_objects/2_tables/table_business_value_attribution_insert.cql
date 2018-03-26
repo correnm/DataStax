@@ -1,4 +1,4 @@
-USE g2;
+USE keyspace;
 
 // remove the old data before reloading if its the same site
 truncate table business_value_attribution;
