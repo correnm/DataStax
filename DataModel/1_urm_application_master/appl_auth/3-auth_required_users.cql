@@ -12,7 +12,13 @@ CREATE ROLE washington WITH SUPERUSER = false AND LOGIN = true AND password = 's
 CREATE ROLE IF NOT EXISTS appl_auth_developer;
 GRANT SELECT ON KEYSPACE appl_auth TO appl_auth_developer;
 GRANT MODIFY ON KEYSPACE appl_auth TO appl_auth_developer;
+GRANT ALTER on KEYSPACE appl_auth TO appl_auth_developer;
 
+// manage user passwords
+GRANT select on KEYSPACE system_auth to appl_auth_developer;
+GRANT select on KEYSPACE system_schema to appl_auth_developer;
+GRANT describe on all roles to appl_auth_developer;
+GRANT alter on all roles to appl_auth_developer;
 
 // The admin account must have select access on each tenant's keyspace to access the keyspace.users table for login validation
 GRANT appl_auth_developer to washington;
