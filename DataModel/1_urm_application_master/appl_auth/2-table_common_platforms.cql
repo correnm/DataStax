@@ -9,6 +9,7 @@ collect information about installed products, identify products using their CPE 
 standardized information to help make fully or partially automated decisions regarding the assets. 
 
 Modifications
+4/4/2018				sara.bergman				removed cve_list common_vulnerabilities. table will have a materialized view to search vulnerabilities by cpe_id_22
 *****************/
 
 CREATE TABLE IF NOT EXISTS common_platforms (
