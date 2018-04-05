@@ -4,6 +4,10 @@ Modifications
 date				author				description
 2/13/2018			sara.bergman		removed risk_likelihood float, to be placed into business_value_attribution
 02-28-2018			corren.mccoy		column changed to business_process_ids to list<uuid>
+04-04-2018			sara.bergman		removed patch_availability
+										altered installed_software to datatype list<text>
+										altered run_date to run_datetime timestamp
+										removed cyvar text
 */
 
 CREATE TABLE IF NOT EXISTS hardware (
@@ -16,7 +20,6 @@ CREATE TABLE IF NOT EXISTS hardware (
     ip_gateway 							text,
     mac_address 						text,	// Search w/ Solr or MV
     cvss_scores							list<frozen<cvss_scores>>, //
-    patch_availability 					text,
     import_date 						date,    // based on import job in format YYYY-MM-DD
     cpe_id 								text,    // product
     part 								text,    // should always be [h]ardware
@@ -24,7 +27,7 @@ CREATE TABLE IF NOT EXISTS hardware (
     product 							text,
     version 							text,
     version_update 						text,
-    run_date 							date,   // From scan file in format YYYY-MM-DD
+    run_datetime						timestamp,   // From scan file in format YYYY-MM-DD, dual purposing field to be updated every time cvss_scores are updated
     end_of_sale 						date,
     end_of_life_date 					date,
     end_of_support_date 				date,
@@ -33,7 +36,6 @@ CREATE TABLE IF NOT EXISTS hardware (
     crown_jewel 						boolean,	// MBSE model element
     reportable_flag 					boolean,	// if TRUE, include in calculation of NIV
     vendor_stencil_icon					text,   	// refers to file location on web server for icons to use in viz
-    cyvar 								float,		// output of Cyber Value at Risk (TBD)
     vulnerability_count 				int,		// total number of CVE IDs identified for this item
     audit_upsert 						frozen<audit_upsert>,
 	connected_elements					list <frozen <connected_elements>>, // traceroute,
@@ -41,7 +43,7 @@ CREATE TABLE IF NOT EXISTS hardware (
 	asset_visibility					text,		// business practice metrics
 	os_general							text,		// windows, linus
 	operating_system					text,		// specific operating system
-	installed_software					list <frozen <installed_software>>, 
+	installed_software					list <text>, 
 	host_name						    text,
 	business_process_ids				list<uuid>, // valid entries in business_value_attribution table
     PRIMARY KEY (site_id, ip_subnet_or_building, internal_system_id)

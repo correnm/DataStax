@@ -7,6 +7,8 @@ can be used as a source of information for enforcing and verifying IT management
 these assets, such as vulnerability, configuration, and remediation policies. IT management tools can 
 collect information about installed products, identify products using their CPE names, and use this 
 standardized information to help make fully or partially automated decisions regarding the assets. 
+
+Modifications
 *****************/
 
 CREATE TABLE IF NOT EXISTS common_platforms (
@@ -24,7 +26,6 @@ CREATE TABLE IF NOT EXISTS common_platforms (
 	target_hw 			text,
 	other 				text,
 	references 			MAP<text,text>,		// <reference href="https://play.google.com/store/apps/details?id=com.kindle.books.for99">Product information</reference>
-	cve_list 			FROZEN<LIST<cvss_scores>>, 	// CVEs reported against this CPE
 	import_date 		timestamp,
 	official			boolean,			// CPE IDs created by an organization are not official -> FALSE
     PRIMARY KEY ((cpe_id_22), part, vendor, product))

@@ -1,6 +1,30 @@
-//Table with cve_name partitioning the data
-CREATE MATERIALIZED VIEW common_vuln_by_name AS SELECT cve_id, cve_name, date_published, date_modified, cvss_base_score,
-cve_description, cpe_effected, patch_references, patch_count, import_date FROM common_vulnerabilities
-WHERE cve_name IS NOT NULL AND cve_id IS NOT NULL
-PRIMARY KEY (cve_name, cve_id) //cve_name is the new partition key 
- WITH comment = 'Adds capability to query based on cve_name'
+/**
+Table with cve_name partitioning the data
+
+Modifications
+04-04-2018			sara.bergman		added additional columns within the common_vulnerabilities table
+*/
+
+
+CREATE MATERIALIZED VIEW common_vuln_by_name 
+AS SELECT 	cve_name,
+			cpe_affected,
+			cve_id,
+			cve_name,
+			date_published,
+			date_modified,
+			cvss_base_score,
+			cvss_temporal_score,
+			cve_description,
+			patch_references,
+			patch_count,
+			date_modified,
+			update_datetime,			
+			cvss_vector,
+			cvss_temporal_vector
+FROM common_vulnerabilities
+WHERE 	cve_name IS NOT NULL 
+	AND cve_id IS NOT NULL
+	AND cpe_affected IS NOT NULL
+PRIMARY KEY (cve_name, cpe_affected, cve_id) //cve_name is the new partition key 
+ WITH comment = 'Does a vulnerability name affect a particular cpe in my environment?'
