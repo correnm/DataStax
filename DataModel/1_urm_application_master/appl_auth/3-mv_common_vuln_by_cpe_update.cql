@@ -7,7 +7,7 @@ Modifications
 
 */
 
-CREATE MATERIALIZED VIEW common_vuln_by_update_datetime 
+CREATE MATERIALIZED VIEW common_vuln_by_cpe_update
 AS SELECT 	cpe_affected,
 			update_datetime,
 			cve_id,
