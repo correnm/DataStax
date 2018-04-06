@@ -7,13 +7,12 @@ Modifications
 
 */
 
-CREATE MATERIALIZED VIEW common_vuln_by_date_modified 
-AS SELECT 	date_modified,
+CREATE MATERIALIZED VIEW common_vuln_by_modified_date 
+AS SELECT 	modified_date,
 			cpe_affected,
 			cve_id,
 			cve_name,
-			date_published,
-			date_modified,
+			published_date,
 			cvss_base_score,
 			cvss_temporal_score,
 			cve_description,
@@ -23,8 +22,8 @@ AS SELECT 	date_modified,
 			cvss_vector,
 			cvss_temporal_vector
 FROM common_vulnerabilities
-WHERE 	date_modified IS NOT NULL 
+WHERE 	modified_date IS NOT NULL 
 	AND cpe_affected IS NOT NULL
 	AND	cve_id IS NOT NULL
-PRIMARY KEY (date_modified, cpe_affected, cve_id) //date_modified is the new partition key
-) WITH comment = 'What new modified cve's occured on selected dates.'
+PRIMARY KEY (modified_date, cpe_affected, cve_id) 
+WITH comment = 'What new modified cves occured on selected dates?'

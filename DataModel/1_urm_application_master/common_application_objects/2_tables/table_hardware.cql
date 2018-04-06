@@ -5,9 +5,10 @@ date				author				description
 2/13/2018			sara.bergman		removed risk_likelihood float, to be placed into business_value_attribution
 02-28-2018			corren.mccoy		column changed to business_process_ids to list<uuid>
 04-04-2018			sara.bergman		removed patch_availability
-										altered installed_software to datatype list<text>
-										altered run_date to run_datetime timestamp
+										modified/renamed installed_software to software_installed list<text>
+										modified/renamed run_date to run_datetime timestamp
 										removed cyvar text
+										
 */
 
 CREATE TABLE IF NOT EXISTS hardware (

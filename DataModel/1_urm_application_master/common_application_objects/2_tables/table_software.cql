@@ -28,6 +28,7 @@ Modifications
 												sw_edition					text,
 												target_hw					text,
 												target_sw					text,
+												other						text
 */
 
 USE keyspacename;
@@ -43,10 +44,11 @@ language					text,
 sw_edition					text,
 target_hw					text,
 target_sw					text,
+other						text,
 cpe_id 						text,      // product
 end_of_sale 				date,
 end_of_life_date 			date,
 end_of_support_date 		date,
-installed_on_hardware		list<hardware_relationships>
-PRIMARY KEY ((internal_system_id), part, vendor, product, version)
+installed_on_hardware		list<frozen<hardware_relationships>>, 
+PRIMARY KEY ((part, vendor), product, version, cpe_update, edition, language, sw_edition, target_hw, target_sw, other)
 ) WITH COMMENT = 'Software library within organization that will populate installed_software in hardware table and include hardware impacted.';

@@ -1,3 +1,9 @@
+/**
+Modifications
+04-05-2018			sara.bergman		Modified/Renamed installed_software to software_installed list<text>
+										Modified/renamed run_date to run_datetime timestamp
+*/
+
 CREATE TABLE IF NOT EXISTS hardware_staging (
     site_id			 		uuid,
     ip_subnet_or_building 	text,
@@ -7,7 +13,7 @@ CREATE TABLE IF NOT EXISTS hardware_staging (
     cvss_scores 			list<frozen<cvss_scores>>,
     host_name 				text,
     run_date 				date,
-    installed_software 		list<frozen<installed_software>>,
+    software_installed 		list<text>,
     ip_address 				text,
     mac_address 			text,
     operating_system 		text,

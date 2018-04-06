@@ -4,7 +4,9 @@
 Modifications
 date				author			description
 2/13/2018			sara.bergman	removed risk_likelihood float, to be placed into business_value_attribution
-02-28-2018			corren.mccoy		column changed to business_process_ids to list<uuid>
+02-28-2018			corren.mccoy	column changed to business_process_ids to list<uuid>
+04-05-2018			sara.bergman	Modified/Renamed installed_software to software_installed list<text>
+									Modified/renamed run_date to run_datetime timestamp
 */
 
 USE keyspacename;
@@ -44,7 +46,7 @@ CREATE TABLE IF NOT EXISTS hardware_archive (
 	asset_visibility					text,		// business practice metrics
 	os_general							text,		// windows, linux
 	operating_system					text,		// specific operating system
-	installed_software					list <frozen <installed_software>>, 
+	software_installed					list <text>, 
 	host_name						    text,
 	business_process_ids				list<uuid>, // valid entries in business_value_attribution table
     PRIMARY KEY (site_id, ip_subnet_or_building, archive_date, internal_system_id)
