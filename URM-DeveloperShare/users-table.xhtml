@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-width-table.xhtml">
+
+	<ui:define name="document-title">Manage Users</ui:define>
+
+	<ui:define name="page-name">Administrator: &#160; <strong>Manage Users</strong></ui:define>
+
+	<ui:define name="full-width-table">
+
+		<div class="dataTableDivClass">
+
+		<div style="text-align: center;">
+		<h:link outcome='/administrator/user-add.jsf'>
+			<b:button value="Add User" look="default" iconAwesome="plus"></b:button>
+		</h:link>
+		</div>
+
+		<h:form>
+			<b:dataTable value="#{usersBean.usersData}" var="user" styleClass="dataTableClass">
+
+				<b:dataTableColumn value="#{user.userEmail}" order="asc">
+					<f:facet name="header">Email Address</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{user.firstName}">
+					<f:facet name="header">First Name</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{user.lastName}">
+					<f:facet name="header">Last Name</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{user.appRoleName}">    				
+					<f:facet name="header">Role</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{user.defaultLensView}">
+					<f:facet name="header">Dashboard</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{user.orgUnitName} - #{user.siteName}">
+					<f:facet name="header">Site</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{user.userStatus}">
+					<f:facet name="header">Status</f:facet>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="" orderable="false">
+					<f:facet name="header">Action</f:facet>
+					<b:commandButton action="#{usersBean.retrieveUserData(user.userEmail)}" value="Edit" size="sm" look="default" disabled="false" iconAwesome="key"></b:commandButton>
+					<!-- would use h:link with b:button for delete -> this is just for show -->
+					<b:commandButton value="Reset Passcode" size="sm" look="default" disabled="true" iconAwesome="key"></b:commandButton>
+				</b:dataTableColumn>
+ 
+			</b:dataTable>
+		</h:form>
+
+		</div>
+
+	</ui:define>
+
+</ui:composition>
