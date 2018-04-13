@@ -1,0 +1,122 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-page-form.xhtml">
+
+	<ui:define name="document-title">Edit User</ui:define>
+
+	<ui:define name="page-name">Administrator: &#160; <strong>Edit User</strong></ui:define>
+
+	<ui:define name="full-page-form">
+
+		<h:form id="userEditForm">
+
+			<h:inputHidden id="userToEditEmail" value="#{usersBean.userToEditEmail}"></h:inputHidden>
+
+			<b:panel look="default">
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="6" offset="3">
+						<b:messages></b:messages>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="8" offset="4" class="form-title">#{usersBean.userToEditEmail}</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">First Name:</b:column>
+					<b:column col-md="3">
+						<b:inputText id="firstName" value="#{usersBean.firstName}" required="true" requiredMessage="First Name is required">
+							<b:focus />
+						</b:inputText>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Last Name:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="lastName" value="#{usersBean.lastName}" required="true" requiredMessage="Last Name is required">
+						</b:inputText>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Role:</b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu label="Role" render-label="false" id="role" value="#{usersBean.role}" tooltip="Choose a Role">
+							<f:selectItems value="#{usersBean.roles}" var="role" itemValue="#{role}" itemLabel="#{role}"></f:selectItems>
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Site:</b:column>
+					<b:column col-md="6">
+						<b:selectOneMenu label="Organizational Unit + Site" render-label="false" id="OUSiteListID" value="#{usersBean.selectedOUSite}" tooltip="Choose a Site">
+							<f:selectItems value="#{usersBean.OUSiteArray}" var="site" itemValue="#{site.OUSiteCodes}" itemLabel="#{site.OUSiteNames}"></f:selectItems>
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Dashboard:</b:column>
+					<b:column col-md="6">
+						<b:selectOneMenu label="Dashboard" render-label="false" id="dashboardListID" value="#{usersBean.selectedDashboard}" tooltip="Choose a Dashboard">
+							<f:selectItems value="#{usersBean.dashboardArray}" var="dashboard" itemValue="#{dashboard.fileName}" itemLabel="#{dashboard.displayName}"></f:selectItems>
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Status:</b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu label="Status" render-label="false" id="statusID" value="#{usersBean.activeUserInd}" tooltip="Choose a Status">
+							<f:selectItem itemValue="true" itemLabel="active"></f:selectItem>
+							<f:selectItem itemValue="false" itemLabel="inactive"></f:selectItem>
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2"></b:column>
+					<b:column col-md="4">
+						<b:commandButton value="Save Changes" look="primary" action="#{usersBean.editUserActionControllerMethod}"></b:commandButton>
+						<b:button value="Cancel" href="users-table.jsf"></b:button>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+			</b:panel>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
