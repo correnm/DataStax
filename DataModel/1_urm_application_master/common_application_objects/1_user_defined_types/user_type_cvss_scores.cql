@@ -26,5 +26,5 @@ cve_description                 text,
 vuln_modification_date			date,
 patch_references	            list<text>, 
 patch_count						int,
-patched							date
+patched_date					date
 );
