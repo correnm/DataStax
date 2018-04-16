@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS appl_auth.organizations (
 	industry			text,		// references the industry
 	webapp_name			text,		// name must match Tomcat entry. An organization can have more than one IMPACT application
 	country_name		text,		// country in which the headquarters for this organization is located
+	resistance_strength decimal,
     PRIMARY KEY (organization_name)	
 )
 with comment = 'Used within the login process to determine the connection info and the applicable application code tree';
