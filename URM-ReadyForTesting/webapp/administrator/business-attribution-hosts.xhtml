@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-width-table.xhtml">
+	
+	<ui:define name="document-title">Business Practice host hardware nodes</ui:define>
+	<ui:define name="page-name">Administrator: &#160; <strong>Manage host assignments</strong></ui:define>
+		
+	<ui:define name="full-width-table">
+		<div class="dataTableDivClass">
+			<div style="text-align: center;">
+				#{businessAttribution.selectedBusName}
+			</div>
+			<b:form id="hostForm">
+			<div style="text-align: center;">
+				<br/>
+				<b:commandButton action="#{businessAttribution.LoadHostAddData}" value="Add new host" size="sm" look="default" disabled="false" iconAwesome="plus"></b:commandButton>
+			</div>
+				<b:dataTable id="hostTable" value="#{businessAttribution.businessHostData}" var="host" styleClass="businessProcessesByCyvarTableClass" >
+					<b:dataTableColumn id="hostName" value="#{host.hostName}">
+						<f:facet name="header">Host Name</f:facet>
+					</b:dataTableColumn>
+					<b:dataTableColumn value="#{host.hostIP}">
+						<f:facet name="header">IP Address</f:facet>
+					</b:dataTableColumn>
+					<b:dataTableColumn value="#{host.hostAType}">
+						<f:facet name="header">Asset Type</f:facet>
+					</b:dataTableColumn>
+					<b:dataTableColumn value="#{host.hostAVisibility}">
+						<f:facet name="header">Asset Visibility</f:facet>
+					</b:dataTableColumn>
+					<b:dataTableColumn value="#{host.hostOS}">
+						<f:facet name="header">Operating System</f:facet>
+					</b:dataTableColumn>
+					<b:dataTableColumn value="#{host.hostVendor}">
+						<f:facet name="header">Vendor</f:facet>
+					</b:dataTableColumn>
+					<b:dataTableColumn value="" orderable="false">
+						<f:facet name="header">Action</f:facet>
+							<b:commandButton ajax="true" action="#{businessAttribution.deleteBVAHostControllerMethod(host)}" onclick="return confirm('Do you really want to delete #{host.hostName} ?')"  value="Delete" size="sm" look="default" disabled="false">
+						 		<f:ajax event="change" execute="@form" render="hostTable"/>
+						 	</b:commandButton>					 	
+					</b:dataTableColumn>													
+				</b:dataTable>
+				<div style="text-align: center;">
+					<b:button value="previous page" href="business-attribution-table.jsf" look="default" iconAwesome="fa-arrow-left"></b:button>
+				</div>			
+			</b:form>
+		</div>
+	</ui:define>
+</ui:composition>

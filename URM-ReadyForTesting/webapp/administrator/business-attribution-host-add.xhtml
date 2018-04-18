@@ -1,0 +1,68 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-width-table.xhtml">
+
+	<ui:define name="document-title">Add Business Practice Host</ui:define>
+
+	<ui:define name="page-name">Administrator: &#160; <strong>Add host for #{businessAttribution.selectedBusName}</strong></ui:define>
+
+	<ui:define name="full-width-table">
+		<div class="dataTableDivClass">
+			<b:form id="hostAddForm">
+				<div style="text-align: center;">
+					<br/>
+					<b:panel look="default">
+						<b:row>
+							<b:column col-md="12">
+								<span class="rowSpace"><br/></span>
+							</b:column>
+						</b:row>
+						<b:row>
+							<b:column col-md="3" offset="1" class="form-input-label">Site list:</b:column>
+							<b:column col-md="4">
+								<b:selectOneMenu label="hostSiteID" render-label="false" id="hostSiteID" value="#{businessAttribution.hostSiteID}"
+									ajax="true" valueChangeListener="#{businessAttribution.listenSite}" tooltip="Choose a site" required="true">
+									<f:selectItems value="#{businessAttribution.siteList}" var="hostSiteID" itemValue="#{hostSiteID}" itemLabel="#{hostSiteID}"></f:selectItems>
+									<f:ajax event="change" execute="@form" render="hostSubnet" />
+								</b:selectOneMenu>
+							</b:column>
+						</b:row>
+						<b:row>  
+ 							<b:column col-md="3" offset="1" class="form-input-label">Subnet list:</b:column>
+							<b:column col-md="4">
+								<b:selectOneMenu label="hostSubnet" render-label="false" id="hostSubnet" value="#{businessAttribution.hostSubnet}" 
+									ajax="true" valueChangeListener="#{businessAttribution.listenHardware}"  tooltip="Choose a subnet" required="true">
+									<f:selectItems value="#{businessAttribution.subnetList}" var="hostSubnet" itemValue="#{hostSubnet}" itemLabel="#{hostSubnet}"></f:selectItems>
+									<f:ajax event="change" execute="@form" render="AddHostTable"/>
+								</b:selectOneMenu>
+							</b:column>
+						</b:row>
+					</b:panel>
+				</div>
+ 				<b:dataTable id="AddHostTable" value="#{businessAttribution.addHostList}" var="addhost" styleClass="businessProcessesByCyvarTableClass" >
+					<b:dataTableColumn id="hostIP" value="#{addhost.hostIP}">
+						<f:facet name="header">IP Address</f:facet>
+					</b:dataTableColumn>
+					<b:dataTableColumn id="hostName" value="#{addhost.hostName}">
+						<f:facet name="header">Host Name</f:facet>
+					</b:dataTableColumn>
+					<b:dataTableColumn value="#{addhost.hostVendor}">
+						<f:facet name="header">Vendor</f:facet>
+					</b:dataTableColumn>
+					<b:dataTableColumn value="" orderable="false">						
+						<f:facet name="header">Action</f:facet>		
+						<b:commandButton action="#{businessAttribution.addBVAHostControllerMethod(addhost.hostID)}" value="Add host" size="sm" look="default" disabled="false">
+						 	<f:param name="hostId" value="#{addhost.hostID}" />
+						 </b:commandButton>
+					</b:dataTableColumn>	
+ 				</b:dataTable>
+				<div style="text-align: center;">
+					<b:button value="cancel" href="business-attribution-hosts.jsf" look="default"></b:button>
+				</div>				
+			</b:form>
+		</div>
+	</ui:define>	   
+</ui:composition>

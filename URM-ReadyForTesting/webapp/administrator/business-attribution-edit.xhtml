@@ -3,25 +3,16 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:b="http://bootsfaces.net/ui"
-	xmlns:pe="http://primefaces.org/ui"
 	template="/templates/full-page-form.xhtml">
 
-	<f:metadata>
-		<f:viewParam name="siteID" value="#{BusinessAttributionEdit.siteID}"></f:viewParam>
-		<f:viewParam name="busProcID" value="#{BusinessAttributionEdit.busProcID}"></f:viewParam>
-		<f:event type="preRenderView" listener="#{BusinessAttributionEdit.retrievebvaData()}"></f:event>
-	</f:metadata>
+	<ui:define name="document-title">Edit Business Practice</ui:define>
 
-	<ui:define name="document-title">Edit Business Value Attribution</ui:define>
-
-	<ui:define name="page-name">Administrator: &#160; <strong>Edit Business Value Attribution</strong></ui:define>
+	<ui:define name="page-name">Administrator: &#160; <strong>Edit Business Practice</strong></ui:define>
 
 	<ui:define name="full-page-form">
 
-		<h:form id="BusinessAttributionEditForm">
-
+		<h:form id="BusinessAttributionEditForm">		
 			<b:panel look="default">
-
 				<b:row>
 					<b:column col-md="12">
 						<span class="rowSpace"><br/></span>
@@ -35,7 +26,7 @@
 				</b:row>
 
 				<b:row>
-					<b:column col-md="8" offset="4" class="form-title">#{BusinessAttributionEdit.bvaToEditName}</b:column>
+					<b:column col-md="8" offset="4" class="form-title">#{businessAttribution.selectedBusName}</b:column>
 				</b:row>
 
 				<b:row>
@@ -47,61 +38,71 @@
 				<b:row>
 					<b:column col-md="3" offset="1" class="form-input-label">Business Interruption Threshold:</b:column>
 					<b:column col-md="4">
-						<b:selectOneMenu label="BIT" render-label="false" id="bit" value="#{BusinessAttributionEdit.bit}" tooltip="Choose a Business Interruption Threshold" required="true" requiredMessage="Business Interruption Threshold is required">
-							<f:selectItems value="#{BusinessAttributionEdit.bits}" var="bit" itemValue="#{bit}" itemLabel="#{bit}"></f:selectItems>
+						<b:selectOneMenu label="BIT" render-label="false" id="bit" value="#{businessAttribution.bit}" tooltip="Choose a Business Interruption Threshold" required="false" requiredMessage="Business Interruption Threshold is required">
+							<f:selectItems value="#{businessAttribution.bits}" var="bit" itemValue="#{bit}" itemLabel="#{bit}"></f:selectItems>
 						</b:selectOneMenu>
 					</b:column>
 				</b:row>
  			<b:row>
 					<b:column col-md="3" offset="1" class="form-input-label">Business Criticality:</b:column>
 					<b:column col-md="4">
-						<b:selectOneMenu label="BCRIT" render-label="false" id="busCrit" value="#{BusinessAttributionEdit.busCrit}" tooltip="Choose a Business Criticality Level" required="true" requiredMessage="Business Criticality Level is required.">
-							<f:selectItems value="#{BusinessAttributionEdit.bcrits}" var="busCrit" itemValue="#{busCrit}" itemLabel="#{busCrit}"></f:selectItems>
+						<b:selectOneMenu label="BCRIT" render-label="false" id="busCrit" value="#{businessAttribution.busCrit}" tooltip="Choose a Business Criticality Level" required="false" requiredMessage="Business Criticality Level is required.">
+							<f:selectItems value="#{businessAttribution.bcrits}" var="busCrit" itemValue="#{busCrit}" itemLabel="#{busCrit}"></f:selectItems>
 						</b:selectOneMenu>
 					</b:column>
 				</b:row>
  				<b:row>
 					<b:column col-md="3" offset="1" class="form-input-label">Breach Types:</b:column>
 					<b:column col-md="4">
-						<b:selectOneMenu label="DBTYPE" render-label="false" id="dbType" value="#{BusinessAttributionEdit.dbType}" tooltip="Choose a default Breach Type" required="false">
-							<f:selectItems value="#{BusinessAttributionEdit.dbtypes}" var="dbType" itemValue="#{dbType}" itemLabel="#{dbType}"></f:selectItems>
+						<b:selectOneMenu label="DBTYPE" render-label="false" id="dbType" value="#{businessAttribution.dbType}" tooltip="Choose a default Breach Type" required="false">
+							<f:selectItems value="#{businessAttribution.dbtypes}" var="dbType" itemValue="#{dbType}" itemLabel="#{dbType}"></f:selectItems>
 						</b:selectOneMenu>
 					</b:column>
 				</b:row>
 				<b:row>
 					<b:column col-md="3" offset="1" class="form-input-label">Information Classification:</b:column>
 					<b:column col-md="4">
-						<b:selectOneMenu label="INFClass" render-label="false" id="infClass" value="#{BusinessAttributionEdit.infClass}" tooltip="Choose a level of classification" required="true" requiredMessage="Classification Level is required.">
-							<f:selectItems value="#{BusinessAttributionEdit.iclass}" var="infClass" itemValue="#{infClass}" itemLabel="#{infClass}"></f:selectItems>
+						<b:selectOneMenu label="INFClass" render-label="false" id="infClass" value="#{businessAttribution.infClass}" tooltip="Choose a level of classification" required="false" requiredMessage="Classification Level is required.">
+							<f:selectItems value="#{businessAttribution.iclass}" var="infClass" itemValue="#{infClass}" itemLabel="#{infClass}"></f:selectItems>
 						</b:selectOneMenu>
 					</b:column>
 				</b:row>
 				<b:row>
 					<b:column col-md="3" offset="1" class="form-input-label">Risk Appetite:</b:column>
 					<b:column col-md="4">
-						<b:inputText id="riskAppetite" value="#{BusinessAttributionEdit.riskAppetite}" required="true" requiredMessage="Risk Appetite is required">
+						<b:inputText id="riskAppetite" value="#{businessAttribution.riskAppetite}" ask="decimal" maxlength="3"  required="false">
+							<f:validateLongRange minimum="0" maximum="100" validatorMessage="risk appetite must be between 0 and 100"/>
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Resistance Strength:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="resistanceStrength" value="#{businessAttribution.resistanceStrengthstr}" ask="decimal" maxlength="4"  required="false" tooltip="Value must be 2, 16, 84, 98, or between 40 and 60">							
+							<f:validateRegex pattern="^2|16|84|98|4[0-9]|5[0-9]|60" minimum="2" maximum="60" validatorMessage="Value must be 2, 16, 84, 98, or between 40 and 60" />
 						</b:inputText>
 					</b:column>
 				</b:row>
 			<b:row>
 					<b:column col-md="3" offset="1" class="form-input-label">Annual Revenue:</b:column>
 					<b:column col-md="4">
-						<pe:inputNumber value="#{BusinessAttributionEdit.annRev}"  decimalPlaces="2" symbol="$">
-						</pe:inputNumber>						
+						<b:inputText id="annRevC" value="#{businessAttribution.annRevC}" mask="currency"  required="false" requiredMessage="Annual Revenue is required">      						<!-- <f:facet name="prepend"><h:outputText value="$" /></f:facet>
+      						<f:facet name="append"><h:outputText value=".00" /> -->
+						</b:inputText>							
 					</b:column>
 				</b:row>  
 				<br/>
 				<b:row>
 					<b:column col-md="3" offset="1" class="form-input-label">Annual Revenue Year:</b:column>
 					<b:column col-md="4">
-						<b:inputText id="annRevYear" value="#{BusinessAttributionEdit.annRevYear}" required="false">
+						<b:inputText id="annRevYear" value="#{businessAttribution.annRevYear}" maxlength="4" required="false">
 						</b:inputText>
 					</b:column>
 				</b:row>
 				<b:row>
 					<b:column col-md="3" offset="1" class="form-input-label">Record Count:</b:column>
 					<b:column col-md="4">
-						<b:inputText id="recordCount" value="#{BusinessAttributionEdit.recordCount}" required="true" requiredMessage="Record Count is required">
+						<b:inputText id="recordCount" value="#{businessAttribution.recordCount}" required="false">
 						</b:inputText>
 					</b:column>
 				</b:row>
@@ -114,7 +115,7 @@
 				<b:row>
 					<b:column col-md="2" offset="2"></b:column>
 					<b:column col-md="4">
-						<b:commandButton value="Save Changes" look="primary" action="#{BusinessAttributionEdit.editBVAControllerMethod}"></b:commandButton>
+						<b:commandButton value="Save Changes" look="primary" action="#{businessAttribution.editBVAControllerMethod}"></b:commandButton>
 						<b:button value="Cancel" href="business-attribution-table.jsf"></b:button>
 					</b:column>
 				</b:row>
