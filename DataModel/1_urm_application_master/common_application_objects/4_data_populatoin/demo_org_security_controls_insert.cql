@@ -1,5 +1,5 @@
 Insert into org_security_controls (security_control_group, security_control_id, score, category, description, apply_impact_cost,impacts_resistance_strength, security_control)
-	Values('industry', 'FWI',5.45,'medium','NGFW on perimeter only',false,true, 'Firewall; Security Architecture');
+	Values('industry', 'FW1',5.45,'medium','NGFW on perimeter only',false,true, 'Firewall; Security Architecture');
 
 Insert into org_security_controls (security_control_group, security_control_id, score, category, description, apply_impact_cost,impacts_resistance_strength, security_control)
 	Values('industry', 'IDS',5.45,'medium','External only automatic prevention enabled',false,true, 'Intrusion Detection / Prevention');
