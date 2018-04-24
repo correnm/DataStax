@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS business_value_security_controls (
     security_control 					text,	 //ex. Firewall
     score								decimal,
 	category							text,
+	cost_type							text,
 	description							text,	
 	impacts_resistance_strength			boolean,
     apply_impact_cost					boolean,
