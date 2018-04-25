@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<b:form>
+<b:navBar brand-img="#{request.contextPath}/resources/images/G2OPS-logo-navbar.png" brand-href="#{request.contextPath}/index.jsf" fluid="true" class="navbar-default">
+	<b:navbarLinks pull="right">
+		<b:dropMenu value="Dashboards" iconAwesome="dashboard">
+			<ui:repeat value="#{navMenu.dashboardsNavMenuItemList}" var="menuItem">
+				<b:navLink value="#{menuItem.displayName}" href="#{request.contextPath}/#{menuItem.fileName}"></b:navLink>
+			</ui:repeat>
+			<!--
+			<b:navLink value="Business Process Impact Analysis" href="#{request.contextPath}/dashboard-business-process-impact.jsf"></b:navLink>
+			<b:navLink value="Operational Impact Analysis" href="#{request.contextPath}/dashboard-operational-impact.jsf"></b:navLink>
+			-->
+		</b:dropMenu>
+		<b:dropMenu value="Super Admin" iconAwesome="briefcase" iconAlign="left" rendered="${userBean.systemAdministratorInd}">
+			<b:navLink value="Business Value Metrics" href="#{request.contextPath}/administrator/business-practice-table.jsf"></b:navLink>
+			<b:navLink value="Manage Organizations" href="#{request.contextPath}/superadmin/organizations-table.jsf"></b:navLink>
+			<b:navLink value="Breach Types" href="#{request.contextPath}/superadmin/breach-types-table.jsf"></b:navLink>
+		</b:dropMenu>
+		<b:dropMenu value="Administrator" iconAwesome="gears" iconAlign="left" rendered="${userBean.appRoleName eq 'admin'}">
+			<ui:repeat value="#{navMenu.administratorNavMenuItemList}" var="menuItem">
+				<b:navLink value="#{menuItem.displayName}" href="#{request.contextPath}/administrator/#{menuItem.fileName}"></b:navLink>
+			</ui:repeat>
+		<!--
+			<b:navLink value="Business Value Attribution" href="#{request.contextPath}/administrator/business-attribution-table.jsf"></b:navLink>
+			<b:navLink value="Manage Users" href="#{request.contextPath}/administrator/users-table.jsf"></b:navLink>
+			<b:navLink value="Organization Settings" href="#"></b:navLink>
+		-->
+		</b:dropMenu>
+		<b:dropMenu value="User" iconAwesome="gear" iconAlign="left">
+			<ui:repeat value="#{navMenu.userNavMenuItemList}" var="menuItem">
+				<b:navLink value="#{menuItem.displayName}" href="#{request.contextPath}/user/#{menuItem.fileName}"></b:navLink>
+			</ui:repeat>
+			<!--
+			<b:navLink value="Manage Settings" href="#"></b:navLink>
+			<b:navLink value="Change Passcode" href="#"></b:navLink>
+			-->
+		</b:dropMenu>
+		<b:navCommandLink value="Logout" action="#{userBean.logout}" iconAwesome="unlock" iconAlign="left"></b:navCommandLink>
+	</b:navbarLinks>
+</b:navBar>
+</b:form>
+
+</ui:composition>

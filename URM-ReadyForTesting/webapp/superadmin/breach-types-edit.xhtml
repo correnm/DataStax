@@ -1,0 +1,97 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-page-form.xhtml">
+
+
+	<ui:define name="document-title">Edit Breach Type</ui:define>
+
+	<ui:define name="page-name">Administrator: &#160; <strong>Edit Breach Type</strong></ui:define>
+
+	<ui:define name="full-page-form">
+
+		<h:form id="BreachTypesEditForm">
+			<b:panel look="default">
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="6" offset="3">
+						<b:messages></b:messages>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/><br/></span>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Breach Type Name:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="selectedBreachType" value="#{breachTypesBean.breach_type}" required="true" requiredMessage="Breach Type name is required">
+							</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Publication Year:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="pubYear" value="#{breachTypesBean.publication_year}" required="true" requiredMessage="Publication year is required">
+							<f:convertNumber maxFractionDigits="0" integerOnly="true" pattern="#0000" />	
+						</b:inputText>	
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Country Name:</b:column>
+					<b:column col-md="4">
+						<b:selectOneMenu label="countryName" render-label="false" id="countryName" value="#{breachTypesBean.country_name}" tooltip="Choose a Country" required="true" requiredMessage="Country is required">
+						   	<f:selectItem itemValue="United States" itemLabel="United States" />
+						   	<f:selectItem itemValue="ASEAN region" itemLabel="ASEAN region" />
+						   	<f:selectItem itemValue="Australia" itemLabel="Australia" />
+						   	<f:selectItem itemValue="Brazil" itemLabel="Brazil" />
+						   	<f:selectItem itemValue="Canada" itemLabel="Canada" />
+						   	<f:selectItem itemValue="France" itemLabel="France" />
+						   	<f:selectItem itemValue="Germany" itemLabel="Germany" />
+						   	<f:selectItem itemValue="India" itemLabel="India" />
+						   	<f:selectItem itemValue="Italy" itemLabel="Italy" />
+						   	<f:selectItem itemValue="Japan" itemLabel="Japan" />
+						   	<f:selectItem itemValue="South Africa" itemLabel="South Africa" />
+						   	<f:selectItem itemValue="United Kingdom" itemLabel="United Kingdom" />
+						   	<f:selectItem itemValue="The Middle East (including the United Arab Emirates and Saudi Arabia) " itemLabel="Middle East" />
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Distribution PCT:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="distributionPCT" value="#{breachTypesBean.distribution_pct}" required="false">
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Per Capita Cost:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="perCapitaCost" value="#{breachTypesBean.per_capita_cost}" required="false">
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2"></b:column>
+					<b:column col-md="4">
+						<b:commandButton value="Save Changes" look="primary" action="#{breachTypesBean.editBTControllerMethod()}"></b:commandButton>
+						<b:button value="Cancel" href="breach-types-table.jsf"></b:button>
+					</b:column>
+				</b:row>
+			</b:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
