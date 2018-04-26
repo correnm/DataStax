@@ -1,0 +1,151 @@
+<!--  
+Author: 	Tammy Bogart G2 Ops, Virginia Beach, VA
+Version:	1.00, April 2018
+
+Purpose: 	to edit the data in the industry_security_incidents table
+
+Modifications
+Date			Name			Description
+4.26.2018		Tammy.Bogart	Created new form	
+ -->
+ 
+ <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-page-form.xhtml">
+	<ui:define name="document-title">Edit an Industry Security Incident</ui:define>
+
+	<ui:define name="page-name">Administrator: &#160; <strong>Edit an Industry Security Incident</strong></ui:define>
+
+	<ui:define name="full-page-form">
+
+		<h:form id="IndustrySecurityIncidentEditForm">
+			<b:panel look="default">
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="6" offset="3">
+						<b:messages></b:messages>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/><br/></span>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Publication Year:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="pubYear" value="#{industrySecurityIncidentsBean.publication_year}" required="true" requiredMessage="Publication year is required">
+							<f:convertNumber maxFractionDigits="0" integerOnly="true" pattern="#0000" />	
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Verizon DBIR Industry Name:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="VerizonDBIRIndName" value="#{industrySecurityIncidentsBean.verizon_dbir_industry_name}" required="true" requiredMessage="Verizon DBIR Industry Name is required"></b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Breaches Large:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="breachesLarge" value="#{industrySecurityIncidentsBean.breaches_large}">
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Breaches Small:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="breachesSmall" value="#{industrySecurityIncidentsBean.breaches_small}">
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Breaches Total:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="breachesTotal" value="#{industrySecurityIncidentsBean.breaches_total}">
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Breaches Unknown:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="breachesUNK" value="#{industrySecurityIncidentsBean.breaches_unk}">
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Incidents Large:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="incidentsLarge" value="#{industrySecurityIncidentsBean.incidents_large}">
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Incidents Small:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="incidentsSmall" value="#{industrySecurityIncidentsBean.incidents_small}">
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Incidents Total:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="incidentsTotal" value="#{industrySecurityIncidentsBean.incidents_total}">
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Incidents Unknown:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="incidentsUNK" value="#{industrySecurityIncidentsBean.incidents_unk}">
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">Probability of Attack:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="probAttack" value="#{industrySecurityIncidentsBean.probability_of_attack}">
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">:</b:column>
+					<b:column col-md="4">
+						<b:inputText id="sampleSize" value="#{industrySecurityIncidentsBean.sample_size}">
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="2" offset="2"></b:column>
+					<b:column col-md="4">
+						<b:commandButton value="Save Changes" look="primary" action="#{industrySecurityIncidentsBean.editISIControllerMethod()}"></b:commandButton>
+						<b:button value="Cancel" href="industry-security-incidents-table.jsf"></b:button>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+			</b:panel>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+				
