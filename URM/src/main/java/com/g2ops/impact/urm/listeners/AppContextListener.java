@@ -8,6 +8,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.apache.log4j.Logger;
+
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
@@ -18,51 +20,72 @@ import com.g2ops.impact.urm.utils.DatabaseConnectionManager;
 import com.g2ops.impact.urm.utils.DatabaseQueryService;
 import com.g2ops.impact.urm.utils.EncryptionDecryptionService;
 
+import io.netty.util.internal.InternalThreadLocalMap;
+
 public class AppContextListener implements ServletContextListener {
 
+	// get actual class name to be logged
+	static Logger logger = Logger.getLogger(AppContextListener.class.getName());
+
+
+	// method that executes when the application is starting up
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
+
+		// log start of method
+		logger.info("start of contextInitialized method");
 
 		// get the servlet's context
 		ServletContext ctx = servletContextEvent.getServletContext();
 
-		// read the database parameters from the web.xml file
+		// read the database connection parameters from the web.xml file
 		String uName = ctx.getInitParameter("db_USERNAME");
 		String pWord = ctx.getInitParameter("db_PASSWORD");
 		String[] cPoints = ctx.getInitParameter("db_CONTACT_POINTS").split(",");
 		String port = ctx.getInitParameter("db_PORT");
 		String keyspace = ctx.getInitParameter("db_KEYSPACE");
 
+		logger.info("read DB related context init params");
+
+		// decrypt the password
+		try {
+			pWord = EncryptionDecryptionService.decrypt(pWord);
+		} catch (Exception e) {
+			// log error and exit application
+			logger.fatal("DB password could NOT be decrypted for Keyspace: " + keyspace);
+			System.exit(1);
+		}
+		
 		// database connection object
 		DatabaseConnectionManager dbManager = null;
 		
 		// database query service object
 		DatabaseQueryService dbQueryService = null;
 		
-		// create appl auth database connection using parameters from the web.xml file - make 3 attempts - exit application if all attempts fail
+		// create initial database connection using parameters from the web.xml file - make 3 attempts - exit application if all attempts fail
 		try {
 			dbManager = new DatabaseConnectionManager(uName, pWord, cPoints, port, keyspace);
 		} catch (Exception exception1) {
-			System.out.println("appl auth database connection attempt #1 - caught exception: " + exception1);
+			logger.warn("DB connection attempt #1 failed");
 			try {
 				dbManager = new DatabaseConnectionManager(uName, pWord, cPoints, port, keyspace);
 			} catch (Exception exception2) {
-				System.out.println("appl auth database connection attempt #2 - caught exception: " + exception2);
+				logger.error("DB connection attempt #2 failed");
 				try {
 					dbManager = new DatabaseConnectionManager(uName, pWord, cPoints, port, keyspace);
 				} catch (Exception exception3) {
-					System.out.println("appl auth database connection attempt #3 - caught exception: " + exception3);
+					logger.fatal("DB connection attempt #3 failed - exiting");
 					System.exit(1);
 				}
 			}
 		}
     	
-		// put the app auth database connection into the servlet's context
+		// put the database connection into the servlet's context
 		ctx.setAttribute("appAuthDBManager", dbManager);
+		
+		// output statement for troubleshooting
+		logger.info("appl auth database connection created and saved in servlet's context");
 
-		// print statement for troubleshooting
-		System.out.println("appl auth database connection created and saved in servlet's context");
-
-		// get the app auth database connection session
+		// get the database connection session
 		Session session = dbManager.getSession();
 
 		// create the prepared statement for selecting the organization info
@@ -72,7 +95,7 @@ public class AppContextListener implements ServletContextListener {
 		ctx.setAttribute("PSOrgInfo", preparedStatement);
 
 		// print statement for troubleshooting
-		System.out.println("prepared statement for selecting organization keyspace name saved in servlet's context");
+		logger.info("prepared statement for selecting organization's keyspace name saved in servlet's context");
 
 		// create hash map for storing the organization specific database connections (key is keyspace name)
 		Map<String, DatabaseConnectionManager> DBConnectionsHashMap = new HashMap<String, DatabaseConnectionManager>();
@@ -98,17 +121,39 @@ public class AppContextListener implements ServletContextListener {
 			// get each organization's data
 			Row row = rows.next();
 
-			// decrypt the password for logging into the database
+			// attempt to decrypt the password for logging into the database
 			String decrypted_password = "";
 			try {
+
+				// decrypt password
 				decrypted_password = EncryptionDecryptionService.decrypt(row.getString("encrypted_password"));
+
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+				// log error
+				logger.error("DB password could NOT be decrypted for Keyspace: " + row.getString("keyspace_name"));
+
+				// go to the next organization
+				continue;
+
 			}
 			
-			// create database connection
-			DatabaseConnectionManager orgDBConnection = new DatabaseConnectionManager(row.getString("username"), decrypted_password, cPoints, port, row.getString("keyspace_name"));
+			// attempt to create a database connection and a query service for this organization/keyspace
+			DatabaseConnectionManager orgDBConnection = null;
+			try {
+
+				// create database connection
+				orgDBConnection = new DatabaseConnectionManager(row.getString("username"), decrypted_password, cPoints, port, row.getString("keyspace_name"));
+
+			} catch (Exception e) {
+
+				// log error
+				logger.error("DB connection could NOT be created for: " + row.getString("keyspace_name"));
+
+				// go to the next organization
+				continue;
+
+			}
 
 			// create database query service object
 			dbQueryService = new DatabaseQueryService(orgDBConnection);
@@ -117,14 +162,14 @@ public class AppContextListener implements ServletContextListener {
 			DBConnectionsHashMap.put(row.getString("keyspace_name"), orgDBConnection);
 
 			// print statement for troubleshooting
-			System.out.println("organization Database connection created and put into HashMap for: " + row.getString("keyspace_name"));
-			
+			logger.info("DB connection created and put into HashMap for Keyspace: " + row.getString("keyspace_name"));
+
 			// add database query service to HashMap
 			DBQueryServicesHashMap.put(row.getString("keyspace_name"), dbQueryService);
 
 			// print statement for troubleshooting
-			System.out.println("organization Database Query Service created and put into HashMap for: " + row.getString("keyspace_name"));
-			
+			logger.info("DatabaseQueryService object created and put into HashMap for Keyspace: " + row.getString("keyspace_name"));
+
 		}
 
 		// put hash map of organization database connections into the servlet's context
@@ -133,19 +178,24 @@ public class AppContextListener implements ServletContextListener {
 		// put hash map of organization database query services into the servlet's context
 		ctx.setAttribute("OrgDBQueryServices", DBQueryServicesHashMap);
 
-		// print statement for troubleshooting
-		System.out.println("organization Database connections created, put into a HashMap and saved in servlet's context");
-		
-	}
+		// log end of method
+		logger.info("end of contextInitialized method");
 
+	} // end of contextInitialized method
+
+
+	// method that executes when the application is shutting down
 	public void contextDestroyed(ServletContextEvent servletContextEvent) {
+
+		// log start of method
+		logger.info("start of contextDestroyed method");
 
 		// get the Servlet's Context
 		ServletContext ctx = servletContextEvent.getServletContext();
 
 		// local object
 		DatabaseConnectionManager dbManager = null;
-		
+
 		// get the hash map of organization database connections
 		@SuppressWarnings("unchecked")
 		Map<String, DatabaseConnectionManager> DBConnectionsHashMap = (Map<String, DatabaseConnectionManager>)ctx.getAttribute("OrgDBConnections");
@@ -160,31 +210,47 @@ public class AppContextListener implements ServletContextListener {
 			dbManager.closeSession();
 			
 			// print statement for troubleshooting
-			System.out.println("closed DB session for org: " + orgKeySpace);
+			logger.info("DB session closed for Keyspace: " + orgKeySpace);
 
 			// close the organization database connection
 			dbManager.closeConnection();
 
 			// print statement for troubleshooting
-			System.out.println("closed DB connection for org: " + orgKeySpace);
+			logger.info("DB connection closed for Keyspace: " + orgKeySpace);
 
 		}
 		
-		// get the app auth database connection from the context
+		// get the initial database connection from the context
 		dbManager = (DatabaseConnectionManager)ctx.getAttribute("appAuthDBManager");
 
-		// close the app auth database connection session
+		// close the initial database connection session
 		dbManager.closeSession();
 		
 		// print statement for troubleshooting
-		System.out.println("closed DB session for appl_auth");
+		logger.info("DB session closed for Keyspace: appl_auth");
 
-		// close the app auth database connection
+		// close the initial database connection
 		dbManager.closeConnection();
 
 		// print statement for troubleshooting
-		System.out.println("closed DB connection for appl_auth");
+		logger.info("DB connection closed for Keyspace: appl_auth");
 
-	}
+		// attempt to destroy all threads
+		InternalThreadLocalMap.remove();
+		InternalThreadLocalMap.destroy();
+
+		// sleep a bit to allow all threads to die
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// log end of method
+		logger.info("end of contextDestroyed method");
+
+	} // end of contextDestroyed method
+
 
 }
