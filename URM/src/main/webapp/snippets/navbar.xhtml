@@ -18,6 +18,9 @@
 		<b:dropMenu value="Super Admin" iconAwesome="briefcase" iconAlign="left" rendered="${userBean.systemAdministratorInd}">
 			<b:navLink value="Business Value Metrics" href="#{request.contextPath}/administrator/business-practice-table.jsf"></b:navLink>
 			<b:navLink value="Manage Organizations" href="#{request.contextPath}/superadmin/organizations-table.jsf"></b:navLink>
+			<b:navLink value="Breach Types" href="#{request.contextPath}/superadmin/breach-types-table.jsf"></b:navLink>
+			<b:navLink value="Industry Breach Costs" href="#{request.contextPath}/superadmin/industry-breach-costs-table.jsf"></b:navLink>
+			<b:navLink value="Industry Security Incidents" href="#{request.contextPath}/superadmin/industry-security-incidents-table.jsf"></b:navLink>
 		</b:dropMenu>
 		<b:dropMenu value="Administrator" iconAwesome="gears" iconAlign="left" rendered="${userBean.appRoleName eq 'admin'}">
 			<ui:repeat value="#{navMenu.administratorNavMenuItemList}" var="menuItem">
