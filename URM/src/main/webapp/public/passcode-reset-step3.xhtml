@@ -1,0 +1,107 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-page-form.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="requestID" value="#{passcodeReset.requestID}"></f:viewParam>
+	</f:metadata>
+
+	<ui:define name="document-title">Reset Passcode - Step 3 of 3</ui:define>
+
+	<ui:define name="navbar">
+		<b:navBar brand-img="#{request.contextPath}/resources/images/G2OPS-logo-navbar.png" brand-href="#{request.contextPath}/index.jsf" fluid="true" class="navbar-default">
+			<b:navbarLinks pull="right">
+				<b:navLink value="Help" href="#" iconAwesome="info-circle" iconAlign="left"></b:navLink>
+			</b:navbarLinks>
+		</b:navBar>
+	</ui:define>
+
+	<ui:define name="page-name"><strong>Reset Passcode - Step 3 of 3</strong></ui:define>
+
+	<ui:define name="full-page-form">
+
+		<b:well>
+			<b:row>
+				<b:column col-md="8" offset="2">
+					<h3 style="text-align: center;">Procedure to Reset Your Passcode</h3>
+					<span class="rowSpace"><br/><br/></span>
+					<ol>
+						<li>enter your Organization Name and Cell Phone number</li>
+						<li>provide your Security Question answers</li>
+						<li><strong>set a new Passcode</strong></li>
+					</ol>
+				</b:column>
+			</b:row>
+		</b:well>
+
+		<h:form id="resetPasscodeForm1">
+
+			<b:panel look="default">
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="8" offset="2">
+						<b:messages></b:messages>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">New Passcode:</b:column>
+					<b:column col-md="5">
+						<b:inputSecret id="newPasscode" value="#{passcodeReset.newPasscode}" required="true" requiredMessage="new Passcode is required">
+							<f:facet name="prepend"><b:iconAwesome name="key" size="lg"/></f:facet>
+							<b:focus/>
+						</b:inputSecret>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="3" offset="1" class="form-input-label">New Passcode Confirmation:</b:column>
+					<b:column col-md="5">
+						<b:inputSecret id="newPasscode2" value="#{passcodeReset.newPasscode2}" required="true" requiredMessage="new Passcode confirmation is required"> 
+							<f:facet name="prepend"><b:iconAwesome name="key" size="lg"/></f:facet>
+						</b:inputSecret>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<!-- <b:column col-md="3" offset="1"></b:column> -->
+					<b:column col-md="6" offset="4">
+						<b:commandButton value="Continue" look="primary" action="#{passcodeReset.resetPasscodeStep3ActionControllerMethod}"/>
+						<b:link href="#{request.contextPath}/login.jsf" style-class="btn btn-link" value="Go To Login Page"/>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+			</b:panel>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
