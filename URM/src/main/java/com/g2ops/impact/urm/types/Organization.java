@@ -7,7 +7,7 @@ public class Organization implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String organizationName, keyspaceName, userName, encryptedPassword, countryName, industry;
-	
+
 	public Organization (String organizationName, String keyspaceName, String userName, String encryptedPassword, String countryName, String industry) {
 		this.organizationName = organizationName;
 		this.keyspaceName = keyspaceName;
