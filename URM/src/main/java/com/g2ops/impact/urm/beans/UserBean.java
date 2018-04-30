@@ -16,9 +16,9 @@ package com.g2ops.impact.urm.beans;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.datastax.driver.core.BoundStatement;
@@ -26,7 +26,7 @@ import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
-//import com.g2ops.impact.urm.types.User;
+import com.g2ops.impact.urm.utils.ApplicationUtils;
 import com.g2ops.impact.urm.utils.DatabaseConnectionManager;
 import com.g2ops.impact.urm.utils.PasscodeEncryptionService;
 import com.g2ops.impact.urm.utils.SessionUtils;
@@ -45,6 +45,8 @@ public class UserBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Inject private ApplicationUtils applicationUtils;
+	
 	final long ONE_MINUTE_IN_MILLIS = 60000;
 	final int NUM_LOCKOUT_MINUTES = 2;
 	final int LOCKOUT_THRESHOLD = 5;
@@ -167,11 +169,14 @@ public class UserBean implements Serializable {
 		// get the servlet's context
 		ServletContext ctx = SessionUtils.getRequest().getServletContext();
 
+		// get the database connection session
+		Session appAuthDBSession = applicationUtils.getApplAuthDBSession();
+
 		// get the database connection to the application authorization keyspace from the servlet's context 
-		DatabaseConnectionManager appAuthDBConnection = (DatabaseConnectionManager)ctx.getAttribute("appAuthDBManager");
+		//DatabaseConnectionManager appAuthDBConnection = (DatabaseConnectionManager)ctx.getAttribute("appAuthDBManager");
 
 		// get the database connection session
-		Session DBSession = appAuthDBConnection.getSession();
+		//Session DBSession = appAuthDBConnection.getSession();
 
 		// get the prepared statement for selecting organization info from the servlet's context
 		PreparedStatement preparedStatement = (PreparedStatement)ctx.getAttribute("PSOrgInfo");
@@ -180,7 +185,7 @@ public class UserBean implements Serializable {
 		BoundStatement boundStatement = preparedStatement.bind(orgName);
 	
 		// execute the query
-		ResultSet rs = DBSession.execute(boundStatement);
+		ResultSet rs = appAuthDBSession.execute(boundStatement);
 
 		// get the result values
 		Row row = rs.one();
@@ -200,8 +205,6 @@ public class UserBean implements Serializable {
 			// save values retrieved by query
 			orgKeyspace = row.getString("keyspace_name");
 
-System.out.println("in UserBean login method - orgKeyspace: " + orgKeyspace);
-
 		}
 
 		// get the Hash Map of the Organization database connections
@@ -212,7 +215,7 @@ System.out.println("in UserBean login method - orgKeyspace: " + orgKeyspace);
 		DatabaseConnectionManager orgDBConnection = DBConnectionsHashMap.get(orgKeyspace);
 		
 		// get the database connection session
-		DBSession = orgDBConnection.getSession();
+		Session DBSession = orgDBConnection.getSession();
 
 		// create the prepared statement for selecting the user's info
 		preparedStatement = DBSession.prepare("select active_user_ind, application_role_name, default_lens_view_r, org_unit_id, site_id, first_name, last_name, hashed_password, login_timeout_start_time, num_consecutive_failed_attempts, system_administrator_ind from users where user_email = ?");
@@ -295,11 +298,7 @@ System.out.println("in UserBean login method - orgKeyspace: " + orgKeyspace);
 		} // if user is locked out
 		
 		// get the client IP address
-		HttpServletRequest request = SessionUtils.getRequest();
-		String ipAddress = request.getHeader("X-FORWARDED-FOR");
-		if (ipAddress == null) {
-			ipAddress = request.getRemoteAddr();
-		}
+		String ipAddress = applicationUtils.getUserIPAddress();
 
 		// if passCode is invalid, update users table and send back to login page
 		String[] passCodeElementsArray = hashedPassword.split("[*]{3}");
@@ -362,8 +361,6 @@ System.out.println("in UserBean login method - orgKeyspace: " + orgKeyspace);
 			//userSession.setAttribute("currentOU", orgUnitID);
 			//userSession.setAttribute("currentSite", siteID);
 
-System.out.println("end of userBean.login method - sending to defaultLensView: " + defaultLensView);
-			
 			// send to default page for this user
 			return("/" + defaultLensView + "?faces-redirect=true");
 
