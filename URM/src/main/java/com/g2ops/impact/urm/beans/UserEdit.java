@@ -15,9 +15,8 @@ package com.g2ops.impact.urm.beans;
  */
 
 import javax.annotation.PostConstruct;
-
 import javax.enterprise.context.SessionScoped;
-
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -49,7 +48,7 @@ public class UserEdit implements Serializable {
 	@Inject private UserBean currentUser;
 	@Inject private OUSiteBean OUSites;
 	@Inject private NavMenu dashboardsNavMenu;
-
+	
 	private DatabaseQueryService databaseQueryService;
 	private ResultSet rs;
 	private Row row;
@@ -88,10 +87,30 @@ public class UserEdit implements Serializable {
 		// get List of all possible Dashboards
 		dashboardsList = dashboardsNavMenu.getDashboardsNavMenuItemList();
 
+		FacesContext context = FacesContext.getCurrentInstance();
+		userToEditEmail = context.getExternalContext().getRequestParameterMap().get("email");
+		System.out.println("in UserEdit init method - userToEditEmail: " + userToEditEmail);
+
+		// select the user's data
+		//rs = databaseQueryService.runQuery("select user_email, application_role_name, org_unit_id, site_id, default_lens_view_r, first_name, last_name, active_user_ind from users where user_email = '" + userToEditEmail + "'");
+
+		// get the result record
+		//row = rs.one();
+		
+		// set values to what was returned by the query
+		//firstName = row.getString("first_name");
+		//lastName = row.getString("last_name");
+		//role = row.getString("application_role_name");
+		//selectedOUSite = row.getUUID("org_unit_id").toString() + "|" + row.getUUID("site_id").toString();
+		//selectedDashboard = row.getString("default_lens_view_r");
+		//activeUserInd = row.getBool("active_user_ind");
+
 	}
-	
+
 	// method for getting the data for the user being edited
 	public void retrieveUserData() {
+
+		System.out.println("in UserEdit retrieveUserData method - userToEditEmail: " + userToEditEmail);
 
 		// select the user's data
 		rs = databaseQueryService.runQuery("select user_email, application_role_name, org_unit_id, site_id, default_lens_view_r, first_name, last_name, active_user_ind from users where user_email = '" + userToEditEmail + "'");
@@ -227,8 +246,10 @@ public class UserEdit implements Serializable {
 		// update the user's info in the Users table for the user that was edited
 		databaseQueryService.runUpdateQuery("update users set first_name = '" + this.firstName + "', last_name = '" + this.lastName + "', application_role_name = '" + this.role + "', org_unit_id = " + UUID.fromString(newOUSiteArray[0]) + ", site_id = " + UUID.fromString(newOUSiteArray[1]) + ", default_lens_view_r = '" + selectedDashboard + "', active_user_ind = " + activeUserInd + ", audit_upsert = { datechanged : dateof(now()), changedbyusername : '" + currentUser.getEmail() + "' } where user_email = '" + userToEditEmail + "'");
 
+		//this.conversation.end();
+		
 		// go back to the Manage Users page
-		return "users-table";
+		return "users-table?faces-redirect=true";
 
 	}
 	
