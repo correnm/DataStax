@@ -45,7 +45,7 @@ Date			Name			Description
  					<b:dataTableColumn value="#{bt.per_capita_cost}">
 						<f:facet name="header">Per Capita Cost</f:facet>
 					</b:dataTableColumn>                   
-					<b:dataTableColumn value="" orderable="false">
+					<b:dataTableColumn value="" orderable="false" style-class="dataTableButtonColumnClass">
 						<f:facet name="header">Action</f:facet>			
 						<b:commandButton action="#{breachTypesBean.LoadBTEditFormData(bt)}" value="Edit" size="sm" look="default" disabled="false">
 							<f:ajax event="change" execute="@form" render="bttable"/>

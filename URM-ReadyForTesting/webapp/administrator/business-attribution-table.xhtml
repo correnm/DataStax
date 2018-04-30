@@ -60,7 +60,7 @@ Date			Name			Description
 					<b:dataTableColumn value="#{att.recordCount}">
 						<f:facet name="header">Record Count</f:facet>
 					</b:dataTableColumn>
-					<b:dataTableColumn value="" orderable="false">
+					<b:dataTableColumn value="" orderable="false" style-class="dataTableButtonColumnClass">
 						<f:facet name="header">Action</f:facet>			
 						<b:commandButton action="#{businessAttribution.LoadBPEditFormData(att.siteID, att.busProcID)}" value="Edit" size="sm" look="default" disabled="false"></b:commandButton>
 						<b:commandButton ajax="true" action="#{businessAttribution.deleteBVAControllerMethod(att)}" onclick="return confirm('Do you really want to delete #{att.busName} ?')" value="Delete" size="sm" look="default" disabled="false">

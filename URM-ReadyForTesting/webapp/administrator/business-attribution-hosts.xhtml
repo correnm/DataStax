@@ -37,7 +37,7 @@
 					<b:dataTableColumn value="#{host.hostVendor}">
 						<f:facet name="header">Vendor</f:facet>
 					</b:dataTableColumn>
-					<b:dataTableColumn value="" orderable="false">
+					<b:dataTableColumn value="" orderable="false" style-class="dataTableButtonColumnClass">
 						<f:facet name="header">Action</f:facet>
 							<b:commandButton ajax="true" action="#{businessAttribution.deleteBVAHostControllerMethod(host)}" onclick="return confirm('Do you really want to delete #{host.hostName} ?')"  value="Delete" size="sm" look="default" disabled="false">
 						 		<f:ajax event="change" execute="@form" render="hostTable"/>
