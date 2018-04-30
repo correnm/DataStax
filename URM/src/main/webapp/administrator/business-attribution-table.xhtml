@@ -8,7 +8,7 @@ Modifications
 Date			Name			Description
 3.14.2018		Tammy.Bogart	Updated the form to pull the new values from the businessAttributionTable bean	
  -->
- 
+
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -16,55 +16,60 @@ Date			Name			Description
 	xmlns:b="http://bootsfaces.net/ui"
 	template="/templates/full-width-table.xhtml">
 
-	<ui:define name="document-title">Business Value Attribution</ui:define>
+	<ui:define name="document-title">Business Practices</ui:define>
 
-	<ui:define name="page-name">Administrator: &#160;<strong>Business Value Attribution</strong></ui:define>
+	<ui:define name="page-name">Administrator: &#160;<strong>Business Business Practices</strong></ui:define>
 
 	<ui:define name="full-width-table">
 		<div class="dataTableDivClass">
-			<h:form>
-				<b:dataTable value="#{businessAttributionTable.businessAttData}" var="att" styleClass="businessProcessesByCyvarTableClass" >
-
-			<b:dataTableColumn value="" orderable="false">
-					<f:facet name="header">Click to Edit</f:facet>
-					<h:link outcome='/administrator/business-attribution-edit.jsf?siteID=#{att.siteID}&amp;busProcID=#{att.busProcID}'>
-						<!--  parameters needed for business value attribution lookup--> 
-						<b:button value="Edit" size="sm" look="default" iconAwesome="edit"></b:button>
-					</h:link>
-				</b:dataTableColumn>
-				<b:dataTableColumn value="#{att.busName}">
-					<f:facet name="header">Business Process Name</f:facet>
-				</b:dataTableColumn>
-				<b:dataTableColumn value="#{att.busIntThreshold}">
-					<f:facet name="header">Business Interruption Threshold</f:facet>
-				</b:dataTableColumn>
-				<b:dataTableColumn value="#{att.busCriticality}">
-					<f:facet name="header">Business Criticality</f:facet>
-				</b:dataTableColumn>	
-				<b:dataTableColumn value="#{att.infoClass}">
-					<f:facet name="header">Information Classification</f:facet>
-				</b:dataTableColumn>			
-				<b:dataTableColumn value="#{att.defBreachType}">
-					<f:facet name="header">Default Breach Type</f:facet>
-				</b:dataTableColumn>
-				<b:dataTableColumn value="#{att.riskAppetite}">
-					<f:facet name="header">Risk Appetite</f:facet>
-				</b:dataTableColumn>	
-				<b:dataTableColumn value="#{att.annRevenue}">
-					<f:facet name="header">Annual Revenue</f:facet>
-				</b:dataTableColumn>
-				<b:dataTableColumn value="#{att.annRevenueYear}">
-					<f:facet name="header">Annual Revenue Year</f:facet>
-				</b:dataTableColumn>
-				<b:dataTableColumn value="#{att.recordCount}">
-					<f:facet name="header">Record Count</f:facet>
-				</b:dataTableColumn>
-				<b:dataTableColumn value="#{att.resistanceStrength}">
-					<f:facet name="header">Resistence Strength</f:facet>
-				</b:dataTableColumn>
-			</b:dataTable>
-			</h:form>
+			<b:form id="baform">
+				<div style="text-align: center;">
+					<b:commandButton action="#{businessAttribution.LoadBPAddFormData()}" value="Add" size="sm" look="default" disabled="false" iconAwesome="plus"></b:commandButton>
+				</div>	
+				<b:dataTable id="batable" value="#{businessAttribution.businessAttData}" var="att" styleClass="businessProcessesByCyvarTableClass" >
+					<b:dataTableColumn id="BusName" value="#{att.busName}">
+						<f:facet name="header">Business Practice Name</f:facet>
+					</b:dataTableColumn>
+					<b:dataTableColumn value="#{att.busIntThreshold}">
+						<f:facet name="header">Business Interruption Threshold</f:facet>
+					</b:dataTableColumn>
+					<b:dataTableColumn value="#{att.busCriticality}">
+						<f:facet name="header">Business Criticality</f:facet>
+					</b:dataTableColumn>	
+					<b:dataTableColumn value="#{att.infoClass}">
+						<f:facet name="header">Information Classification</f:facet>
+					</b:dataTableColumn>			
+					<b:dataTableColumn value="#{att.defBreachType}">
+						<f:facet name="header">Default Breach Type</f:facet>
+					</b:dataTableColumn>
+					<b:dataTableColumn value="#{att.riskAppetite}">
+						<f:facet name="header">Risk Appetite</f:facet>
+					</b:dataTableColumn>
+					<b:dataTableColumn value="#{att.resistanceStrength}">
+						<f:facet name="header">Resistance Strength</f:facet>
+					</b:dataTableColumn>					
+					<b:dataTableColumn>
+						<f:facet name="header">Annual Revenue</f:facet>
+						 <h:outputText value="#{att.annRevenue}" mask="currency">
+						 	<f:convertNumber type="currency" currencySymbol="$" locale="en_US"/>					 	
+                    </h:outputText>	
+					</b:dataTableColumn>
+					<b:dataTableColumn value="#{att.annRevenueYear}">
+						<f:facet name="header">Annual Revenue Year</f:facet>
+					</b:dataTableColumn>
+					<b:dataTableColumn value="#{att.recordCount}">
+						<f:facet name="header">Record Count</f:facet>
+					</b:dataTableColumn>
+					<b:dataTableColumn value="" orderable="false" style-class="dataTableButtonColumnClass">
+						<f:facet name="header">Action</f:facet>			
+						<b:commandButton action="#{businessAttribution.LoadBPEditFormData(att.siteID, att.busProcID)}" value="Edit" size="sm" look="default" disabled="false"></b:commandButton>
+						<b:commandButton ajax="true" action="#{businessAttribution.deleteBVAControllerMethod(att)}" onclick="return confirm('Do you really want to delete #{att.busName} ?')" value="Delete" size="sm" look="default" disabled="false">
+							<f:ajax event="change" execute="@form" render="batable"/>
+						</b:commandButton>
+						<b:commandButton action="#{businessAttribution.LoadHostTableData(att.siteID, att.busProcID)}" value="Hosts" size="sm" look="default" disabled="false"></b:commandButton>
+					</b:dataTableColumn>					
+				</b:dataTable>
+			</b:form>
 		</div>
 	</ui:define>
-
 </ui:composition>
