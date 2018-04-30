@@ -19,7 +19,7 @@ import com.datastax.driver.mapping.annotations.Field;
 import java.io.Serializable;
 import java.util.List;
 
-@UDT(name = "connected_elements", keyspace = "dod")
+@UDT(name = "connected_elements", keyspace = "")
 
 public class connectedElements implements Serializable {
 

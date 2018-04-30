@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 
-@UDT(name = "cvss_scores", keyspace="dod")
+@UDT(name = "cvss_scores", keyspace="")
 
 public class CVSSScores implements Serializable {
 

@@ -19,7 +19,7 @@ import com.datastax.driver.mapping.annotations.Field;
 import java.sql.Timestamp;
 
 
-@UDT(name = "audit_upsert", keyspace="dod") 
+@UDT(name = "audit_upsert", keyspace="") 
 
 public class audit_upsert {
 

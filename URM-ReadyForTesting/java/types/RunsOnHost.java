@@ -19,7 +19,7 @@ import com.datastax.driver.mapping.annotations.Field;
 import java.util.UUID;
 
 
-@UDT(name = "hardware_relationships", keyspace="dod")
+@UDT(name = "hardware_relationships", keyspace="")
 
 public class RunsOnHost {
 
