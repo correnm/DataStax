@@ -17,7 +17,6 @@
 <b:container fluid="true">
 
 <b:navBar brand-img="#{request.contextPath}/resources/images/G2OPS-logo-navbar.png" brand-href="#{request.contextPath}/index.jsf" fluid="true" class="navbar-default">
-<!-- <b:navBar fluid="true" class="navbar-default"> -->
 	<b:navbarLinks pull="right">
 		<b:navLink value="Help" href="#" iconAwesome="info-circle" iconAlign="left"></b:navLink>
 	</b:navbarLinks>
@@ -26,7 +25,6 @@
 <b:row>
 	<b:column col-xs="12">
 		<div class="page-name" style="text-align: center; padding-top: 50px; padding-bottom: 40px;">
-			<!-- <h1>Washington Login</h1> -->
 			<h:graphicImage name="G2OPS-logo-stacked.png" library="images" />
 		</div>
 	</b:column>
@@ -37,7 +35,6 @@
 
 		<h:form id="loginForm">
 
-		<!-- <b:panel title="Washington Login" look="primary" collapsible="false"> -->
 		<b:panel look="default">
 
 			<b:row>
@@ -72,6 +69,7 @@
 			<b:row>
 				<b:column col-md="8" offset="2">
 					<b:inputText placeholder="Email Address" id="email" value="#{userBean.email}" required="true" requiredMessage="Email Address is required">
+						<f:validator validatorId="emailValidator" />
 						<f:facet name="prepend"><b:iconAwesome name="envelope" size="lg"/></f:facet>
 					</b:inputText>
 				</b:column>
@@ -86,7 +84,7 @@
 
 			<b:row>
 				<b:column col-md="8" offset="2">
-					<b:inputSecret placeholder="Passcode" id="passCode" value="#{userBean.passCode}" required="true" requiredMessage="Passcode is required" validatorMessage="Passcode is at least 6 characters">
+					<b:inputSecret placeholder="Passcode" id="passCode" value="#{userBean.passCode}" required="true" requiredMessage="Passcode is required" validatorMessage="Passcode is at least 8 characters">
 						<f:facet name="prepend"><b:iconAwesome name="key" size="lg"/></f:facet>
 						<f:validateLength minimum="6"/>
 					</b:inputSecret>
@@ -109,7 +107,7 @@
 			<b:row>
 				<b:column col-md="6" offset="3">
 					<b:commandButton value="Login" action="#{userBean.login}" ajax="false" look="primary" />
-					<a href="#" class="btn btn-link">Forgot Passcode?</a>
+					<a href="#{request.contextPath}/public/passcode-forgot.jsf" class="btn btn-link">Forgot Passcode?</a>
 				</b:column>
 			</b:row>
 
