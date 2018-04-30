@@ -15,8 +15,13 @@ package com.g2ops.impact.urm.utils;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
+import com.datastax.driver.core.Session;
 
 import java.io.Serializable;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -83,4 +88,45 @@ public class ApplicationUtils implements Serializable {
 
 	}
 
+	// method that generates a random UUID
+	public UUID generateRandomUUID() {
+		
+		return UUID.randomUUID();
+		
+	}
+	
+	// method that returns the Servlet's Context
+	public ServletContext getServletContext() {
+
+		return SessionUtils.getRequest().getServletContext();
+
+	}
+	
+	// method that returns the user's IP Address
+	public String getUserIPAddress() {
+
+		HttpServletRequest request = SessionUtils.getRequest();
+		String ipAddress = request.getHeader("X-FORWARDED-FOR");
+		if (ipAddress == null) {
+			ipAddress = request.getRemoteAddr();
+		}
+
+		return ipAddress;
+
+	}
+
+	// method that returns the DB Session for the appl_auth keyspace
+	public Session getApplAuthDBSession() {
+
+		// get the servlet's context
+		ServletContext ctx = getServletContext();
+
+		// get the database connection to the application authorization keyspace from the servlet's context 
+		DatabaseConnectionManager appAuthDBConnection = (DatabaseConnectionManager)ctx.getAttribute("appAuthDBManager");
+
+		// get the database connection session
+		return appAuthDBConnection.getSession();
+
+	}
+	
 }
