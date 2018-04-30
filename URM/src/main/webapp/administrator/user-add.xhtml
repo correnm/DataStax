@@ -37,6 +37,7 @@
 					<b:column col-md="3" offset="1" class="form-input-label">Email:</b:column>
 					<b:column col-md="4">
 						<b:inputText id="userEmail" value="#{userAdd.userEmail}" required="true" requiredMessage="Email is required">
+							<f:validator validatorId="emailValidator" />
 							<b:focus />
 						</b:inputText>
 					</b:column>
