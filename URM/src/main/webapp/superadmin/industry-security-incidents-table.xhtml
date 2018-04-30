@@ -1,0 +1,81 @@
+<!--  
+Author: 	Tammy Bogart G2 Ops, Virginia Beach, VA
+Version:	1.00, April 2018
+
+Purpose: 	to display the industry_breach_costs table data
+
+Modifications
+Date			Name			Description
+4.25.2018		Tammy.Bogart	Created new form	
+ -->
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-width-table.xhtml">
+
+	<ui:define name="document-title">Industry Security Incidents</ui:define>
+
+	<ui:define name="page-name">Administrator: &#160;<strong>Industry Security Incidents</strong></ui:define>
+	<ui:define name="full-width-table">
+		<div class="dataTableDivClass">
+			<b:form id="isiform">
+				<div style="text-align: center;">
+					<b:commandButton action="#{industrySecurityIncidentsBean.LoadISIAddFormData()}" value="Add" size="sm" look="default" disabled="false" iconAwesome="plus"></b:commandButton>
+				</div>
+				<b:dataTable id="isitable" value="#{industrySecurityIncidentsBean.industrySecurityIncidentData}" var="isi" styleClass="businessProcessesByCyvarTableClass" >
+					<b:dataTableColumn>
+						<f:facet name="header">Publication Year</f:facet>
+						 <h:outputText value="#{isi.publication_year}">
+							<f:convertNumber maxFractionDigits="0" integerOnly="true" pattern="#0000" />
+						</h:outputText>
+					</b:dataTableColumn>					
+					<b:dataTableColumn id="verizon_dbir_industry_name" value="#{isi.verizon_dbir_industry_name}">
+						<f:facet name="header">Verizon DBIR Industry Name</f:facet>
+					</b:dataTableColumn>	
+					<b:dataTableColumn id="breachesLarge" value="#{isi.breaches_large}">
+						<f:facet name="header"> </f:facet>
+					</b:dataTableColumn>	
+					<b:dataTableColumn id="breachesSmall" value="#{isi.breaches_small}">
+						<f:facet name="header"> </f:facet>
+					</b:dataTableColumn>	
+					<b:dataTableColumn id="breachesTotal" value="#{isi.breaches_total}">
+						<f:facet name="header"> </f:facet>
+					</b:dataTableColumn>	
+					<b:dataTableColumn id="breachesUNK" value="#{isi.breaches_unk}">
+						<f:facet name="header"> </f:facet>
+					</b:dataTableColumn>	
+					<b:dataTableColumn id="incidentsLarge" value="#{isi.incidents_large}">
+						<f:facet name="header"> </f:facet>
+					</b:dataTableColumn>	
+					<b:dataTableColumn id="incidentsSmall" value="#{isi.incidents_small}">
+						<f:facet name="header"> </f:facet>
+					</b:dataTableColumn>	
+					<b:dataTableColumn id="incidentsTotal" value="#{isi.incidents_total}">
+						<f:facet name="header"> </f:facet>
+					</b:dataTableColumn>	
+					<b:dataTableColumn id="incidentsUNK" value="#{isi.incidents_unk}">
+						<f:facet name="header"> </f:facet>
+					</b:dataTableColumn>	
+					<b:dataTableColumn id="probabilityAttack" value="#{isi.probability_of_attack}">
+						<f:facet name="header"> </f:facet>
+					</b:dataTableColumn>	
+					<b:dataTableColumn id="sampleSize" value="#{isi.sample_size}">
+						<f:facet name="header"> </f:facet>
+					</b:dataTableColumn>						
+					<b:dataTableColumn value="" orderable="false" style-class="dataTableButtonColumnClass">
+						<f:facet name="header">Action</f:facet>			
+						<b:commandButton action="#{industrySecurityIncidentsBean.LoadISIEditFormData(isi)}" value="Edit" size="sm" look="default" disabled="false">
+							<f:ajax event="change" execute="@form" render="isitable"/>
+						</b:commandButton>
+						<b:commandButton ajax="true" action="#{industrySecurityIncidentsBean.deleteISIControllerMethod(isi)}" onclick="return confirm('Do you really want to delete #{isi.verizon_dbir_industry_name} ?')" value="Delete" size="sm" look="default" disabled="false">
+							<f:ajax event="change" execute="@form" render="isitable"/>
+						</b:commandButton>
+					</b:dataTableColumn>					
+				</b:dataTable>
+			</b:form>
+		</div>
+	</ui:define>
+</ui:composition>
