@@ -20,11 +20,10 @@
 		</div>
 
 		<h:form>
-			<b:dataTable value="#{usersTable.usersData}" var="user" styleClass="dataTableClass">
+			<b:dataTable value="#{usersBean.usersData}" var="user" styleClass="dataTableClass">
 
 				<b:dataTableColumn value="#{user.userEmail}" order="asc">
 					<f:facet name="header">Email Address</f:facet>
-					<!-- <h:link outcome='/administrator/user-edit.jsf' value='#{user.userEmail}'><f:param name="userEmail" value="#{user.userEmail}" /></h:link> -->
 				</b:dataTableColumn>
 
 				<b:dataTableColumn value="#{user.firstName}">
@@ -53,9 +52,7 @@
 
 				<b:dataTableColumn value="" orderable="false">
 					<f:facet name="header">Action</f:facet>
-					<h:link outcome='/administrator/user-edit.jsf?email=#{user.userEmail}'>
-						<b:button value="Edit" size="sm" look="default" iconAwesome="edit"></b:button>
-					</h:link>
+					<b:commandButton action="#{usersBean.retrieveUserData(user.userEmail)}" value="Edit" size="sm" look="default" disabled="false" iconAwesome="key"></b:commandButton>
 					<!-- would use h:link with b:button for delete -> this is just for show -->
 					<b:commandButton value="Reset Passcode" size="sm" look="default" disabled="true" iconAwesome="key"></b:commandButton>
 				</b:dataTableColumn>
