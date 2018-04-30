@@ -3,79 +3,129 @@
          xmlns="http://java.sun.com/xml/ns/javaee"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
-  <servlet>
-    <servlet-name>Faces Servlet</servlet-name>
-    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Faces Servlet</servlet-name>
-    <url-pattern>*.jsf</url-pattern>
-  </servlet-mapping>
-  <context-param>
-    <param-name>javax.faces.PROJECT_STAGE</param-name>
-    <param-value>Development</param-value>
-  </context-param>
-  <context-param>
-    <description>State saving method: 'client' or 'server' (default). See JSF Specification section 2.5.2</description>
-    <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-    <param-value>client</param-value>
-  </context-param>
-  <context-param>
-    <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
-    <param-value>true</param-value>
-  </context-param>
-  <context-param>
-    <param-name>BootsFaces_THEME</param-name>
-    <param-value>united</param-value>
-  </context-param>
-  <context-param>
-    <param-name>BootsFaces_USETHEME</param-name>
-    <param-value>true</param-value>
-  </context-param>
-  <context-param>
-    <param-name>db_USERNAME</param-name>
-    <param-value>washington</param-value>
-  </context-param>
-  <context-param>
-    <param-name>db_PASSWORD</param-name>
-    <param-value>7579659330</param-value>
-  </context-param>
-  <context-param>
-    <param-name>db_CONTACT_POINTS</param-name>
-    <param-value>52.44.86.234</param-value>
-  </context-param>
-  <context-param>
-    <param-name>db_PORT</param-name>
-    <param-value>9042</param-value>
-  </context-param>
-  <context-param>
-    <param-name>db_KEYSPACE</param-name>
-    <param-value>appl_auth</param-value>
-  </context-param>
-  <listener>
-    <listener-class>com.g2ops.impact.urm.listeners.AppContextListener</listener-class>
-  </listener>
-  <filter>
-    <filter-name>AuthorizationFilter</filter-name>
-    <filter-class>com.g2ops.impact.urm.filters.AuthorizationFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>AuthorizationFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
-  <session-config>
-    <session-timeout>30</session-timeout>
-    <cookie-config>
-      <http-only>true</http-only>
-      <secure>false</secure>
-    </cookie-config>
-    <tracking-mode>COOKIE</tracking-mode>
-  </session-config>
-  <welcome-file-list>
-    <welcome-file>index.jsf</welcome-file>
-    <welcome-file>welcome.jsf</welcome-file>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-  </welcome-file-list>
+
+	<!-- *** servlet *** -->
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<!-- *** servlet-mapping *** -->
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+
+	<!-- ********************** -->
+	<!-- *** context-params *** -->
+	<!-- ********************** -->
+
+	<!-- *** PROJECT_STAGE *** -->
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Development</param-value>
+	</context-param>
+
+	<!-- *** STATE_SAVING_METHOD *** -->
+	<context-param>
+		<description>State saving method: 'client' or 'server' (default). See JSF Specification section 2.5.2</description>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>client</param-value>
+	</context-param>
+
+	<!-- *** FACELETS_SKIP_COMMENTS -->
+	<context-param>
+		<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<!-- *** BootsFaces *** -->
+	<context-param>
+		<param-name>BootsFaces_THEME</param-name>
+		<param-value>united</param-value>
+	</context-param>
+	<context-param>
+		<param-name>BootsFaces_USETHEME</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<!-- *** DB Connection *** -->
+	<context-param>
+		<param-name>db_USERNAME</param-name>
+		<param-value>washington</param-value>
+	</context-param>
+	<context-param>
+		<param-name>db_PASSWORD</param-name>
+		<param-value>dVbj14Q40xgPkNs5f5pyzg==</param-value>
+	</context-param>
+	<context-param>
+		<param-name>db_CONTACT_POINTS</param-name>
+		<param-value>52.44.86.234</param-value>
+	</context-param>
+	<context-param>
+		<param-name>db_PORT</param-name>
+		<param-value>9042</param-value>
+	</context-param>
+	<context-param>
+		<param-name>db_KEYSPACE</param-name>
+		<param-value>appl_auth</param-value>
+	</context-param>
+
+	<!-- *** Mail Account *** -->
+	<context-param>
+		<param-name>mail_HOST</param-name>
+		<param-value>smtp.gmail.com</param-value>
+	</context-param>
+	<context-param>
+		<param-name>mail_PORT</param-name>
+		<param-value>587</param-value>
+	</context-param>
+	<context-param>
+		<param-name>mail_USER</param-name>
+		<param-value>golfer4151968</param-value>
+	</context-param>
+	<context-param>
+		<param-name>mail_PASSWORD</param-name>
+		<param-value>ZAPIRLpp/TAx1ciJZnEcOQ==</param-value>
+	</context-param>
+
+	<!-- *** Miscellaneous *** -->
+	<context-param>
+		<param-name>application_URL</param-name>
+		<param-value>https://impact.g2-ops.com/URM</param-value>
+	</context-param>
+	<!-- <param-value>https://impact.g2-ops.com/URM</param-value> -->
+	<!-- <param-value>http://localhost:8080/URM</param-value> -->
+
+	<!-- *** Listener *** -->
+	<listener>
+		<listener-class>com.g2ops.impact.urm.listeners.AppContextListener</listener-class>
+	</listener>
+
+	<!-- *** Authorization Filter *** -->
+	<filter>
+		<filter-name>AuthorizationFilter</filter-name>
+		<filter-class>com.g2ops.impact.urm.filters.AuthorizationFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AuthorizationFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- *** Session Configuration *** -->
+	<session-config>
+		<session-timeout>30</session-timeout>
+		<cookie-config>
+			<http-only>true</http-only>
+			<secure>false</secure>
+		</cookie-config>
+		<tracking-mode>COOKIE</tracking-mode>
+	</session-config>
+
+	<!-- *** Default/Index Filename *** -->
+	<welcome-file-list>
+		<welcome-file>welcome.jsf</welcome-file>
+	</welcome-file-list>
+
 </web-app>
