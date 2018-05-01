@@ -56,7 +56,7 @@ Date			Name			Description
 					<b:dataTableColumn id="verizon_dbir_industry_name" value="#{ibc.verizon_dbir_industry_name}">
 						<f:facet name="header">Verizon DBIR Industry Name</f:facet>
 					</b:dataTableColumn>					
-					<b:dataTableColumn value="" orderable="false">
+					<b:dataTableColumn value="" orderable="false" style-class="dataTableButtonColumnClass">
 						<f:facet name="header">Action</f:facet>			
 						<b:commandButton action="#{industryBreachCostBean.LoadIBCEditFormData(ibc)}" value="Edit" size="sm" look="default" disabled="false">
 							<f:ajax event="change" execute="@form" render="ibctable"/>
