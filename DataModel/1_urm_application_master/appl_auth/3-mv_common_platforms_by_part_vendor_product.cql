@@ -21,6 +21,7 @@ AS SELECT 	part,
 			other, 
 			references, 
 			import_date, 
+			title,
 			official
 FROM common_platforms 
 	WHERE 	part IS NOT NULL 

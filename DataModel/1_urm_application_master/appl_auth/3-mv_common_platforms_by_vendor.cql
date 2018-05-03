@@ -21,6 +21,7 @@ AS SELECT 	vendor,
 			other, 
 			references,
 			import_date, 
+			title,
 			official 
 FROM common_platforms 
 	WHERE 	vendor IS NOT NULL 

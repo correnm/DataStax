@@ -10,6 +10,7 @@ standardized information to help make fully or partially automated decisions reg
 
 Modifications
 4/4/2018				sara.bergman				removed cve_list common_vulnerabilities. table will have a materialized view to search vulnerabilities by cpe_id_22
+4/27/2018				sara.bergman				added title field, changed import_date from timestamp to date to accomodate mv common_platforms_by_import_date
 *****************/
 
 CREATE TABLE IF NOT EXISTS common_platforms (
@@ -26,8 +27,9 @@ CREATE TABLE IF NOT EXISTS common_platforms (
 	target_sw 			text,
 	target_hw 			text,
 	other 				text,
+	title				text, //used for displaying purposes
 	references 			MAP<text,text>,		// <reference href="https://play.google.com/store/apps/details?id=com.kindle.books.for99">Product information</reference>
-	import_date 		timestamp,
+	import_date 		date,
 	official			boolean,			// CPE IDs created by an organization are not official -> FALSE
     PRIMARY KEY ((cpe_id_22), part, vendor, product))
 	WITH comment = 'CPE Dictionary with vulnerabilities maintained via NIST data feeds, obtained when a vulnerability scan is not available';

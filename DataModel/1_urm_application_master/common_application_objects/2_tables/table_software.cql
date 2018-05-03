@@ -29,12 +29,13 @@ Modifications
 												target_hw					text,
 												target_sw					text,
 												other						text
+04-17-2018			sara.bergman			added tile text
 */
 
 USE keyspacename;
 
 CREATE TABLE  IF NOT EXISTS software (
-part 						text,      // [A]pplication, [O]perating System,
+part 						text,      // [a]pplication, [o]perating System, [h]ardware
 vendor 						text,      // Search w/ Solr
 product 					text,      // Search w/ Solr
 version 					text,      // Search w/ Solr
@@ -49,6 +50,7 @@ cpe_id 						text,      // product
 end_of_sale 				date,
 end_of_life_date 			date,
 end_of_support_date 		date,
+title						text,
 installed_on_hardware		list<frozen<hardware_relationships>>, 
 PRIMARY KEY ((part, vendor), product, version, cpe_update, edition, language, sw_edition, target_hw, target_sw, other)
 ) WITH COMMENT = 'Software library within organization that will populate installed_software in hardware table and include hardware impacted.';

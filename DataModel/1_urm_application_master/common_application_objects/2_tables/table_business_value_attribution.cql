@@ -24,7 +24,6 @@ business_criticality				text,		// must exist in BUSINESS_PRACTICE table
 information_classification			text,		// must exist in BUSINESS_PRACTICE table
 audit_upsert 						frozen<audit_upsert>,
 runs_on_hosts						set <frozen<hardware_relationships>>,
-stored_records						set <frozen<record_types>>,
 cyber_value_at_risk					decimal,
 annual_revenue						decimal,
 annual_revenue_year					int,			// YYYY

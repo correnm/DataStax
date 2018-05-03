@@ -2,6 +2,8 @@
 Modifications
 04-05-2018			sara.bergman		Modified/Renamed installed_software to software_installed list<text>
 										Modified/renamed run_date to run_datetime timestamp
+04-27-2018			sara.bergman		altered installed_software from list<text> to list<software>
+										removed patch_availability text
 */
 
 CREATE TABLE IF NOT EXISTS hardware_staging (
@@ -12,13 +14,12 @@ CREATE TABLE IF NOT EXISTS hardware_staging (
     cpe_id 					text,
     cvss_scores 			list<frozen<cvss_scores>>,
     host_name 				text,
-    run_date 				date,
-    software_installed 		list<text>,
+    run_datetime 			timestamp,
+    installed_software 		list<software>,
     ip_address 				text,
     mac_address 			text,
     operating_system 		text,
     os_general 				text,
-    patch_availability 		text,
     system_type 			text,
     vendor 					text,
     vulnerability_count 	int,
