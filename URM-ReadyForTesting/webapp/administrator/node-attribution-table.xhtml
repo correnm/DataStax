@@ -1,0 +1,136 @@
+<!--  
+Author: 	Sara Prokop G2 Ops, Virginia Beach, VA
+Version:	1.00, July 2017
+
+Purpose: 	to display the IP address, os type, system type, and asset type of every device within the hardware table
+			It also allows users to:
+				- filter globally as well as by column
+				- update/delete multiple rows
+
+Modifications
+Date			Name			Description
+12-July-2017	sara.prokop		created
+14-Sept-2017	sara.prokop		added parameters for hardware lookup. 
+								added vendor as a column. 
+26-Sept-2017	sara.prokop		added some drop down fields for a soon-to-be-working filtering by column
+6-Oct-2017		sara.bergman	changed the name of the file class from business-attribution-table to node-attribution-table
+ -->
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-width-table.xhtml">
+
+	<ui:define name="document-title">Node Value Attribution - IMPACT</ui:define>
+
+	<ui:define name="page-name">Node Value Attribution</ui:define>
+	<ui:define name="full-width-table">
+		<div class="dataTableDivClass">
+			
+		<b:form id= "naform">
+			<!-- <b:selectOneMenu label = "Select a Site" value="#{nodeAttributionTable.site_name}" itemValue="#{nodeAttributionTable.site_name}"  required="false" colMd="4" align = "center"
+							ajax="true" >
+        		<f:selectItems value= "#{nodeAttributionTable.ddSites()}"/>
+       		</b:selectOneMenu> -->
+       		<b:row><b:column col-md="12"><span class="rowSpace"><br/></span></b:column></b:row>
+			<b:dataTable id = "natable" value="#{nodeAttributionTable.nodeAttData}" var="hw" styleClass="businessProcessesByCyvarTableClass" responsive = "true">
+				
+				<b:dataTableColumn value="#{hw.host_name}">
+					<f:facet name="header">Host Name</f:facet>
+				</b:dataTableColumn>
+				
+				<b:column value="#{hw.ip_address}">
+					<f:facet name="header">IP Address</f:facet>
+				</b:column>
+				
+			<!-- <b:dataTableColumn value="#{hw.mac_address}" >
+					<f:facet name="header">MAC Address</f:facet>
+				</b:dataTableColumn> -->
+							
+  		      	<b:dataTableColumn value="#{hw.vendor}">
+					<f:facet name="header">Vendor</f:facet>
+				</b:dataTableColumn>
+				
+			<!--<b:dataTableColumn value="#{hw.product}">
+					<f:facet name="header">Product</f:facet>
+				</b:dataTableColumn> -->
+
+				<b:dataTableColumn value="#{hw.os_general}">
+					<f:facet name="header">General OS</f:facet>
+				</b:dataTableColumn>
+				
+			<!--<b:dataTableColumn value="#{hw.operating_system}">
+					<f:facet name="header">Operating System</f:facet>
+				</b:dataTableColumn> -->
+
+			<!--<b:dataTableColumn value="#{hw.system_type}">
+					<f:facet name="header">System Type</f:facet>
+				</b:dataTableColumn> -->
+
+				<b:dataTableColumn value="#{hw.asset_type}">    				
+					<f:facet name="header">Asset Type</f:facet>			
+				</b:dataTableColumn>
+
+				<b:dataTableColumn value="#{hw.asset_visibility}">
+					<f:facet name="header">Asset Visibility</f:facet>
+				</b:dataTableColumn>
+				
+			<!-- <b:dataTableColumn value="#{hw.vulnerability_count}">
+					<f:facet name="header">Vulnerability Count</f:facet>
+				</b:dataTableColumn> -->
+				
+				<b:dataTableColumn value = "#{hw.vulnerability_count}">
+					<f:facet name="header">Number of Vulnerabilities</f:facet>
+					<!--<b:accordion>
+						<b:panel>
+					 		<f:facet name="heading">
+    							<b:badge value="#{hw.vulnerability_count}"  />
+					 		</f:facet>
+					 	<b:dataTable value = "#{hw.cvss_scores}" var = "score" searching = "false" paginated = "false">
+							<b:dataTableColumn value = "#{score.getCvssBaseScore()}" label = "Scores"/>
+						</b:dataTable>
+					</b:panel>
+					</b:accordion> -->
+				</b:dataTableColumn>
+				
+			<!--<b:dataTableColumn value="#{hw.run_datetime}">
+					<f:facet name="header">Last Vulnerability Update</f:facet>
+				</b:dataTableColumn> -->
+				
+				<b:dataTableColumn value="#{hw.node_impact_value}">
+					<f:facet name="header">Node Impact Value</f:facet>
+				</b:dataTableColumn>
+				
+			<!--<b:dataTableColumn value="#{hw.end_of_sale}">
+					<f:facet name="header">End of Sale</f:facet>
+				</b:dataTableColumn>
+				
+				<b:dataTableColumn value="#{hw.end_of_support_date}">
+					<f:facet name="header">End of Support</f:facet>
+				</b:dataTableColumn>
+				
+				<b:dataTableColumn value="#{hw.end_of_life_date}">
+					<f:facet name="header">End of Life</f:facet>
+				</b:dataTableColumn> -->
+				
+				<b:dataTableColumn value="#{hw.reportable_flag}">
+					<f:facet name="header">Reporting</f:facet>
+				</b:dataTableColumn>
+				
+				<b:dataTableColumn value="" orderable="false">
+					<f:facet name="header">Action</f:facet>
+					<b:commandButton action="#{nodeAttributionTable.editNodeAtt(hw)}" value="Edit" ></b:commandButton> 
+					<b:commandButton action="/administrator/node-attribution-table.jsf" value="Delete" ></b:commandButton>
+				</b:dataTableColumn>
+
+			</b:dataTable>
+			
+			
+		</b:form>
+		</div>
+	</ui:define>
+
+</ui:composition>
