@@ -65,7 +65,7 @@ Date			Name			Description
 					<b:dataTableColumn id="sampleSize" value="#{isi.sample_size}">
 						<f:facet name="header"> </f:facet>
 					</b:dataTableColumn>						
-					<b:dataTableColumn value="" orderable="false">
+					<b:dataTableColumn value="" orderable="false" style-class="dataTableButtonColumnClass">
 						<f:facet name="header">Action</f:facet>			
 						<b:commandButton action="#{industrySecurityIncidentsBean.LoadISIEditFormData(isi)}" value="Edit" size="sm" look="default" disabled="false">
 							<f:ajax event="change" execute="@form" render="isitable"/>

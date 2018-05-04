@@ -11,15 +11,25 @@
 	<ui:define name="full-width-table">
 		<div class="dataTableDivClass">
 			<div style="text-align: center;">
-				#{businessAttribution.selectedBusName}
+				Host Name: #{businessAttribution.selectedBusName}
 			</div>
 			<b:form id="hostForm">
 			<div style="text-align: center;">
 				<br/>
 				<b:commandButton action="#{businessAttribution.LoadHostAddData}" value="Add new host" size="sm" look="default" disabled="false" iconAwesome="plus"></b:commandButton>
 			</div>
-				<b:dataTable id="hostTable" value="#{businessAttribution.businessHostData}" var="host" styleClass="businessProcessesByCyvarTableClass" >
-					<b:dataTableColumn id="hostName" value="#{host.hostName}">
+			<b:modal id="modalClass" title="Delete host Confirmation" styleClass="modalClass" >
+				Are you sure you want to delete this host, #{businessAttribution.selectedHostName} ?
+				<f:facet name="footer">
+					<b:button value="Close" dismiss="modal"/>
+					<b:commandButton value="Ok" look="primary" ajax="true" actionListener="#{businessAttribution.deleteBVAHostControllerMethodModal()}" 
+									update="hostTable" oncomplete="$('.modalClass').modal('hide');" size="sm" disabled="false" >
+						<f:ajax execute="@this" render="hostTable"/>	
+					</b:commandButton>		 	
+				</f:facet>
+			</b:modal>
+				<b:dataTable id="hostTable" class="hostTable" widgetVar="HostTable" value="#{businessAttribution.businessHostData}" var="host" styleClass="businessProcessesByCyvarTableClass" >
+					<b:dataTableColumn id="hostName" value="#{host.hostName}" styleClass="hostName">
 						<f:facet name="header">Host Name</f:facet>
 					</b:dataTableColumn>
 					<b:dataTableColumn value="#{host.hostIP}">
@@ -39,15 +49,14 @@
 					</b:dataTableColumn>
 					<b:dataTableColumn value="" orderable="false" style-class="dataTableButtonColumnClass">
 						<f:facet name="header">Action</f:facet>
-							<b:commandButton ajax="true" action="#{businessAttribution.deleteBVAHostControllerMethod(host)}" onclick="return confirm('Do you really want to delete #{host.hostName} ?')"  value="Delete" size="sm" look="default" disabled="false">
-						 		<f:ajax event="change" execute="@form" render="hostTable"/>
-						 	</b:commandButton>					 	
-					</b:dataTableColumn>													
+						 	<b:commandButton value="Delete" actionListener="#{businessAttribution.defineSelectedHost(host)}" immediate="true" update="@form" oncomplete="$('.modalClass').modal('show');"
+						 		size="sm" look="default" disabled="false" />				 	
+					</b:dataTableColumn>	
 				</b:dataTable>
 				<div style="text-align: center;">
 					<b:button value="previous page" href="business-attribution-table.jsf" look="default" iconAwesome="fa-arrow-left"></b:button>
 				</div>			
-			</b:form>
+			</b:form>		
 		</div>
 	</ui:define>
 </ui:composition>
