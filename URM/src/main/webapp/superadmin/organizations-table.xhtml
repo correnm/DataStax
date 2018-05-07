@@ -22,7 +22,7 @@
 		-->
 
 		<h:form>
-			<b:dataTable value="#{organizationsBean.organizationsData}" var="organization" styleClass="dataTableClass">
+			<b:dataTable value="#{organizationsBean.organizationsData}" var="organization" styleClass="dataTableClass" scroll-horizontally="true">
 
 				<b:dataTableColumn value="#{organization.organizationName}" order="asc">
 					<f:facet name="header">Organization Name</f:facet>
@@ -46,7 +46,7 @@
 
 				<b:dataTableColumn value="" orderable="false" styleClass="dataTableSingleButtonColumnClass">
 					<f:facet name="header">Action</f:facet>
-					<b:commandButton action="#{organizationsBean.retrieveOrganizationData(organization.organizationName)}" value="Edit" size="sm" look="default" disabled="false" iconAwesome="key"></b:commandButton>
+					<b:commandButton action="#{organizationsBean.retrieveOrganizationData(organization.organizationName)}" value="Edit" size="sm" look="default" iconAwesome="edit"></b:commandButton>
 				</b:dataTableColumn>
  
 			</b:dataTable>
