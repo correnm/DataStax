@@ -255,7 +255,8 @@ i.fa {
 
 .page-name {
 	/* valign: middle; */
-	font-size: 18px;
+	font-size: 14px;
+	padding: 0 4px;
 }
 
 .page-name h1 {
@@ -340,10 +341,14 @@ table.table-striped tbody tr.even {
     text-align: center;
 }
 
+.viewFilterFormClass {
+	padding-top: 4px;
+}
+
 .viewFilterFormClass .form-control {
-	height: 40px;
+	height: 32px;
 	padding: 4px 12px;
-	font-size: 18px;
+	font-size: 14px;
 }
 
 .form-title {
@@ -361,10 +366,10 @@ table.table-striped tbody tr.even {
 }
 
 /* basic positioning */
-.legend-panel .panel-body { padding: 6px; border: 1px solid #ccc; }
-.legend { float: left; width: 25%; font-size: 18px; }
+.legend-panel .panel-body { padding: 4px; border: 1px solid #ccc; }
+.legend { float: left; width: 25%; font-size: 14px; padding-left: 4px; }
 /*.legend li { margin-bottom: 10px; }*/
-.legend div { border: 1px solid #ccc; float: left; width: 19px; height: 19px; margin: 3px 4px 3px 0; }
+.legend div { border: 1px solid #ccc; float: left; width: 14px; height: 14px; margin: 3px 4px 3px 2px; }
 /* your colors */
 .legend .critical { background-color: #df382c; }
 .legend .high { background-color: #e95420; }
