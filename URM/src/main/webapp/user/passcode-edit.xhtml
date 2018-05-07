@@ -13,7 +13,7 @@
 
 		<b:well>
 			<b:row>
-				<b:column col-md="8" offset="2">
+				<b:column col-xs="12" col-md="10" offset-md="1" col-lg="8" offset-lg="2">
 					<h3 style="text-align: center;">Passcode Requirements</h3>
 					<span class="rowSpace"><br/></span>
 					All user passcodes must:
@@ -85,11 +85,10 @@
 				</b:row>
 
 				<b:row>
-					<b:column col-md="3" offset="2"></b:column>
-					<b:column col-md="4">
-						<b:commandButton value="Save New Passcode" look="primary" action="#{changePasscode.changePasscodeActionControllerMethod}"/>
-						<!-- <b:button value="Cancel" href="/URM/#{userBean.defaultLensView}"></b:button> -->
-						<b:commandButton value="Cancel" action="#{changePasscode.changePasscodeCancelControllerMethod}" immediate="true"/>
+					<b:column col-xs="6"></b:column>
+					<b:column col-xs="6">
+						<b:commandButton value="Save" look="primary" iconAwesome="save" action="#{changePasscode.changePasscodeActionControllerMethod}"/>
+						<b:commandButton value="Cancel" look="default" iconAwesome="times" action="#{changePasscode.changePasscodeCancelControllerMethod}" immediate="true"/>
 					</b:column>
 				</b:row>
 
