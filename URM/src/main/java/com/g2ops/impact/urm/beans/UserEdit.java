@@ -33,6 +33,10 @@ import java.util.UUID;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
+import com.datastax.driver.core.Session;
+import com.datastax.driver.mapping.MappingManager;
+import com.datastax.driver.mapping.Mapper;
+import com.g2ops.impact.urm.types.Audit_Upsert;
 import com.g2ops.impact.urm.types.NavMenuItem;
 import com.g2ops.impact.urm.types.OUSite;
 import com.g2ops.impact.urm.utils.DatabaseQueryService;
@@ -209,6 +213,9 @@ public class UserEdit implements Serializable {
 
 		// get the Database Query Service object for this Organization
 		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
+		
+		Session session = SessionUtils.getOrgDBSession(currentUser.getOrgKeyspace());
+		Mapper<Audit_Upsert> mapper = new MappingManager(session).mapper(Audit_Upsert.class);
 		
 		// if setting a new password
 		//if (!newPasscode.equals("")) {
