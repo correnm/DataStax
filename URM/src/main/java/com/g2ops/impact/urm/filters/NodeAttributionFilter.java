@@ -219,7 +219,7 @@ public class NodeAttributionFilter {
 	
 	public List<NodeAttribution> filter(){
 //		filteredAttList.clear();
-		attList = table.filter(vendor, ip, os, sysType, assetType, assetVis);
+		//attList = table.filter(vendor, ip, os, sysType, assetType, assetVis);
 		
 		return attList;
 	}
