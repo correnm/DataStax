@@ -102,8 +102,10 @@
 				<b:row>
 					<b:column col-md="2" offset="2"></b:column>
 					<b:column col-md="4">
-						<b:commandButton value="Save Changes" look="primary" action="#{usersBean.editUserActionControllerMethod}"></b:commandButton>
-						<b:button value="Cancel" href="users-table.jsf"></b:button>
+						<b:commandButton value="Save" look="primary" iconAwesome="save" action="#{usersBean.editUserActionControllerMethod}"></b:commandButton>
+						<h:link outcome='users-table'>
+							<b:button value="Cancel" look="default" iconAwesome="times"></b:button>
+						</h:link>
 					</b:column>
 				</b:row>
 
