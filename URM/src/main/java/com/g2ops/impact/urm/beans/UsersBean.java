@@ -58,7 +58,7 @@ public class UsersBean implements Serializable {
 	private ResultSet rs, rs2, rs3;
 	private Row row, row2, row3;
 
-	private String userToEditEmail, firstName, lastName, role, selectedOUSite, selectedDashboard, defaultDashboardDisplayName;
+	private String userToEditEmail, userToForcePasscodeResetEmail, firstName, lastName, role, selectedOUSite, selectedDashboard, defaultDashboardDisplayName;
 	private Boolean activeUserInd;
 
 	private List<String> roles;
@@ -172,7 +172,9 @@ public class UsersBean implements Serializable {
 
 	
 	// method that update's the edited user's data
-	public String editUserActionControllerMethod() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
+	public String editUserActionControllerMethod() {
+
+		System.out.println("in editUserActionControllerMethod");
 
 		// split the OU and Site UUIDs into an array
 		String[] newOUSiteArray = selectedOUSite.split("[|]{1}");
@@ -184,11 +186,26 @@ public class UsersBean implements Serializable {
 		return "users-table?faces-redirect=true";
 
 	}
+
 	
+	// method that update's the edited user's data
+	public String forcePasscodeResetActionControllerMethod() {
+		
+		System.out.println("in forcePasscodeResetActionControllerMethod -> this.userToForcePasscodeResetEmail: " + this.userToForcePasscodeResetEmail);
+
+		// go back to the Manage Users page
+		return "users-table?faces-redirect=true";
+
+	}
+
 
 	// getters
     public String getUserToEditEmail() {
     	return userToEditEmail;
+    }
+
+    public String getUserToForcePasscodeResetEmail() {
+    	return "";
     }
 
     public String getFirstName() {
@@ -231,6 +248,10 @@ public class UsersBean implements Serializable {
     // setters
 	public void setUserToEditEmail(String userToEditEmail) {
     	this.userToEditEmail = userToEditEmail;
+    }
+
+	public void setUserToForcePasscodeResetEmail(String userToForcePasscodeResetEmail) {
+    	this.userToForcePasscodeResetEmail = userToForcePasscodeResetEmail;
     }
 
     public void setFirstName(String firstName) {
