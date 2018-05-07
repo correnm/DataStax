@@ -14,6 +14,7 @@ package com.g2ops.impact.urm.beans;
  * 12-Jul-2017		corren.mccoy		Added additional placeholder data for demo purposes
  * 14-Aug-2017		corren.mccoy		Removed sublabel on treemap
  * 26-Aug-2017  	corren.mccoy		Changed treemap caption
+ * 3-May-2018		tammy.bogart		changed node_impact_value type to decimal to match new database changes
  */
 
 import javax.annotation.PostConstruct;
@@ -21,6 +22,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import java.math.BigDecimal;
 import java.util.Iterator;
 
 import com.datastax.driver.core.ResultSet;
@@ -39,7 +41,7 @@ public class BusinessProcessTreeMapDoD {
 	private ResultSet rs;
 	private Iterator<Row> iterator;
 
-	private String ip_address, node_impact_value, vulnerability_count;
+	private String ip_address, vulnerability_count;
 	private Integer vulnerability_count_sum = 0;
 
 	private String data;
@@ -47,12 +49,14 @@ public class BusinessProcessTreeMapDoD {
 	private String nodeData = "";
 	private FusionCharts businessProcessTreeMapDoD;
 
+	private Double dNIV = 0.0;
+	private String node_impact_value = "" ;
+	
 	public BusinessProcessTreeMapDoD() {
 
 	}
 	
-	@PostConstruct
-	public void init() {
+	@PostConstruct void init() {
 
 		queryHardwareNodes();
 		
@@ -62,9 +66,14 @@ public class BusinessProcessTreeMapDoD {
 		while (iterator.hasNext()) {
 			Row row = iterator.next();
 			ip_address = row.getString("ip_address");
-			node_impact_value = Float.toString(row.getFloat("node_impact_value"));
+			if (row.getDecimal("node_impact_value") != null) {
+				dNIV = (row.getDecimal("node_impact_value").doubleValue());
+				node_impact_value = dNIV.toString();
+			}	
+			
 			// Corren: only includes nodes with a positive NIV scores. Others are probably routers in the tracehop
-			if ( Float.valueOf(node_impact_value) > 0) {
+			//if ( Float.valueOf(node_impact_value) > 0) {
+			if (dNIV > 0 ) {
 				vulnerability_count = Integer.toString(row.getInt("vulnerability_count"));
 				vulnerability_count_sum += row.getInt("vulnerability_count");
 				nodeData = nodeData.concat("{\"label\": \"" + ip_address + "\", \"value\": \"" + vulnerability_count + "\", \"svalue\": \"" + node_impact_value + "\"},");
