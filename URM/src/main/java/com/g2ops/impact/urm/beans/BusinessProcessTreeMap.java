@@ -13,6 +13,7 @@ package com.g2ops.impact.urm.beans;
  * Date				Author				Revision Description
  * 12-Jul-2017		corren.mccoy		Added additional placeholder data for demo purposes
  * 14-Aug-2017		corren.mccoy		Removed sublabel on treemap
+ * 05-May-2018		tammy.bogart		Changed node_impact_value to Decimal type to match database changes
  */
 
 import javax.annotation.PostConstruct;
@@ -61,7 +62,7 @@ public class BusinessProcessTreeMap {
 		while (iterator.hasNext()) {
 			Row row = iterator.next();
 			ip_address = row.getString("ip_address");
-			node_impact_value = Float.toString(row.getFloat("node_impact_value"));
+			node_impact_value = (row.getDecimal("node_impact_value").toString());
 			vulnerability_count = Integer.toString(row.getInt("vulnerability_count"));
 			vulnerability_count_sum += row.getInt("vulnerability_count");
 			nodeData = nodeData.concat("{\"label\": \"" + ip_address + "\", \"value\": \"" + vulnerability_count + "\", \"svalue\": \"" + node_impact_value + "\"},");
