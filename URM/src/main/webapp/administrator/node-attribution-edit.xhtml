@@ -23,151 +23,131 @@ Purpose: 	This file creates an edit form for the Node Value Attribution table. I
 	xmlns:b="http://bootsfaces.net/ui"
 	template="/templates/full-page-form.xhtml">
 
-	<ui:define name="document-title">Node Attribution Table Edit - Washington</ui:define>
+	<ui:define name="document-title">Node Attribution Table - Edit</ui:define>
 
-	<ui:define name="page-name">Edit Node Attribution Table</ui:define>
+	<ui:define name="page-name">Edit Node </ui:define>
 
 	<ui:define name="full-page-form">
 
-		<h:form id="NodeAttributionEditForm">
-
-			<b:panel look="default">
-
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="8" offset="2">
-						<b:messages></b:messages>
-					</b:column>
-				</b:row>
-
-		<!-- Non-Editable -->
-				 <b:row>
-				 	<b:column col-md="2" offset="2">Vendor: </b:column>
-					<b:column col-md="4">
-						<b:selectOneMenu value="#{nodeAttributionEdit.vendor}" itemValue="#{nodeAttributionEdit.vendor}" required="false" >
-            				<f:selectItem value="" itemValue = ""/>
-            				<f:selectItems value= "#{nodeAttributionEdit.ddVendors()}"/>
-        				</b:selectOneMenu>
-					</b:column> 
-				</b:row>
-
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
-				</b:row>
-				 <b:row>
-					<b:column col-md="2" offset="2">IP Address: </b:column>
-					<b:column col-md="4">
-						<b:inputText value="#{nodeAttributionEdit.ip}" required="true" />
-					</b:column> 
-				</b:row>
-
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="2" offset="2">OS Type: </b:column>
-					<b:column col-md="4">
-						<b:selectOneMenu value="#{nodeAttributionEdit.osType}" itemValue="#{nodeAttributionEdit.osType}" required="false">
-            				<f:selectItem value="" itemValue = ""/>
-            				<f:selectItems value= "#{nodeAttributionEdit.ddOS()}"/>
-        				</b:selectOneMenu>
-	
-					</b:column>
-				</b:row>
+		<h:form id="NodeAttributionEditForm" >
+		   						 
+		<b:panel look="default">
+			
+				<b:row><b:column col-md="12"><span class="rowSpace"><br/></span></b:column></b:row>
+				<b:row><b:column col-md="8" offset="2"><b:messages></b:messages></b:column></b:row>
 				
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="2" offset="2">System Type: </b:column>
-					<b:column col-md="4">
-						<b:selectOneMenu value="#{nodeAttributionEdit.sysType}" itemValue="#{nodeAttributionEdit.sysType}" required="false" >
-            				<f:selectItem value="" itemValue = ""/>
-            				<f:selectItems value= "#{nodeAttributionEdit.ddSysTypes()}"/>
-        				</b:selectOneMenu>
-					</b:column>
-				</b:row>
+				<b:panel collapsible = "false" >
+				 	<f:facet name="heading" >
+				 	 	<h:outputText value="Host Details    " />
+   						 <b:badge value="#{nodeAttributionTable.ip_address}"/> 
+				 	</f:facet>
+				 	<h:form>
+				 		<b:modal id="connectedElementsModal" title="Add a Connected Element to #{nodeAttributionTable.ip_address}" styleClass="modalClass"  >
+							<b:dataTable id = "natable" value="#{nodeAttributionTable.nodeAttData}" var="hw" styleClass="businessProcessesByCyvarTableClass" responsive = "true" widgetVar="tableWidgetVar">
+								<b:dataTableColumn value="" orderable="false">
+									<f:facet name="header">Action</f:facet>
+									<b:commandButton action="#{nodeAttributionTable.editNodeAtt(hw)}" value="Add" ></b:commandButton> 
+								</b:dataTableColumn>
+								<b:dataTableColumn label = "Host Name" value= "#{hw.host_name}"/>
+								<b:dataTableColumn label= "Ip Address" value="#{hw.ip_address}"/>
+								<b:dataTableColumn label= "Vendor" value="#{hw.vendor}"/>
+								<b:dataTableColumn label= "General OS" value="#{hw.os_general}"/>
+								<!-- <b:dataTableColumn label= "Asset Type" value="#{hw.asset_type}"/> 
+								<b:dataTableColumn label= "Asset Visibility" value="#{hw.asset_visibility}"/>
+								<b:dataTableColumn label= "Number of Vulnerabilities" value="#{hw.vulnerability_count}"/>
+								<b:dataTableColumn label= "Node Impact Value" value="#{hw.node_impact_value}"/>
+								<b:dataTableColumn label= "Reporting" value="#{hw.reportable_flag}"/> -->
+							</b:dataTable>
+							<f:facet name="footer">
+								<b:button value="Close" dismiss="modal"/>
+							</f:facet>
+						</b:modal> 
+				 		<b:inputText label = "Host Name: " value="#{nodeAttributionTable.host_name}" required="true" />
+				 		<b:panelGrid columns = "2">
+				 			<b:inputText label = "IP Address: " value="#{nodeAttributionTable.ip_address}" required="true" />
+				 			<b:inputText label = "MAC Address: " value="#{nodeAttributionTable.mac_address}" required="false" />
+				 			<b:inputText label = "Vendor" value="#{nodeAttributionTable.vendor}" required="false" />
+				 			<b:inputText label = "Product" value="#{nodeAttributionTable.product}" required="false"/>
+				 			<b:inputText label = "Operating System: General" value="#{nodeAttributionTable.os_general}" required="false" />
+				 			<b:inputText label = "Operating System: Specific" value="#{nodeAttributionTable.operating_system}" required="false" />
+				 		</b:panelGrid>
+				 			<b:inputText label = "System Type" value="#{nodeAttributionTable.system_type}" required="false" />
+				 			<b:inputText label = "Node Impact Value" value="#{nodeAttributionTable.node_impact_value}" required="false" />
+						<b:accordion>
+							<b:panel title = "Asset Details">
+								<b:selectOneMenu label = "Asset Type" value="#{nodeAttributionTable.asset_type}" itemValue="#{nodeAttributionTable.asset_type}"  required="false" >
+            						<f:selectItems value= "#{nodeAttributionTable.ddAssetTypes()}"/>
+        						</b:selectOneMenu>
+        						<b:selectOneMenu label ="Asset Visibility" value="#{nodeAttributionTable.asset_visibility}" itemValue="#{nodeAttributionTable.asset_visibility}"  required="false" >
+            						<f:selectItems value="#{nodeAttributionTable.ddAssetVisibility()}" />
+            					</b:selectOneMenu>   
+							</b:panel>
+						</b:accordion>
+						<b:accordion>
+							<b:panel title = "Business Processes" >
+			 					<b:dataTable value = "#{nodeAttributionTable.getBusiness_process_ids()}" var = "process" searching = "false" paginated = "false">
+									<b:dataTableColumn value = "#{process}" label = "Business Process"/>
+								</b:dataTable>
+							</b:panel>
+						</b:accordion>
+						<b:accordion>
+							<b:panel title = "Connected Elements" >
+			 					<f:facet name="heading">Connected Devices 
+			 					</f:facet>
+			 					<b:dataTable id= "connected_elements_table" value = "#{nodeAttributionTable.getConnected_Elements()}" var = "element" searching = "false" paginated = "false">
+									<b:dataTableColumn value = "#{element.getIp_address()}" label = "IP Address"/>
+								</b:dataTable>
+								<b:commandButton align = "center" type="button" value="Add" ajax="true" onclick="$('.modalClass').modal('show');tableWidgetVar.DataTable().responsive.recalc();" size="sm" look="default" disabled="false" offset-sm="8"/>				 		
+							</b:panel>
+						</b:accordion>
+						<b:accordion>
+							<b:panel title = "Installed Software" >
+			 					<b:dataTable value = "#{nodeAttributionTable.getInstalled_software()}" var = "software" searching = "false" paginated = "false">
+									<b:dataTableColumn value = "#{software}" label = "Software"/>
+								</b:dataTable>
+							</b:panel>
+						</b:accordion>
+						<b:accordion>
+							<b:panel title = "Vendor Support Dates">
+								<b:inputText label = "End of Life:" value ="#{nodeAttributionTable.end_of_life_date}" mask = "yyyy-mm-dd"/>
+								<b:inputText label = "End of Sale:" value ="#{nodeAttributionTable.end_of_sale}" mask = "yyyy-mm-dd"/>
+								<b:inputText label = "End of Support:" value ="#{nodeAttributionTable.end_of_support_date}" mask = "yyyy-mm-dd" />
+							</b:panel>
+						</b:accordion>
+						<b:accordion>
+							<b:panel title = "Vulnerability Details">
+								<b:accordion>
+									<b:panel>
+					 					<f:facet name="heading">Current Vulnerabilities 
+	   										<b:badge value="#{nodeAttributionTable.getVulnerability_count()}"  />
+					 					</f:facet>
+					 					<b:dataTable value = "#{nodeAttributionTable.getCvss_scores()}" var = "score" searching = "false" paginated = "false" responsive = "true">
+											<b:dataTableColumn value = "#{score.getCveID()}" label = "CVE ID"/>
+											<b:dataTableColumn value = "#{score.getCvssBaseScore()}" label = "Base Score"/>
+										</b:dataTable>
+									</b:panel>
+								</b:accordion>
+								<b:inputText label = "Last CVSS Update" value ="#{nodeAttributionTable.run_datetime}" readonly = "true" />
+							</b:panel>
+						</b:accordion>
+						<b:selectBooleanCheckbox caption= " __  Report" dir= "rtl" value="#{nodeAttributionTable.reportable_flag}" itemValue="#{nodeAttributionTable.reportable_flag}" required="false" />
+				 	</h:form>
+				</b:panel>
 				
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
-				</b:row>
-
-		<!-- Drop Downs -->
-				<b:row>
-					<b:column col-md="2" offset="2">Asset Type: </b:column>
-					<b:column col-md="4">
-    				    <b:selectOneMenu value="#{nodeAttributionEdit.assetType}" itemValue="#{nodeAttributionEdit.assetType}"  required="false" >
-    				   		<f:selectItem value="" itemValue = ""/>
-            				<f:selectItems value= "#{nodeAttributionEdit.ddAssetTypes()}"/>
-        				</b:selectOneMenu>
-    				    
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column col-md="2" offset="2">Asset Visibilty: </b:column>
-					<b:column col-md="4">
-						<b:selectOneMenu value="#{nodeAttributionEdit.assetVis}" itemValue="#{nodeAttributionEdit.assetVis}"  required="false" >
-            				<f:selectItem value="" itemValue = "" />
-            				<f:selectItems value="#{nodeAttributionEdit.ddAssetVisibility()}" />
-            			</b:selectOneMenu>
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column col-md="2" offset="2">Reportable: </b:column>
-					<b:column col-md="4">
-						<b:selectBooleanCheckbox value="#{nodeAttributionEdit.reportable}" itemValue="#{nodeAttributionEdit.reportable}" required="false" />
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
-				</b:row>
-				
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
-				</b:row>
+				<b:row><b:column col-md="12"><span class="rowSpace"><br/></span></b:column></b:row>
+				<b:row><b:column col-md="12"><span class="rowSpace"><br/></span></b:column></b:row>
 				
 				<b:row>
 					<b:column col-md="2" offset="2"></b:column>
 					<b:column col-md="8">
-						<b:commandButton value="Save" action="#{nodeAttributionEdit.editNodeAttributionActionControllerMethod}"></b:commandButton>
-						<b:commandButton value="Return to Table" action="node-attribution-table.jsf"></b:commandButton>
+						<b:commandButton value="Save" action="#{nodeAttributionTable.saveChanges()}"></b:commandButton>
+						<b:button value="Cancel" href="node-attribution-table.jsf"></b:button>
 					</b:column>
 				</b:row>
 
 			</b:panel>
-
 		</h:form>
+		
 
 	</ui:define>
 
