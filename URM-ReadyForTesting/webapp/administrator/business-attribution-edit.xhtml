@@ -100,7 +100,8 @@ Date			Name			Description
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label">Annual Revenue Year:</b:column>
 						<b:column col-md="4">
-							<b:inputText id="annRevYear" value="#{businessAttribution.annRevYear}" maxlength="4" required="false">
+							<b:inputText id="annRevYear" value="#{businessAttribution.annRevYear}" validatorMessage="The Annual Revenue Year must be a 4 digit year 'yyyy'.">
+								<f:validateLength minimum="4" maximum="4" />														
 							</b:inputText>
 						</b:column>
 					</b:row>
