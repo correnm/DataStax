@@ -1,238 +1,230 @@
+<!--  
+Author: 	Tammy Bogart G2 Ops, Virginia Beach, VA
+Version:	1.00, May 2018
+
+Purpose: 	to add a business attribute to the business_value_attributions table
+
+Modifications
+Date			Name			Description
+5.2.2018		Tammy.Bogart	Created	
+ -->
+
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:b="http://bootsfaces.net/ui"
 	template="/templates/full-page-form.xhtml">
+	
+	<ui:define name="document-title">Edit Business Process</ui:define>
 
-
-	<ui:define name="document-title">Edit Business Practice</ui:define>
-
-	<ui:define name="page-name">Administrator: &#160; <strong>Edit Business Practice</strong></ui:define>
+	<ui:define name="page-name">Administrator: &#160; <strong>Business Processes</strong></ui:define>
 
 	<ui:define name="full-page-form">
-
-		<h:form id="BusinessAttributionEditForm">		
-			<b:panel>
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
+		<h:form id="frmMain">		
+			<b:panel id="pnlMain" look="default">
+				<b:row><!-- row for spacing -->
+					<b:column><span class="rowSpace"><br/></span></b:column>
 				</b:row>
-
-				<b:row>
-					<b:column col-md="6" offset="3">
+				<b:row><!-- row for error/validation messages -->
+					<b:column col-md="12">
 						<b:messages></b:messages>
 					</b:column>
 				</b:row>
-
-				<b:row>
-					<b:column col-md="8" offset="4" class="form-title">#{businessAttribution.selectedBusName}</b:column>
+				<b:row><!-- row for spacing -->
+					<b:column><span class="rowSpace"><br/></span></b:column>
 				</b:row>
-
-				<b:row>
+				<b:panel id="pnlColl" collapsible="false" title="Business Process Details">
+					<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label"><font color="red">* </font>Business Process Name:</b:column>
+						<b:column col-md="4">
+							<b:inputText id="selectedBusName" value="#{businessAttribution.selectedBusName}" required="true"  requiredMessage="Business Process Name is required" />
+						</b:column>
+					</b:row>	
+					<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label">Business Interruption Threshold:</b:column>
+						<b:column col-md="4">
+							<b:selectOneMenu label="BIT" render-label="false" id="bit" value="#{businessAttribution.bit}" tooltip="Choose a Business Interruption Threshold" required="false" requiredMessage="Business Interruption Threshold is required">
+								<f:selectItems value="#{businessAttribution.bits}" var="bit" itemValue="#{bit}" itemLabel="#{bit}"></f:selectItems>
+							</b:selectOneMenu>
+						</b:column>
+					</b:row>
+		 			<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label">Business Criticality:</b:column>
+						<b:column col-md="4">
+							<b:selectOneMenu label="BCRIT" render-label="false" id="busCrit" value="#{businessAttribution.busCrit}" tooltip="Choose a Business Criticality Level" required="false" requiredMessage="Business Criticality Level is required.">
+								<f:selectItems value="#{businessAttribution.bcrits}" var="busCrit" itemValue="#{busCrit}" itemLabel="#{busCrit}"></f:selectItems>
+							</b:selectOneMenu>
+						</b:column>
+					</b:row>
+	 				<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label">Breach Types:</b:column>
+						<b:column col-md="4">
+							<b:selectOneMenu label="DBTYPE" render-label="false" id="dbType" value="#{businessAttribution.dbType}" tooltip="Choose a default Breach Type" required="false">
+								<f:selectItems value="#{businessAttribution.dbtypes}" var="dbType" itemValue="#{dbType}" itemLabel="#{dbType}"></f:selectItems>
+							</b:selectOneMenu>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label">Information Classification:</b:column>
+						<b:column col-md="4">
+							<b:selectOneMenu label="INFClass" render-label="false" id="infClass" value="#{businessAttribution.infClass}" tooltip="Choose a level of classification" required="false" requiredMessage="Classification Level is required.">
+								<f:selectItems value="#{businessAttribution.iclass}" var="infClass" itemValue="#{infClass}" itemLabel="#{infClass}"></f:selectItems>
+							</b:selectOneMenu>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label">Risk Appetite:</b:column>
+						<b:column col-md="4">
+							<b:inputText id="riskAppetite" value="#{businessAttribution.riskAppetite}" ask="decimal" maxlength="3" tooltip="Value must be between 4 and 100."
+							validatorMessage="The Risk Appetite value must be between 0 and 100">
+								<f:validateLongRange minimum="0" maximum="100" />
+							</b:inputText>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label">Resistance Strength:</b:column>
+						<b:column col-md="4">
+							<b:inputText id="resistanceStrength" value="#{businessAttribution.resistanceStrengthstr}" ask="decimal" tooltip="Value must be 2, 16, 84, 98, or between 40 and 60"
+									validatorMessage="The Resistance Strength value must be 2, 16, 84, 98, or between 40 and 60">							
+								<f:validateRegex pattern="^2|16|84|98|4[0-9]|5[0-9]|60" minimum="2" maximum="60" />
+							</b:inputText>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label">Annual Revenue:</b:column>
+						<b:column col-md="4">
+							<b:inputText id="annRevC" value="#{businessAttribution.annRevC}" mask="currency"></b:inputText>
+						</b:column>
+					</b:row>  
+					<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label">Annual Revenue Year:</b:column>
+						<b:column col-md="4">
+							<b:inputText id="annRevYear" value="#{businessAttribution.annRevYear}" maxlength="4" required="false">
+							</b:inputText>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label">Record Count:</b:column>
+						<b:column col-md="4">
+							<b:inputText id="recordCount" value="#{businessAttribution.recordCount}" required="false">
+							</b:inputText>
+						</b:column>
+					</b:row>
+					<b:row>
 					<b:column col-md="12">
-						<span class="rowSpace"><br/><br/></span>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Business Interruption Threshold:</b:column>
-					<b:column col-md="4">
-						<b:selectOneMenu label="BIT" render-label="false" id="bit" value="#{businessAttribution.bit}" tooltip="Choose a Business Interruption Threshold" required="false" requiredMessage="Business Interruption Threshold is required">
-							<f:selectItems value="#{businessAttribution.bits}" var="bit" itemValue="#{bit}" itemLabel="#{bit}"></f:selectItems>
-						</b:selectOneMenu>
-					</b:column>
-				</b:row>
-
-	 			<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Business Criticality:</b:column>
-					<b:column col-md="4">
-						<b:selectOneMenu label="BCRIT" render-label="false" id="busCrit" value="#{businessAttribution.busCrit}" tooltip="Choose a Business Criticality Level" required="false" requiredMessage="Business Criticality Level is required.">
-							<f:selectItems value="#{businessAttribution.bcrits}" var="busCrit" itemValue="#{busCrit}" itemLabel="#{busCrit}"></f:selectItems>
-						</b:selectOneMenu>
-					</b:column>
-				</b:row>
-
- 				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Breach Types:</b:column>
-					<b:column col-md="4">
-						<b:selectOneMenu label="DBTYPE" render-label="false" id="dbType" value="#{businessAttribution.dbType}" tooltip="Choose a default Breach Type" required="false">
-							<f:selectItems value="#{businessAttribution.dbtypes}" var="dbType" itemValue="#{dbType}" itemLabel="#{dbType}"></f:selectItems>
-						</b:selectOneMenu>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Information Classification:</b:column>
-					<b:column col-md="4">
-						<b:selectOneMenu label="INFClass" render-label="false" id="infClass" value="#{businessAttribution.infClass}" tooltip="Choose a level of classification" required="false" requiredMessage="Classification Level is required.">
-							<f:selectItems value="#{businessAttribution.iclass}" var="infClass" itemValue="#{infClass}" itemLabel="#{infClass}"></f:selectItems>
-						</b:selectOneMenu>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Risk Appetite:</b:column>
-					<b:column col-md="4">
-						<b:inputText id="riskAppetite" value="#{businessAttribution.riskAppetite}" ask="decimal" maxlength="3"  required="false">
-							<f:validateLongRange minimum="0" maximum="100" validatorMessage="risk appetite must be between 0 and 100"/>
-						</b:inputText>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Resistance Strength:</b:column>
-					<b:column col-md="4">
-						<b:inputText id="resistanceStrength" value="#{businessAttribution.resistanceStrengthstr}" ask="decimal" maxlength="4"  required="false" tooltip="Value must be 2, 16, 84, 98, or between 40 and 60">							
-							<f:validateRegex pattern="^2|16|84|98|4[0-9]|5[0-9]|60" minimum="2" maximum="60" validatorMessage="Value must be 2, 16, 84, 98, or between 40 and 60" />
-						</b:inputText>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Annual Revenue:</b:column>
-					<b:column col-md="4">
-						<b:inputText id="annRevC" value="#{businessAttribution.annRevC}" mask="currency"  required="false" requiredMessage="Annual Revenue is required">      						<!-- <f:facet name="prepend"><h:outputText value="$" /></f:facet>
-      						<f:facet name="append"><h:outputText value=".00" /> -->
-						</b:inputText>							
-					</b:column>
-				</b:row>  
-				
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Annual Revenue Year:</b:column>
-					<b:column col-md="4">
-						<b:inputText id="annRevYear" value="#{businessAttribution.annRevYear}" maxlength="4" required="false">
-						</b:inputText>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Record Count:</b:column>
-					<b:column col-md="4">
-						<b:inputText id="recordCount" value="#{businessAttribution.recordCount}" required="false">
-						</b:inputText>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="12">
-						<b:accordion><b:panel id="pnlHosts" title="Hosts" styleClass="Hosts">
+						<b:accordion id="accdHosts" styleClass="accordionClass" expandedPanels="#{businessAttribution.expandedPanels}">
+						<b:panel id="pnlHosts" title="Host Nodes" collapsed="false">
 							<b:form id="frmHosts">
 								<div style="text-align: center;">
 									<b:commandButton value="Add" icon="add" ajax="true" update="@form" disabled="false" iconAwesome="plus" size="sm"  
-										 	actionListener="#{businessAttribution.LoadHostAddDataforEdit()}" oncomplete="$('.modalClassAdd').modal('show');" >
-										 	<f:ajax execute="@this" render="addHostTable hostSiteID hostSubnet"/>
-										 	<!-- <f:ajax execute="@this" render="hostSiteID"/>
-										 	<f:ajax execute="@this" render="hostSubnet"/> -->
+										 	actionListener="#{businessAttribution.LoadHostAddDataforEdit()}" oncomplete="$('.modalAddClass').modal('show');" >
+										 	<f:ajax execute="@this" render="tblAddHost hostSiteID hostSubnet"/>
 									</b:commandButton>
-								</div>
-								<b:modal id="modalClassAdd" title="Add Hosts" styleClass="modalClassAdd">
-									<div style="text-align: center;">
-										<b:panel look="default" id="addPanel"  styleClass="addPanel">
-											<b:row>
+								</div>								
+								<b:modal id="modalAdd" styleClass="modalAddClass" title="Add a Host" style="border-width:1px; border-color: #f5f5f5;"
+										header-style="background-color: #f5f5f5; font-size: 16px;text-align: left;font-weight:bold; color:#595a5c;" >
+									<b:panel id="pnlAdd" collapsible="false" styleClass="panel-borderless" style="border:0;">
+										<b:row>
 												<b:column col-md="3" offset="1" class="form-input-label">Site list:</b:column>
-												<b:column col-md="4">
+												<b:column col-md="6">
 													<b:selectOneMenu label="hostSiteID" render-label="false" id="hostSiteID" value="#{businessAttribution.hostSiteID}"
-														ajax="true" valueChangeListener="#{businessAttribution.listenSite}" tooltip="Choose a site" required="true" class="hostSiteID">
+														ajax="true" valueChangeListener="#{businessAttribution.listenSite}" tooltip="Choose a site" required="false">
 														<f:selectItems value="#{businessAttribution.siteList}" var="hostSiteID" itemValue="#{hostSiteID}" itemLabel="#{hostSiteID}"></f:selectItems>
 														<f:ajax event="change" execute="@this" render="hostSubnet" />
 													</b:selectOneMenu>
 												</b:column>
-											</b:row>
-											<b:row>  
+										</b:row>
+										<b:row>  
 					 							<b:column col-md="3" offset="1" class="form-input-label">Subnet list:</b:column>
-												<b:column col-md="4">
+												<b:column col-md="6">
 													<b:selectOneMenu label="hostSubnet" render-label="false" id="hostSubnet" value="#{businessAttribution.hostSubnet}" 
-														ajax="true" valueChangeListener="#{businessAttribution.listenHardware}"  tooltip="Choose a subnet" required="true">
+														ajax="true" valueChangeListener="#{businessAttribution.listenHardware}"  tooltip="Choose a subnet" required="false">
 														<f:selectItems value="#{businessAttribution.subnetList}" var="hostSubnet" itemValue="#{hostSubnet}" itemLabel="#{hostSubnet}"></f:selectItems>
-														<f:ajax event="change" execute="@this" render="addHostTable"/>
+														<f:ajax event="change" execute="@this" render="tblAddHost"/>
 													</b:selectOneMenu>
 												</b:column>
-											</b:row>
-										</b:panel>
-									</div>
-					 				<b:dataTable id="addHostTable" value="#{businessAttribution.addHostList}" var="addhost"  widgetVar="AddHostTable">
-										<b:dataTableColumn id="hostIP" value="#{addhost.hostIP}" content-style="white-space:pre-wrap;">
-											<f:facet name="header">IP<br/>Address</f:facet>
-										</b:dataTableColumn>
-										<b:dataTableColumn id="hostName" value="#{addhost.hostName}" content-style="white-space:pre-wrap; word-break:break-word;">
-											<f:facet name="header">Host<br/>Name</f:facet>
-										</b:dataTableColumn>
-										<b:dataTableColumn value="#{addhost.hostVendor}" content-style="white-space:pre-wrap; word-break:break-word;">
-											<f:facet name="header">Vendor</f:facet>
-										</b:dataTableColumn>
-										<b:dataTableColumn value="" orderable="false">						
-											<f:facet name="header">Action</f:facet>		
-											<b:commandButton value="Add host" look="primary" ajax="true" actionListener="#{businessAttribution.addBVAHostControllerMethodinEdit(addhost.hostID)}" 
-												oncomplete="$('.modalClassAdd').modal('hide');" size="sm" onclick="HostTable.DataTable().destroy();" update="@form">
-											 </b:commandButton>
-										</b:dataTableColumn>	
-					 				</b:dataTable>
-									<div style="text-align: center;">
-										<b:button value="Close/Cancel" dismiss="modal"/>
-									</div>												
+										</b:row>
+					 					<b:dataTable id="tblAddHost" value="#{businessAttribution.addHostList}" var="addhost"  widgetVar="tblAddHost">
+											<b:dataTableColumn id="hostIP" value="#{addhost.hostIP}">
+												<f:facet name="header">IP<br/>Address</f:facet>
+											</b:dataTableColumn>
+											<b:dataTableColumn value="#{addhost.hostName}" contentStyleClass="tablecontent">
+												<f:facet name="header">Host Name</f:facet>
+											</b:dataTableColumn>
+											<b:dataTableColumn value="#{addhost.hostVendor}" ontentStyleClass="tableconent">
+												<f:facet name="header">Vendor</f:facet>
+											</b:dataTableColumn>
+											<b:dataTableColumn value="" orderable="false" contentStyleClass="dataTableButtonColumnClass">						
+												<f:facet name="header">Action</f:facet>		
+												<b:commandButton ajax="true" actionListener="#{businessAttribution.addBVAHostControllerMethodinEdit(addhost.hostID)}" 
+													oncomplete="$('.modalAddClass').modal('hide'); #{businessAttribution.openPnlHosts()}; $('.modalSaveClass').modal('show');" onclick="tblHosts.DataTable().destroy();" 
+													value="Save" iconAwesome="save" size="sm" look="default" disabled="false">
+													<f:ajax execute="@this" render=":frmMain:frmHosts:tblHosts"/>  
+												</b:commandButton>
+											</b:dataTableColumn>	
+						 				</b:dataTable>
+										<div style="text-align: center;">
+											<b:button dismiss="modal" value="Cancel" iconAwesome="times" size="sm" look="default" ></b:button>
+										</div>												
+									</b:panel>
 								</b:modal>
-								<b:modal id="delModal" title="Delete host Confirmation" styleClass="modalClass" >
-									<p class="modalText">Are you sure you want to delete this host, #{businessAttribution.selectedHostName} ?</p>
-									<b:button value="Close" dismiss="modal"/>
-									<b:commandButton value="Ok" look="primary" ajax="true" actionListener="#{businessAttribution.deleteBVAHostControllerMethodModal()}" 
-												update="hostTable" oncomplete="$('.modalClass').modal('hide');" size="sm" disabled="false" >
-										<f:ajax execute="@this" render="hostTable"/> 									
-									</b:commandButton>		 	
+								<b:modal id="modalDelete" title="Confirm Host Delete" styleClass="modalDeleteClass" closable="false" close-on-escape="false" backdrop="true">
+									<p>Click "Confirm" if you would like to delete this host, <strong>#{businessAttribution.selectedHostName}</strong>.</p>
+									<f:facet name="footer">
+										<b:commandButton value="Confirm" ajax="true" actionListener="#{businessAttribution.deleteBVAHostControllerMethodModal()}" 
+													 oncomplete="$('.modalDeleteClass').modal('hide');" look="default" size="sm">
+													<f:ajax execute="@this" render="tblHosts"/>  									
+										</b:commandButton>		 	
+										<b:button value="Cancel" look="primary" size="sm" dismiss="modal" iconAwesome="times"/>
+									</f:facet>
 								</b:modal>
-								<b:dataTable id="hostTable" scrollHorizontally="true"  fixedHeader="true" value="#{businessAttribution.businessHostData}" var="host"  widgetVar="HostTable">
-									<b:dataTableColumn value="#{host.hostName}" content-style="white-space:pre-wrap; word-break:break-word;">
+								<b:modal id="modalSave" title="Saved Changes" styleClass="modalSaveClass" closable="false" close-on-escape="false" backdrop="true">
+									<p>Your changes have been saved.</p>
+									<f:facet name="footer">
+										<b:button value="Ok" look="default" size="sm" dismiss="modal"/>
+									</f:facet>
+								</b:modal>
+								<b:dataTable id="tblHosts" scrollHorizontally="true" contentStyleClass="tablecontent" fixedHeader="true" value="#{businessAttribution.businessHostData}" var="host"  widgetVar="tblHosts">
+									<b:dataTableColumn value="#{host.hostName}" contentStyleClass="tablecontent">
 										<f:facet name="header">Host<br/>Name</f:facet>
 									</b:dataTableColumn>
-									<b:dataTableColumn value="#{host.hostIP}" content-style="white-space:pre-wrap;">
+									<b:dataTableColumn value="#{host.hostIP}">
 										<f:facet name="header">IP<br/>Address</f:facet>
 									</b:dataTableColumn>
-									<b:dataTableColumn value="#{host.hostAType}" content-style="white-space:pre-wrap;">
+									<b:dataTableColumn value="#{host.hostAType}" contentStyleClass="tablecontent">
 										<f:facet name="header">Asset<br/>Type</f:facet>
 									</b:dataTableColumn>
-									<b:dataTableColumn value="#{host.hostAVisibility}" content-style="white-space:pre-wrap; word-break:break-word;">
+									<b:dataTableColumn value="#{host.hostAVisibility}" contentStyleClass="tablecontent">
 										<f:facet name="header">Asset<br/>Visibility</f:facet>
 									</b:dataTableColumn>
-									<b:dataTableColumn value="#{host.hostOS}" content-style="white-space:pre-wrap; word-break:break-word;">
+									<b:dataTableColumn value="#{host.hostOS}" contentStyleClass="tablecontent">
 										<f:facet name="header">Operating<br/>System</f:facet>
 									</b:dataTableColumn>
-									<b:dataTableColumn value="#{host.hostVendor}" content-style="white-space:pre-wrap; word-break:break-word;">
+									<b:dataTableColumn value="#{host.hostVendor}" contentStyleClass="tablecontent">
 										<f:facet name="header">Vendor</f:facet>
 									</b:dataTableColumn>
-									<b:dataTableColumn value="" orderable="false" id="ActionCol">
+									<b:dataTableColumn value="" orderable="false" contentStyleClass="dataTableButtonColumnClass">
 										<f:facet name="header">Action</f:facet>											
-											<b:commandButton value="Delete" size="sm" look="default" ajax="true" oncomplete="$('.modalClass').modal('show');"
-												actionListener="#{businessAttribution.defineSelectedHost(host)}" immediate="true" update=":BusinessAttributionEditForm:frmHosts:delModal" />
+											<b:commandButton ajax="true" oncomplete="$('.modalDeleteClass').modal('show');"
+												actionListener="#{businessAttribution.defineSelectedHost(host)}" immediate="true" update=":frmMain:frmHosts:modalDelete"
+												 value="Delete" iconAwesome="trash" size="sm" look="default" disabled="false" />
+											<b:button value="Edit" look="default" size="sm" disabled="true" iconAwesome="edit"/>	 
 									</b:dataTableColumn>	
 								</b:dataTable>
 							</b:form>							
 						</b:panel></b:accordion>
 					</b:column>
 				</b:row>
+				</b:panel>	<!-- end of pnlColl -->
+				<!-- row for spacing --><b:row><b:column><span class="rowSpace"><br/></span></b:column></b:row>
 				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
+					<b:column col-md="12" style="text-align:center;">
+						<b:commandButton action="#{businessAttribution.editBVAControllerMethod}" value="Save" iconAwesome="save" size="sm" look="default" disabled="false"></b:commandButton>
+						<b:button href="business-attribution-table.jsf" value="Cancel" iconAwesome="times" size="sm" look="default"></b:button>
 					</b:column>
 				</b:row>
-				<b:row>
-					<b:column col-md="2" offset="2"></b:column>
-					<b:column col-md="4">
-						<b:commandButton value="Save Changes" look="primary" action="#{businessAttribution.editBVAControllerMethod}"></b:commandButton>
-						<b:button value="Cancel/Close" href="business-attribution-table.jsf"></b:button>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
-				</b:row>
-
-			</b:panel>
-
-		</h:form>
-
+			</b:panel>		<!-- end of pnlMain -->
+		</h:form>		<!-- end of frmMain -->
 	</ui:define>
-
 </ui:composition>

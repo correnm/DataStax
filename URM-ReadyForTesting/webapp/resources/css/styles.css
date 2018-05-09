@@ -1,0 +1,412 @@
+/*
+
+G2OPS Colors
+
+orange: #c44900
+blue: #28637e
+dark gray: #595a5c
+light gray: #bbbdbf
+black: #231f20
+
+*/
+
+
+body {
+  /* background-color: #eaebeb; */
+  background-color: #dfe0e1;
+  color: #231f20;
+  font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+a:hover { 
+  color: red
+}
+
+h1,h2,h3,h4 {
+  font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* color: #2f4c6a; */
+  color: #595a5c;
+}
+
+h1 {
+	font-size: 32px;
+	font-weight: bold;
+	color: #28637e;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+h2 {
+	font-size: 18px;
+	font-weight: bold;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+h3 {
+	font-size: 16px;
+	font-weight: bold;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+h1.title {
+  display: table;
+  margin: auto;
+  background-color: #afc4d6;
+  border-width: 4px;
+  border-style: outset;
+  border-color: #9fd1ff;
+  padding: 5px 8px;
+  letter-spacing: -.025em;
+} 
+.formTable {
+  display: table;
+}
+/* If prompt and input are in two cells of one row, the prompt will be R-aligned. */
+.formTable td:first-child {
+  text-align: right;
+}
+/* Third table cell shows the error message, so make it bold and red. Used in validation examples that have h:message. */
+.formTable td:nth-child(3) {
+  color: red;
+  font-weight: bold;
+}
+
+th { background-color: #c44900;
+     font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+     color: #f4f5f5;
+}
+
+.pagination > li > a, .pagination > li > span {
+	color: #c44900;
+	background-color: #f4f5f5;
+}
+
+legend {
+  font-weight: bold;
+  color: black;
+  background-color: #afc4d6;
+  border: 1px solid #1a55bf;
+  padding: 3px 5px;
+  border-radius: 3px;
+}
+fieldset {
+  border-radius: 6px;
+  display: block;
+}
+input, textarea {
+  background-color: #ecedf2;
+  text-align: left;
+}
+input[type="checkbox"] {
+  background-color: transparent;  /* For IE 7-9 -- doesn't matter in FF, Chrome, or IE 10+ */
+}
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
+  background-color: #9fd1ff;
+}
+.error {
+  color: red;
+  font-weight: bold;
+}
+/* So that in Chrome and IE, the bullets are next to the text in centered lists. Already OK in Firefox. */
+[align="center"] li {
+  list-style-position: inside;
+}
+
+/* so buttons don't change size on hover */
+.btn {
+	border-width: 1px;
+}
+
+.bf-message {
+	margin-bottom: 15px !important;
+	margin-top: 2px !important;
+}
+
+i.fa {
+	padding-right: 5px;
+}
+
+.container-fluid {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.row {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.navbar-default {
+	border: 0px; /* removes the border */
+	border-radius: 0px; /* removes the rounded corners */
+	background-image: none; /* removes the linear color gradient */
+	background-color: #c44900; /* sets the color to G2OPS orange */
+	/* background-color: #28637e; */ /* sets the color to G2OPS blue */
+	padding-left: 25px;
+	padding-right: 25px;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: #f4f5f5;
+    /* background-color: #1d495d; */ /* blue */
+	background-color: #a33c00; /* orange */
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    color: #f4f5f5;
+    /* background-color: #1d495d; */ /* blue */
+	background-color: #a33c00; /* orange */
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .active > a {
+	background-image: none; /* removes the linear color gradient */
+}
+
+.navbar-inverse {
+	/* background-color: #446e9b; -- original theme blue -- */
+	/* background-color: #3cb521; -- original theme green -- */
+	/* background-color: #2f4c6a; */
+}
+
+.navbar-brand {
+	padding: 15px 25px;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+	background-color: #c44900; /* sets the color to G2OPS orange */
+	border-color: #a33c00;
+}
+
+.dropdown-menu > li > a {
+	color: #231f20;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+	background-image: none; /* removes the linear color gradient */
+	background-color: #c44900; /* sets the color to G2OPS orange */
+	/* background-color: #28637e; */ /* sets the color to G2OPS blue */
+	outline: 0px;
+}
+
+.panel-group .panel, .panel {
+	border-radius: 0px; /* removes the rounded corners */
+}
+
+.panel-default > .panel-heading, .panel-primary > .panel-heading, .panel-info > .panel-heading, .panel-success > .panel-heading {
+	background-image: none; /* removes the linear color gradient */
+}
+
+.panel-primary > .panel-heading {
+	background-color: #2f4c6a;
+}
+
+.btn, .btn:hover {
+	background-image: none; /* removes the linear color gradient */
+	margin: 0px 10px;
+	border-radius: 4px;
+}
+
+.btn-primary {
+	background-color: #cf6c33;
+	border-color: #cf6c33;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+	background-color: #c44900; /* #a33c00 */
+}
+
+.btn-default {
+	background-color: #7a7b7c;
+	border-color: #7a7b7c;
+	text-shadow: none;
+}
+
+.btn-default:hover {
+	background-color: #595a5c;
+}
+
+.btn-link {
+	color: #c44900;
+}
+
+.container .jumbotron, .container-fluid .jumbotron {
+	border-radius: 10px;
+	color: #444444;
+}
+
+@media screen and (min-width: 768px) {
+	.jumbotron {
+		padding-top: 24px;
+		padding-bottom: 24px;
+	}
+	.jumbotron h1 {
+		margin-top: 0px;
+		margin-bottom: 0px;
+		font-size: 36px;
+	}
+}
+
+.well {
+	border-radius: 0px;
+	background-image: none; /* removes the linear color gradient */
+}
+
+.page-name {
+	/* valign: middle; */
+	font-size: 18px;
+}
+
+.page-name h1 {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	valign: middle;
+	text-align: center;
+}
+
+.ou-site-name h2 {
+	padding-top: 25px;
+	padding-bottom: 20px;
+	text-align: center;
+} 
+
+.input-group-addon {
+	padding: 4px 12px;
+}
+
+.footer {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	font-size: 13px;
+	text-align: right;
+	color: #595a5c;
+}
+
+table.table-striped tbody tr.even {
+	background-color: #eaebeb;
+}
+
+.businessProcessesByCyvarTableClass {
+	border-width: 1px;
+	border-color: #999999;
+	font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.dataTables_scrollHeadInner {
+    margin-right: auto !important;
+    margin-left: auto !important;
+}
+.dataTableClass {
+	border-width: 1px;
+	border-color: #999999;
+	font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+
+.dataTableDivClass {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #bbbbbb;
+	background-color: #ffffff;
+	padding-top: 25px;
+	padding-bottom: 15px;
+}
+
+.dataTableDivClass h2 {
+	text-align: center;
+	font-size: 16px;
+	color: #595a5c;
+}
+
+.dataTableDivClass h3 {
+	text-align: center;
+	font-size: 14px;
+	color: #595a5c;
+}
+
+.dataTableButtonColumnClass {
+	white-space: nowrap;
+}
+
+.dataTableSingleButtonColumnClass {
+	width: 120px;
+}
+
+.dataTableDoubleButtonColumnClass {
+	width: 240px;
+}
+
+.table-bordered > thead > tr > th {
+	border-bottom-width: 0px;
+}
+
+.panelGrid {
+    text-align: center;
+}
+
+.viewFilterFormClass .form-control {
+	height: 40px;
+	padding: 4px 12px;
+	font-size: 18px;
+}
+
+.form-title {
+	font-size: 22px;
+	font-weight: bold;
+}
+
+.form-title-label {
+	font-size: 22px;
+	text-align: right;
+}
+
+.form-input-label {
+	text-align: right;
+	font-weight: bold;
+}
+
+/* basic positioning */
+.legend-panel .panel-body { padding: 6px; border: 1px solid #ccc; }
+.legend { float: left; width: 25%; font-size: 18px; }
+/*.legend li { margin-bottom: 10px; }*/
+.legend div { border: 1px solid #ccc; float: left; width: 19px; height: 19px; margin: 3px 4px 3px 0; }
+/* your colors */
+.legend .critical { background-color: #df382c; }
+.legend .high { background-color: #e95420; }
+.legend .medium { background-color: #efb73e; }
+.legend .low { background-color: #38b44a; }
+
+.panel_title {
+	font-size: 16px;
+	text-align: center;
+	font-weight: bold;
+	color: #595a5c;
+	padding-bottom: 15px;	
+}
+
+/*Added by Tammy Bogart 5/7/18 for formatting */
+
+.panel-borderless {
+  border: 0;
+  box-shadow: none;
+}
+
+.alignleft {
+/* 	float: left; */
+	text-align:left;
+}
+
+.alignright {
+	text-align:right; 
+}
+
+.tablecontent {
+	white-space:pre-wrap;
+	word-break:break-word;
+}
+
+.tableheader {
+	white-space:pre-wrap;
+	word-break:break-word;
+}
