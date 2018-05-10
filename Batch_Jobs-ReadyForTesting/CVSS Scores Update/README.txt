@@ -1,6 +1,5 @@
 Developer: Sara Bergman, G2 Ops Virginia Beach
 Created April 20, 2018
-Purpose: BatchJobs.jar stores batch jobs needed to maintain URM Cassandra database consistency 
 Java Version: 1.8
 
 Update CVSS Scores with NVD vulnerability data
