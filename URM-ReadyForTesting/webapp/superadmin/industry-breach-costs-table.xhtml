@@ -18,52 +18,63 @@ Date			Name			Description
 
 	<ui:define name="document-title">Industry Breach Costs</ui:define>
 
-	<ui:define name="page-name">Administrator: &#160;<strong>Industry Breach Costs</strong></ui:define>
+	<ui:define name="page-name">Super Admin: &#160;<strong>Industry Breach Costs</strong></ui:define>
 	<ui:define name="full-width-table">
 		<div class="dataTableDivClass">
-			<b:form id="ibcform">
+			<b:form id="frmMain">
+				<b:modal id="modalDelete" title="Confirm Industry Breach Cost Delete" styleClass="modalDeleteClass" closable="false" close-on-escape="false" backdrop="true">
+					<p>Click "Confirm" if you would like to delete this Breach Cost, <strong>#{industryBreachCostBean.selectedBC}</strong>.</p>
+					<f:facet name="footer">
+						<b:commandButton value="Confirm" ajax="true" actionListener="#{industryBreachCostBean.deleteIBCControllerMethod()}" 
+										 oncomplete="$('.modalDeleteClass').modal('hide');" look="default" size="sm">
+							 <f:ajax execute="@this" render="tblMain"/>
+						</b:commandButton>		 	
+						<b:button value="Cancel" look="primary" size="sm" dismiss="modal" iconAwesome="times"/>
+					</f:facet>
+				</b:modal>			
 				<div style="text-align: center;">
-					<b:commandButton action="#{industryBreachCostBean.LoadIBCAddFormData()}" value="Add" size="sm" look="default" disabled="false" iconAwesome="plus"></b:commandButton>
-				</div>
-				<b:dataTable id="ibctable" value="#{industryBreachCostBean.industryBreachCostData}" var="ibc" styleClass="businessProcessesByCyvarTableClass" >
-					<b:dataTableColumn>
+					<b:commandButton value="Add" iconAwesome="plus" size="sm" look="default" disabled="false" action="#{industryBreachCostBean.LoadIBCAddFormData()}"></b:commandButton>
+				</div>	
+				<b:dataTable id="tblMain" value="#{industryBreachCostBean.industryBreachCostData}" var="varTbl" contentStyleClass="tablecontent" headerStyleClass="tableheader" styleClass="businessProcessesByCyvarTableClass">
+					<b:dataTableColumn  contentStyleClass="alignright" headerStyleClass="alignleft">
 						<f:facet name="header">Publication Year</f:facet>
-						 <h:outputText value="#{ibc.publication_year}">
+						 <h:outputText value="#{varTbl.publication_year}">
 							<f:convertNumber maxFractionDigits="0" integerOnly="true" pattern="#0000" />
 						</h:outputText>
 					</b:dataTableColumn>					
-					<b:dataTableColumn id="country_name" value="#{ibc.country_name}">
+					<b:dataTableColumn id="country_name" value="#{varTbl.country_name}">
 						<f:facet name="header">Country Name</f:facet>
 					</b:dataTableColumn>					
-					<b:dataTableColumn id="industry_name" value="#{ibc.industry_name}">
+					<b:dataTableColumn id="industry_name" value="#{varTbl.industry_name}">
 						<f:facet name="header">Industry Name</f:facet>
 					</b:dataTableColumn>
-					<b:dataTableColumn id="direct_cost_pct" value="#{ibc.direct_cost_pct}">
-						<f:facet name="header">Direct Cost Percentage</f:facet>
+					<b:dataTableColumn id="direct_cost_pct" value="#{varTbl.direct_cost_pct}" styleClass="percentage" contentStyleClass="alignright" headerStyleClass="alignleft">
+					<f:facet name="header">Direct Cost Percentage</f:facet>
 					</b:dataTableColumn>
-					<b:dataTableColumn id="direct_per_capita_cost" value="#{ibc.direct_per_capita_cost}">
-						<f:facet name="header">Direct per Capita Cost</f:facet>
-					</b:dataTableColumn>
-					<b:dataTableColumn id="indirect_cost_pct" value="#{ibc.indirect_cost_pct}">
+					<b:dataTableColumn contentStyleClass="alignright" headerStyleClass="alignleft">
+						<f:facet name="header"> per Capita Cost</f:facet>
+						<h:outputText value="#{varTbl.direct_per_capita_cost}" mask="currency">
+							<f:convertNumber type="currency" currencySymbol="$" locale="en_US"/>					 	
+                    	</h:outputText>	
+					</b:dataTableColumn>		
+					<b:dataTableColumn id="indirect_cost_pct" value="#{varTbl.indirect_cost_pct}" styleClass="percentage" contentStyleClass="alignright" headerStyleClass="alignleft">
 						<f:facet name="header">Indirect Cost Percentage</f:facet>
 					</b:dataTableColumn>
-					<b:dataTableColumn id="indirect_per_capita_cost" value="#{ibc.indirect_per_capita_cost}">
+					<b:dataTableColumn contentStyleClass="alignright" headerStyleClass="alignleft">
 						<f:facet name="header">Indirect per Capita Cost</f:facet>
-					</b:dataTableColumn>
-					<b:dataTableColumn id="per_capita_cost" value="#{ibc.per_capita_cost}">
-						<f:facet name="header">per Capita Cost</f:facet>
-					</b:dataTableColumn>
-					<b:dataTableColumn id="verizon_dbir_industry_name" value="#{ibc.verizon_dbir_industry_name}">
+						<h:outputText value="#{varTbl.indirect_per_capita_cost}" mask="currency">
+							<f:convertNumber type="currency" currencySymbol="$" locale="en_US"/>					 	
+                    	</h:outputText>	
+					</b:dataTableColumn>		
+					<b:dataTableColumn id="verizon_dbir_industry_name" value="#{varTbl.verizon_dbir_industry_name}">
 						<f:facet name="header">Verizon DBIR Industry Name</f:facet>
 					</b:dataTableColumn>					
 					<b:dataTableColumn value="" orderable="false" style-class="dataTableButtonColumnClass">
 						<f:facet name="header">Action</f:facet>			
-						<b:commandButton action="#{industryBreachCostBean.LoadIBCEditFormData(ibc)}" value="Edit" size="sm" look="default" disabled="false">
-							<f:ajax event="change" execute="@form" render="ibctable"/>
-						</b:commandButton>
-						<b:commandButton ajax="true" action="#{industryBreachCostBean.deleteIBCControllerMethod(ibc)}" onclick="return confirm('Do you really want to delete #{ibc.country_name} ?')" value="Delete" size="sm" look="default" disabled="false">
-							<f:ajax event="change" execute="@form" render="ibctable"/>
-						</b:commandButton>
+							<b:commandButton value="Edit" iconAwesome="edit" size="sm" look="default" disabled="false" ajax="true" 
+										 action="#{industryBreachCostBean.LoadIBCEditFormData(varTbl)}" />
+							<b:commandButton value="Delete" iconAwesome="trash" size="sm" look="default" disabled="false" ajax="true" immediate="true"
+										 actionListener="#{industryBreachCostBean.setSelected(varTbl)}" update=":frmMain:modalDelete" oncomplete="$('.modalDeleteClass').modal('show');" />  
 					</b:dataTableColumn>					
 				</b:dataTable>
 			</b:form>

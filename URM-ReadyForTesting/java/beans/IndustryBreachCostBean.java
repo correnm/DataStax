@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.security.NoSuchAlgorithmException;
@@ -55,7 +56,7 @@ public class IndustryBreachCostBean  implements Serializable {
 	private List<IndustryBreachCosts> ibcList = new ArrayList<IndustryBreachCosts>();
 	private IndustryBreachCosts ibc;
 	private Iterator<Row> iterator;
-	private String query;
+	private String query, selectedBC;
 	
     private double publication_year, origPubYear, direct_cost_pct, direct_per_capita_cost, indirect_cost_pct, indirect_per_capita_cost, per_capita_cost;
     private String country_name, origCName, industry_name, origIndName, verizon_dbir_industry_name;
@@ -79,6 +80,7 @@ public class IndustryBreachCostBean  implements Serializable {
 	public void LoadIndustryBreachCostBean() {
 		//called on initialization of breach-types-table to load table data
 		System.out.println("in LoadIndustryBreachCostBean");	
+		this.selectedBC="";
 		
 		query = "SELECT publication_year, " 
 				+	"country_name, " 
@@ -109,11 +111,21 @@ public class IndustryBreachCostBean  implements Serializable {
 			per_capita_cost = row.getDouble("per_capita_cost");
 			verizon_dbir_industry_name = row.getString("verizon_dbir_industry_name");
 
-// IndustryBreachCosts (double pubYr, double dirCostPCT, double dirPerCapCost, double indirCostPCT, double indirPerCapCost, double perCapCost,String cName, String indName, String verDBIRIndName)
 			ibc = new IndustryBreachCosts(publication_year, direct_cost_pct, direct_per_capita_cost, indirect_cost_pct, indirect_per_capita_cost, per_capita_cost, country_name, industry_name,  verizon_dbir_industry_name);
 			ibcList.add(ibc);	
 		}  	//end of while
+		
+		//sort list in desc order by Publication Year
+		List<IndustryBreachCosts> sortedList = new ArrayList<IndustryBreachCosts>();
+		Collections.sort(ibcList, IndustryBreachCosts.PubYearComparator);
+		for(IndustryBreachCosts s: ibcList) {
+			sortedList.add(s);
+		}
+		ibcList.clear();
+		ibcList = sortedList;
+		
 	}	//end LoadIndustryBreachCostBean
+
 
 	public String LoadIBCAddFormData()  throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 		System.out.println("in loadAddIBCFormData");
@@ -232,21 +244,25 @@ public class IndustryBreachCostBean  implements Serializable {
 		return "/superadmin/industry-breach-costs-table.jsf";
 }   //end addBTControllerMethod
 	
-	public String deleteIBCControllerMethod(IndustryBreachCosts ibcDelete) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
+	public void deleteIBCControllerMethod() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 		System.out.println("in deleteIBCControllerMethod");
 		query = "DELETE FROM appl_auth.industry_breach_costs "
 				+	"WHERE publication_year=? and country_name=? and industry_name=?";
 
 			prepared = session.prepare(query);
-			bound = prepared.bind(ibcDelete.getPublication_year(), ibcDelete.getCountry_name(), ibcDelete.getIndustry_name());
+			bound = prepared.bind(ibc.getPublication_year(), ibc.getCountry_name(), ibc.getIndustry_name());
 			session.execute(bound);
 			
 		//reload table data
-		LoadIndustryBreachCostBean();
-		return null;
+			this.ibcList.remove(ibc);
+		//LoadIndustryBreachCostBean();
+		//return null;
 	}	//end deleteIBCControllerMethod
 
-
+	public void setSelected(IndustryBreachCosts selIBC) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
+		this.ibc = selIBC;
+		this.selectedBC = selIBC.getCountry_name() + "/" + selIBC.getIndustry_name();
+	}
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Getters/Setters<<<<<<<<<<<<<<<<<<<<<<<<//
 	public List<IndustryBreachCosts> getIndustryBreachCostData() {
 		return ibcList;
@@ -266,6 +282,14 @@ public class IndustryBreachCostBean  implements Serializable {
 
 	public void setIbc(IndustryBreachCosts ibc) {
 		this.ibc = ibc;
+	}
+
+	public String getSelectedBC() {
+		return selectedBC;
+	}
+
+	public void setSelectedBC(String selectedBC) {
+		this.selectedBC = selectedBC;
 	}
 
 	public double getPublication_year() {

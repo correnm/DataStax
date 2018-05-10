@@ -18,61 +18,70 @@ Date			Name			Description
 
 	<ui:define name="document-title">Industry Security Incidents</ui:define>
 
-	<ui:define name="page-name">Administrator: &#160;<strong>Industry Security Incidents</strong></ui:define>
+	<ui:define name="page-name">Super Admin: &#160;<strong>Industry Security Incidents</strong></ui:define>
 	<ui:define name="full-width-table">
 		<div class="dataTableDivClass">
-			<b:form id="isiform">
+			<b:form id="frmMain">
+				<b:modal id="modalDelete" title="Confirm Industry Security Incident Delete" styleClass="modalDeleteClass" closable="false" close-on-escape="false" backdrop="true">
+					<p>Click "Confirm" if you would like to delete this Industry Security Incident, <strong>#{industrySecurityIncidentsBean.selectedISI}</strong>.</p>
+					<f:facet name="footer">
+						<b:commandButton value="Confirm" ajax="true" actionListener="#{industrySecurityIncidentsBean.deleteISIControllerMethod()}" 
+										 oncomplete="$('.modalDeleteClass').modal('hide');" look="default" size="sm">
+							 <f:ajax execute="@this" render="tblMain"/>
+						</b:commandButton>		 	
+						<b:button value="Cancel" look="primary" size="sm" dismiss="modal" iconAwesome="times"/>
+					</f:facet>
+				</b:modal>			
 				<div style="text-align: center;">
-					<b:commandButton action="#{industrySecurityIncidentsBean.LoadISIAddFormData()}" value="Add" size="sm" look="default" disabled="false" iconAwesome="plus"></b:commandButton>
-				</div>
-				<b:dataTable id="isitable" value="#{industrySecurityIncidentsBean.industrySecurityIncidentData}" var="isi" styleClass="businessProcessesByCyvarTableClass" >
-					<b:dataTableColumn>
+					<b:commandButton value="Add" iconAwesome="plus" size="sm" look="default" disabled="false" action="#{industrySecurityIncidentsBean.LoadISIAddFormData()}"></b:commandButton>
+				</div>	
+				<b:dataTable id="tblMain" value="#{industrySecurityIncidentsBean.industrySecurityIncidentData}" var="varTbl" contentStyleClass="tablecontent" headerStyleClass="tableheader">
+					<!-- styleClass="businessProcessesByCyvarTableClass" -->
+					<b:dataTableColumn  contentStyleClass="alignright" headerStyleClass="alignleft">
 						<f:facet name="header">Publication Year</f:facet>
-						 <h:outputText value="#{isi.publication_year}">
+						 <h:outputText value="#{varTbl.publication_year}">
 							<f:convertNumber maxFractionDigits="0" integerOnly="true" pattern="#0000" />
 						</h:outputText>
 					</b:dataTableColumn>					
-					<b:dataTableColumn id="verizon_dbir_industry_name" value="#{isi.verizon_dbir_industry_name}">
+					<b:dataTableColumn id="verizon_dbir_industry_name" value="#{varTbl.verizon_dbir_industry_name}">
 						<f:facet name="header">Verizon DBIR Industry Name</f:facet>
 					</b:dataTableColumn>	
-					<b:dataTableColumn id="breachesLarge" value="#{isi.breaches_large}">
-						<f:facet name="header"> </f:facet>
+					<b:dataTableColumn id="breachesLarge" value="#{varTbl.breaches_large}" contentStyleClass="alignright" headerStyleClass="alignleft">
+						<f:facet name="header">Breaches Large</f:facet>
 					</b:dataTableColumn>	
-					<b:dataTableColumn id="breachesSmall" value="#{isi.breaches_small}">
-						<f:facet name="header"> </f:facet>
+					<b:dataTableColumn id="breachesSmall" value="#{varTbl.breaches_small}" contentStyleClass="alignright" headerStyleClass="alignleft">
+						<f:facet name="header">Breaches Small</f:facet>
 					</b:dataTableColumn>	
-					<b:dataTableColumn id="breachesTotal" value="#{isi.breaches_total}">
-						<f:facet name="header"> </f:facet>
+					<b:dataTableColumn id="breachesTotal" value="#{varTbl.breaches_total}" contentStyleClass="alignright" headerStyleClass="alignleft">
+						<f:facet name="header">Breaches Total </f:facet>
 					</b:dataTableColumn>	
-					<b:dataTableColumn id="breachesUNK" value="#{isi.breaches_unk}">
-						<f:facet name="header"> </f:facet>
+					<b:dataTableColumn id="breachesUNK" value="#{varTbl.breaches_unk}" contentStyleClass="alignright" headerStyleClass="alignleft">
+						<f:facet name="header">Breaches UNK </f:facet>
 					</b:dataTableColumn>	
-					<b:dataTableColumn id="incidentsLarge" value="#{isi.incidents_large}">
-						<f:facet name="header"> </f:facet>
+					<b:dataTableColumn id="incidentsLarge" value="#{varTbl.incidents_large}" contentStyleClass="alignright" headerStyleClass="alignleft">
+						<f:facet name="header">Incidents Large</f:facet>
 					</b:dataTableColumn>	
-					<b:dataTableColumn id="incidentsSmall" value="#{isi.incidents_small}">
-						<f:facet name="header"> </f:facet>
+					<b:dataTableColumn id="incidentsSmall" value="#{varTbl.incidents_small}" contentStyleClass="alignright" headerStyleClass="alignleft">
+						<f:facet name="header">Incidents Small</f:facet>
 					</b:dataTableColumn>	
-					<b:dataTableColumn id="incidentsTotal" value="#{isi.incidents_total}">
-						<f:facet name="header"> </f:facet>
+					<b:dataTableColumn id="incidentsTotal" value="#{varTbl.incidents_total}" contentStyleClass="alignright" headerStyleClass="alignleft">
+						<f:facet name="header">Incidents Total</f:facet>
 					</b:dataTableColumn>	
-					<b:dataTableColumn id="incidentsUNK" value="#{isi.incidents_unk}">
-						<f:facet name="header"> </f:facet>
+					<b:dataTableColumn id="incidentsUNK" value="#{varTbl.incidents_unk}" contentStyleClass="alignright" headerStyleClass="alignleft">
+						<f:facet name="header">Incidents UNK</f:facet>
 					</b:dataTableColumn>	
-					<b:dataTableColumn id="probabilityAttack" value="#{isi.probability_of_attack}">
-						<f:facet name="header"> </f:facet>
+					<b:dataTableColumn id="probabilityAttack" value="#{varTbl.probability_of_attack}" contentStyleClass="alignright,percentage" headerStyleClass="alignleft">
+						<f:facet name="header">Probability of Attack</f:facet>
 					</b:dataTableColumn>	
-					<b:dataTableColumn id="sampleSize" value="#{isi.sample_size}">
-						<f:facet name="header"> </f:facet>
+					<b:dataTableColumn id="sampleSize" value="#{varTbl.sample_size}" contentStyleClass="alignright" headerStyleClass="alignleft">
+						<f:facet name="header">Sample Size</f:facet>
 					</b:dataTableColumn>						
 					<b:dataTableColumn value="" orderable="false" style-class="dataTableButtonColumnClass">
-						<f:facet name="header">Action</f:facet>			
-						<b:commandButton action="#{industrySecurityIncidentsBean.LoadISIEditFormData(isi)}" value="Edit" size="sm" look="default" disabled="false">
-							<f:ajax event="change" execute="@form" render="isitable"/>
-						</b:commandButton>
-						<b:commandButton ajax="true" action="#{industrySecurityIncidentsBean.deleteISIControllerMethod(isi)}" onclick="return confirm('Do you really want to delete #{isi.verizon_dbir_industry_name} ?')" value="Delete" size="sm" look="default" disabled="false">
-							<f:ajax event="change" execute="@form" render="isitable"/>
-						</b:commandButton>
+						<f:facet name="header">Action</f:facet>	
+						<b:commandButton value="Edit" iconAwesome="edit" size="sm" look="default" disabled="false" ajax="true" 
+										 action="#{industrySecurityIncidentsBean.LoadISIEditFormData(varTbl)}" />
+						<b:commandButton value="Delete" iconAwesome="trash" size="sm" look="default" disabled="false" ajax="true" immediate="true"
+										 actionListener="#{industrySecurityIncidentsBean.setSelected(varTbl)}" update=":frmMain:modalDelete" oncomplete="$('.modalDeleteClass').modal('show');" />  
 					</b:dataTableColumn>					
 				</b:dataTable>
 			</b:form>

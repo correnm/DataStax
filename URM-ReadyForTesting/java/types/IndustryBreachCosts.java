@@ -1,6 +1,8 @@
 package com.g2ops.impact.urm.types;
 
 import java.io.Serializable;
+import java.util.Comparator;
+
 
 /**
  * @author 		Tammy Bogart, G2 Ops, Virginia Beach, VA
@@ -37,7 +39,19 @@ public class IndustryBreachCosts implements Serializable {
 		this.industry_name = indName;
 		this.verizon_dbir_industry_name = verDBIRIndName;
 	}
-
+	
+	public static Comparator<IndustryBreachCosts> PubYearComparator = new Comparator<IndustryBreachCosts>() {
+		
+		public int compare(IndustryBreachCosts c1, IndustryBreachCosts c2) {
+			Double pubYear1 = c1.getPublication_year();
+			Double pubYear2 = c2.getPublication_year();
+			
+			//descending order
+			//return pubYear2.compareTo(pubYear1);
+			return pubYear2.intValue() - pubYear1.intValue();
+		}
+	};
+	
 //>>>>>>>>>>>>>>>>>>>>>>>>GETTERS/SETTERS<<<<<<<<<<<<<<<<<<<<<<<<//
 
 	public double getPublication_year() {

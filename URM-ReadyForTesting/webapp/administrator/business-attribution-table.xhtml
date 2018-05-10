@@ -24,11 +24,11 @@ May 2017		Tammy.Bogart	Updated to match the new UI format
 	<ui:define name="full-width-table">
 		<div class="dataTableDivClass">
 			<b:form id="fmMain">
-				<b:modal id="modalDelete" title="Confirm Business Process Delete" styleClass="modalClass" closable="false" close-on-escape="false" backdrop="true">
+				<b:modal id="modalDelete" title="Confirm Business Process Delete" styleClass="modalDeleteClass" closable="false" close-on-escape="false" backdrop="true">
 					<p>Click "Confirm" if you would like to delete this Business Process, <strong>#{businessAttribution.selectedBusName}</strong>.</p>
 					<f:facet name="footer">
 						<b:commandButton value="Confirm" ajax="true" actionListener="#{businessAttribution.deleteBVAControllerMethod()}" 
-										 oncomplete="$('.modalClass').modal('hide');" look="default" size="sm">
+										 oncomplete="$('modalDeleteClass').modal('hide');" look="default" size="sm">
 							 <f:ajax execute="@this" render="tblMain"/>
 						</b:commandButton>		 	
 						<b:button value="Cancel" look="primary" size="sm" dismiss="modal" iconAwesome="times"/>
@@ -77,7 +77,7 @@ May 2017		Tammy.Bogart	Updated to match the new UI format
 										 action="#{businessAttribution.LoadBPEditFormData(att.siteID, att.busProcID)}" />						
 						<b:commandButton value="Delete" iconAwesome="trash" size="sm" look="default" disabled="false" ajax="true" immediate="true" 
 						 				 actionListener="#{businessAttribution.defineSelectedBP(att)}" update=":fmMain:modalDelete"  
-						 				 oncomplete="$('.modalClass').modal('show');" />											
+						 				 oncomplete="$('modalDeleteClass').modal('show');" />											
 					</b:dataTableColumn>					
 				</b:dataTable>	<!-- end of tblMain -->
 			</b:form>		<!-- end of frmMain -->

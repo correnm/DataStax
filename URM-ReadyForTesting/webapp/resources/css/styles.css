@@ -410,3 +410,10 @@ table.table-striped tbody tr.even {
 	white-space:pre-wrap;
 	word-break:break-word;
 }
+
+.dollars:before {
+  content: "$";
+}
+.percentage:after {
+	content: "%";
+}
