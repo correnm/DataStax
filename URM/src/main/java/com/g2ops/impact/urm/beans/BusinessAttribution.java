@@ -58,12 +58,11 @@ import com.datastax.driver.core.PreparedStatement;
 import com.g2ops.impact.urm.types.BusinessAttributionTypes;
 import com.g2ops.impact.urm.types.BusinessHosts;
 import com.g2ops.impact.urm.types.RunsOnHost;
-import com.g2ops.impact.urm.types.Audit_Upsert;
+import com.g2ops.impact.urm.types.audit_upsert;
 import com.g2ops.impact.urm.types.HardwareList;
 
 @Named("businessAttribution")
 @SessionScoped	//required for pulling in currentUser info --Client-specific data      
-
 
 
 public class BusinessAttribution  implements Serializable {
@@ -72,7 +71,7 @@ public class BusinessAttribution  implements Serializable {
 
 	@Inject private UserBean currentUser;
 	
-	static Audit_Upsert auditUpsert = new Audit_Upsert();
+	static audit_upsert auditUpsert = new audit_upsert();
 
 	private DatabaseQueryService databaseQueryService;
 	private ResultSet rs, resultSet, resultset;
@@ -83,7 +82,7 @@ public class BusinessAttribution  implements Serializable {
 	private Row row, rowSites;
 	private Set<RunsOnHost>setROH;
 	
-	private String query, newQuery, selectedBusName, busName, bit, busCrit, infClass, dbType, annRevC, breachType, selectedHostName;
+	private String query, newQuery, selectedBusName, busName, bit, busCrit, infClass, dbType, annRevC, breachType, selectedHostName,validationMessage;
 	private String hostName, hostIP, hostSubnet, hostAssetType, hostAssetVisibility, hostOS, hostVendor, defaultSiteName, resistanceStrengthstr;
 	private UUID siteID, hostSiteID, hostID, selSiteID, selBusProcID, busProcID;
 
@@ -96,8 +95,8 @@ public class BusinessAttribution  implements Serializable {
 	private List<String> dbtypes;
 
 	private Boolean loadHostAddRun = false;
-	
-	private BusinessAttributionTypes att;
+	private String expandedPanels = "";
+	private BusinessAttributionTypes att, selectedBP;
 	private List<BusinessAttributionTypes> attList = new ArrayList<BusinessAttributionTypes>();
 
 	private List<SelectItem> siteList = new ArrayList <SelectItem> ();
@@ -126,7 +125,7 @@ public class BusinessAttribution  implements Serializable {
 
 		//TODO: NOT USING auditUpsert class now, should we??
 		MappingManager manager = new MappingManager(session);
-		manager.udtCodec(Audit_Upsert.class);
+		manager.udtCodec(audit_upsert.class);
 		auditUpsert.setChangedbyusername(currentUser.getFirstName().toLowerCase()+"."+currentUser.getLastName().toLowerCase());
 		manager.udtCodec(RunsOnHost.class);
 		
@@ -243,8 +242,9 @@ public class BusinessAttribution  implements Serializable {
 		if (resistanceStrength != null) {
 			resistanceStrengthstr = resistanceStrength.toString();		//needed for regex validation
 		}
-		String ret = LoadHostTableData(selectedSiteID, selectedBusinessID);
-		System.out.println("in LoadEditFormData, ret: " + ret);
+		LoadHostTableData(selectedSiteID, selectedBusinessID);
+		this.expandedPanels = "";
+
 		//goto Edit form
 		return "/administrator/business-attribution-edit.jsf";
 	}	//end of LoadEditFormData()
@@ -254,6 +254,7 @@ public class BusinessAttribution  implements Serializable {
 		if (this.getBcrits()==null) {
 			LoadDropDowns();
 		}
+		this.validationMessage="TEST TEST";
 		this.selBusProcID= null;
 		this.selectedBusName = "";
 		this.bit = "";
@@ -272,8 +273,8 @@ public class BusinessAttribution  implements Serializable {
 	////end of LOAD functions for each BP  page
 
 	//LOAD functions for each Host  page
-	public String LoadHostTableData(UUID selectedSiteID, UUID selectedBusinessID) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {	
-		System.out.println("In LoadHostTableData");
+	public void LoadHostTableData(UUID selectedSiteID, UUID selectedBusinessID) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {	
+		System.out.println("In LoadHostTableData: selSite/selBus: " + selectedSiteID + "/" + selectedBusinessID);
 		//set selected variables for bean
 		this.selSiteID = selectedSiteID;
 		this.selBusProcID = selectedBusinessID;
@@ -281,8 +282,9 @@ public class BusinessAttribution  implements Serializable {
 			query = "SELECT "
 					+ "business_process_name, runs_on_hosts "
 					+ "from business_value_attribution where site_id=? and business_process_id=?";
+System.out.println("in LoadHostTableData, query: " + query);
 
-			PreparedStatement prepared = session.prepare(query);
+PreparedStatement prepared = session.prepare(query);
 			BoundStatement bound = prepared.bind(selectedSiteID, selectedBusinessID);			
 			ResultSet resultset = session.execute(bound);
 			row = resultset.one();
@@ -291,124 +293,52 @@ public class BusinessAttribution  implements Serializable {
 
 			populateHostListData(setROH);
 
-			//goto Host List form
-			return "/administrator/business-attribution-hosts.jsf";
 	} //end loadHostTableData()
 	
-	public String LoadHostTableDataforEdit(UUID selectedSiteID, UUID selectedBusinessID) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {	
-		System.out.println("In LoadHostTableData");
-		//set selected variables for bean
-		this.selSiteID = selectedSiteID;
-		this.selBusProcID = selectedBusinessID;
-		// get List of all possible hosts for this business
-			query = "SELECT "
-					+ "business_process_name, runs_on_hosts "
-					+ "from business_value_attribution where site_id=? and business_process_id=?";
-
-			PreparedStatement prepared = session.prepare(query);
-			BoundStatement bound = prepared.bind(selectedSiteID, selectedBusinessID);			
-			ResultSet resultset = session.execute(bound);
-			row = resultset.one();
-			selectedBusName = row.getString("business_process_name");
-			setROH = row.getSet("runs_on_hosts", RunsOnHost.class);
-
-			populateHostListData(setROH);
-
-			return null;
-
-	} //end LoadHostTableDataforEdit()
-
-	
-	public String LoadHostAddData() {
-	if (loadHostAddRun) {
-		System.out.println("in LoadHostAddData loadHostAddRun=true");	
+	public void LoadHostAddDataforEdit()  throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {	
+		System.out.println("in  LoadHostAddDataforEdit");
+		
+		//Initialize all areas
+		addHostList.clear();
+		siteID = null;
+		
+		//clear out host values
+		this.hostName  = "";
+		this.hostSiteID  = null;
+		this.hostSubnet  = "";
+		this.hostAssetType  = "";
+		this.hostAssetVisibility  = "";
+		this.hostIP  = "";
+		this.hostOS  = "";
+		this.hostVendor  = "";
+		
+		//load drop-down for site
+		SelectItem siSite = new SelectItem();
+		query = "select distinct site_id from hardware";
+		resultSet = databaseQueryService.runQuery(query);
+		itSites = resultSet.iterator();
+		newQuery = "select site_name from sites where org_unit_id=703161c5-eca3-48a0-8ad9-99f2a6b8d5e7 and site_id=?";
+		prepared = session.prepare(newQuery);
+		while (itSites.hasNext()) {
+			rowSites = itSites.next();			
+			siteID = rowSites.getUUID("site_id");
+			BoundStatement boundSN = prepared.bind(siteID);			
+			ResultSet rsSN = session.execute(boundSN);
+			Row rowSN = rsSN.one();
+			String siteName = rowSN.getString("site_name");
+			siSite.setLabel(siteName);
+			siSite.setValue(siteID);	
+			this.siteList.add(siSite);			
+			if (siteID.equals(this.selSiteID)) {
+				this.defaultSiteName = siteName;
+			}
+		}	//end while
+		//populate subnet with selected siteID
+		this.hostSiteID = siteID;
+		populateSubnets(siteID);
+		loadHostAddRun = true;
+		System.out.println("end  LoadHostAddDataforEdit: site: " + siteID);
 		//return null;
-	}
-	//Initialize all areas
-		addHostList.clear();
-		siteID = null;
-		
-		//clear out host values
-		this.hostName  = "";
-		this.hostSiteID  = null;
-		this.hostSubnet  = "";
-		this.hostAssetType  = "";
-		this.hostAssetVisibility  = "";
-		this.hostIP  = "";
-		this.hostOS  = "";
-		this.hostVendor  = "";
-		
-		//load drop-down for site
-		SelectItem siSite = new SelectItem();
-		query = "select distinct site_id from hardware";
-		resultSet = databaseQueryService.runQuery(query);
-		itSites = resultSet.iterator();
-		newQuery = "select site_name from sites where org_unit_id=703161c5-eca3-48a0-8ad9-99f2a6b8d5e7 and site_id=?";
-		prepared = session.prepare(newQuery);
-		while (itSites.hasNext()) {
-			rowSites = itSites.next();			
-			siteID = rowSites.getUUID("site_id");
-			BoundStatement boundSN = prepared.bind(siteID);			
-			ResultSet rsSN = session.execute(boundSN);
-			Row rowSN = rsSN.one();
-			String siteName = rowSN.getString("site_name");
-			siSite.setLabel(siteName);
-			siSite.setValue(siteID);	
-			this.siteList.add(siSite);			
-			if (siteID.equals(this.selSiteID)) {
-				this.defaultSiteName = siteName;
-			}
-		}	//end while
-		//populate subnet with selected siteID
-		this.hostSiteID = siteID;
-		populateSubnets(siteID);
-		loadHostAddRun = true;
-
-		//goto Add form
-		return "/administrator/business-attribution-host-add.jsf";
-	}	//end LoadHostAddData
-
-	public String LoadHostAddDataforEdit() {
-	//Initialize all areas
-		addHostList.clear();
-		siteID = null;
-		
-		//clear out host values
-		this.hostName  = "";
-		this.hostSiteID  = null;
-		this.hostSubnet  = "";
-		this.hostAssetType  = "";
-		this.hostAssetVisibility  = "";
-		this.hostIP  = "";
-		this.hostOS  = "";
-		this.hostVendor  = "";
-		
-		//load drop-down for site
-		SelectItem siSite = new SelectItem();
-		query = "select distinct site_id from hardware";
-		resultSet = databaseQueryService.runQuery(query);
-		itSites = resultSet.iterator();
-		newQuery = "select site_name from sites where org_unit_id=703161c5-eca3-48a0-8ad9-99f2a6b8d5e7 and site_id=?";
-		prepared = session.prepare(newQuery);
-		while (itSites.hasNext()) {
-			rowSites = itSites.next();			
-			siteID = rowSites.getUUID("site_id");
-			BoundStatement boundSN = prepared.bind(siteID);			
-			ResultSet rsSN = session.execute(boundSN);
-			Row rowSN = rsSN.one();
-			String siteName = rowSN.getString("site_name");
-			siSite.setLabel(siteName);
-			siSite.setValue(siteID);	
-			this.siteList.add(siSite);			
-			if (siteID.equals(this.selSiteID)) {
-				this.defaultSiteName = siteName;
-			}
-		}	//end while
-		//populate subnet with selected siteID
-		this.hostSiteID = siteID;
-		populateSubnets(siteID);
-		loadHostAddRun = true;
-		return null;
 	}	//end LoadHostAddDataforEdit
 	
 	public void listenSite(ValueChangeEvent event) {
@@ -549,17 +479,51 @@ public class BusinessAttribution  implements Serializable {
 	
 
 	public String addBVAControllerMethod() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
+		if (this.getResistanceStrengthstr().isEmpty()) {
+			this.resistanceStrength = null;
+		} else {
+			this.resistanceStrength = new BigDecimal(this.getResistanceStrengthstr().trim());
+		}
+	/* Validation done on front-end
+		// Check the validation of Resistance Strength
+		int[] validRS = {2 , 16, 84, 98};
+		int resStrength = this.resistanceStrength.intValue();
+		String validMsg = "";
+		for (int checkRS : validRS) {
+			if (resStrength == checkRS) {
+				validMsg = "valid";
+				break;
+			} else {
+				if (resStrength >= 40 && resStrength <= 60) {
+					validMsg = "valid";
+					break;
+				} 
+				validMsg = "invalid";
+			}			
+		}
+		System.out.println("in add, validMsg = " + validMsg);
+		if (validMsg == "invalid") {
+			this.validationMessage= "The Resistence Stength value must be 2, 16, 84, 98, or between 40 and 60.";
+			return null;
+		}
+		// Check the validation of Risk Appetite
+		int RA = this.getRiskAppetite().intValue();
+		if (RA > 0.0 && RA < 100) {
+			validMsg = "valid";
+		} else {
+			validMsg = "invalid";
+		}
+		System.out.println("in add RA, validMsg = " + validMsg);
+		if (validMsg == "invalid") {
+			this.validationMessage= "The Risk Appetite vlaue must be between 0 and 100.";
+			return null;
+		}
+*/
 		//convert Annual Revenue from currency format ($ 650,005.00) to decimal
 		try {
 			this.annRev = parse(this.getAnnRevC(), Locale.US);
 		} catch (ParseException e) {
 			e.printStackTrace();
-		}
-
-		if (this.getResistanceStrengthstr().isEmpty()) {
-			this.resistanceStrength = null;
-		} else {
-			this.resistanceStrength = new BigDecimal(this.getResistanceStrengthstr().trim());
 		}
 
 		query="";
@@ -590,9 +554,10 @@ public class BusinessAttribution  implements Serializable {
 	}	//end addBVAControllerMethod()
 
 
-	public String deleteBVAControllerMethod(BusinessAttributionTypes att) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
-		UUID selectedBusinessID = att.getbusProcID();
-		UUID selectedSiteID = att.getsiteID();
+	public String deleteBVAControllerMethod() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
+		att = this.selectedBP;
+		UUID selectedBusinessID = this.selectedBP.getbusProcID();
+		UUID selectedSiteID = this.selectedBP.getsiteID();
 		
 			query = "DELETE FROM business_value_attribution "
 					+ "WHERE site_id= ? and business_process_id=? ";
@@ -602,8 +567,8 @@ public class BusinessAttribution  implements Serializable {
 			session.execute(bound);
 	
 			//update table
-			this.attList.remove(att);
-			System.out.println("Business Process " + att.getBusName() +" was deleted.");		
+			this.attList.remove(this.selectedBP);
+			System.out.println("Business Process " + this.selectedBP.getBusName() +" was deleted.");		
 	
 		return null;
 
@@ -611,41 +576,7 @@ public class BusinessAttribution  implements Serializable {
 	
 	////end of EDIT functions for each BP page
 	
-	////EDIT functions for each Host page
-	public String addBVAHostControllerMethod(UUID selHostID) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
-		this.hostID = selHostID;
-		//only adding hardware node to the Runs_On_Hosts field in the business_value_attribution table
-		//grab all hosts for this business process
-		query = "select runs_on_hosts from business_value_attribution "
-					+ "where site_id=? and business_process_id=?";
-			prepared = session.prepare(query);
-			bound = prepared.bind(this.getSelSiteID(), this.getSelBusProcID());			
-			rs = session.execute(bound);
-			row = rs.one();
-			Set<RunsOnHost> setRunsOnHost = row.getSet("runs_on_hosts", RunsOnHost.class);
-			
-			RunsOnHost hostNode = new RunsOnHost();
-			hostNode.setInternalSystemID(selHostID);
-			hostNode.setIpSubnet(this.getHostSubnet());
-			hostNode.setSiteID(this.getHostSiteID());
-			//add new host to set
-			setRunsOnHost.add(hostNode);
-			
-			query = "UPDATE business_value_attribution set "
-						+	"runs_on_hosts = ?, "
-						+	"audit_upsert={datechanged: toUnixTimestamp(now()), changedbyusername: '" + auditUpsert.getChangedbyusername() + "'} "
-						+	"where site_id= ? and business_process_id=? ";
-
-			prepared = session.prepare(query);
-			bound = prepared.bind(setRunsOnHost, this.getSelSiteID(),this.getSelBusProcID());
-			session.execute(bound);
-	
-			// refresh host list
-			LoadHostTableData(this.getSelSiteID(),this.getSelBusProcID());
-			// go back to the Business Attribution page
-			return "business-attribution-hosts.jsf";
-	}	// end of addBVAController method
-	
+	////EDIT functions for each Host 
 	public String addBVAHostControllerMethodinEdit(UUID selHostID) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 		System.out.println("in addBVAHost, selhostID: " + selHostID);
 		this.hostID = selHostID;
@@ -677,9 +608,14 @@ public class BusinessAttribution  implements Serializable {
 	
 			// refresh host list
 			LoadHostTableData(this.getSelSiteID(),this.getSelBusProcID());
+			openPnlHosts();
 			return null;
 	}	// end of addBVAController method
 
+	public void openPnlHosts() {
+  		this.expandedPanels = "BusinessAttributionEditForm:pnlHosts";
+	}
+	
 	public String deleteBVAHostControllerMethodModal() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 		if (selectedHost != null) {
 			String delMsg = deleteBVAHostControllerMethod(selectedHost);
@@ -744,6 +680,12 @@ public class BusinessAttribution  implements Serializable {
 		return null;
 	}
 
+	public String defineSelectedBP(BusinessAttributionTypes selBP) {
+		this.selectedBP = selBP;
+		this.selectedBusName = selBP.getBusName();
+		return null;
+	}
+
 	public void	populateHostListData(Set<RunsOnHost> setRunsOnHost) {
 		// clear list data
 		this.hostList.clear();
@@ -759,7 +701,7 @@ public class BusinessAttribution  implements Serializable {
 				+ "vendor "  
 				+ "from hardware where site_id=? and ip_subnet_or_building=? and internal_system_id=?";  
 		prepared = session.prepare(query);
-
+System.out.println("in populateHOstListData, query: " + query);
 		while(itROH.hasNext()) {
 			hostNode = itROH.next();
 			hostID = hostNode.getInternalSystemID();
@@ -1166,6 +1108,30 @@ public class BusinessAttribution  implements Serializable {
 	public void setSelectedHost(BusinessHosts selectedHost) {
 		System.out.println("in setSelectedHost");
 		this.selectedHost = selectedHost;
+	}
+
+	public BusinessAttributionTypes getSelectedBP() {
+		return selectedBP;
+	}
+
+	public void setSelectedBP(BusinessAttributionTypes selectedBP) {
+		this.selectedBP = selectedBP;
+	}
+
+	public String getExpandedPanels() {
+		return expandedPanels;
+	}
+
+	public void setExpandedPanels(String expandedPanels) {
+		this.expandedPanels = expandedPanels;
+	}
+
+	public String getValidationMessage() {
+		return validationMessage;
+	}
+
+	public void setValidationMessage(String validationMessage) {
+		this.validationMessage = validationMessage;
 	}	
 }
                                                                                       
