@@ -1,4 +1,15 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+<!--  
+Author: 	Tammy Bogart G2 Ops, Virginia Beach, VA
+Version:	1.00, May 2018
+
+Purpose: 	to add a business attribute to the business_value_attributions table
+
+Modifications
+Date			Name			Description
+5.2.2018		Tammy.Bogart	Created	
+ -->
+ 
+ <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -6,133 +17,113 @@
 	template="/templates/full-page-form.xhtml">
 
 
-	<ui:define name="document-title">Add Business Practice</ui:define>
+	<ui:define name="document-title">Add Business Process</ui:define>
 
-	<ui:define name="page-name">Administrator: &#160; <strong>Add Business Business Practice</strong></ui:define>
+	<ui:define name="page-name">Administrator: &#160; <strong>Business Processes</strong></ui:define>
 
 	<ui:define name="full-page-form">
-
-		<h:form id="BusinessAttributionAddForm">
-			<b:panel look="default">
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
+		<h:form id="frmMain">
+			<b:panel id="pnlMain" look="default">
+				<b:row><!-- row for spacing -->
+					<b:column><span class="rowSpace"><br/></span></b:column>
 				</b:row>
-
-				<b:row>
-					<b:column col-md="6" offset="3">
+				<b:row><!-- row for error/validation messages -->
+					<b:column col-md="12">
 						<b:messages></b:messages>
 					</b:column>
 				</b:row>
-
+				<b:row><!-- row for spacing -->
+					<b:column><span class="rowSpace"><br/></span></b:column>
+				</b:row>
+				<b:panel id="pnlColl" collapsible="false" title="Business Process Details">
+					<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label"><font color="red">* </font>Business Proces Name:</b:column>
+						<b:column col-md="4">
+							<b:inputText id="selectedBusName" value="#{businessAttribution.selectedBusName}" required="true" requiredMessage="Business Process Name is required" />
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label">Business Interruption Threshold:</b:column>
+						<b:column col-md="4">
+							<b:selectOneMenu label="BIT" render-label="false" id="bit" value="#{businessAttribution.bit}" tooltip="Choose a Business Interruption Threshold">
+								<f:selectItems value="#{businessAttribution.bits}" var="bit" itemValue="#{bit}" itemLabel="#{bit}"></f:selectItems>
+							</b:selectOneMenu>
+						</b:column>
+					</b:row>
+	 				<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label">Business Criticality:</b:column>
+						<b:column col-md="4">
+							<b:selectOneMenu label="BCRIT" render-label="false" id="busCrit" value="#{businessAttribution.busCrit}" tooltip="Choose a Business Criticality Level">
+								<f:selectItems value="#{businessAttribution.bcrits}" var="busCrit" itemValue="#{busCrit}" itemLabel="#{busCrit}"></f:selectItems>
+							</b:selectOneMenu>
+						</b:column>
+					</b:row>
+	 				<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label">Breach Types:</b:column>
+						<b:column col-md="4">
+							<b:selectOneMenu label="DBTYPE" render-label="false" id="dbType" value="#{businessAttribution.dbType}" tooltip="Choose a default Breach Type">
+								<f:selectItems value="#{businessAttribution.dbtypes}" var="dbType" itemValue="#{dbType}" itemLabel="#{dbType}"></f:selectItems>
+							</b:selectOneMenu>
+						</b:column>
+					</b:row>
 				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/><br/></span>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Business Name:</b:column>
+					<b:column col-md="4" offset="1" class="form-input-label">Information Classification:</b:column>
 					<b:column col-md="4">
-						<b:inputText id="selectedBusName" value="#{businessAttribution.selectedBusName}" required="true" requiredMessage="Business Name is required">
-							</b:inputText>
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Business Interruption Threshold:</b:column>
-					<b:column col-md="4">
-						<b:selectOneMenu label="BIT" render-label="false" id="bit" value="#{businessAttribution.bit}" tooltip="Choose a Business Interruption Threshold" required="false" requiredMessage="Business Interruption Threshold is required">
-							<f:selectItems value="#{businessAttribution.bits}" var="bit" itemValue="#{bit}" itemLabel="#{bit}"></f:selectItems>
-						</b:selectOneMenu>
-					</b:column>
-				</b:row>
- 			<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Business Criticality:</b:column>
-					<b:column col-md="4">
-						<b:selectOneMenu label="BCRIT" render-label="false" id="busCrit" value="#{businessAttribution.busCrit}" tooltip="Choose a Business Criticality Level" required="false" requiredMessage="Business Criticality Level is required.">
-							<f:selectItems value="#{businessAttribution.bcrits}" var="busCrit" itemValue="#{busCrit}" itemLabel="#{busCrit}"></f:selectItems>
-						</b:selectOneMenu>
-					</b:column>
-				</b:row>
- 				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Breach Types:</b:column>
-					<b:column col-md="4">
-						<b:selectOneMenu label="DBTYPE" render-label="false" id="dbType" value="#{businessAttribution.dbType}" tooltip="Choose a default Breach Type" required="false">
-							<f:selectItems value="#{businessAttribution.dbtypes}" var="dbType" itemValue="#{dbType}" itemLabel="#{dbType}"></f:selectItems>
-						</b:selectOneMenu>
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Information Classification:</b:column>
-					<b:column col-md="4">
-						<b:selectOneMenu label="INFClass" render-label="false" id="infClass" value="#{businessAttribution.infClass}" tooltip="Choose a level of classification" required="false" requiredMessage="Classification Level is required.">
+						<b:selectOneMenu label="INFClass" render-label="false" id="infClass" value="#{businessAttribution.infClass}" tooltip="Choose a level of classification">
 							<f:selectItems value="#{businessAttribution.iclass}" var="infClass" itemValue="#{infClass}" itemLabel="#{infClass}"></f:selectItems>
 						</b:selectOneMenu>
 					</b:column>
 				</b:row>
 				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Risk Appetite:</b:column>
+					<b:column col-md="4" offset="1" class="form-input-label">Risk Appetite:</b:column>
 					<b:column col-md="4">
-						<b:inputText id="riskAppetite" value="#{businessAttribution.riskAppetite}" mask="decimal" maxlength="3" required="false">
-							<f:validateLongRange minimum="0" maximum="100" validatorMessage="risk appetite must be between 0 and 100"/>
+						<b:inputText id="riskAppetite" value="#{businessAttribution.riskAppetite}" mask="decimal" maxlength="3" tooltip="Value must be between 4 and 100." 
+									 validatorMessage="The Risk Appetite value must be between 0 and 100">
+							<f:validateLongRange minimum="0" maximum="100" />
 						</b:inputText>
 					</b:column>
 				</b:row>
+				<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label">Resistance Strength:</b:column>
+						<b:column col-md="4">
+							<b:inputText id="resistanceStrength" value="#{businessAttribution.resistanceStrengthstr}" ask="decimal"  
+							tooltip="Value must be 2, 16, 84, 98, or between 40 and 60" validatorMessage="The Resistance Strength value must be 2, 16, 84, 98, or between 40 and 60">							
+								<f:validateRegex pattern="^2|16|84|98|4[0-9]|5[0-9]|60" minimum="2" maximum="60" />
+							</b:inputText>
+						</b:column>
+					</b:row>
 					<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Resistance Strength:</b:column>
-					<b:column col-md="4">
-						<b:inputText id="resistanceStrength" value="#{businessAttribution.resistanceStrengthstr}" ask="decimal" maxlength="4"  required="false" tooltip="Value must be 2, 16, 84, 98, or between 40 and 60">							
-							<f:validateRegex pattern="^2|16|84|98|4[0-9]|5[0-9]|60" minimum="2" maximum="60" validatorMessage="Value must be 2, 16, 84, 98, or between 40 and 60" />
-						</b:inputText>
-					</b:column>
-				</b:row>
-			<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Annual Revenue:</b:column>
-					<b:column col-md="4">
-						<b:inputText id="annRevC" value="#{businessAttribution.annRevC}" mask="currency"  required="false">
-						</b:inputText>							
-					</b:column>
-				</b:row>  
-				<br/>
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Annual Revenue Year:</b:column>
-					<b:column col-md="4">
-						<b:inputText id="annRevYear" value="#{businessAttribution.annRevYear}" required="false">
-						</b:inputText>
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Record Count:</b:column>
-					<b:column col-md="4">
-						<b:inputText id="recordCount" value="#{businessAttribution.recordCount}"  required="false">
-						</b:inputText>
-					</b:column>
+						<b:column col-md="4" offset="1" class="form-input-label">Annual Revenue:</b:column>
+						<b:column col-md="4">
+							<b:inputText id="annRevC" value="#{businessAttribution.annRevC}" mask="currency" />							
+						</b:column>
+					</b:row>  
+					<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label">Annual Revenue Year:</b:column>
+						<b:column col-md="4">
+							<b:inputText id="annRevYear" value="#{businessAttribution.annRevYear}" validatorMessage="The Annual Revenue Year must be a 4 digit year 'yyyy'.">
+								<f:validateLength minimum="4" maximum="4" />								
+							</b:inputText>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label">Record Count:</b:column>
+						<b:column col-md="4">
+							<b:inputText id="recordCount" value="#{businessAttribution.recordCount}" />							
+						</b:column>
+					</b:row>
+				</b:panel>	<!-- end of pnlColl -->
+				<b:row><!-- row for spacing -->
+					<b:column><span class="rowSpace"><br/></span></b:column>
 				</b:row>
 				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
+					<b:column col-md="12" style="text-align:center;">
+						<b:commandButton  value="Save" iconAwesome="save" size="sm" look="default" disabled="false"
+										  action="#{businessAttribution.addBVAControllerMethod()}" />
+						<b:button value="Cancel" iconAwesome="times" size="sm" look="default" href="business-attribution-table.jsf"></b:button>
 					</b:column>
 				</b:row>
-
-				<b:row>
-					<b:column col-md="2" offset="2"></b:column>
-					<b:column col-md="4">
-						<b:commandButton value="Save Changes" look="primary" action="#{businessAttribution.addBVAControllerMethod()}"></b:commandButton>
-						<b:button value="Cancel" href="business-attribution-table.jsf"></b:button>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
-				</b:row>
-
-			</b:panel>
-
-		</h:form>
-
+			</b:panel>		<!-- end of pnlMain -->
+		</h:form>		<!-- end of frmMain -->
 	</ui:define>
-
 </ui:composition>
