@@ -363,6 +363,7 @@ table.table-striped tbody tr.even {
 
 .form-input-label {
 	text-align: right;
+	font-weight: bold;
 }
 
 /* basic positioning */
@@ -382,4 +383,30 @@ table.table-striped tbody tr.even {
 	font-weight: bold;
 	color: #595a5c;
 	padding-bottom: 15px;
+}
+
+
+/*Added by Tammy Bogart 5/7/18 for formatting */
+
+.panel-borderless {
+  border: 0;
+  box-shadow: none;
+}
+
+.alignleft {
+	text-align:left;
+}
+
+.alignright {
+	text-align:right; 
+}
+
+.tablecontent {
+	white-space:pre-wrap;
+	word-break:break-word;
+}
+
+.tableheader {
+	white-space:pre-wrap;
+	word-break:break-word;
 }
