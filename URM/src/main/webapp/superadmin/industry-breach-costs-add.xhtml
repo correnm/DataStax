@@ -17,122 +17,132 @@ Date			Name			Description
 	template="/templates/full-page-form.xhtml">
 	<ui:define name="document-title">Add a new Industry Breach Cost value</ui:define>
 
-	<ui:define name="page-name">Administrator: &#160; <strong>Add a new Industry breach cost value</strong></ui:define>
+<ui:define name="page-name">Super Admin: &#160;<strong>Industry Breach Costs</strong></ui:define>
 
 	<ui:define name="full-page-form">
-
-		<h:form id="IndustryBreachCostAddForm">
-			<b:panel look="default">
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
+		<h:form id="frmMain">
+			<b:panel id="pnlMain" look="default">
+				<b:row><!-- row for spacing -->
+					<b:column><span class="rowSpace"><br/></span></b:column>
 				</b:row>
-				<b:row>
-					<b:column col-md="6" offset="3">
+				<b:row><!-- row for error/validation messages -->
+					<b:column col-md="12">
 						<b:messages></b:messages>
 					</b:column>
 				</b:row>
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/><br/></span>
-					</b:column>
+				<b:row><!-- row for spacing -->
+					<b:column><span class="rowSpace"><br/></span></b:column>
 				</b:row>
+				<b:panel id="pnlColl" collapsible="false" title="">
+					<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label"><font color="red">* </font>Publication Year:</b:column>
+						<b:column col-md="4">
+							<b:inputText id="pubYear" value="#{industryBreachCostBean.publication_year}" required="true" 
+								requiredMessage="The Publication year is required" validatorMessage="The Publication Year must be 4 digits 'yyyy'.">
+								<f:convertNumber maxFractionDigits="0" integerOnly="true" pattern="#0000" />
+								<f:validateLength minimum="4" maximum="4" />	
+							</b:inputText>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label"><font color="red">* </font>Country Name:</b:column>
+						<b:column col-md="4">
+							<b:selectOneMenu label="countryName" render-label="false" id="countryName" value="#{industryBreachCostBean.country_name}" tooltip="Choose a Country" 
+								required="true" requiredMessage="The Country is required.">
+							   	<f:selectItem itemValue="United States" itemLabel="United States" />
+							   	<f:selectItem itemValue="ASEAN region" itemLabel="ASEAN region" />
+							   	<f:selectItem itemValue="Australia" itemLabel="Australia" />
+							   	<f:selectItem itemValue="Brazil" itemLabel="Brazil" />
+							   	<f:selectItem itemValue="Canada" itemLabel="Canada" />
+							   	<f:selectItem itemValue="France" itemLabel="France" />
+							   	<f:selectItem itemValue="Germany" itemLabel="Germany" />
+							   	<f:selectItem itemValue="India" itemLabel="India" />
+							   	<f:selectItem itemValue="Italy" itemLabel="Italy" />
+							   	<f:selectItem itemValue="Japan" itemLabel="Japan" />
+							   	<f:selectItem itemValue="South Africa" itemLabel="South Africa" />
+							   	<f:selectItem itemValue="United Kingdom" itemLabel="United Kingdom" />
+							   	<f:selectItem itemValue="Middle East" itemLabel="The Middle East (including the United Arab Emirates and Saudi Arabia)" />
+							</b:selectOneMenu>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label"><font color="red">* </font>Industry Name:</b:column>
+						<b:column col-md="4">
+							<b:inputText id="indName" value="#{industryBreachCostBean.industry_name}" required="true" requiredMessage="The Industry Name is required." />
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label">Direct Cost Percentage:</b:column>
+						<b:column col-md="4">
+							<b:inputText id="directCostPCT" value="#{industryBreachCostBean.direct_cost_pct}" required="false" styleClass="percentage">
+								<f:facet name="append">
+              						<h:outputText value="%" />
+            					</f:facet>
+							</b:inputText>							
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label">Direct per Capita Cost:</b:column>
+						<b:column col-md="4">
+							<b:inputText id="directCapitaCost" value="#{industryBreachCostBean.direct_per_capita_cost}" required="false">
+								<f:facet name="prepend">
+              						<h:outputText value="$" />
+            					</f:facet>
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="0"/>					 	
+							</b:inputText>				 	
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label">Indirect Cost Percentage:</b:column>
+						<b:column col-md="4">
+							<b:inputText id="indirectCostPCT" value="#{industryBreachCostBean.indirect_cost_pct}" required="false"  styleClass="percentage">
+								<f:facet name="append">
+              						<h:outputText value="%" />
+            					</f:facet>
+            				</b:inputText>
+        				</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-md="4" offset="1" class="form-input-label">Indirect per Capita Cost:</b:column>
+						<b:column col-md="4">
+							<b:inputText id="indirect_per_capita_cost" value="#{industryBreachCostBean.indirect_per_capita_cost}" required="false">
+								<f:facet name="prepend">
+              						<h:outputText value="$" />
+            					</f:facet>
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="0"/>					 	
+							</b:inputText>				 	
+						</b:column>
+					</b:row>
 				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Publication Year:</b:column>
+					<b:column col-md="4" offset="1" class="form-input-label">per Capita Cost:</b:column>
 					<b:column col-md="4">
-						<b:inputText id="pubYear" value="#{industryBreachCostBean.publication_year}" required="true" requiredMessage="Publication year is required">
-							<f:convertNumber maxFractionDigits="0" integerOnly="true" pattern="#0000" />	
-						</b:inputText>
+						<b:inputText id="perCapitaCost" value="#{industryBreachCostBean.per_capita_cost}" required="false">
+							<f:facet name="prepend">
+           						<h:outputText value="$" />
+           					</f:facet>
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="0"/>					 	
+						</b:inputText>				 	
 					</b:column>
 				</b:row>
 				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Country Name:</b:column>
-					<b:column col-md="4">
-						<b:selectOneMenu label="countryName" render-label="false" id="countryName" value="#{industryBreachCostBean.country_name}" tooltip="Choose a Country" required="true" requiredMessage="Country is required">
-						   	<f:selectItem itemValue="United States" itemLabel="United States" />
-						   	<f:selectItem itemValue="ASEAN region" itemLabel="ASEAN region" />
-						   	<f:selectItem itemValue="Australia" itemLabel="Australia" />
-						   	<f:selectItem itemValue="Brazil" itemLabel="Brazil" />
-						   	<f:selectItem itemValue="Canada" itemLabel="Canada" />
-						   	<f:selectItem itemValue="France" itemLabel="France" />
-						   	<f:selectItem itemValue="Germany" itemLabel="Germany" />
-						   	<f:selectItem itemValue="India" itemLabel="India" />
-						   	<f:selectItem itemValue="Italy" itemLabel="Italy" />
-						   	<f:selectItem itemValue="Japan" itemLabel="Japan" />
-						   	<f:selectItem itemValue="South Africa" itemLabel="South Africa" />
-						   	<f:selectItem itemValue="United Kingdom" itemLabel="United Kingdom" />
-						   	<f:selectItem itemValue="Middle East" itemLabel="The Middle East (including the United Arab Emirates and Saudi Arabia)" />
-						</b:selectOneMenu>
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Industry Name:</b:column>
-					<b:column col-md="4">
-						<b:inputText id="indName" value="#{industryBreachCostBean.industry_name}" required="true" requiredMessage="Industry name is required">
-						</b:inputText>
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Direct Cost Percentage:</b:column>
-					<b:column col-md="4">
-						<b:inputText id="directCostPCT" value="#{industryBreachCostBean.direct_cost_pct}" required="false"></b:inputText>
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Direct per Capita Cost:</b:column>
-					<b:column col-md="4">
-						<b:inputText id="directCapitaCost" value="#{industryBreachCostBean.direct_per_capita_cost}" required="false"></b:inputText>
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Indirect Cost Percentage:</b:column>
-					<b:column col-md="4">
-						<b:inputText id="indirectCostPCT" value="#{industryBreachCostBean.indirect_cost_pct}" required="false"></b:inputText>
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Indirect per Capita Cost:</b:column>
-					<b:column col-md="4">
-						<b:inputText id="indirect_per_capita_cost" value="#{industryBreachCostBean.indirect_per_capita_cost}" required="false"></b:inputText>
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">per Capita Cost:</b:column>
-					<b:column col-md="4">
-						<b:inputText id="perCapitaCost" value="#{industryBreachCostBean.per_capita_cost}" required="false"></b:inputText>
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Verizon DBIR Industry Name:</b:column>
+					<b:column col-md="4" offset="1" class="form-input-label">Verizon DBIR Industry Name:</b:column>
 					<b:column col-md="4">
 						<b:inputText id="VerizonDBIRIndName" value="#{industryBreachCostBean.verizon_dbir_industry_name}" required="false"></b:inputText>
 					</b:column>
 				</b:row>
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
+				</b:panel>	<!-- end of pnlColl -->
+				<b:row><!-- row for spacing -->
+					<b:column><span class="rowSpace"><br/></span></b:column>
 				</b:row>
-
 				<b:row>
-					<b:column col-md="2" offset="2"></b:column>
-					<b:column col-md="4">
-						<b:commandButton value="Save Changes" look="primary" action="#{industryBreachCostBean.addIBCControllerMethod()}"></b:commandButton>
-						<b:button value="Cancel" href="industry-breach-costs-table.jsf"></b:button>
-					</b:column>
+					<b:column col-md="12" style="text-align:center;">
+						<b:commandButton value="Save" iconAwesome="save" size="sm" look="default" disabled="false"  
+										 action="#{industryBreachCostBean.addIBCControllerMethod()}" />					
+						<b:button value="Cancel" iconAwesome="times" size="sm" look="default" href="industry-breach-costs-table.jsf" />
+					</b:column>					
 				</b:row>
-
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
-				</b:row>
-
-			</b:panel>
-
-		</h:form>
-
+			</b:panel>		<!-- end pnlMain -->
+		</h:form>		<!-- end frmMain -->
 	</ui:define>
 </ui:composition>
 				
