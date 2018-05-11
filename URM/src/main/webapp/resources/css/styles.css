@@ -288,6 +288,14 @@ table.table-striped tbody tr.even {
 	background-color: #eaebeb;
 }
 
+table.table-striped tbody tr.even:hover {
+	background-color: #ffff99;
+}
+
+table.table-striped tbody tr.odd:hover {
+	background-color: #ffff99;
+}
+
 .businessProcessesByCyvarTableClass {
 	border-width: 1px;
 	border-color: #999999;
@@ -409,4 +417,12 @@ table.table-striped tbody tr.even {
 .tableheader {
 	white-space:pre-wrap;
 	word-break:break-word;
+}
+
+.dollars:before {
+  content: "$";
+}
+
+.percentage:after {
+	content: "%";
 }
