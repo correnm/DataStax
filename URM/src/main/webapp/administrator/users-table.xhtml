@@ -11,75 +11,75 @@
 
 	<ui:define name="full-width-table">
 
-		<h:form id="modalFormID">
-			<b:modal id="modalID" title="Force Passcode Reset Confirmation" styleClass="modalPseudoClass" closable="false" close-on-escape="false" backdrop="false">
-				<h:inputHidden id="userEmailID" value="#{usersBean.userToForcePasscodeResetEmail}" />
-				<p>Click "Confirm" to force user <strong>"<span class="testClass"></span>"</strong> to reset their passcode. The user will receive an email with a Passcode Reset link. The user will not be able to login until they have clicked the link in the email and completed the Passcode Reset process.</p>
-				<f:facet name="footer">
-					<b:commandButton value="Confirm" look="primary" size="sm" action="#{usersBean.forcePasscodeResetActionControllerMethod}" />
-					<b:button value="Cancel" look="default" size="sm" dismiss="modal" />
-				</f:facet>
-			</b:modal>
-		</h:form>
+		<div class="dataTableDivClass">
 
 <!--
 -->
-		<script>
-			function openConfirmationDialog(email) {
-				$('#modalFormID\\:userEmailID').val(email);
-				$('.testClass').html(email);
-				$('.modalPseudoClass').modal();
-			}
-		</script>
+			<script>
+				function openConfirmationDialog(email) {
+					$('#modalFormID\\:userEmailID').val(email);
+					$('.testClass').html(email);
+					$('.modalPseudoClass').modal();
+				}
+			</script>
 
-		<div class="dataTableDivClass">
+			<b:form id="formID">
 
-		<div style="text-align: center;">
-		<h:link outcome='/administrator/user-add'>
-			<b:button value="Add" look="default" iconAwesome="plus"></b:button>
-		</h:link>
-		</div>
+				<b:modal id="modalID" title="Force Passcode Reset Confirmation" styleClass="modalPseudoClass" closable="false" close-on-escape="false" backdrop="false">
+					<h:inputHidden id="userEmailID" value="#{usersBean.userToForcePasscodeResetEmail}" />
+					<p>Click "Confirm" to force user <strong>"<span class="testClass"></span>"</strong> to reset their passcode. The user will receive an email with a Passcode Reset link. The user will not be able to login until they have clicked the link in the email and completed the Passcode Reset process.</p>
+					<f:facet name="footer">
+						<b:commandButton value="Confirm" look="primary" size="sm" action="#{usersBean.forcePasscodeResetActionControllerMethod}" />
+						<b:button value="Cancel" look="default" size="sm" dismiss="modal" />
+					</f:facet>
+				</b:modal>
 
-		<h:form>
-			<b:dataTable value="#{usersBean.usersData}" var="user" styleClass="dataTableClass" scroll-horizontally="true">
+				<div style="text-align: center;">
+					<h:link outcome='/administrator/user-add'>
+						<b:button value="Add" look="default" iconAwesome="plus"></b:button>
+					</h:link>
+				</div>
 
-				<b:dataTableColumn value="#{user.userEmail}" order="asc">
-					<f:facet name="header">Email Address</f:facet>
-				</b:dataTableColumn>
+				<b:dataTable value="#{usersBean.usersData}" var="user" styleClass="dataTableClass">
 
-				<b:dataTableColumn value="#{user.firstName}">
-					<f:facet name="header">First Name</f:facet>
-				</b:dataTableColumn>
+					<b:dataTableColumn value="#{user.userEmail}" order="asc">
+						<f:facet name="header">Email Address</f:facet>
+					</b:dataTableColumn>
 
-				<b:dataTableColumn value="#{user.lastName}">
-					<f:facet name="header">Last Name</f:facet>
-				</b:dataTableColumn>
+					<b:dataTableColumn value="#{user.firstName}">
+						<f:facet name="header">First Name</f:facet>
+					</b:dataTableColumn>
 
-				<b:dataTableColumn value="#{user.appRoleName}">    				
-					<f:facet name="header">Role</f:facet>
-				</b:dataTableColumn>
+					<b:dataTableColumn value="#{user.lastName}">
+						<f:facet name="header">Last Name</f:facet>
+					</b:dataTableColumn>
 
-				<b:dataTableColumn value="#{user.defaultLensView}">
-					<f:facet name="header">Dashboard</f:facet>
-				</b:dataTableColumn>
+					<b:dataTableColumn value="#{user.appRoleName}">    				
+						<f:facet name="header">Role</f:facet>
+					</b:dataTableColumn>
 
-				<b:dataTableColumn value="#{user.orgUnitName} - #{user.siteName}">
-					<f:facet name="header">Site</f:facet>
-				</b:dataTableColumn>
+					<b:dataTableColumn value="#{user.defaultLensView}">
+						<f:facet name="header">Dashboard</f:facet>
+					</b:dataTableColumn>
 
-				<b:dataTableColumn value="#{user.userStatus}">
-					<f:facet name="header">Status</f:facet>
-				</b:dataTableColumn>
+					<b:dataTableColumn value="#{user.orgUnitName} - #{user.siteName}">
+						<f:facet name="header">Site</f:facet>
+					</b:dataTableColumn>
 
-				<b:dataTableColumn value="" orderable="false" style-class="dataTableButtonColumnClass">
-					<f:facet name="header">Action</f:facet>
-					<b:commandButton action="#{usersBean.retrieveUserData(user.userEmail)}" value="Edit" size="sm" look="default" iconAwesome="edit"></b:commandButton>
-					<b:button value="Delete" look="default" size="sm" iconAwesome="trash" onclick="openConfirmationDialog('#{user.userEmail}')" />
-					<b:button value="Force Passcode Reset" look="default" size="sm" iconAwesome="key" onclick="openConfirmationDialog('#{user.userEmail}')" />
-				</b:dataTableColumn>
+					<b:dataTableColumn value="#{user.userStatus}">
+						<f:facet name="header">Status</f:facet>
+					</b:dataTableColumn>
+
+					<b:dataTableColumn value="" orderable="false" style-class="dataTableButtonColumnClass">
+						<f:facet name="header">Action</f:facet>
+						<b:commandButton action="#{usersBean.retrieveUserData(user.userEmail)}" value="Edit" size="sm" look="default" iconAwesome="edit"></b:commandButton>
+						<b:button value="Delete" look="default" size="sm" iconAwesome="trash" onclick="openConfirmationDialog('#{user.userEmail}')" />
+						<b:button value="Force Passcode Reset" look="default" size="sm" iconAwesome="key" onclick="openConfirmationDialog('#{user.userEmail}')" />
+					</b:dataTableColumn>
  
-			</b:dataTable>
-		</h:form>
+				</b:dataTable>
+
+			</b:form>
 
 		</div>
 
