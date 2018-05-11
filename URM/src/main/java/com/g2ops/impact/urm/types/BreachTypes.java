@@ -1,6 +1,7 @@
 package com.g2ops.impact.urm.types;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 /**
  * @author 		Tammy Bogart, G2 Ops, Virginia Beach, VA
@@ -20,13 +21,10 @@ import java.io.Serializable;
 public class BreachTypes implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private Double publication_year;
-	private String country_name;
-	private String breach_type;
-	private Double distribution_pct;
-	private Double per_capita_cost;
+	private Double publication_year, distribution_pct, per_capita_cost;
+	private String country_name, breach_type;
 
-	public BreachTypes (Double pubYear, String cName, String bType, Double distPct, Double perCapita) {
+	public BreachTypes (double pubYear, String cName, String bType, double distPct, double perCapita) {
 		this.publication_year = pubYear;
 		this.country_name = cName;
 		this.breach_type = bType;
@@ -34,6 +32,17 @@ public class BreachTypes implements Serializable {
 		this.per_capita_cost = perCapita;
 	}
 
+   	public static Comparator<BreachTypes> PubYearComparator = new Comparator<BreachTypes>() {
+		
+		public int compare(BreachTypes c1, BreachTypes c2) {
+			Double pubYear1 = c1.getPublication_year();
+			Double pubYear2 = c2.getPublication_year();
+			
+			//descending order
+			//return pubYear2.compareTo(pubYear1);
+			return pubYear2.intValue() - pubYear1.intValue();
+		}
+	};
 
 //>>>>>>>>>>>>>>>>>>>>>>>>GETTERS/SETTERS<<<<<<<<<<<<<<<<<<<<<<<<//
 

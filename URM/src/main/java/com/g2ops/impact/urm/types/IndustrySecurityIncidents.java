@@ -1,6 +1,7 @@
 package com.g2ops.impact.urm.types;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 /**
  * @author 		Tammy Bogart, G2 Ops, Virginia Beach, VA
@@ -43,6 +44,19 @@ public class IndustrySecurityIncidents implements Serializable {
     	    this.probability_of_attack = probabilityAttack;
     	    this.sample_size = sampleSize;
     	}
+
+    	
+    	public static Comparator<IndustrySecurityIncidents> PubYearComparator = new Comparator<IndustrySecurityIncidents>() {
+    		
+    		public int compare(IndustrySecurityIncidents c1, IndustrySecurityIncidents c2) {
+    			Double pubYear1 = c1.getPublication_year();
+    			Double pubYear2 = c2.getPublication_year();
+    			
+    			//descending order
+    			//return pubYear2.compareTo(pubYear1);
+    			return pubYear2.intValue() - pubYear1.intValue();
+    		}
+    	};
 
     	//>>>>>>>>>>>>>>>>>>>>>>>>GETTERS/SETTERS<<<<<<<<<<<<<<<<<<<<<<<<//
 
