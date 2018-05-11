@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.security.NoSuchAlgorithmException;
@@ -55,7 +56,7 @@ public class IndustrySecurityIncidentsBean  implements Serializable {
 	private List<IndustrySecurityIncidents> isiList = new ArrayList<IndustrySecurityIncidents>();
 	private IndustrySecurityIncidents isi;
 	private Iterator<Row> iterator;
-	private String query;
+	private String query, selectedISI;
 
 	private double publication_year, origPubYear, breaches_large, breaches_small, breaches_total, breaches_unk, incidents_large, incidents_small, incidents_total, incidents_unk, probability_of_attack, sample_size; 
 	private String verizon_dbir_industry_name, origVerIndName;
@@ -79,7 +80,7 @@ public class IndustrySecurityIncidentsBean  implements Serializable {
 	public void LoadIndustrySecurityIncidents() {
 		//called on initialization of breach-types-table to load table data
 		System.out.println("in LoadIndustrySecurityIncidents");	
-		
+		this.selectedISI ="";
 		query = "SELECT publication_year, " 
 				+	"verizon_dbir_industry_name, " 
 				+	"breaches_large, " 
@@ -117,6 +118,19 @@ public class IndustrySecurityIncidentsBean  implements Serializable {
 												this.incidents_large, this.incidents_small, this.incidents_total, this.incidents_unk, this.probability_of_attack, this.sample_size);
 			isiList.add(isi);	
 		}  	//end of while
+		
+		//sort list in desc order by Publication Year
+		List<IndustrySecurityIncidents> sortedList = new ArrayList<IndustrySecurityIncidents>();
+		Collections.sort(isiList, IndustrySecurityIncidents.PubYearComparator);
+		for(IndustrySecurityIncidents s: isiList) {
+			sortedList.add(s);
+		}
+		System.out.println("isiList b/4 sort: " + isiList.get(0));
+
+		isiList.clear();
+		isiList = sortedList;
+		System.out.println("isiList: " + isiList.get(0));
+		System.out.println("sortedList: " + sortedList.get(0));
 	}	//end LoadIndustrySecurityIncidents
 
 	public String LoadISIAddFormData()  throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
@@ -154,8 +168,8 @@ public class IndustrySecurityIncidentsBean  implements Serializable {
 
 	    origPubYear = isiEdit.getPublication_year();
 	    origVerIndName = isiEdit.getVerizon_dbir_industry_name();
-		System.out.println("orgPubYear/getPubYear : "+ this.origPubYear + "/" + this.publication_year);
-		System.out.println("orgVerIndName/getVerIndName : "+ this.origVerIndName + "/" + this.verizon_dbir_industry_name);
+		//System.out.println("orgPubYear/getPubYear : "+ this.origPubYear + "/" + this.publication_year);
+		//System.out.println("orgVerIndName/getVerIndName : "+ this.origVerIndName + "/" + this.verizon_dbir_industry_name);
 		//goto Edit form
 		return "/superadmin/industry-security-incidents-edit.jsf";
 	}	//end of LoadISIEditFormData()
@@ -164,8 +178,8 @@ public class IndustrySecurityIncidentsBean  implements Serializable {
 	public String editISIControllerMethod() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {		
 		System.out.println("in editBTControllerMethod");
 		//Check to see if primary key changed, if so, insert new record and delete old one
-		System.out.println("orgPubYear/getPubYear : "+ this.origPubYear + "/" + this.getPublication_year());
-		System.out.println("orgVerIndName/getVerIndName : "+ this.origVerIndName + "/" + this.getVerizon_dbir_industry_name());
+		//System.out.println("orgPubYear/getPubYear : "+ this.origPubYear + "/" + this.getPublication_year());
+		//System.out.println("orgVerIndName/getVerIndName : "+ this.origVerIndName + "/" + this.getVerizon_dbir_industry_name());
 		
 		if(this.origPubYear == this.getPublication_year() && this.origVerIndName.equals(this.getVerizon_dbir_industry_name())) {
 			System.out.println("primary key did not changed");
@@ -228,7 +242,7 @@ public class IndustrySecurityIncidentsBean  implements Serializable {
 }	//end editISIControllerMethod
 
 	public String addISIControllerMethod() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
-		System.out.println("in addISIControllerMethod");
+		System.out.println("in addISIControllerMethod, pubYear: " + this.getPublication_year());
 		
 		query="INSERT INTO appl_auth.industry_security_incidents ( "
 			+	"publication_year, " 
@@ -257,20 +271,26 @@ public class IndustrySecurityIncidentsBean  implements Serializable {
 		return "/superadmin/industry-security-incidents-table.jsf";
 }   //end addBTControllerMethod
 	
-	public String deleteISIControllerMethod(IndustrySecurityIncidents isiDelete) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
+	public void deleteISIControllerMethod() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 		System.out.println("in deleteISIControllerMethod");
 		query = "DELETE FROM appl_auth.industry_security_incidents WHERE "
 				+ "publication_year = ? and verizon_dbir_industry_name=? ";
 		
 		prepared = session.prepare(query);
-		bound = prepared.bind(isiDelete.getPublication_year(), isiDelete.getVerizon_dbir_industry_name());
+		bound = prepared.bind(isi.getPublication_year(), isi.getVerizon_dbir_industry_name());
 		session.execute(bound);
 
 		//reload table data
-		LoadIndustrySecurityIncidents();
-		return null;
+		this.isiList.remove(isi);
+		//LoadIndustrySecurityIncidents();
+		//return null;
 	}	//end deleteIBCControllerMethod
 
+	public void setSelected(IndustrySecurityIncidents selISI) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
+		this.isi = selISI;	
+		this.selectedISI = selISI.getVerizon_dbir_industry_name();
+	}
+	
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Getters/Setters<<<<<<<<<<<<<<<<<<<<<<<<//
 	public List<IndustrySecurityIncidents> getIndustrySecurityIncidentData() {
 		return isiList;
@@ -282,6 +302,14 @@ public class IndustrySecurityIncidentsBean  implements Serializable {
 
 	public void setIsiList(List<IndustrySecurityIncidents> isiList) {
 		this.isiList = isiList;
+	}
+
+	public String getSelectedISI() {
+		return selectedISI;
+	}
+
+	public void setSelectedISI(String selectedISI) {
+		this.selectedISI = selectedISI;
 	}
 
 	public IndustrySecurityIncidents getIsi() {

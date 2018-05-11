@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.security.NoSuchAlgorithmException;
@@ -50,7 +51,7 @@ public class BreachTypesBean  implements Serializable {
 	private Session session;
 	private ResultSet resultSet; 
 	private DatabaseQueryService databaseQueryService;
-	private String query, breach_type, country_name, origBTName, origCountry;
+	private String query, breach_type, country_name, origBTName, origCountry, selectedBT;
 	private double publication_year, distribution_pct, per_capita_cost, origPubYear;
 	private List<BreachTypes> btList = new ArrayList<BreachTypes>();
 	private BreachTypes bt;
@@ -75,6 +76,7 @@ public class BreachTypesBean  implements Serializable {
 	public void LoadBreachTypes() {
 		//called on initialization of breach-types-table to load table data
 		System.out.println("in LoadBreachTypes");	
+		this.selectedBT = "";	
 		
 		query = "SELECT "
 			+	"publication_year, "
@@ -83,8 +85,11 @@ public class BreachTypesBean  implements Serializable {
 			+	"distribution_pct, "
 			+	"per_capita_cost "
 			+	"from appl_auth.breach_types";
+		
 		resultSet = databaseQueryService.runQuery(query);	
+		
 		// clear out any old content before retrieving new database info
+		
 		btList.clear();
 		iterator = resultSet.iterator();
 		
@@ -99,7 +104,17 @@ public class BreachTypesBean  implements Serializable {
 			bt = new BreachTypes(publication_year, country_name, breach_type, distribution_pct, per_capita_cost);
 			btList.add(bt);	
 		}  	//end of while
-	}
+		
+		//sort list in desc order by Publication Year
+		List<BreachTypes> sortedList = new ArrayList<BreachTypes>();
+		Collections.sort(btList, BreachTypes.PubYearComparator);
+		for(BreachTypes s: btList) {
+			sortedList.add(s);
+		}
+		btList.clear();
+		btList = sortedList;
+
+	}		//end of LoadBreachTypes()
 
 	public String LoadBTAddFormData()  throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 		System.out.println("in loadAddFormData");
@@ -199,7 +214,7 @@ public class BreachTypesBean  implements Serializable {
 		return "/superadmin/breach-types-table.jsf";
 	}
 	
-	public String deleteBTControllerMethod(BreachTypes bt) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
+	public void deleteBTControllerMethod() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 		System.out.println("in deleteBVAControllerMethod");
 			
 		query = "DELETE FROM appl_auth.breach_types "
@@ -211,10 +226,17 @@ public class BreachTypesBean  implements Serializable {
 			//update table
 			this.btList.remove(bt);
 			System.out.println("Breach type " + bt.getBreach_type() +" was deleted.");		
-		return null;
+		//return null;
 	}	//end deleteBVAControllerMethod
 
 
+	public void setSelected(BreachTypes selBT)  throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
+		//set selected values
+		this.bt = selBT;
+		this.selectedBT = selBT.getBreach_type();
+		
+	}
+	
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Getters/Setters<<<<<<<<<<<<<<<<<<<<<<<<//
 	public List<BreachTypes> getBreachTypeData() {
 		return btList;
@@ -228,6 +250,14 @@ public class BreachTypesBean  implements Serializable {
 		this.bt = bt;
 	}
 
+	public String getSelectedBT() {
+		return selectedBT;
+	}
+	
+	public void setSelectedBT(String selectedBT) {
+		this.selectedBT = selectedBT;
+	}
+	
 	public String getOrigBTName() {
 		return origBTName;
 	}
