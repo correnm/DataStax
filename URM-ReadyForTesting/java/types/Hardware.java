@@ -3,6 +3,8 @@ package com.g2ops.impact.urm.types;
  * @purpose a type that reflects a record of the hardware table
  * date				author				description
  * 4/10/2018		sara.bergman		a type to capture all fields of the hardware table
+ * 5/15/2018		tammy.bogart		changed "audit_upsert" to "AuditUpsert"
+ * 5/15/2018		tammy.bogart		changed "connected_elements" to "ConnectedElements"
  * */
 
 import java.math.BigDecimal;
@@ -27,9 +29,9 @@ public class Hardware {
 	private LocalDate archive_date;
 	String asset_type;
 	String asset_visibility;
-	Audit_Upsert audit_upsert;
+	AuditUpsert audit_upsert;
 	List<UUID> business_process_ids;
-	List<Connected_Elements> connected_elements;
+	List<ConnectedElements> connected_elements;
 	String cpe_id;
 	Boolean crown_jewel;
 	List<Cvss_Scores> cvss_scores;
@@ -113,11 +115,11 @@ public class Hardware {
 //		this.changedbyusername = changedbyusername;
 //	}
 	
-	public void setAudit_upsert(Audit_Upsert audit_upsert){
+	public void setAudit_upsert(AuditUpsert audit_upsert){
 		this.audit_upsert = audit_upsert;
 	}
 
-	public Audit_Upsert getAudit_upsert(){
+	public AuditUpsert getAudit_upsert(){
 		return audit_upsert;
 	}
 	//>>>>>>>>>>>>>> business_processes <<<<<<<<<<<<<<<<
@@ -128,10 +130,10 @@ public class Hardware {
 		return business_process_ids;
 	}
 	//>>>>>>>>>>>>>> connected_elements <<<<<<<<<<<<<<<<
-	public void setConnected_elements(List<Connected_Elements> connected_elements){
+	public void setConnected_elements(List<ConnectedElements> connected_elements){
 		this.connected_elements = connected_elements ;
 	}
-	public List<Connected_Elements> getConnected_Elements(){
+	public List<ConnectedElements> getConnected_Elements(){
 		return connected_elements;
 	}
 	//>>>>>>>>>>>>>> cpe_id <<<<<<<<<<<<<<<<
