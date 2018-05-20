@@ -105,8 +105,8 @@
 			</b:row>
 
 			<b:row>
-				<b:column col-md="6" offset="3">
-					<b:commandButton value="Login" action="#{userBean.login}" ajax="false" look="primary" />
+				<b:column col-md="6" offset="3" class="buttons-position">
+					<b:commandButton value="Login" size="sm" look="primary" action="#{userBean.login}" iconAwesome="lock"/>
 					<a href="#{request.contextPath}/public/passcode-forgot.jsf" class="btn btn-link">Forgot Passcode?</a>
 				</b:column>
 			</b:row>
