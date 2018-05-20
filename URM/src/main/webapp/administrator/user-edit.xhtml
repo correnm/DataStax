@@ -17,81 +17,76 @@
 
 			<b:panel look="default">
 
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
-				</b:row>
+				<b:panel look="default" title="#{usersBean.userToEditEmail}" collapsible="false">
 
-				<b:row>
-					<b:column col-md="6" offset="3">
-						<b:messages></b:messages>
-					</b:column>
-				</b:row>
+					<b:row>
+						<b:column col-md="12">
+							<span class="rowSpace"><br/></span>
+						</b:column>
+					</b:row>
 
-				<b:row>
-					<b:column col-md="8" offset="4" class="form-title">#{usersBean.userToEditEmail}</b:column>
-				</b:row>
+					<b:row>
+						<b:column col-md="6" offset="3">
+							<b:messages></b:messages>
+						</b:column>
+					</b:row>
 
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/><br/></span>
-					</b:column>
-				</b:row>
+					<b:row>
+						<b:column col-md="3" offset="1" class="form-input-label"><span class="form-field-required">*</span>First Name:</b:column>
+						<b:column col-md="3">
+							<b:inputText id="firstName" value="#{usersBean.firstName}" required="true" requiredMessage="First Name is required">
+								<b:focus />
+							</b:inputText>
+						</b:column>
+					</b:row>
 
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">First Name:</b:column>
-					<b:column col-md="3">
-						<b:inputText id="firstName" value="#{usersBean.firstName}" required="true" requiredMessage="First Name is required">
-							<b:focus />
-						</b:inputText>
-					</b:column>
-				</b:row>
+					<b:row>
+						<b:column col-md="3" offset="1" class="form-input-label"><span class="form-field-required">*</span>Last Name:</b:column>
+						<b:column col-md="4">
+							<b:inputText id="lastName" value="#{usersBean.lastName}" required="true" requiredMessage="Last Name is required">
+							</b:inputText>
+						</b:column>
+					</b:row>
 
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Last Name:</b:column>
-					<b:column col-md="4">
-						<b:inputText id="lastName" value="#{usersBean.lastName}" required="true" requiredMessage="Last Name is required">
-						</b:inputText>
-					</b:column>
-				</b:row>
+					<b:row>
+						<b:column col-md="3" offset="1" class="form-input-label"><span class="form-field-required">*</span>Role:</b:column>
+						<b:column col-md="4">
+							<b:selectOneMenu label="Role" render-label="false" id="role" value="#{usersBean.role}" tooltip="Choose a Role">
+								<f:selectItems value="#{usersBean.roles}" var="role" itemValue="#{role}" itemLabel="#{role}"></f:selectItems>
+								<!-- <f:selectItems value="#{usersBean.roles.stream().sorted((i,j)->i-j).toList()}" var="role" itemValue="#{role}" itemLabel="#{role}"></f:selectItems> -->
+							</b:selectOneMenu>
+						</b:column>
+					</b:row>
 
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Role:</b:column>
-					<b:column col-md="4">
-						<b:selectOneMenu label="Role" render-label="false" id="role" value="#{usersBean.role}" tooltip="Choose a Role">
-							<f:selectItems value="#{usersBean.roles}" var="role" itemValue="#{role}" itemLabel="#{role}"></f:selectItems>
-						</b:selectOneMenu>
-					</b:column>
-				</b:row>
+					<b:row>
+						<b:column col-md="3" offset="1" class="form-input-label"><span class="form-field-required">*</span>Site:</b:column>
+						<b:column col-md="6">
+							<b:selectOneMenu label="Organizational Unit + Site" render-label="false" id="OUSiteListID" value="#{usersBean.selectedOUSite}" tooltip="Choose a Site">
+								<f:selectItems value="#{usersBean.OUSiteArray}" var="site" itemValue="#{site.OUSiteCodes}" itemLabel="#{site.OUSiteNames}"></f:selectItems>
+							</b:selectOneMenu>
+						</b:column>
+					</b:row>
 
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Site:</b:column>
-					<b:column col-md="6">
-						<b:selectOneMenu label="Organizational Unit + Site" render-label="false" id="OUSiteListID" value="#{usersBean.selectedOUSite}" tooltip="Choose a Site">
-							<f:selectItems value="#{usersBean.OUSiteArray}" var="site" itemValue="#{site.OUSiteCodes}" itemLabel="#{site.OUSiteNames}"></f:selectItems>
-						</b:selectOneMenu>
-					</b:column>
-				</b:row>
+					<b:row>
+						<b:column col-md="3" offset="1" class="form-input-label"><span class="form-field-required">*</span>Dashboard:</b:column>
+						<b:column col-md="6">
+							<b:selectOneMenu label="Dashboard" render-label="false" id="dashboardListID" value="#{usersBean.selectedDashboard}" tooltip="Choose a Dashboard">
+								<f:selectItems value="#{usersBean.analyticsArray}" var="dashboard" itemValue="#{dashboard.fileName}" itemLabel="#{dashboard.displayName}"></f:selectItems>
+							</b:selectOneMenu>
+						</b:column>
+					</b:row>
 
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Dashboard:</b:column>
-					<b:column col-md="6">
-						<b:selectOneMenu label="Dashboard" render-label="false" id="dashboardListID" value="#{usersBean.selectedDashboard}" tooltip="Choose a Dashboard">
-							<f:selectItems value="#{usersBean.dashboardArray}" var="dashboard" itemValue="#{dashboard.fileName}" itemLabel="#{dashboard.displayName}"></f:selectItems>
-						</b:selectOneMenu>
-					</b:column>
-				</b:row>
+					<b:row>
+						<b:column col-md="3" offset="1" class="form-input-label"><span class="form-field-required">*</span>Status:</b:column>
+						<b:column col-md="4">
+							<b:selectOneMenu label="Status" render-label="false" id="statusID" value="#{usersBean.activeUserInd}" tooltip="Choose a Status">
+								<f:selectItem itemValue="true" itemLabel="active"></f:selectItem>
+								<f:selectItem itemValue="false" itemLabel="inactive"></f:selectItem>
+							</b:selectOneMenu>
+						</b:column>
+					</b:row>
 
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Status:</b:column>
-					<b:column col-md="4">
-						<b:selectOneMenu label="Status" render-label="false" id="statusID" value="#{usersBean.activeUserInd}" tooltip="Choose a Status">
-							<f:selectItem itemValue="true" itemLabel="active"></f:selectItem>
-							<f:selectItem itemValue="false" itemLabel="inactive"></f:selectItem>
-						</b:selectOneMenu>
-					</b:column>
-				</b:row>
+				</b:panel>
 
 				<b:row>
 					<b:column col-md="12">
@@ -100,11 +95,10 @@
 				</b:row>
 
 				<b:row>
-					<b:column col-md="2" offset="2"></b:column>
-					<b:column col-md="4">
-						<b:commandButton value="Save" look="primary" iconAwesome="save" action="#{usersBean.editUserActionControllerMethod}"></b:commandButton>
+					<b:column col-md="4" offset="4" class="buttons-position">
+						<b:commandButton value="Save" size="sm" look="primary" iconAwesome="save" action="#{usersBean.editUserActionControllerMethod}"></b:commandButton>
 						<h:link outcome='users-table'>
-							<b:button value="Cancel" look="default" iconAwesome="times"></b:button>
+							<b:button value="Cancel" size="sm" look="default" iconAwesome="times"></b:button>
 						</h:link>
 					</b:column>
 				</b:row>
@@ -115,7 +109,7 @@
 					</b:column>
 				</b:row>
 
-			</b:panel>
+		</b:panel>
 
 		</h:form>
 
