@@ -75,7 +75,7 @@
 	<!-- *** Mail Account *** -->
 	<context-param>
 		<param-name>mail_HOST</param-name>
-		<param-value>smtp.gmail.com</param-value>
+		<param-value>smtp.office365.com</param-value>
 	</context-param>
 	<context-param>
 		<param-name>mail_PORT</param-name>
@@ -83,11 +83,11 @@
 	</context-param>
 	<context-param>
 		<param-name>mail_USER</param-name>
-		<param-value>golfer4151968</param-value>
+		<param-value>URM-Admin@g2-ops.com</param-value>
 	</context-param>
 	<context-param>
 		<param-name>mail_PASSWORD</param-name>
-		<param-value>ZAPIRLpp/TAx1ciJZnEcOQ==</param-value>
+		<param-value>tDQX8igZQYUwdIbDO79pxyQdduV7GOq7JqSRr6Dtvs8=</param-value>
 	</context-param>
 
 	<!-- *** Miscellaneous *** -->
