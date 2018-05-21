@@ -14,6 +14,7 @@ package com.g2ops.impact.urm.utils;
  */
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -25,14 +26,20 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 @Named("applicationUtils")
 @ApplicationScoped
 public class ApplicationUtils implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private Pattern singleNumberPattern, singleUpperCasePattern, singleLowerCasePattern, singleSpecialCharacterPattern;
 	private Matcher passcodeMatcher;
+
+	FacesContext facesContext = FacesContext.getCurrentInstance();
+
+	private final String applicationBaseURL = facesContext.getExternalContext().getInitParameter("application_URL");
+
 
 	// constructor
 	public ApplicationUtils() {
@@ -44,6 +51,13 @@ public class ApplicationUtils implements Serializable {
 		singleSpecialCharacterPattern = Pattern.compile("[!@#$&*]+");
 
 	}
+
+
+	// method to return the application's base URL
+	public String getApplicationBaseURL() {
+		return applicationBaseURL;
+	}
+
 
 	// method to validate a new user passcode
 	public Boolean meetsPasscodeRequirements(String passcodeToCheck) {
@@ -88,20 +102,23 @@ public class ApplicationUtils implements Serializable {
 
 	}
 
+
 	// method that generates a random UUID
 	public UUID generateRandomUUID() {
 		
 		return UUID.randomUUID();
 		
 	}
-	
+
+
 	// method that returns the Servlet's Context
 	public ServletContext getServletContext() {
 
 		return SessionUtils.getRequest().getServletContext();
 
 	}
-	
+
+
 	// method that returns the user's IP Address
 	public String getUserIPAddress() {
 
@@ -114,6 +131,7 @@ public class ApplicationUtils implements Serializable {
 		return ipAddress;
 
 	}
+
 
 	// method that returns the DB Session for the appl_auth keyspace
 	public Session getApplAuthDBSession() {
@@ -128,5 +146,14 @@ public class ApplicationUtils implements Serializable {
 		return appAuthDBConnection.getSession();
 
 	}
+
 	
+	// method that returns the audit upsert string
+	public String getAuditUpsertDBString(String userName) {
+
+		return "{ datechanged : toUnixTimestamp(now()), changedbyusername : '" + userName + "' }";
+
+	}
+
+
 }
