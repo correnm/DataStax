@@ -39,6 +39,7 @@ import com.datastax.driver.mapping.Mapper;
 import com.g2ops.impact.urm.types.Audit_Upsert;
 import com.g2ops.impact.urm.types.NavMenuItem;
 import com.g2ops.impact.urm.types.OUSite;
+import com.g2ops.impact.urm.utils.ApplicationUtils;
 import com.g2ops.impact.urm.utils.DatabaseQueryService;
 import com.g2ops.impact.urm.utils.SessionUtils;
 //import com.g2ops.impact.urm.utils.PasscodeEncryptionService;
@@ -49,6 +50,7 @@ public class UserEdit implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Inject private ApplicationUtils applicationUtils;
 	@Inject private UserBean currentUser;
 	@Inject private OUSiteBean OUSites;
 	@Inject private NavMenu dashboardsNavMenu;
@@ -66,7 +68,7 @@ public class UserEdit implements Serializable {
 
 	private List<String> roles;
 	private List<OUSite> OUSiteArrayList = new ArrayList<OUSite>();
-	private List<NavMenuItem> dashboardsList = new ArrayList<NavMenuItem>();
+	private List<NavMenuItem> analyticsList = new ArrayList<NavMenuItem>();
 
 	// constructor
 	public UserEdit() {
@@ -89,7 +91,7 @@ public class UserEdit implements Serializable {
 		OUSiteArrayList = OUSites.getOUSiteArray();
 
 		// get List of all possible Dashboards
-		dashboardsList = dashboardsNavMenu.getDashboardsNavMenuItemList();
+		analyticsList = dashboardsNavMenu.getAnalyticssNavMenuItemList();
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		userToEditEmail = context.getExternalContext().getRequestParameterMap().get("email");
@@ -168,8 +170,8 @@ public class UserEdit implements Serializable {
 		return selectedDashboard;
 	}
 	
-	public List<NavMenuItem> getDashboardArray() {
-		return dashboardsList;
+	public List<NavMenuItem> getAnalyticsArray() {
+		return analyticsList;
 	}
 
     public Boolean getActiveUserInd() {
@@ -251,7 +253,8 @@ public class UserEdit implements Serializable {
 		String[] newOUSiteArray = selectedOUSite.split("[|]{1}");
 
 		// update the user's info in the Users table for the user that was edited
-		databaseQueryService.runUpdateQuery("update users set first_name = '" + this.firstName + "', last_name = '" + this.lastName + "', application_role_name = '" + this.role + "', org_unit_id = " + UUID.fromString(newOUSiteArray[0]) + ", site_id = " + UUID.fromString(newOUSiteArray[1]) + ", default_lens_view_r = '" + selectedDashboard + "', active_user_ind = " + activeUserInd + ", audit_upsert = { datechanged : dateof(now()), changedbyusername : '" + currentUser.getEmail() + "' } where user_email = '" + userToEditEmail + "'");
+		//databaseQueryService.runUpdateQuery("update users set first_name = '" + this.firstName + "', last_name = '" + this.lastName + "', application_role_name = '" + this.role + "', org_unit_id = " + UUID.fromString(newOUSiteArray[0]) + ", site_id = " + UUID.fromString(newOUSiteArray[1]) + ", default_lens_view_r = '" + selectedDashboard + "', active_user_ind = " + activeUserInd + ", audit_upsert = { datechanged : toUnixTimestamp(now()), changedbyusername : '" + currentUser.getEmail() + "' } where user_email = '" + userToEditEmail + "'");
+		databaseQueryService.runUpdateQuery("update users set first_name = '" + this.firstName + "', last_name = '" + this.lastName + "', application_role_name = '" + this.role + "', org_unit_id = " + UUID.fromString(newOUSiteArray[0]) + ", site_id = " + UUID.fromString(newOUSiteArray[1]) + ", default_lens_view_r = '" + selectedDashboard + "', active_user_ind = " + activeUserInd + ", audit_upsert = " + applicationUtils.getAuditUpsertDBString(currentUser.getEmail()) + " where user_email = '" + userToEditEmail + "'");
 
 		//this.conversation.end();
 		
