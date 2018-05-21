@@ -22,7 +22,7 @@
 		-->
 
 		<h:form>
-			<b:dataTable value="#{organizationsBean.organizationsData}" var="organization" styleClass="dataTableClass" scroll-horizontally="true">
+			<b:dataTable value="#{organizationsBean.organizationsData}" var="organization" styleClass="dataTableClass">
 
 				<b:dataTableColumn value="#{organization.organizationName}" order="asc">
 					<f:facet name="header">Organization Name</f:facet>
