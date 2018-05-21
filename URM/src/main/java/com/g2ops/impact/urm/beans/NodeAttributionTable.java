@@ -49,8 +49,8 @@ import com.g2ops.impact.urm.utils.SessionUtils;
 
 import com.g2ops.impact.urm.types.Hardware_Relationships;
 import com.g2ops.impact.urm.types.Software;
-import com.g2ops.impact.urm.types.Audit_Upsert;
-import com.g2ops.impact.urm.types.Connected_Elements;
+import com.g2ops.impact.urm.types.AuditUpsert;
+import com.g2ops.impact.urm.types.ConnectedElements;
 import com.g2ops.impact.urm.types.Cvss_Scores;
 
 @Named("nodeAttributionTable")
@@ -63,7 +63,7 @@ public class NodeAttributionTable implements Serializable{
 	private MappingManager manager;
 
 	private Session dbSession;
-	private Audit_Upsert auditUpsert = new Audit_Upsert();
+	private AuditUpsert auditUpsert = new AuditUpsert();
 	private Iterator<Row> iterator;
 	private Hardware editHw;
 	private List<Hardware> hwList = new ArrayList<Hardware>();
@@ -76,7 +76,7 @@ public class NodeAttributionTable implements Serializable{
 	String ip_subnet_or_building, asset_type, asset_visibility, cpe_id, host_name, ip_address, ip_gateway, ip_netmask, mac_address, operating_system, os_general, part, vendor, product, version, version_update,system_type, vendor_stencil_icon;
 	LocalDate archive_date, end_of_life_date, end_of_sale, end_of_support_date, import_date;
 	List<UUID> business_process_ids;
-	List<Connected_Elements> connected_elements;
+	List<ConnectedElements> connected_elements;
 	Boolean crown_jewel, reportable_flag;
 	List<Cvss_Scores> cvss_scores;
 	Float cyvar;
@@ -96,9 +96,9 @@ public class NodeAttributionTable implements Serializable{
 	 */
 	public void mapDataTypes(){
 		manager = new MappingManager(dbSession);
-		manager.udtCodec(Connected_Elements.class);
+		manager.udtCodec(ConnectedElements.class);
 		manager.udtCodec(Cvss_Scores.class);
-		manager.udtCodec(Audit_Upsert.class);
+		manager.udtCodec(AuditUpsert.class);
 		manager.udtCodec(Hardware_Relationships.class);
 		manager.udtCodec(Software.class);
 	}
@@ -189,11 +189,11 @@ public class NodeAttributionTable implements Serializable{
 				hw.setAsset_type(asset_type);
 			String asset_visibility = row.getString("asset_visibility");
 				hw.setAsset_visibility(asset_visibility);
-			Audit_Upsert audit_upsert =row.get("audit_upsert", Audit_Upsert.class);
+			AuditUpsert audit_upsert =row.get("audit_upsert", AuditUpsert.class);
 				hw.setAudit_upsert(audit_upsert);
 			List<UUID> business_process_ids = row.getList("business_process_ids", UUID.class);
 				hw.setBusiness_processes(business_process_ids);
-			List<Connected_Elements> connected_elements = row.getList("connected_elements", Connected_Elements.class);
+			List<ConnectedElements> connected_elements = row.getList("connected_elements", ConnectedElements.class);
 				hw.setConnected_elements(connected_elements);
 			String cpe_id = row.getString("cpe_id");
 				hw.setCpe_id(cpe_id);
@@ -289,9 +289,9 @@ public class NodeAttributionTable implements Serializable{
 		PreparedStatement prepared_keys = dbSession.prepare(query_keys);
 		PreparedStatement prepared_hw = dbSession.prepare(query_hw);
 		BoundStatement bound;
-		Iterator<Connected_Elements> it = connected_elements.iterator();
+		Iterator<ConnectedElements> it = connected_elements.iterator();
 		while(it.hasNext()){
-			Connected_Elements element = it.next();
+			ConnectedElements element = it.next();
 			bound = prepared_keys.bind(UUID.fromString(element.getDestination_id()));
 			Row row = dbSession.execute(bound).one();
 			if (row ==null) //this would be due to bad data. need to update connected_elements in hardware
