@@ -21,7 +21,7 @@ import java.sql.Timestamp;
 
 @UDT(name = "audit_upsert", keyspace="") 
 
-public class audit_upsert {
+public class AuditUpsert {
 
 	
 	@Field(name = "datechanged")

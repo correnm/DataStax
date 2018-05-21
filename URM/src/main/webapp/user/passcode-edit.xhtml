@@ -11,29 +11,101 @@
 
 	<ui:define name="full-page-form">
 
-		<b:well>
-			<b:row>
-				<b:column col-xs="12" col-md="10" offset-md="1" col-lg="8" offset-lg="2">
-					<h3 style="text-align: center;">Passcode Requirements</h3>
-					<span class="rowSpace"><br/></span>
-					All user passcodes must:
-					<span class="rowSpace"><br/><br/></span>
-					<ul>
-						<li>contain at least one upper case letter</li>
-						<li>contain at least one lower case letter</li>
-						<li>contain at least one number</li>
-						<li>contain at least one special character ('!', '@', '#', '$', '&amp;', or '*')</li>
-						<li>be at least eight characters in length</li>
-						<li>only contain letters, numbers and the special characters listed above</li>
-					</ul>
-				</b:column>
-			</b:row>
-		</b:well>
-
 		<h:form id="changePasscodeForm">
 
 			<b:panel look="default">
 
+				<b:panel look="default" title="Change Your Passcode" collapsible="false">
+
+					<b:row>
+						<b:column col-md="12">
+							<span class="rowSpace"><br/></span>
+						</b:column>
+					</b:row>
+
+					<b:row>
+						<b:column col-xs="12" col-md="10" offset-md="1" col-lg="8" offset-lg="2">
+							<b:well>
+								All user passcodes <em>must</em>:
+								<span class="rowSpace"><br/></span>
+								<ul>
+									<li>contain at least one upper case letter</li>
+									<li>contain at least one lower case letter</li>
+									<li>contain at least one number</li>
+									<li>contain at least one special character ('!', '@', '#', '$', '&amp;', or '*')</li>
+									<li>be at least eight characters in length</li>
+									<li>only contain letters, numbers and the special characters listed above</li>
+								</ul>
+							</b:well>
+						</b:column>
+					</b:row>
+
+					<b:row>
+						<b:column col-md="8" offset="2">
+							<b:messages></b:messages>
+						</b:column>
+					</b:row>
+
+					<b:row>
+						<b:column col-md="12">
+							<span class="rowSpace"><br/></span>
+						</b:column>
+					</b:row>
+
+					<b:row>
+						<!--
+						<b:column col-md="3" offset="2" class="form-input-label"><span class="form-field-required">*</span>Current Passcode:</b:column>
+						<b:column col-md="4">
+							<b:inputSecret id="oldPasscode" value="#{changePasscode.oldPasscode}" required="true" requiredMessage="enter your current passcode">
+								<f:facet name="prepend"><b:iconAwesome name="key" size="lg"/></f:facet>
+								<b:focus/>
+							</b:inputSecret>
+						</b:column>
+						-->
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputSecret label="Current Passcode" id="oldPasscode" value="#{changePasscode.oldPasscode}" required="true" requiredMessage="enter your current passcode">
+								<f:facet name="append"><b:iconAwesome name="key" size="lg"/></f:facet>
+								<b:focus/>
+							</b:inputSecret>
+						</b:column>
+					</b:row>
+
+					<b:row>
+						<!--
+						<b:column col-md="3" offset="2" class="form-input-label"><span class="form-field-required">*</span>New Passcode:</b:column>
+						<b:column col-md="4">
+							<b:inputSecret id="newPasscode" value="#{changePasscode.newPasscode}" required="true" requiredMessage="enter your new passcode" validatorMessage="your new passcode must contain a minimum of 8 characters">
+								<f:facet name="prepend"><b:iconAwesome name="key" size="lg"/></f:facet>
+								<f:validateLength minimum="8"/>
+							</b:inputSecret>
+						</b:column>
+						-->
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputSecret label="New Passcode" id="newPasscode" value="#{changePasscode.newPasscode}" required="true" requiredMessage="enter your new passcode" validatorMessage="your new passcode must contain a minimum of 8 characters">
+								<f:facet name="append"><b:iconAwesome name="key" size="lg"/></f:facet>
+								<f:validateLength minimum="8"/>
+							</b:inputSecret>
+						</b:column>
+					</b:row>
+
+					<b:row>
+						<!--
+						<b:column col-md="3" offset="2" class="form-input-label"><span class="form-field-required">*</span>Re-enter New Passcode:</b:column>
+						<b:column col-md="4">
+							<b:inputSecret id="newPasscode2" value="#{changePasscode.newPasscode2}" required="true" requiredMessage="re-enter your new passcode">
+								<f:facet name="prepend"><b:iconAwesome name="key" size="lg"/></f:facet>
+							</b:inputSecret>
+						</b:column>
+						-->
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputSecret label="Re-enter New Passcode" id="newPasscode2" value="#{changePasscode.newPasscode2}" required="true" requiredMessage="re-enter your new passcode">
+								<f:facet name="append"><b:iconAwesome name="key" size="lg"/></f:facet>
+							</b:inputSecret>
+						</b:column>
+					</b:row>
+
+				</b:panel>
+
 				<b:row>
 					<b:column col-md="12">
 						<span class="rowSpace"><br/></span>
@@ -41,54 +113,9 @@
 				</b:row>
 
 				<b:row>
-					<b:column col-md="8" offset="2">
-						<b:messages></b:messages>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="3" offset="2" class="form-input-label">Current Passcode:</b:column>
-					<b:column col-md="4">
-						<b:inputSecret id="oldPasscode" value="#{changePasscode.oldPasscode}" required="true" requiredMessage="enter your current passcode">
-							<b:focus/>
-						</b:inputSecret>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="3" offset="2" class="form-input-label">New Passcode:</b:column>
-					<b:column col-md="4">
-						<b:inputSecret id="newPasscode" value="#{changePasscode.newPasscode}" required="true" requiredMessage="enter your new passcode" validatorMessage="your new passcode must contain a minimum of 8 characters">
-							<f:validateLength minimum="8"/>
-						</b:inputSecret>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="3" offset="2" class="form-input-label">Re-enter New Passcode:</b:column>
-					<b:column col-md="4">
-						<b:inputSecret id="newPasscode2" value="#{changePasscode.newPasscode2}" required="true" requiredMessage="re-enter your new passcode">
-						</b:inputSecret>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-xs="6"></b:column>
-					<b:column col-xs="6">
-						<b:commandButton value="Save" look="primary" iconAwesome="save" action="#{changePasscode.changePasscodeActionControllerMethod}"/>
-						<b:commandButton value="Cancel" look="default" iconAwesome="times" action="#{changePasscode.changePasscodeCancelControllerMethod}" immediate="true"/>
+					<b:column col-xs="12" class="buttons-position">
+						<b:commandButton value="Save" size="sm" look="primary" iconAwesome="save" action="#{changePasscode.changePasscodeActionControllerMethod}"/>
+						<b:commandButton value="Cancel" size="sm" look="default" iconAwesome="times" action="#{changePasscode.changePasscodeCancelControllerMethod}" immediate="true"/>
 					</b:column>
 				</b:row>
 

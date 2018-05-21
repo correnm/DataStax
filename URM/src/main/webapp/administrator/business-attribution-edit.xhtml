@@ -94,7 +94,7 @@ Date			Name			Description
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label">Annual Revenue:</b:column>
 						<b:column col-md="4">
-							<b:inputText id="annRevC" value="#{businessAttribution.annRevC}" mask="currency"></b:inputText>
+							<b:inputText id="annRevC" value="#{businessAttribution.annRevC}" mask="currency" />							
 						</b:column>
 					</b:row>  
 					<b:row>
@@ -159,7 +159,8 @@ Date			Name			Description
 											<b:dataTableColumn value="" orderable="false" contentStyleClass="dataTableButtonColumnClass">						
 												<f:facet name="header">Action</f:facet>		
 												<b:commandButton ajax="true" actionListener="#{businessAttribution.addBVAHostControllerMethodinEdit(addhost.hostID)}" 
-													oncomplete="$('.modalAddClass').modal('hide'); #{businessAttribution.openPnlHosts()}; $('.modalSaveClass').modal('show');" onclick="tblHosts.DataTable().destroy();" 
+													oncomplete="$('.modalAddClass').modal('hide'); #{businessAttribution.openPnlHosts()}; $('.modalSaveClass').modal('show');" 
+													onclick="tblHosts.DataTable().destroy();"  update=":frmMain:frmHosts:modalSave" 
 													value="Save" iconAwesome="save" size="sm" look="default" disabled="false">
 													<f:ajax execute="@this" render=":frmMain:frmHosts:tblHosts"/>  
 												</b:commandButton>

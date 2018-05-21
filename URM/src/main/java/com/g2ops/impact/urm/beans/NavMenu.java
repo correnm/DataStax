@@ -44,21 +44,16 @@ public class NavMenu implements Serializable {
 	private NavMenuItem navMenuItem;
 
 	private List<NavMenuItem> administratorNavMenuItemList = new ArrayList<NavMenuItem>();
-	private List<NavMenuItem> dashboardsNavMenuItemList = new ArrayList<NavMenuItem>();
+	private List<NavMenuItem> analyticssNavMenuItemList = new ArrayList<NavMenuItem>();
 	private List<NavMenuItem> userNavMenuItemList = new ArrayList<NavMenuItem>();
 
 	public NavMenu() {
 
-		System.out.println("*** in NavMenu constructor ***");
-		
 	}
 	
 	@PostConstruct
 	public void init() {
 
-		System.out.println("*** in PostConstruct init method ***");
-		System.out.println("orgKeyspace is: " + currentUser.getOrgKeyspace());
-		
 		// get the Database Query Service object for this Org
 		DatabaseQueryService databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
 
@@ -85,8 +80,8 @@ public class NavMenu implements Serializable {
 				case "Administrator":
 					administratorNavMenuItemList.add(navMenuItem);
 					break;
-				case "Dashboards":
-					dashboardsNavMenuItemList.add(navMenuItem);
+				case "Analytics":
+					analyticssNavMenuItemList.add(navMenuItem);
 					break;
 				case "User":
 					userNavMenuItemList.add(navMenuItem);
@@ -95,21 +90,19 @@ public class NavMenu implements Serializable {
 
 			// sort the lists
 			administratorNavMenuItemList.sort((NavMenuItem i1, NavMenuItem i2)->i1.getDisplayOrder()-i2.getDisplayOrder());
-			dashboardsNavMenuItemList.sort((NavMenuItem i1, NavMenuItem i2)->i1.getDisplayOrder()-i2.getDisplayOrder());
+			analyticssNavMenuItemList.sort((NavMenuItem i1, NavMenuItem i2)->i1.getDisplayOrder()-i2.getDisplayOrder());
 			userNavMenuItemList.sort((NavMenuItem i1, NavMenuItem i2)->i1.getDisplayOrder()-i2.getDisplayOrder());
 
 		}
 			
-		System.out.println("*** end PostConstruct init method ***");
-		
 	}
 
 	public List<NavMenuItem> getAdministratorNavMenuItemList() {
 		return administratorNavMenuItemList;
 	}
 	
-	public List<NavMenuItem> getDashboardsNavMenuItemList() {
-		return dashboardsNavMenuItemList;
+	public List<NavMenuItem> getAnalyticssNavMenuItemList() {
+		return analyticssNavMenuItemList;
 	}
 	
 	public List<NavMenuItem> getUserNavMenuItemList() {

@@ -13,6 +13,8 @@ date				author				description
 												ip_netmask text  
 										altered node_impact_value from float to decimal
 										altered installed_software from list<text> to list<software>
+06-18-2018			corren.mccoy		add deleted so records can be removed later by a batch job. Also will update runs_on_hosts for any associated business processes.
+										Deleted records should not be archived or used in summary (day, week, month)
 */
 
 CREATE TABLE IF NOT EXISTS hardware (
@@ -48,6 +50,7 @@ CREATE TABLE IF NOT EXISTS hardware (
 	installed_software					list <software>, 
 	host_name						    text,
 	business_process_ids				list<uuid>, // valid entries in business_value_attribution table
+	deleted								boolean, // marked for deletion. Record will be removed with a batch job.
     PRIMARY KEY (site_id, ip_subnet_or_building, internal_system_id)
 ) WITH COMMENT = 'Infrastructure maintained for the site obtained via a vulnerability scan or a physical survey' ;
 

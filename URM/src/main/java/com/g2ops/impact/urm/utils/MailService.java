@@ -38,6 +38,8 @@ public class MailService {
 
     	// decrypt the mail account password
     	try {
+    		//PASSWORD = EncryptionDecryptionService.encrypt(PASSWORD);
+			//System.out.println("encrypted mail password: " + PASSWORD);
 			PASSWORD = EncryptionDecryptionService.decrypt(PASSWORD);
 			//System.out.println("decrypted mail password: " + PASSWORD);
 		} catch (Exception e) {

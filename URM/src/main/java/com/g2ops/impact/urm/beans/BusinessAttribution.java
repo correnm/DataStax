@@ -58,7 +58,7 @@ import com.datastax.driver.core.PreparedStatement;
 import com.g2ops.impact.urm.types.BusinessAttributionTypes;
 import com.g2ops.impact.urm.types.BusinessHosts;
 import com.g2ops.impact.urm.types.RunsOnHost;
-import com.g2ops.impact.urm.types.audit_upsert;
+import com.g2ops.impact.urm.types.AuditUpsert;
 import com.g2ops.impact.urm.types.HardwareList;
 
 @Named("businessAttribution")
@@ -71,7 +71,7 @@ public class BusinessAttribution  implements Serializable {
 
 	@Inject private UserBean currentUser;
 	
-	static audit_upsert auditUpsert = new audit_upsert();
+	static AuditUpsert AuditUpsert = new AuditUpsert();
 
 	private DatabaseQueryService databaseQueryService;
 	private ResultSet rs, resultSet, resultset;
@@ -99,7 +99,7 @@ public class BusinessAttribution  implements Serializable {
 	private BusinessAttributionTypes att, selectedBP;
 	private List<BusinessAttributionTypes> attList = new ArrayList<BusinessAttributionTypes>();
 
-	private List<SelectItem> siteList = new ArrayList <SelectItem> ();
+	private List<SelectItem> siteList = new ArrayList<SelectItem> ();
 	private Set<String> subnetList = new HashSet<String> ();
 
 	private BusinessHosts host, selectedHost;	
@@ -125,8 +125,8 @@ public class BusinessAttribution  implements Serializable {
 
 		//TODO: NOT USING auditUpsert class now, should we??
 		MappingManager manager = new MappingManager(session);
-		manager.udtCodec(audit_upsert.class);
-		auditUpsert.setChangedbyusername(currentUser.getFirstName().toLowerCase()+"."+currentUser.getLastName().toLowerCase());
+		manager.udtCodec(AuditUpsert.class);
+		AuditUpsert.setChangedbyusername(currentUser.getFirstName().toLowerCase()+"."+currentUser.getLastName().toLowerCase());
 		manager.udtCodec(RunsOnHost.class);
 		
 		//pull data for initial table load		
@@ -462,7 +462,7 @@ PreparedStatement prepared = session.prepare(query);
 					+ "annual_revenue_year=?, " 
 					+ "record_count=?, "  
 					+ "resistance_strength=?, "
-					+ "audit_upsert= {datechanged: toUnixTimestamp(now()), changedbyusername: '" + auditUpsert.getChangedbyusername() + "'} "
+					+ "audit_upsert= {datechanged: toUnixTimestamp(now()), changedbyusername: '" + AuditUpsert.getChangedbyusername() + "'} "
 					+ "where site_id=? and business_process_id= ?";
 			
 			
@@ -541,7 +541,7 @@ PreparedStatement prepared = session.prepare(query);
 				+ "risk_appetite, "
 				+ "resistance_strength, "
 				+ "audit_upsert) "  
-				+ "VALUES(?,uuid(),?,?,?,?,?,?,?,?,?,?,{datechanged: toUnixTimestamp(now()), changedbyusername: '" + auditUpsert.getChangedbyusername() + "'})";
+				+ "VALUES(?,uuid(),?,?,?,?,?,?,?,?,?,?,{datechanged: toUnixTimestamp(now()), changedbyusername: '" + AuditUpsert.getChangedbyusername() + "'})";
 		PreparedStatement prepared = session.prepare(query);
 		BoundStatement bound = prepared.bind(this.getSiteID(),this.getAnnRev(), this.getAnnRevYear(), this.getBusCrit(), this.getBit(), 
 				this.getSelectedBusName(), this.getDbType(), this.getInfClass(), this.getRecordCount(), this.getRiskAppetite(), this.resistanceStrength);
@@ -599,7 +599,7 @@ PreparedStatement prepared = session.prepare(query);
 			
 			query = "UPDATE business_value_attribution set "
 						+	"runs_on_hosts = ?, "
-						+	"audit_upsert={datechanged: toUnixTimestamp(now()), changedbyusername: '" + auditUpsert.getChangedbyusername() + "'} "
+						+	"audit_upsert={datechanged: toUnixTimestamp(now()), changedbyusername: '" + AuditUpsert.getChangedbyusername() + "'} "
 						+	"where site_id= ? and business_process_id=? ";
 
 			prepared = session.prepare(query);
@@ -656,7 +656,7 @@ PreparedStatement prepared = session.prepare(query);
 				//update business_value_attribution.runsonhosts field
 				String queryUpdate = "UPDATE business_value_attribution SET "
 							+	"runs_on_hosts= ?, "
-							+	"audit_upsert={datechanged: toUnixTimestamp(now()), changedbyusername: '" + auditUpsert.getChangedbyusername() + "'} "
+							+	"audit_upsert={datechanged: toUnixTimestamp(now()), changedbyusername: '" + AuditUpsert.getChangedbyusername() + "'} "
 							+	"where site_id=? and business_process_id=?";
 				
 				prepared = session.prepare(queryUpdate);
@@ -1106,7 +1106,6 @@ System.out.println("in populateHOstListData, query: " + query);
 	}
 
 	public void setSelectedHost(BusinessHosts selectedHost) {
-		System.out.println("in setSelectedHost");
 		this.selectedHost = selectedHost;
 	}
 

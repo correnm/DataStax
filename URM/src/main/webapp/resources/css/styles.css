@@ -19,7 +19,7 @@ body {
 }
 
 a:hover { 
-  color: red
+  color: #df382c;
 }
 
 h1,h2,h3,h4 {
@@ -59,7 +59,12 @@ h1.title {
   border-color: #9fd1ff;
   padding: 5px 8px;
   letter-spacing: -.025em;
-} 
+}
+
+ul, ol {
+	margin: 10px 0px;
+}
+
 .formTable {
   display: table;
 }
@@ -231,6 +236,11 @@ i.fa {
 	color: #c44900;
 }
 
+.buttons-position {
+	text-align: center;
+	padding-top: 10px;
+}
+
 .container .jumbotron, .container-fluid .jumbotron {
 	border-radius: 10px;
 	color: #444444;
@@ -289,11 +299,11 @@ table.table-striped tbody tr.even {
 }
 
 table.table-striped tbody tr.even:hover {
-	background-color: #ffff99;
+	background-color: #ffffdd;
 }
 
 table.table-striped tbody tr.odd:hover {
-	background-color: #ffff99;
+	background-color: #ffffee;
 }
 
 .businessProcessesByCyvarTableClass {
@@ -371,6 +381,26 @@ table.table-striped tbody tr.odd:hover {
 
 .form-input-label {
 	text-align: right;
+	font-weight: bold;
+}
+
+.form-field-required {
+	color: #df382c;
+	padding-right: 5px;
+}
+
+label.bf-required:after {
+	color: #df382c;
+	content: "";
+}
+
+label.bf-required:before {
+	color: #df382c;
+	content: "* ";
+}
+
+.security-question {
+	text-align: center;
 	font-weight: bold;
 }
 

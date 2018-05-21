@@ -70,7 +70,8 @@ public class PasscodeForgot {
 		ctx = SessionUtils.getRequest().getServletContext();
 
 		// get the base URL of the application
-		applicationURL = ctx.getInitParameter("application_URL");
+		//applicationURL = ctx.getInitParameter("application_URL");
+		applicationURL = applicationUtils.getApplicationBaseURL();
 
 		// get the database connection session
 		appAuthDBSession = applicationUtils.getApplAuthDBSession();

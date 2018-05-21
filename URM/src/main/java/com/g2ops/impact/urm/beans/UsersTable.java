@@ -35,16 +35,16 @@ import com.g2ops.impact.urm.utils.SessionUtils;
 public class UsersTable {
 
 	@Inject private UserBean currentUser;
-	@Inject private NavMenu dashboardsNavMenu;
+	@Inject private NavMenu analyticsNavMenu;
 
 	private DatabaseQueryService databaseQueryService;
 	private ResultSet rs, rs2, rs3;
 	private Row row, row2, row3;
 
-	String defaultDashboardDisplayName = "";
+	String defaultAnalyticsDisplayName = "";
 
 	private List<User> userList = new ArrayList<User>();
-	private List<NavMenuItem> dashboardsList = new ArrayList<NavMenuItem>();
+	private List<NavMenuItem> analyticsList = new ArrayList<NavMenuItem>();
 
 	public UsersTable() {
 		
@@ -54,7 +54,7 @@ public class UsersTable {
 	public void init() {
 
 		// get List of all Dashboards
-		dashboardsList = dashboardsNavMenu.getDashboardsNavMenuItemList();
+		analyticsList = analyticsNavMenu.getAnalyticssNavMenuItemList();
 
 		// get the Database Query Service object for this Org
 		databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
@@ -71,9 +71,9 @@ public class UsersTable {
 			row = iterator.next();
 
 			// obtain the display name of the user's default dashboard
-			for (NavMenuItem dashboardNavItem : dashboardsList) {
-				if (dashboardNavItem.getFileName().equals(row.getString("default_lens_view_r"))) {
-					defaultDashboardDisplayName = dashboardNavItem.getDisplayName();
+			for (NavMenuItem analyticsNavItem : analyticsList) {
+				if (analyticsNavItem.getFileName().equals(row.getString("default_lens_view_r"))) {
+					defaultAnalyticsDisplayName = analyticsNavItem.getDisplayName();
 				}
 			}
 
@@ -83,7 +83,7 @@ public class UsersTable {
 			rs3 = databaseQueryService.runQuery("select site_name from sites where org_unit_id = " + row.getUUID("org_unit_id") + " and site_id = " + row.getUUID("site_id"));
 			row3 = rs3.one();
 			
-			User user = new User(row.getString("user_email"), row.getString("first_name"), row.getString("last_name"), row.getString("application_role_name"), defaultDashboardDisplayName, row2.getString("org_unit_name"), row3.getString("site_name"), row.getBool("active_user_ind"));
+			User user = new User(row.getString("user_email"), row.getString("first_name"), row.getString("last_name"), row.getString("application_role_name"), defaultAnalyticsDisplayName, row2.getString("org_unit_name"), row3.getString("site_name"), row.getBool("active_user_ind"));
 			userList.add(user);
 		}
 		

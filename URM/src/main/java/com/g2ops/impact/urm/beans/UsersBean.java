@@ -52,7 +52,7 @@ public class UsersBean implements Serializable {
 
 	@Inject private UserBean currentUser;
 	@Inject private OUSiteBean OUSites;
-	@Inject private NavMenu dashboardsNavMenu;
+	@Inject private NavMenu analyticsNavMenu;
 	
 	private DatabaseQueryService databaseQueryService;
 	private ResultSet rs, rs2, rs3;
@@ -63,7 +63,7 @@ public class UsersBean implements Serializable {
 
 	private List<String> roles;
 	private List<OUSite> OUSiteArrayList = new ArrayList<OUSite>();
-	private List<NavMenuItem> dashboardsList = new ArrayList<NavMenuItem>();
+	private List<NavMenuItem> analyticsList = new ArrayList<NavMenuItem>();
 	private List<User> userList = new ArrayList<User>();
 
 	// constructor
@@ -88,7 +88,7 @@ public class UsersBean implements Serializable {
 		OUSiteArrayList = OUSites.getOUSiteArray();
 
 		// get List of all possible Dashboards
-		dashboardsList = dashboardsNavMenu.getDashboardsNavMenuItemList();
+		analyticsList = analyticsNavMenu.getAnalyticssNavMenuItemList();
 
 	}
 
@@ -112,7 +112,7 @@ public class UsersBean implements Serializable {
 			row = iterator.next();
 
 			// obtain the display name of the user's default dashboard
-			for (NavMenuItem dashboardNavItem : dashboardsList) {
+			for (NavMenuItem dashboardNavItem : analyticsList) {
 				String userDefaultDashboard = row.getString("default_lens_view_r");
 				if (dashboardNavItem.getFileName().equals(userDefaultDashboard)) {
 					defaultDashboardDisplayName = dashboardNavItem.getDisplayName();
@@ -236,8 +236,8 @@ public class UsersBean implements Serializable {
 		return selectedDashboard;
 	}
 	
-	public List<NavMenuItem> getDashboardArray() {
-		return dashboardsList;
+	public List<NavMenuItem> getAnalyticsArray() {
+		return analyticsList;
 	}
 
     public Boolean getActiveUserInd() {

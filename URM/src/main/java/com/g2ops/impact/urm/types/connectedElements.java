@@ -21,7 +21,7 @@ import java.util.List;
 
 @UDT(name = "connected_elements", keyspace = "")
 
-public class connectedElements implements Serializable {
+public class ConnectedElements implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
