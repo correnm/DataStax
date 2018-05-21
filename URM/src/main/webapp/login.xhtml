@@ -31,7 +31,7 @@
 </b:row>
 
 <b:row>
-    <b:column col-md="4" offset="4">
+    <b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3" col-lg="4" offset-lg="4">
 
 		<h:form id="loginForm">
 
@@ -105,7 +105,7 @@
 			</b:row>
 
 			<b:row>
-				<b:column col-md="6" offset="3" class="buttons-position">
+				<b:column col-xs="12" class="buttons-position">
 					<b:commandButton value="Login" size="sm" look="primary" action="#{userBean.login}" iconAwesome="lock"/>
 					<a href="#{request.contextPath}/public/passcode-forgot.jsf" class="btn btn-link">Forgot Passcode?</a>
 				</b:column>
@@ -125,7 +125,7 @@
 </b:row>
 
 <b:row>
-	<b:column col-xs="8" style-class="footer">
+	<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3" col-lg="4" offset-lg="4" style-class="footer">
 		<!-- footer include file -->
 		<ui:include src="/snippets/footer.xhtml" />
 	</b:column>
