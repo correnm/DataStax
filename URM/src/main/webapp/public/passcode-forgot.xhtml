@@ -19,26 +19,87 @@
 
 	<ui:define name="full-page-form">
 
-		<b:well>
-			<b:row>
-				<b:column col-md="8" offset="2">
-					<h3 style="text-align: center;">Procedure to Reset Your Passcode</h3>
-					<span class="rowSpace"><br/><br/></span>
-					<ul>
-						<li>enter your Organization Name and Email Address below</li>
-						<li>check your email account for an email with subject "URM Reset Passcode"</li>
-						<li>click the "Reset Passcode" link in the email</li>
-						<li>enter your Organization Name and Security Question answers</li>
-						<li>set a new Passcode</li>
-					</ul>
-				</b:column>
-			</b:row>
-		</b:well>
-
 		<h:form id="forgotPasscodeForm">
 
 			<b:panel look="default">
 
+				<b:panel look="default" title="Reset Your Passcode" collapsible="false">
+
+					<b:row>
+						<b:column col-md="12">
+							<span class="rowSpace"><br/></span>
+						</b:column>
+					</b:row>
+
+					<b:row>
+						<b:column col-md="8" offset="2">
+							<b:panel>
+								<!--
+								<h3 style="text-align: center;">Procedure to Reset Your Passcode</h3>
+								<span class="rowSpace"><br/></span>
+								-->
+								<ul>
+									<li><strong>enter your Organization Name and Email Address below</strong></li>
+									<li>look for an email with subject "Your URM Passcode Reset Request"</li>
+									<li>click the "Reset Passcode" link in the email</li>
+									<li>enter your Organization Name and Cell Phone number</li>
+									<li>provide your Security Question answers</li>
+									<li>set a new Passcode</li>
+								</ul>
+							</b:panel>
+						</b:column>
+					</b:row>
+
+					<b:row>
+						<b:column col-md="8" offset="2">
+							<b:messages></b:messages>
+						</b:column>
+					</b:row>
+
+					<b:row>
+						<b:column col-md="12">
+							<span class="rowSpace"><br/></span>
+						</b:column>
+					</b:row>
+
+					<b:row>
+						<!--
+						<b:column col-md="3" offset="1" class="form-input-label"><span class="form-field-required">*</span>Organization Name:</b:column>
+						<b:column col-md="5">
+							<b:inputText placeholder="Your Organization Name" id="orgName" value="#{passcodeForgot.orgName}" required="true" requiredMessage="Organization Name is required" validator="#{passcodeForgot.validateOrganizationName}">
+								<f:facet name="prepend"><b:iconAwesome name="institution" size="lg"/></f:facet>
+								<b:focus/>
+							</b:inputText>
+						</b:column>
+						-->
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText label="Organization Name" placeholder="Your Organization Name" id="orgName" value="#{passcodeForgot.orgName}" required="true" requiredMessage="Organization Name is required" validator="#{passcodeForgot.validateOrganizationName}">
+								<f:facet name="append"><b:iconAwesome name="institution" size="lg"/></f:facet>
+								<b:focus/>
+							</b:inputText>
+						</b:column>
+					</b:row>
+
+					<b:row>
+						<!--
+						<b:column col-md="3" offset="1" class="form-input-label"><span class="form-field-required">*</span>Email:</b:column>
+						<b:column col-md="5">
+							<b:inputText placeholder="Your Email Address" id="email" value="#{passcodeForgot.userEmail}" required="true" requiredMessage="Email Address is required">
+								<f:validator validatorId="emailValidator" />
+								<f:facet name="prepend"><b:iconAwesome name="envelope" size="lg"/></f:facet>
+							</b:inputText>
+						</b:column>
+						-->
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText label="Email" placeholder="Your Email Address" id="email" value="#{passcodeForgot.userEmail}" required="true" requiredMessage="Email Address is required">
+								<f:validator validatorId="emailValidator" />
+								<f:facet name="append"><b:iconAwesome name="envelope" size="lg"/></f:facet>
+							</b:inputText>
+						</b:column>
+					</b:row>
+
+				</b:panel>
+
 				<b:row>
 					<b:column col-md="12">
 						<span class="rowSpace"><br/></span>
@@ -46,48 +107,9 @@
 				</b:row>
 
 				<b:row>
-					<b:column col-md="8" offset="2">
-						<b:messages></b:messages>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Organization Name:</b:column>
-					<b:column col-md="5">
-						<b:inputText id="orgName" value="#{passcodeForgot.orgName}" required="true" requiredMessage="Organization Name is required" validator="#{passcodeForgot.validateOrganizationName}">
-							<f:facet name="prepend"><b:iconAwesome name="institution" size="lg"/></f:facet>
-							<b:focus/>
-						</b:inputText>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="3" offset="1" class="form-input-label">Email:</b:column>
-					<b:column col-md="5">
-						<b:inputText placeholder="Email Address" id="email" value="#{passcodeForgot.userEmail}" required="true" requiredMessage="Email Address is required">
-							<f:validator validatorId="emailValidator" />
-							<f:facet name="prepend"><b:iconAwesome name="envelope" size="lg"/></f:facet>
-						</b:inputText>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<b:column col-md="12">
-						<span class="rowSpace"><br/></span>
-					</b:column>
-				</b:row>
-
-				<b:row>
-					<!-- <b:column col-md="3" offset="1"></b:column> -->
-					<b:column col-md="6" offset="4">
-						<b:commandButton value="Send Passcode Reset Email" look="primary" action="#{passcodeForgot.forgotPasscodeActionControllerMethod}"/>
-						<b:commandButton value="Back to Login" action="#{passcodeForgot.forgotPasscodeCancelControllerMethod}" immediate="true"/>
+					<b:column col-xs="12" class="buttons-position">
+						<b:commandButton value="Reset Passcode" size="sm" look="primary" action="#{passcodeForgot.forgotPasscodeActionControllerMethod}" iconAwesome="envelope"/>
+						<b:commandButton value="Login" size="sm" look="default" action="#{passcodeForgot.forgotPasscodeCancelControllerMethod}" immediate="true" iconAwesome="times"/>
 					</b:column>
 				</b:row>
 
