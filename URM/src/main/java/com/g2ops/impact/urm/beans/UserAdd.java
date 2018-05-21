@@ -35,8 +35,10 @@ import java.util.UUID;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
+import com.datastax.driver.core.Session;
 import com.g2ops.impact.urm.types.NavMenuItem;
 import com.g2ops.impact.urm.types.OUSite;
+import com.g2ops.impact.urm.utils.ApplicationUtils;
 import com.g2ops.impact.urm.utils.DatabaseQueryService;
 import com.g2ops.impact.urm.utils.SessionUtils;
 import com.g2ops.impact.urm.utils.PasscodeEncryptionService;
@@ -47,6 +49,7 @@ public class UserAdd {
 
 	//private static final long serialVersionUID = 1L;
 
+	@Inject private ApplicationUtils applicationUtils;
 	@Inject private UserBean currentUser;
 	@Inject private OUSiteBean OUSites;
 	@Inject private NavMenu dashboardsNavMenu;
@@ -54,6 +57,7 @@ public class UserAdd {
 	private DatabaseQueryService databaseQueryService;
 	private ResultSet rs;
 	private Row row;
+	private Session appAuthDBSession;
 
 	private String userEmail, passcode, firstName, lastName, role, selectedOUSite, selectedDashboard;
 	private Boolean activeUserInd;
@@ -65,7 +69,7 @@ public class UserAdd {
 
 	private List<String> roles;
 	private List<OUSite> OUSiteArrayList = new ArrayList<OUSite>();
-	private List<NavMenuItem> dashboardsList = new ArrayList<NavMenuItem>();
+	private List<NavMenuItem> analyticsList = new ArrayList<NavMenuItem>();
 
 	// constructor
 	public UserAdd() {
@@ -88,7 +92,7 @@ public class UserAdd {
 		OUSiteArrayList = OUSites.getOUSiteArray();
 
 		// get List of all possible Dashboards
-		dashboardsList = dashboardsNavMenu.getDashboardsNavMenuItemList();
+		analyticsList = dashboardsNavMenu.getAnalyticssNavMenuItemList();
 
 	}
 	
@@ -128,8 +132,8 @@ public class UserAdd {
 		return selectedDashboard;
 	}
 	
-	public List<NavMenuItem> getDashboardArray() {
-		return dashboardsList;
+	public List<NavMenuItem> getAnalyticsArray() {
+		return analyticsList;
 	}
 
     public Boolean getActiveUserInd() {
@@ -223,7 +227,7 @@ public class UserAdd {
 		String queryString = "insert into users (user_email, hashed_password, first_name, last_name, application_role_name, org_unit_id, site_id, default_lens_view_r, active_user_ind, send_notification_email, system_administrator_ind, audit_upsert)";
 		queryString = queryString.concat(" values ('" + this.userEmail + "', '" + passcodeValueToStore + "', '" + this.firstName + "', '" + this.lastName + "', '" + this.role + "', " + UUID.fromString(newOUSiteArray[0]) + ", " + UUID.fromString(newOUSiteArray[1]) + ", '" + this.selectedDashboard + "', " + activeUserInd + ", " + sendNotificationEmail + ", " + systemAdministratorInd + ", { datechanged : dateof(now()), changedbyusername : '" + currentUser.getEmail() + "' })");
 		//System.out.println("in UserAdd addUserActionControllerMethod - queryString: " + queryString);
-		databaseQueryService.runUpdateQuery(queryString);
+		//databaseQueryService.runUpdateQuery(queryString);
 
 		// *****
 		// send email to new user
@@ -231,7 +235,21 @@ public class UserAdd {
 			// insert record into appl_auth table
 			// send email with link to new user page (including key parameter)
 		// *****
+		UUID uuid = applicationUtils.generateRandomUUID();
+		System.out.println("in UserAdd addUserActionControllerMethod - uuid: " + uuid.toString());
 		
+		// get the database connection session
+		appAuthDBSession = applicationUtils.getApplAuthDBSession();
+
+		// insert the token record in the password_reset table
+		queryString = "insert into password_reset (organization_name, email_token, email_address, reset_attempts, token_expiry)";
+		queryString = queryString.concat(" values ('" + currentUser.getOrgName() + "', " + uuid + ", '" + this.userEmail + "', 0, todate(now()))");
+		System.out.println("in UserAdd addUserActionControllerMethod - queryString: " + queryString);
+		
+		// *** need expiry date to be one day in the future
+		
+		appAuthDBSession.execute(queryString);
+
 		// go back to the Manage Users page
 		return "users-table";
 
