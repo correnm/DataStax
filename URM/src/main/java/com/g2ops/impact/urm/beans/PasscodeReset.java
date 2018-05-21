@@ -63,7 +63,7 @@ public class PasscodeReset implements Serializable {
 	private Row row;
 	private Session appAuthDBSession;
 
-	private String requestID, orgName, cellPhone, orgKeyspace, queryString, userEmail, newPasscode, newPasscode2, messageText, saltString, encryptedPasscodeString;
+	private String requestID, orgName, cellPhone, cellPhoneDB, orgKeyspace, queryString, userEmail, newPasscode, newPasscode2, messageText, saltString, encryptedPasscodeString;
 	private String securityQuestion1, securityQuestion2, securityQuestion3;
 	private String securityAnswer1, securityAnswer2, securityAnswer3;
 	private String userSecurityAnswer1, userSecurityAnswer2, userSecurityAnswer3;
@@ -89,7 +89,9 @@ public class PasscodeReset implements Serializable {
 	@PostConstruct
 	public void init() {
 
-		conversation.begin();
+		if (conversation.isTransient()) {
+			conversation.begin();
+		}
 		
 		// get the servlet's context
 		ctx = SessionUtils.getRequest().getServletContext();
@@ -155,7 +157,8 @@ public class PasscodeReset implements Serializable {
 	}
   
 	public void setCellPhone(String cellPhone) {
-    	this.cellPhone = cellPhone.toLowerCase();
+    	this.cellPhone = cellPhone;
+    	this.cellPhone = this.cellPhone.replaceAll("[^0-9]", "");
     }
 
 	public void setUserSecurityAnswer1(String userSecurityAnswer1) {
@@ -216,6 +219,23 @@ public class PasscodeReset implements Serializable {
 	}
 	
 	
+	// validate Cell phone entered on form
+	public void validateCellPhone(FacesContext context, UIComponent comp, Object obj) {
+
+		// cast the form field value to a string type
+		cellPhone = (String) obj;
+		cellPhone = cellPhone.trim();
+
+		if (cellPhone.equals("")) {
+			// return to form with error message
+            FacesMessage msg = new FacesMessage("Cell Phone is invalid");
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            throw new ValidatorException(msg);
+		}
+
+	}
+	
+	
 	// reset passcode step 1 form was submitted
 	public String resetPasscodeStep1ActionControllerMethod() {
 
@@ -252,71 +272,80 @@ public class PasscodeReset implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			return(null);
 
-		} else {
-
-			// save values retrieved by query
-			userEmail = row.getString("email_address");
-			resetAttempts = row.getInt("reset_attempts");
-			resetComplete = row.getBool("reset_complete");
-			resetRequestDatetime = row.getTimestamp("reset_request_datetime");
-
-			// check that this request isn't already completed
-			if (resetComplete) {
-				
-				// return to form with error message
-	            FacesMessage msg = new FacesMessage("this Passcode Reset Request has already been completed");
-	            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-				FacesContext.getCurrentInstance().addMessage(null, msg);
-				return(null);
-				
-			}
-			
-			// check the reset attempts
-			if (resetAttempts >= MAX_RESET_ATTEMPTS) {
-				
-				// return to form with error message
-	            FacesMessage msg = new FacesMessage("this Passcode Reset Request has exceeded the maximum allowed reset attempts, please submit a new Passcode Reset Request");
-	            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-				FacesContext.getCurrentInstance().addMessage(null, msg);
-				return(null);
-	        	
-			}
-			
-			// check the reset request date/time to see if this request is expired
-			Date currentDate = java.util.Calendar.getInstance().getTime(); // get the current date/time
-			System.out.println("currentDate: " + currentDate);
-			System.out.println("resetRequestDatetime: " + resetRequestDatetime);
-	        Calendar c = Calendar.getInstance(); // create an instance of Calendar
-	        c.setTime(resetRequestDatetime); // set the instance of Calendar to the reset request date/time
-	        c.add(Calendar.HOUR, 24); // add 24 hours to the reset request date/time to get the expiration date/time
-	        Date resetExpirationDate = c.getTime(); // convert the instance of Calendar to a Date object
-	        if (currentDate.compareTo(resetExpirationDate) > 0) { // compare the current date/time to the expiration date/time
-
-				// return to form with error message
-	            FacesMessage msg = new FacesMessage("this Passcode Reset Request has expired");
-	            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-				FacesContext.getCurrentInstance().addMessage(null, msg);
-				return(null);
-	        	
-	        }
-			
-			// validate the cell phone number ?
-
 		}
 
-		// all good, so get the security questions
+		// save values retrieved by query
+		userEmail = row.getString("email_address");
+		resetAttempts = row.getInt("reset_attempts");
+		resetComplete = row.getBool("reset_complete");
+		resetRequestDatetime = row.getTimestamp("reset_request_datetime");
 
+		// check that this request isn't already completed
+		if (resetComplete) {
+				
+			// return to form with error message
+	        FacesMessage msg = new FacesMessage("this Passcode Reset Request has already been completed");
+	        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return(null);
+				
+		}
+			
+		// check the reset attempts
+		if (resetAttempts >= MAX_RESET_ATTEMPTS) {
+				
+			// return to form with error message
+	        FacesMessage msg = new FacesMessage("this Passcode Reset Request has exceeded the maximum allowed reset attempts, please submit a new Passcode Reset Request");
+	        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return(null);
+	        	
+		}
+
+		// check the reset request date/time to see if this request is expired
+		Date currentDate = java.util.Calendar.getInstance().getTime(); // get the current date/time
+		System.out.println("currentDate: " + currentDate);
+		System.out.println("resetRequestDatetime: " + resetRequestDatetime);
+		Calendar c = Calendar.getInstance(); // create an instance of Calendar
+		c.setTime(resetRequestDatetime); // set the instance of Calendar to the reset request date/time
+		c.add(Calendar.HOUR, 24); // add 24 hours to the reset request date/time to get the expiration date/time
+		Date resetExpirationDate = c.getTime(); // convert the instance of Calendar to a Date object
+
+		if (currentDate.compareTo(resetExpirationDate) > 0) { // compare the current date/time to the expiration date/time
+
+			// return to form with error message
+			FacesMessage msg = new FacesMessage("this Passcode Reset Request has expired");
+			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return(null);
+	        	
+		}
+			
 		// get the Database Query Service object for this Organization
 		databaseQueryService = SessionUtils.getOrgDBQueryService(orgKeyspace);
 
-		// execute the query for selecting the user's security questions
-		queryString = "select security "
+		// execute the query for selecting the user's cell phone number and security questions
+		queryString = "select cell_phone_number, security "
 						+ "from users "
 						+ "where user_email = '" + this.userEmail + "'";
 		rs = databaseQueryService.runQuery(queryString);
 
 		// get the result values
 		row = rs.one();
+
+		// validate the cell phone number
+		cellPhoneDB = row.getString("cell_phone_number");
+		if (!cellPhone.equals(cellPhoneDB)) {
+			
+			// return to form with error message
+			FacesMessage msg = new FacesMessage("the cell phone number entered is incorrect");
+			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return(null);
+	        	
+		}
+
+		// all good, so get the security questions
 
 		// save value retrieved by query
 		List<UDTValue> qaList = row.getList("security", UDTValue.class);
@@ -338,12 +367,6 @@ public class PasscodeReset implements Serializable {
 		System.out.println("securityQuestion3: " + securityQuestion3);
 		System.out.println("securityAnswer3: " + securityAnswer3);
 		
-		// go back to same page, but with a success message (temporary)
-        //FacesMessage msg = new FacesMessage("Passcode reset request is valid!");
-        //msg.setSeverity(FacesMessage.SEVERITY_INFO);
-		//FacesContext.getCurrentInstance().addMessage(null, msg);
-		//return(null);
-
 		// go to step 2
 		return "passcode-reset-step2?faces-redirect=true";
 		
@@ -448,7 +471,9 @@ public class PasscodeReset implements Serializable {
 		rs = appAuthDBSession.execute(queryString);
 		
 		// end the conversation - bean goes out of scope
-		conversation.end();
+		if (!conversation.isTransient()) {
+			conversation.end();
+		}
 
 		// go to the login page
 		return "/login?faces-redirect=true";
@@ -456,4 +481,18 @@ public class PasscodeReset implements Serializable {
 	}
 
 
+	// cancel button was clicked, go to login page
+	public String resetPasscodeCancelControllerMethod() {
+
+		// end the conversation - bean goes out of scope
+		if (!conversation.isTransient()) {
+			conversation.end();
+		}
+
+		// go to the Login page
+		return "/login?faces-redirect=true";
+		
+	}
+
+	
 }
