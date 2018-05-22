@@ -22,14 +22,14 @@ Date			Name			Description
 	<ui:define name="full-width-table">
 		<div class="dataTableDivClass">
 			<b:form id="frmMain">
-				<b:modal id="modalDelete" title="Confirm Industry Security Incident Delete" styleClass="modalDeleteClass" closable="false" close-on-escape="false" backdrop="true">
+				<b:modal id="modalDelete" title="Confirm Industry Security Incident Delete" onFocus="$('.btnDeleteClass').button('focus');" styleClass="modalDeleteClass" closable="false" close-on-escape="true" backdrop="true">
 					<p>Click "Confirm" if you would like to delete this Industry Security Incident, <strong>#{industrySecurityIncidentsBean.selectedISI}</strong>.</p>
 					<f:facet name="footer">
 						<b:commandButton value="Confirm" ajax="true" actionListener="#{industrySecurityIncidentsBean.deleteISIControllerMethod()}" 
-										 oncomplete="$('.modalDeleteClass').modal('hide');" look="default" size="sm">
+										 oncomplete="$('.modalDeleteClass').modal('hide');" look="primary" size="sm">
 							 <f:ajax execute="@this" render="tblMain"/>
 						</b:commandButton>		 	
-						<b:button value="Cancel" look="primary" size="sm" dismiss="modal" iconAwesome="times"/>
+						<b:button id="btnCancel" styleClass="btnDeleteClass" value="Cancel" look="default" size="sm" dismiss="modal" iconAwesome="times" tabindex="0"/>
 					</f:facet>
 				</b:modal>			
 				<div style="text-align: center;">
@@ -56,7 +56,7 @@ Date			Name			Description
 						<f:facet name="header">Breaches Total </f:facet>
 					</b:dataTableColumn>	
 					<b:dataTableColumn id="breachesUNK" value="#{varTbl.breaches_unk}" contentStyleClass="alignright" headerStyleClass="alignleft">
-						<f:facet name="header">Breaches UNK </f:facet>
+						<f:facet name="header">Breaches Unknown </f:facet>
 					</b:dataTableColumn>	
 					<b:dataTableColumn id="incidentsLarge" value="#{varTbl.incidents_large}" contentStyleClass="alignright" headerStyleClass="alignleft">
 						<f:facet name="header">Incidents Large</f:facet>
@@ -68,9 +68,9 @@ Date			Name			Description
 						<f:facet name="header">Incidents Total</f:facet>
 					</b:dataTableColumn>	
 					<b:dataTableColumn id="incidentsUNK" value="#{varTbl.incidents_unk}" contentStyleClass="alignright" headerStyleClass="alignleft">
-						<f:facet name="header">Incidents UNK</f:facet>
+						<f:facet name="header">Incidents Unknown</f:facet>
 					</b:dataTableColumn>	
-					<b:dataTableColumn id="probabilityAttack" value="#{varTbl.probability_of_attack}" contentStyleClass="alignright,percentage" headerStyleClass="alignleft">
+					<b:dataTableColumn id="probabilityAttack" value="#{varTbl.probability_of_attack}" contentStyleClass="percentage" headerStyleClass="alignleft">
 						<f:facet name="header">Probability of Attack</f:facet>
 					</b:dataTableColumn>	
 					<b:dataTableColumn id="sampleSize" value="#{varTbl.sample_size}" contentStyleClass="alignright" headerStyleClass="alignleft">
@@ -80,7 +80,7 @@ Date			Name			Description
 						<f:facet name="header">Action</f:facet>	
 						<b:commandButton value="Edit" iconAwesome="edit" size="sm" look="default" disabled="false" ajax="true" 
 										 action="#{industrySecurityIncidentsBean.LoadISIEditFormData(varTbl)}" />
-						<b:commandButton value="Delete" iconAwesome="trash" size="sm" look="default" disabled="false" ajax="true" immediate="true"
+						<b:commandButton value="Delete" iconAwesome="trash" size="sm" look="default" disabled="false" ajax="true" immediate="true"  
 										 actionListener="#{industrySecurityIncidentsBean.setSelected(varTbl)}" update=":frmMain:modalDelete" oncomplete="$('.modalDeleteClass').modal('show');" />  
 					</b:dataTableColumn>					
 				</b:dataTable>

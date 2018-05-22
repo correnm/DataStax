@@ -33,11 +33,11 @@ Date			Name			Description
 				<b:row><!-- row for spacing -->
 					<b:column><span class="rowSpace"><br/></span></b:column>
 				</b:row>
-				<b:panel id="pnlColl" collapsible="false" title="">
+				<b:panel id="pnlColl" collapsible="false" title=">Industry Security Incident">
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label"><font color="red">* </font>Publication Year:</b:column>
 						<b:column col-md="4">
-							<b:inputText id="pubYear" value="#{industrySecurityIncidentsBean.publication_year}" required="true" 
+							<b:inputText id="pubYear" value="#{industrySecurityIncidentsBean.publication_year}" required="true" styleClass="alignright" 
 										 requiredMessage="The Publication year is required" validationMessage="The Publication Year must be 4 digits 'yyyy'.">
 									<f:convertNumber maxFractionDigits="0" integerOnly="true" pattern="#0000" />
 									<f:validateLength minimum="4" maximum="4" />	
@@ -54,55 +54,55 @@ Date			Name			Description
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label">Breaches Large:</b:column>
 						<b:column col-md="4">
-							<b:inputText id="breachesLarge" value="#{industrySecurityIncidentsBean.breaches_large}" />
+							<b:inputText id="breachesLarge" value="#{industrySecurityIncidentsBean.breaches_large}"  styleClass="alignright"/>
 						</b:column>
 					</b:row>
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label">Breaches Small:</b:column>
 						<b:column col-md="4">
-							<b:inputText id="breachesSmall" value="#{industrySecurityIncidentsBean.breaches_small}" />
+							<b:inputText id="breachesSmall" value="#{industrySecurityIncidentsBean.breaches_small}"  styleClass="alignright"/>
 						</b:column>
 					</b:row>
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label">Breaches Total:</b:column>
 						<b:column col-md="4">
-							<b:inputText id="breachesTotal" value="#{industrySecurityIncidentsBean.breaches_total}" />
+							<b:inputText id="breachesTotal" value="#{industrySecurityIncidentsBean.breaches_total}"  styleClass="alignright"/>
 						</b:column>
 					</b:row>
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label">Breaches Unknown:</b:column>
 						<b:column col-md="4">
-							<b:inputText id="breachesUNK" value="#{industrySecurityIncidentsBean.breaches_unk}" />
+							<b:inputText id="breachesUNK" value="#{industrySecurityIncidentsBean.breaches_unk}"  styleClass="alignright"/>
 						</b:column>
 					</b:row>
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label">Incidents Large:</b:column>
 						<b:column col-md="4">
-							<b:inputText id="incidentsLarge" value="#{industrySecurityIncidentsBean.incidents_large}" />
+							<b:inputText id="incidentsLarge" value="#{industrySecurityIncidentsBean.incidents_large}"  styleClass="alignright"/>
 						</b:column>
 					</b:row>
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label">Incidents Small:</b:column>
 						<b:column col-md="4">
-							<b:inputText id="incidentsSmall" value="#{industrySecurityIncidentsBean.incidents_small}" />
+							<b:inputText id="incidentsSmall" value="#{industrySecurityIncidentsBean.incidents_small}"  styleClass="alignright"/>
 						</b:column>
 					</b:row>
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label">Incidents Total:</b:column>
 						<b:column col-md="4">
-							<b:inputText id="incidentsTotal" value="#{industrySecurityIncidentsBean.incidents_total}" />
+							<b:inputText id="incidentsTotal" value="#{industrySecurityIncidentsBean.incidents_total}"  styleClass="alignright"/>
 						</b:column>
 					</b:row>
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label">Incidents Unknown:</b:column>
 						<b:column col-md="4">
-							<b:inputText id="incidentsUNK" value="#{industrySecurityIncidentsBean.incidents_unk}" />
+							<b:inputText id="incidentsUNK" value="#{industrySecurityIncidentsBean.incidents_unk}"  styleClass="alignright"/>
 						</b:column>
 					</b:row>
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label">Probability of Attack:</b:column>
 						<b:column col-md="4">
-							<b:inputText id="probAttack" value="#{industrySecurityIncidentsBean.probability_of_attack}">
+							<b:inputText id="probAttack" value="#{industrySecurityIncidentsBean.probability_of_attack}"  styleClass="percentage">
 								<f:facet name="append">
               						<h:outputText value="%" />
             					</f:facet>
@@ -112,7 +112,7 @@ Date			Name			Description
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label">Sample Size:</b:column>
 						<b:column col-md="4">
-							<b:inputText id="sampleSize" value="#{industrySecurityIncidentsBean.sample_size}" />
+							<b:inputText id="sampleSize" value="#{industrySecurityIncidentsBean.sample_size}"  styleClass="alignright"/>
 						</b:column>
 					</b:row>
 				</b:panel>	<!-- end of pnlColl -->
@@ -121,7 +121,7 @@ Date			Name			Description
 				</b:row>
 				<b:row>
 					<b:column col-md="12" style="text-align:center;">
-						<b:commandButton value="Save" iconAwesome="save" size="sm" look="default" disabled="false"  
+						<b:commandButton value="Save" iconAwesome="save" size="sm" look="primary" disabled="false"  
 										 action="#{industrySecurityIncidentsBean.addISIControllerMethod()}" />					
 						<b:button value="Cancel" iconAwesome="times" size="sm" look="default" href="industry-security-incidents-table.jsf" />
 					</b:column>					
