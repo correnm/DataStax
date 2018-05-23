@@ -28,10 +28,10 @@ May 2017		Tammy.Bogart	Updated to match the new UI format
 					<p>Click "Confirm" if you would like to delete this Business Process, <strong>#{businessAttribution.selectedBusName}</strong>.</p>
 					<f:facet name="footer">
 						<b:commandButton value="Confirm" ajax="true" actionListener="#{businessAttribution.deleteBVAControllerMethod()}" 
-										 oncomplete="$('modalDeleteClass').modal('hide');" look="default" size="sm">
+										 oncomplete="$('.modalDeleteClass').modal('hide');" look="primary" size="sm" dismiss="modal">
 							 <f:ajax execute="@this" render="tblMain"/>
 						</b:commandButton>		 	
-						<b:button value="Cancel" look="primary" size="sm" dismiss="modal" iconAwesome="times"/>
+						<b:button value="Cancel" look="default" size="sm" dismiss="modal" iconAwesome="times"/>
 					</f:facet>
 				</b:modal>			
 				<div style="text-align: center;">
@@ -63,7 +63,7 @@ May 2017		Tammy.Bogart	Updated to match the new UI format
 						<f:facet name="header">Annual Revenue</f:facet>
 						 <h:outputText value="#{att.annRevenue}" mask="currency">
 						 	<f:convertNumber type="currency" currencySymbol="$" locale="en_US"/>					 	
-                    </h:outputText>	
+                    	</h:outputText>	
 					</b:dataTableColumn>
 					<b:dataTableColumn value="#{att.annRevenueYear}" contentStyleClass="alignright" headerStyleClass="alignleft">
 						<f:facet name="header">Annual Revenue Year</f:facet>

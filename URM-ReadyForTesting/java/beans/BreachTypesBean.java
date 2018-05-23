@@ -26,8 +26,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
@@ -51,12 +54,14 @@ public class BreachTypesBean  implements Serializable {
 	private Session session;
 	private ResultSet resultSet; 
 	private DatabaseQueryService databaseQueryService;
-	private String query, breach_type, country_name, origBTName, origCountry, selectedBT;
-	private double publication_year, distribution_pct, per_capita_cost, origPubYear;
+	private String query, breach_type, origBTName, origCountry, selectedBT;
+	private Double publication_year, distribution_pct, per_capita_cost, origPubYear;
 	private List<BreachTypes> btList = new ArrayList<BreachTypes>();
 	private BreachTypes bt;
 	private Iterator<Row> iterator;
 	
+	private String country;
+	private List<String> countries;
 	// constructor
 	public BreachTypesBean() {
 		System.out.println("*** in BreachTypesBean constructor ***");
@@ -68,11 +73,24 @@ public class BreachTypesBean  implements Serializable {
 		databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
 		session = SessionUtils.getOrgDBSession(currentUser.getOrgKeyspace());
 		
+		getCountryList();
 		//load table data
 		LoadBreachTypes();
 	} // end of init()
 
 	//functions to load the table, add, edit pages	
+	
+	//get list of countries for page
+	public void getCountryList() {
+		query="";
+		query = "select database_column, option_values from lov_references where database_column ='country_name'";
+		resultSet = databaseQueryService.runQuery(query);
+		Row row = resultSet.one();
+				
+		Map<String, String> cntryMap = (Map<String, String>) row.getMap("option_values", String.class, String.class);	
+		this.countries = new ArrayList<String>(cntryMap.values());
+	}
+	
 	public void LoadBreachTypes() {
 		//called on initialization of breach-types-table to load table data
 		System.out.println("in LoadBreachTypes");	
@@ -96,12 +114,12 @@ public class BreachTypesBean  implements Serializable {
 		while (iterator.hasNext()) {
 			Row row = iterator.next();
 			publication_year = row.getDouble("publication_year");
-			country_name = row.getString("country_name");
+			country = row.getString("country_name");
 			breach_type = row.getString("breach_type");
 			distribution_pct = row.getDouble("distribution_pct");
 			per_capita_cost = row.getDouble("per_capita_cost");
 
-			bt = new BreachTypes(publication_year, country_name, breach_type, distribution_pct, per_capita_cost);
+			bt = new BreachTypes(publication_year, country, breach_type, distribution_pct, per_capita_cost);
 			btList.add(bt);	
 		}  	//end of while
 		
@@ -118,13 +136,12 @@ public class BreachTypesBean  implements Serializable {
 
 	public String LoadBTAddFormData()  throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 		System.out.println("in loadAddFormData");
-		
-		this.publication_year = 2017;		//set default value
-		this.country_name = "United States";	//set default value
+		this.publication_year = null;
+		this.country = "United States";	//set default value
 		this.breach_type = "";
-		this.distribution_pct = 0;
-		this.per_capita_cost = 0;
-
+		this.distribution_pct = null;
+		this.per_capita_cost = null;
+		
 		//goto Add form
 		return "/superadmin/breach-types-add.jsf";
 		//return null;
@@ -132,9 +149,10 @@ public class BreachTypesBean  implements Serializable {
 	
 	public String LoadBTEditFormData(BreachTypes btEdit) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 		System.out.println("in loadBTEditFormData");	
-	
-		this.publication_year = btEdit.getPublication_year();
-		this.country_name = btEdit.getCountry_name();
+
+
+		this.publication_year =btEdit.getPublication_year();
+		this.country = btEdit.getCountry_name();
 		this.breach_type = btEdit.getBreach_type();
 		this.distribution_pct = btEdit.getDistribution_pct();
 		this.per_capita_cost = btEdit.getPer_capita_cost();
@@ -152,22 +170,21 @@ public class BreachTypesBean  implements Serializable {
 		System.out.println("in editBTControllerMethod");		
 		PreparedStatement prepared;
 		BoundStatement bound;
-
-		if (this.origBTName.equals(this.breach_type) && this.origCountry.equals(this.country_name) && this.origPubYear==this.publication_year)  {
+		System.out.println("origBTName/breach_type: " + this.origBTName + "/" + this.breach_type);
+		System.out.println("origCountry/country_namee: " + this.origCountry + "/" + this.country);
+		System.out.println("origPubYear/publication_year: " + this.origPubYear + "/" + this.publication_year);
+		query="";
+		if (this.origBTName.equals(this.breach_type) && this.origCountry.equals(this.country) && this.origPubYear==this.publication_year)  {
 			//if primary key does not change, update existing data	
-			System.out.println("primary key unchanged, query: " + query);
-
 			query = "UPDATE appl_auth.breach_types "
 				+	"SET distribution_pct=?, "
 				+	"per_capita_cost=? "
 				+	"WHERE publication_year=? and country_name=? and breach_type=?";
 
 			prepared = session.prepare(query);
-			bound = prepared.bind(this.getDistribution_pct(), this.getPer_capita_cost(), this.publication_year, this.country_name, this.breach_type);
+			bound = prepared.bind(this.getDistribution_pct(), this.getPer_capita_cost(), this.publication_year, this.country, this.breach_type);
 			session.execute(bound);
 		} else {
-			System.out.println("primary key changed, query: " + query);
-			
 			//if primary key does change, insert new record
 			query = "INSERT INTO appl_auth.breach_types ("
 				+ 	"publication_year, "
@@ -176,9 +193,9 @@ public class BreachTypesBean  implements Serializable {
 				+ 	"distribution_pct, "
 				+ 	"per_capita_cost) VALUES " 
 				+ 	"(?,?,?,?,?)"; 
-
+			
 			prepared = session.prepare(query);
-			bound = prepared.bind(this.publication_year, this.country_name, this.breach_type, this.distribution_pct, this.per_capita_cost);
+			bound = prepared.bind(this.publication_year, this.country, this.breach_type, this.distribution_pct, this.per_capita_cost);
 			session.execute(bound);
 
 			//now delete old record
@@ -206,7 +223,7 @@ public class BreachTypesBean  implements Serializable {
 				+	"VALUES (?,?,?,?,?)";
 			
 		PreparedStatement prepared = session.prepare(query);
-		BoundStatement bound = prepared.bind(this.getPublication_year(), this.getCountry_name(), this.getBreach_type(), this.getDistribution_pct(), this.getPer_capita_cost());
+		BoundStatement bound = prepared.bind(this.getPublication_year(), this.getCountry(), this.getBreach_type(), this.getDistribution_pct(), this.getPer_capita_cost());
 		session.execute(bound);
 		
 		//re-load table
@@ -266,6 +283,22 @@ public class BreachTypesBean  implements Serializable {
 		this.origBTName = origBTName;
 	}
 
+	public List<String> getCountries() {
+		return countries;
+	}
+
+	public void setCountries(List<String> countries) {
+		this.countries = countries;
+	}
+	
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	
 	public String getOrigCountry() {
 		return origCountry;
 	}
@@ -274,11 +307,11 @@ public class BreachTypesBean  implements Serializable {
 		this.origCountry = origCountry;
 	}
 
-	public double getOrigPubYear() {
+	public Double getOrigPubYear() {
 		return origPubYear;
 	}
 
-	public void setOrigPubYear(double origPubYear) {
+	public void setOrigPubYear(Double origPubYear) {
 		this.origPubYear = origPubYear;
 	}
 
@@ -294,35 +327,27 @@ public class BreachTypesBean  implements Serializable {
 		this.breach_type = breach_type;
 	}
 
-	public String getCountry_name() {
-		return country_name;
-	}
-
-	public void setCountry_name(String country_name) {
-		this.country_name = country_name;
-	}
-
-	public double getPublication_year() {
+	public Double getPublication_year() {
 		return publication_year;
 	}
 
-	public void setPublication_year(double publication_year) {
+	public void setPublication_year(Double publication_year) {
 		this.publication_year = publication_year;
 	}
 
-	public double getDistribution_pct() {
+	public Double getDistribution_pct() {
 		return distribution_pct;
 	}
 
-	public void setDistribution_pct(double distribution_pct) {
+	public void setDistribution_pct(Double distribution_pct) {
 		this.distribution_pct = distribution_pct;
 	}
 
-	public double getPer_capita_cost() {
+	public Double getPer_capita_cost() {
 		return per_capita_cost;
 	}
 
-	public void setPer_capita_cost(double per_capita_cost) {
+	public void setPer_capita_cost(Double per_capita_cost) {
 		this.per_capita_cost = per_capita_cost;
 	}
 }
