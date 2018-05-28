@@ -303,7 +303,7 @@ table.table-striped tbody tr.even:hover {
 }
 
 table.table-striped tbody tr.odd:hover {
-	background-color: #ffffee;
+	background-color: #ffffdd;
 }
 
 .businessProcessesByCyvarTableClass {
@@ -391,12 +391,6 @@ table.table-striped tbody tr.odd:hover {
 
 label.bf-required:after {
 	color: #df382c;
-	content: "";
-}
-
-label.bf-required:before {
-	color: #df382c;
-	content: "* ";
 }
 
 .security-question {
