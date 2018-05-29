@@ -12,11 +12,7 @@
 	<ui:define name="document-title">Reset Passcode - Step 1 of 3</ui:define>
 
 	<ui:define name="navbar">
-		<b:navBar brand-img="#{request.contextPath}/resources/images/G2OPS-logo-navbar.png" brand-href="#{request.contextPath}/index.jsf" fluid="true" class="navbar-default">
-			<b:navbarLinks pull="right">
-				<b:navLink value="Help" href="#" iconAwesome="info-circle" iconAlign="left"></b:navLink>
-			</b:navbarLinks>
-		</b:navBar>
+		<ui:include src="/snippets/navbar-public.xhtml" />
 	</ui:define>
 
 	<ui:define name="page-name"><strong>Reset Passcode</strong></ui:define>
@@ -36,7 +32,7 @@
 					</b:row>
 
 					<b:row>
-						<b:column col-md="8" offset="2">
+						<b:column col-xs="12" col-sm="10" offset-sm="1" col-md="10" offset-md="1" col-lg="8" offset-lg="2">
 							<b:panel>
 								<!--
 								<h3 style="text-align: center;">Procedure to Reset Your Passcode</h3>
@@ -52,7 +48,7 @@
 					</b:row>
 
 					<b:row>
-						<b:column col-md="8" offset="2">
+						<b:column col-xs="12" col-sm="10" offset-sm="1" col-md="10" offset-md="1" col-lg="8" offset-lg="2">
 							<b:messages></b:messages>
 						</b:column>
 					</b:row>
@@ -64,20 +60,20 @@
 					</b:row>
 
 					<b:row>
-						<b:column col-md="3" offset="1" class="form-input-label"><span class="form-field-required">*</span> Organization Name:</b:column>
-						<b:column col-md="5">
-							<b:inputText id="orgName" value="#{passcodeReset.orgName}" required="true" requiredMessage="Organization Name is required" validator="#{passcodeReset.validateOrganizationName}">
-								<f:facet name="prepend"><b:iconAwesome name="institution" size="lg"/></f:facet>
+						<!-- <b:column col-md="3" offset="1" class="form-input-label"><span class="form-field-required">*</span> Organization Name:</b:column> -->
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText label="Organization Name" placeholder="Your Organization Name" id="orgName" value="#{passcodeReset.orgName}" required="true" requiredMessage="Organization Name is required" validator="#{passcodeReset.validateOrganizationName}">
+								<f:facet name="append"><b:iconAwesome name="institution" size="lg"/></f:facet>
 								<b:focus/>
 							</b:inputText>
 						</b:column>
 					</b:row>
 
 					<b:row>
-						<b:column col-md="3" offset="1" class="form-input-label"><span class="form-field-required">*</span> Cell Phone:</b:column>
-						<b:column col-md="5">
-							<b:inputText id="cellPhone" value="#{passcodeReset.cellPhone}" required="true" requiredMessage="Cell Phone is required" validator="#{passcodeReset.validateCellPhone}">
-								<f:facet name="prepend"><b:iconAwesome name="mobile" size="lg"/></f:facet>
+						<!-- <b:column col-md="3" offset="1" class="form-input-label"><span class="form-field-required">*</span> Cell Phone:</b:column> -->
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText label="Cell Phone" placeholder="Your Cell Phone Number" id="cellPhone" value="#{passcodeReset.cellPhone}" required="true" requiredMessage="Cell Phone is required" validator="#{passcodeReset.validateCellPhone}">
+								<f:facet name="append"><b:iconAwesome name="mobile" size="lg"/></f:facet>
 							</b:inputText>
 						</b:column>
 					</b:row>
@@ -91,7 +87,7 @@
 				</b:row>
 
 				<b:row>
-					<b:column col-md="4" offset="4" class="buttons-position">
+					<b:column col-xs="12" class="buttons-position">
 						<b:commandButton value="Continue" size="sm" look="primary" action="#{passcodeReset.resetPasscodeStep1ActionControllerMethod}" iconAwesome="arrow-right"/>
 						<b:commandButton value="Login" size="sm" look="default" action="#{passcodeReset.resetPasscodeCancelControllerMethod}" immediate="true" iconAwesome="times"/>
 					</b:column>
