@@ -39,12 +39,15 @@ public class BusinessProcessTreeMap {
 	private ResultSet rs;
 	private Iterator<Row> iterator;
 
-	private String ip_address, node_impact_value, vulnerability_count;
+	private String ip_address, vulnerability_count;
 	private Integer vulnerability_count_sum = 0;
 
 	private String data;
 	private String chartData;
 	private String nodeData = "";
+	private Double dNIV;
+	private String node_impact_value;
+
 	private FusionCharts businessProcessTreeMap;
 
 	public BusinessProcessTreeMap() {
@@ -58,15 +61,25 @@ public class BusinessProcessTreeMap {
 		
 		iterator = rs.iterator();
 
-		//iterate over the results. 
+		// iterate over the results
 		while (iterator.hasNext()) {
+
 			Row row = iterator.next();
 			ip_address = row.getString("ip_address");
-			node_impact_value = (row.getDecimal("node_impact_value").toString());
+			// changed code to search for null values
+			//node_impact_value = (row.getDecimal("node_impact_value").toString());		
+			if (row.getDecimal("node_impact_value") != null) {
+				dNIV = (row.getDecimal("node_impact_value").doubleValue());
+			} else {
+				dNIV = 0.0;
+			}
+			node_impact_value = dNIV.toString();
+
 			vulnerability_count = Integer.toString(row.getInt("vulnerability_count"));
 			vulnerability_count_sum += row.getInt("vulnerability_count");
 			nodeData = nodeData.concat("{\"label\": \"" + ip_address + "\", \"value\": \"" + vulnerability_count + "\", \"svalue\": \"" + node_impact_value + "\"},");
-		}
+
+		} // end while loop iterating through the nodes
 			
 		chartData = "{";
 
