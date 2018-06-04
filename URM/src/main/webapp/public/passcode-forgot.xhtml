@@ -8,11 +8,7 @@
 	<ui:define name="document-title">Forgot Passcode</ui:define>
 
 	<ui:define name="navbar">
-		<b:navBar brand-img="#{request.contextPath}/resources/images/G2OPS-logo-navbar.png" brand-href="#{request.contextPath}/index.jsf" fluid="true" class="navbar-default">
-			<b:navbarLinks pull="right">
-				<b:navLink value="Help" href="#" iconAwesome="info-circle" iconAlign="left"></b:navLink>
-			</b:navbarLinks>
-		</b:navBar>
+		<ui:include src="/snippets/navbar-public.xhtml" />
 	</ui:define>
 
 	<ui:define name="page-name"><strong>Forgot Passcode</strong></ui:define>
@@ -32,7 +28,7 @@
 					</b:row>
 
 					<b:row>
-						<b:column col-md="8" offset="2">
+						<b:column col-xs="12" col-sm="10" offset-sm="1" col-md="10" offset-md="1" col-lg="8" offset-lg="2">
 							<b:panel>
 								<!--
 								<h3 style="text-align: center;">Procedure to Reset Your Passcode</h3>
@@ -51,7 +47,7 @@
 					</b:row>
 
 					<b:row>
-						<b:column col-md="8" offset="2">
+						<b:column col-xs="12" col-sm="10" offset-sm="1" col-md="10" offset-md="1" col-lg="8" offset-lg="2">
 							<b:messages></b:messages>
 						</b:column>
 					</b:row>

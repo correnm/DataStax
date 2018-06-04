@@ -28,16 +28,16 @@ Date			Name			Description
 					<p>Click "Confirm" if you would like to delete this Breach Type, <strong>#{breachTypesBean.selectedBT}</strong>.</p>
 					<f:facet name="footer">
 						<b:commandButton value="Confirm" ajax="true" actionListener="#{breachTypesBean.deleteBTControllerMethod()}" 
-										 oncomplete="$('.modalDeleteClass').modal('hide');" look="default" size="sm">
+										 oncomplete="$('.modalDeleteClass').modal('hide');" look="primary" size="sm">
 							 <f:ajax execute="@this" render="tblMain"/>
 						</b:commandButton>		 	
-						<b:button value="Cancel" look="primary" size="sm" dismiss="modal" iconAwesome="times"/>
+						<b:button value="Cancel" look="default" size="sm" dismiss="modal" iconAwesome="times"/>
 					</f:facet>
 				</b:modal>			
 				<div style="text-align: center;">
 					<b:commandButton value="Add" iconAwesome="plus" size="sm" look="default" disabled="false" action="#{breachTypesBean.LoadBTAddFormData()}"></b:commandButton>
 				</div>	
-				<b:dataTable id="tblMain" value="#{breachTypesBean.breachTypeData}" var="varTbl" contentStyleClass="tableconent" headerStyleClass="tableheader" styleClass="businessProcessesByCyvarTableClass">
+				<b:dataTable id="tblMain" value="#{breachTypesBean.breachTypeData}" var="varTbl" contentStyleClass="tablecontent" headerStyleClass="tableheader" styleClass="businessProcessesByCyvarTableClass">
 					<b:dataTableColumn id="Breachtype" value="#{varTbl.breach_type}">
 						<f:facet name="header">Breach Type Name</f:facet>
 					</b:dataTableColumn>
@@ -50,7 +50,7 @@ Date			Name			Description
 					<b:dataTableColumn value="#{varTbl.country_name}">
 						<f:facet name="header">Country Name</f:facet>
 					</b:dataTableColumn>
-					<b:dataTableColumn value="#{varTbl.distribution_pct}" styleClass="percentage" contentStyleClass="alignright" headerStyleClass="alignleft">
+					<b:dataTableColumn value="#{varTbl.distribution_pct}" styleClass="percentage" headerStyleClass="alignleft">
 						<f:facet name="header">Distribution Percentage</f:facet>
 					</b:dataTableColumn>
 					<b:dataTableColumn contentStyleClass="alignright" headerStyleClass="alignleft">

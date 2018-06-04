@@ -13,24 +13,27 @@
 
 		<div class="dataTableDivClass">
 
-<!--
--->
-			<script>
-				function openConfirmationDialog(email) {
-					$('#modalFormID\\:userEmailID').val(email);
-					$('.testClass').html(email);
-					$('.modalPseudoClass').modal();
-				}
-			</script>
-
 			<b:form id="formID">
 
-				<b:modal id="modalID" title="Force Passcode Reset Confirmation" styleClass="modalPseudoClass" closable="false" close-on-escape="false" backdrop="false">
-					<h:inputHidden id="userEmailID" value="#{usersBean.userToForcePasscodeResetEmail}" />
-					<p>Click "Confirm" to force user <strong>"<span class="testClass"></span>"</strong> to reset their passcode. The user will receive an email with a Passcode Reset link. The user will not be able to login until they have clicked the link in the email and completed the Passcode Reset process.</p>
+				<b:modal id="forceResetModalID" title="Force Passcode Reset Confirmation" styleClass="forceResetModalClass" closable="false" close-on-escape="false" backdrop="false">
+					<p>Click "Confirm" to lock the account <strong>"#{usersBean.userToEditEmail}"</strong> and force the user to reset their passcode. The user will receive an email with a Passcode Reset link. The user will not be able to login until they have clicked the link in the email and completed the Passcode Reset process.</p>
 					<f:facet name="footer">
-						<b:commandButton value="Confirm" look="primary" size="sm" action="#{usersBean.forcePasscodeResetActionControllerMethod}" />
-						<b:button value="Cancel" look="default" size="sm" dismiss="modal" />
+						<b:commandButton value="Confirm" ajax="true" actionListener="#{usersBean.forcePasscodeResetActionControllerMethod}"
+										oncomplete="$('.forceResetModalClass').modal('hide');" look="primary" size="sm" iconAwesome="check">
+							<f:ajax execute="@this" render="usersTableID"/>
+						</b:commandButton>
+						<b:button value="Cancel" look="default" size="sm" dismiss="modal" iconAwesome="times"/>
+					</f:facet>
+				</b:modal>
+
+				<b:modal id="deleteUserModalID" title="Delete User Confirmation" styleClass="deleteUserModalClass" closable="false" close-on-escape="false" backdrop="false">
+					<p>Click "Confirm" to delete the account <strong>"#{usersBean.userToEditEmail}"</strong>. This process can't be reversed!</p>
+					<f:facet name="footer">
+						<b:commandButton value="Confirm" ajax="true" actionListener="#{usersBean.deleteUserActionControllerMethod}"
+										oncomplete="$('.deleteUserModalClass').modal('hide');" look="primary" size="sm" iconAwesome="check">
+							<f:ajax execute="@this" render="usersTableID"/>
+						</b:commandButton>
+						<b:button value="Cancel" look="default" size="sm" dismiss="modal" iconAwesome="times"/>
 					</f:facet>
 				</b:modal>
 
@@ -40,7 +43,7 @@
 					</h:link>
 				</div>
 
-				<b:dataTable value="#{usersBean.usersData}" var="user" styleClass="dataTableClass">
+				<b:dataTable id="usersTableID" value="#{usersBean.usersData}" var="user" styleClass="dataTableClass">
 
 					<b:dataTableColumn value="#{user.userEmail}" order="asc">
 						<f:facet name="header">Email Address</f:facet>
@@ -70,11 +73,17 @@
 						<f:facet name="header">Status</f:facet>
 					</b:dataTableColumn>
 
+					<b:dataTableColumn value="#{user.lockStatus}">
+						<f:facet name="header">Locked?</f:facet>
+					</b:dataTableColumn>
+
 					<b:dataTableColumn value="" orderable="false" style-class="dataTableButtonColumnClass">
 						<f:facet name="header">Action</f:facet>
 						<b:commandButton action="#{usersBean.retrieveUserData(user.userEmail)}" value="Edit" size="sm" look="default" iconAwesome="edit"></b:commandButton>
-						<b:button value="Delete" look="default" size="sm" iconAwesome="trash" onclick="openConfirmationDialog('#{user.userEmail}')" />
-						<b:button value="Force Passcode Reset" look="default" size="sm" iconAwesome="key" onclick="openConfirmationDialog('#{user.userEmail}')" />
+						<b:commandButton value="Delete" look="default" size="sm" iconAwesome="trash" ajax="true" immediate="true"
+										actionListener="#{usersBean.setUserToEditEmail(user.userEmail)}" update=":formID:deleteUserModalID" oncomplete="$('.deleteUserModalClass').modal('show');"/>
+						<b:commandButton value="Force Passcode Reset" look="default" size="sm" iconAwesome="key" ajax="true" immediate="true" disabled="#{user.lockStatus == 'yes'}"
+										actionListener="#{usersBean.setUserToEditEmail(user.userEmail)}" update=":formID:forceResetModalID" oncomplete="$('.forceResetModalClass').modal('show');"/>
 					</b:dataTableColumn>
  
 				</b:dataTable>

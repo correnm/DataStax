@@ -26,32 +26,29 @@
 					</b:row>
 
 					<b:row>
-						<b:column col-md="6" offset="3">
+						<b:column col-xs="12" col-sm="10" offset-sm="1" col-md="10" offset-md="1" col-lg="8" offset-lg="2">
 							<b:messages></b:messages>
 						</b:column>
 					</b:row>
 
 					<b:row>
-						<b:column col-md="4" offset="1" class="form-input-label">Keyspace Name:</b:column>
-						<b:column col-md="3">
-							<b:inputText id="keyspaceName" value="#{organizationsBean.keyspaceName}" required="true" requiredMessage="Keyspace Name is required" validator="#{organizationEdit.validateKeyspaceName}">
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText label="Keyspace Name" placeholder="the Name of the Keyspace" id="keyspaceName" value="#{organizationsBean.keyspaceName}" required="true" requiredMessage="Keyspace Name is required" validator="#{organizationEdit.validateKeyspaceName}">
 								<b:focus />
 							</b:inputText>
 						</b:column>
 					</b:row>
 
 					<b:row>
-						<b:column col-md="4" offset="1" class="form-input-label">Username:</b:column>
-						<b:column col-md="3">
-							<b:inputText id="username" value="#{organizationsBean.username}" required="true" requiredMessage="Username is required" validator="#{organizationEdit.validateUsername}">
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText label="Username" placeholder="the Database Username" id="username" value="#{organizationsBean.username}" required="true" requiredMessage="Username is required" validator="#{organizationEdit.validateUsername}">
 							</b:inputText>
 						</b:column>
 					</b:row>
 
 					<b:row>
-						<b:column col-md="4" offset="1" class="form-input-label">Password:</b:column>
-						<b:column col-md="3">
-							<b:inputSecret id="password" value="#{organizationsBean.password}" required="true" requiredMessage="Password is required"></b:inputSecret>
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputSecret label="Password" placeholder="the Database Password" id="password" value="#{organizationsBean.password}" required="true" requiredMessage="Password is required"></b:inputSecret>
 						</b:column>
 					</b:row>
 
@@ -62,18 +59,16 @@
 					</b:row>
 
 					<b:row>
-						<b:column col-md="4" offset="1" class="form-input-label">Country:</b:column>
-						<b:column col-md="3">
-							<b:selectOneMenu label="Country" render-label="false" id="country" value="#{organizationsBean.countryName}" tooltip="Choose a Country">
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:selectOneMenu label="Country" placeholder="the Country of the Organization" id="country" value="#{organizationsBean.countryName}" tooltip="Choose a Country" required="true" requiredMessage="Country is required">
 								<f:selectItems value="#{organizationsBean.countries}" var="country" itemValue="#{country}" itemLabel="#{country}"></f:selectItems>
 							</b:selectOneMenu>
 						</b:column>
 					</b:row>
 
 					<b:row>
-						<b:column col-md="4" offset="1" class="form-input-label">Industry:</b:column>
-						<b:column col-md="3">
-							<b:selectOneMenu label="Industry" render-label="false" id="industry" value="#{organizationsBean.industryName}" tooltip="Choose an Industry">
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:selectOneMenu label="Industry" placeholder="the Industry of the Organization" id="industry" value="#{organizationsBean.industryName}" tooltip="Choose an Industry" required="true" requiredMessage="Industry is required">
 								<f:selectItems value="#{organizationsBean.industries}" var="industry" itemValue="#{industry}" itemLabel="#{industry}"></f:selectItems>
 							</b:selectOneMenu>
 						</b:column>

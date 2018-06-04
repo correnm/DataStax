@@ -255,7 +255,8 @@ i.fa {
 
 .page-name {
 	/* valign: middle; */
-	font-size: 18px;
+	font-size: 14px;
+	padding: 0 4px;
 }
 
 .page-name h1 {
@@ -287,22 +288,25 @@ table.table-striped tbody tr.even {
 	background-color: #eaebeb;
 }
 
+table.table-striped tbody tr.even:hover {
+	background-color: #ffff99;
+}
+
+table.table-striped tbody tr.odd:hover {
+	background-color: #ffff99;
+}
+
 .businessProcessesByCyvarTableClass {
 	border-width: 1px;
 	border-color: #999999;
 	font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.dataTables_scrollHeadInner {
-    margin-right: auto !important;
-    margin-left: auto !important;
-}
 .dataTableClass {
 	border-width: 1px;
 	border-color: #999999;
 	font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-
 
 .dataTableDivClass {
 	border-style: solid;
@@ -345,10 +349,14 @@ table.table-striped tbody tr.even {
     text-align: center;
 }
 
+.viewFilterFormClass {
+	padding-top: 4px;
+}
+
 .viewFilterFormClass .form-control {
-	height: 40px;
+	height: 32px;
 	padding: 4px 12px;
-	font-size: 18px;
+	font-size: 14px;
 }
 
 .form-title {
@@ -367,10 +375,10 @@ table.table-striped tbody tr.even {
 }
 
 /* basic positioning */
-.legend-panel .panel-body { padding: 6px; border: 1px solid #ccc; }
-.legend { float: left; width: 25%; font-size: 18px; }
+.legend-panel .panel-body { padding: 4px; border: 1px solid #ccc; }
+.legend { float: left; width: 25%; font-size: 14px; padding-left: 4px; }
 /*.legend li { margin-bottom: 10px; }*/
-.legend div { border: 1px solid #ccc; float: left; width: 19px; height: 19px; margin: 3px 4px 3px 0; }
+.legend div { border: 1px solid #ccc; float: left; width: 14px; height: 14px; margin: 3px 4px 3px 2px; }
 /* your colors */
 .legend .critical { background-color: #df382c; }
 .legend .high { background-color: #e95420; }
@@ -382,18 +390,31 @@ table.table-striped tbody tr.even {
 	text-align: center;
 	font-weight: bold;
 	color: #595a5c;
-	padding-bottom: 15px;	
+	padding-bottom: 15px;
 }
+
 
 /*Added by Tammy Bogart 5/7/18 for formatting */
 
+.panel_survey > .panel-heading{
+	font-size: 12px;
+	text-align: center;
+	font-weight: bold;
+	color: white;
+	padding-bottom: 10px;
+}
+
+.panel_survey {
+	font-size: 14px;	
+	font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	padding-left:3;
+}
 .panel-borderless {
   border: 0;
   box-shadow: none;
 }
 
 .alignleft {
-/* 	float: left; */
 	text-align:left;
 }
 
@@ -413,6 +434,10 @@ table.table-striped tbody tr.even {
 
 .dollars:before {
   content: "$";
+}
+
+.percentage {
+	text-align:right;
 }
 .percentage:after {
 	content: "%";

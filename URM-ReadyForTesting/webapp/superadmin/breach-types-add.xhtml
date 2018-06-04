@@ -36,7 +36,7 @@ Date			Name			Description
 				<b:row><!-- row for spacing -->
 					<b:column><span class="rowSpace"><br/></span></b:column>
 				</b:row>
-				<b:panel id="pnlColl" collapsible="false" title="Add a Breach Type">
+				<b:panel id="pnlColl" collapsible="false" title="Breach Type">
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label"><font color="red">* </font>Breach Type Name:</b:column>
 						<b:column col-md="4">
@@ -47,51 +47,40 @@ Date			Name			Description
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label"><font color="red">* </font>Publication Year:</b:column>
 						<b:column col-md="4">
-							<b:inputText id="pubYear" value="#{breachTypesBean.publication_year}" required="true"
+							<b:inputText id="pubYear" value="#{breachTypesBean.publication_year}" required="true" placeholder="2018" class="alignright"  
 										 requiredMessage="Publication year is required." validatorMessage="The Publication Year must be a 4 digit year 'yyyy'.">
 								<f:validateLength minimum="4" maximum="4" />
-								<f:convertNumber maxFractionDigits="0" integerOnly="true" pattern="#0000" />						
+								<f:convertNumber maxFractionDigits="0" pattern="#0000"/>
 							</b:inputText>
 						</b:column>
 					</b:row>
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label"><font color="red">* </font>Country Name:</b:column>
 						<b:column col-md="4">
-							<b:selectOneMenu label="countryName" render-label="false" id="countryName" value="#{breachTypesBean.country_name}" tooltip="Choose a Country" required="true" requiredMessage="Country is required.">
-							   	<f:selectItem itemValue="United States" itemLabel="United States" />
-							   	<f:selectItem itemValue="ASEAN region" itemLabel="ASEAN region" />
-							   	<f:selectItem itemValue="Australia" itemLabel="Australia" />
-							   	<f:selectItem itemValue="Brazil" itemLabel="Brazil" />
-							   	<f:selectItem itemValue="Canada" itemLabel="Canada" />
-							   	<f:selectItem itemValue="France" itemLabel="France" />
-							   	<f:selectItem itemValue="Germany" itemLabel="Germany" />
-							   	<f:selectItem itemValue="India" itemLabel="India" />
-							   	<f:selectItem itemValue="Italy" itemLabel="Italy" />
-							   	<f:selectItem itemValue="Japan" itemLabel="Japan" />
-							   	<f:selectItem itemValue="South Africa" itemLabel="South Africa" />
-							   	<f:selectItem itemValue="United Kingdom" itemLabel="United Kingdom" />
-							   	<f:selectItem itemValue="Middle East" itemLabel="The Middle East (including the United Arab Emirates and Saudi Arabia)" />
+							<b:selectOneMenu label="countryName" render-label="false" id="countryName" value="#{breachTypesBean.country}" tooltip="Choose a Country" required="true" requiredMessage="Country is required.">
+							   	<f:selectItems value="#{breachTypesBean.countries}" var="country" itemValue="#{country}" itemLabel="#{country}"></f:selectItems>
 							</b:selectOneMenu>
 						</b:column>
 					</b:row>
 					<b:row>
-						<b:column col-md="4" offset="1" class="form-input-label">Distribution PCT:</b:column>
-						<b:column col-md="4">
-							<b:inputText id="distributionPCT" value="#{breachTypesBean.distribution_pct}" required="false" styleClass="percentage">
+						<b:column col-md="4" offset="1" class="form-input-label">Distribution Percentage:</b:column>
+						<b:column col-md="4">						
+							<b:inputText id="distributionPCT" value="#{breachTypesBean.distribution_pct}" styleClass="percentage" >								
+								<f:convertNumber type="percent" />
 								<f:facet name="append">
               						<h:outputText value="%" />
-            					</f:facet>
-							</b:inputText>
+            					</f:facet> 
+							</b:inputText>	
 						</b:column>
 					</b:row>
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label">Per Capita Cost:</b:column>
 						<b:column col-md="4">
-							<b:inputText id="perCapitaCost" value="#{breachTypesBean.per_capita_cost}">
-								<f:facet name="prepend">
+							<b:inputText id="perCapitaCost" value="#{breachTypesBean.per_capita_cost}" styleClass="alignright" required="false">
+								 <f:facet name="prepend">
               						<h:outputText value="$" />
-            					</f:facet>
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="0"/>					 	
+            					</f:facet> 			
+            					<f:convertNumber maxFractionDigits="2" minFractionDigits="0"/>										 	
 							</b:inputText>
 						</b:column>
 					</b:row>
@@ -101,7 +90,7 @@ Date			Name			Description
 				</b:row>
 				<b:row>
 					<b:column col-md="12" style="text-align:center;">
-						<b:commandButton value="Save" iconAwesome="save" size="sm" look="default" disabled="false"  
+						<b:commandButton value="Save" iconAwesome="save" size="sm" look="primary" disabled="false"  
 										 action="#{breachTypesBean.addBTControllerMethod()}" />					
 						<b:button value="Cancel" iconAwesome="times" size="sm" look="default" href="breach-types-table.jsf" />
 					</b:column>					

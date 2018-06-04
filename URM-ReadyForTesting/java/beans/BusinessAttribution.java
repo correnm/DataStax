@@ -82,8 +82,8 @@ public class BusinessAttribution  implements Serializable {
 	private Row row, rowSites;
 	private Set<RunsOnHost>setROH;
 	
-	private String query, newQuery, selectedBusName, busName, bit, busCrit, infClass, dbType, annRevC, breachType, selectedHostName,validationMessage;
-	private String hostName, hostIP, hostSubnet, hostAssetType, hostAssetVisibility, hostOS, hostVendor, defaultSiteName, resistanceStrengthstr;
+	private String query, newQuery, selectedBusName, busName, bit, busCrit, infClass, dbType, annRevC, breachType, selectedHostName,validationMessage, annRevYearstr;
+	private String hostName, hostIP, hostSubnet, hostAssetType, hostAssetVisibility, hostOS, hostVendor, defaultSiteName, resistanceStrengthstr, updateType;
 	private UUID siteID, hostSiteID, hostID, selSiteID, selBusProcID, busProcID;
 
 	private BigDecimal riskAppetite, annRev, recordCount, resistanceStrength;
@@ -95,6 +95,7 @@ public class BusinessAttribution  implements Serializable {
 	private List<String> dbtypes;
 
 	private Boolean loadHostAddRun = false;
+	private Boolean showHosts = false;
 	private String expandedPanels = "";
 	private BusinessAttributionTypes att, selectedBP;
 	private List<BusinessAttributionTypes> attList = new ArrayList<BusinessAttributionTypes>();
@@ -203,12 +204,15 @@ public class BusinessAttribution  implements Serializable {
 
 	public String LoadBPEditFormData(UUID selectedSiteID, UUID selectedBusinessID) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 		// get the data for the business process being edited
+		this.showHosts = true;
+		
 		if (this.getBcrits()==null) {
 			LoadDropDowns();
 		}
 		
 			this.selSiteID = selectedSiteID;
 			this.selBusProcID = selectedBusinessID;
+			this.annRevC = " ";
 			
 			query = "SELECT "
 				+ "business_process_name, "
@@ -227,7 +231,9 @@ public class BusinessAttribution  implements Serializable {
 		bound = prepared.bind(selectedSiteID, selectedBusinessID);			
 		resultset = session.execute(bound);
 		row = resultset.one();
-		
+
+		NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
+	
 		// set values to what was returned by the query
 		selectedBusName = row.getString("business_process_name");		
 		bit = row.getString("business_interruption_threshold");
@@ -235,8 +241,16 @@ public class BusinessAttribution  implements Serializable {
 		infClass = row.getString("information_classification");
 		riskAppetite = row.getDecimal("risk_appetite");
 		dbType = row.getString("default_breach_type");
-		annRevC = row.getDecimal("annual_revenue").toString();
+		annRev = row.getDecimal("annual_revenue");
+
+		//if (annRev.compareTo(BigDecimal.ZERO) != 0) {
+			annRevC = annRev.toString();
+			System.out.println("annRevC: " + annRevC);
+			annRevC = format.format(annRev);		
+		//}
+		
 		annRevYear = row.getInt("annual_revenue_year");
+		annRevYearstr = String.valueOf(annRevYear);
 		recordCount  = row.getDecimal("record_count");
 		resistanceStrength = row.getDecimal("resistance_strength");
 		if (resistanceStrength != null) {
@@ -246,7 +260,9 @@ public class BusinessAttribution  implements Serializable {
 		this.expandedPanels = "";
 
 		//goto Edit form
+		this.updateType = "edit";
 		return "/administrator/business-attribution-edit.jsf";
+		//return "/administrator/business-attribution-form.jsf";
 	}	//end of LoadEditFormData()
 	
 	public String LoadBPAddFormData()  throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
@@ -254,21 +270,27 @@ public class BusinessAttribution  implements Serializable {
 		if (this.getBcrits()==null) {
 			LoadDropDowns();
 		}
-		this.validationMessage="TEST TEST";
+		
+		this.showHosts = false;
+		this.selSiteID = this.getSiteID();
 		this.selBusProcID= null;
 		this.selectedBusName = "";
 		this.bit = "";
 		this.infClass="";
 		this.riskAppetite = null;
 		this.dbType = "";
-		this.annRevC = "";
-		this.annRevYear=2017;
 		this.recordCount= null;
 		this.resistanceStrength=null;
 		this.resistanceStrengthstr = "";		//needed for regex validation
+		//this.annRev = 0;
+		this.annRevC = " ";
+		//this.annRevYear = row.getInt("annual_revenue_year");
+		this.annRevYearstr ="";		
+		
+		this.updateType = "add";
 		//goto add form
 		return "/administrator/business-attribution-add.jsf";
-
+		//return "/administrator/business-attribution-form.jsf";
 	}	//end of LoadAddFormData()
 	////end of LOAD functions for each BP  page
 
@@ -285,7 +307,7 @@ public class BusinessAttribution  implements Serializable {
 System.out.println("in LoadHostTableData, query: " + query);
 
 PreparedStatement prepared = session.prepare(query);
-			BoundStatement bound = prepared.bind(selectedSiteID, selectedBusinessID);			
+			BoundStatement bound = prepared.bind(this.selSiteID, this.selBusProcID );			
 			ResultSet resultset = session.execute(bound);
 			row = resultset.one();
 			selectedBusName = row.getString("business_process_name");
@@ -439,6 +461,7 @@ PreparedStatement prepared = session.prepare(query);
 	
 	public String editBVAControllerMethod() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 			//convert Annual Revenue from currency format ($ 650,005.00) to decimal
+		annRevC = this.annRev.toString();
 		try {
 				annRev = parse(annRevC, Locale.US);
 			} catch (ParseException e) {
@@ -450,6 +473,8 @@ PreparedStatement prepared = session.prepare(query);
 		} else {
 			this.resistanceStrength = new BigDecimal(this.getResistanceStrengthstr().trim());
 		}
+		
+		this.annRevYear = Integer.valueOf(this.annRevYearstr);
 
 		query = "UPDATE business_value_attribution SET "
 					+ "business_process_name=?, "
@@ -525,6 +550,8 @@ PreparedStatement prepared = session.prepare(query);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		
+		this.annRevYear = Integer.valueOf(this.annRevYearstr);
 
 		query="";
 		query = "INSERT INTO business_value_attribution"  
@@ -578,7 +605,7 @@ PreparedStatement prepared = session.prepare(query);
 	
 	////EDIT functions for each Host 
 	public String addBVAHostControllerMethodinEdit(UUID selHostID) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
-		System.out.println("in addBVAHost, selhostID: " + selHostID);
+		System.out.println("in addBVAHostCM");
 		this.hostID = selHostID;
 		//only adding hardware node to the Runs_On_Hosts field in the business_value_attribution table
 		//grab all hosts for this business process
@@ -588,6 +615,8 @@ PreparedStatement prepared = session.prepare(query);
 			bound = prepared.bind(this.getSelSiteID(), this.getSelBusProcID());			
 			rs = session.execute(bound);
 			row = rs.one();
+			
+			System.out.println("query: " + query + "/ site: " + this.getSelSiteID() + "/ bus: " + this.getSelBusProcID());
 			Set<RunsOnHost> setRunsOnHost = row.getSet("runs_on_hosts", RunsOnHost.class);
 			
 			RunsOnHost hostNode = new RunsOnHost();
@@ -938,6 +967,14 @@ System.out.println("in populateHOstListData, query: " + query);
 	public void setAnnRevYear(int annRevYear) {
 		this.annRevYear = annRevYear;
 	}
+	
+	public String getAnnRevYearstr() {
+		return annRevYearstr;
+	}
+
+	public void setAnnRevYearstr(String annRevYearstr) {
+		this.annRevYearstr = annRevYearstr;
+	}
 
 	public List<String> getBits() {
 		return bits;
@@ -978,6 +1015,14 @@ System.out.println("in populateHOstListData, query: " + query);
 
 	public void setBreachType(String breachType) {
 		this.breachType = breachType;
+	}
+
+	public Boolean getShowHosts() {
+		return showHosts;
+	}
+
+	public void setShowHosts(Boolean showHosts) {
+		this.showHosts = showHosts;
 	}
 
 	public String getHostName() {
@@ -1132,6 +1177,15 @@ System.out.println("in populateHOstListData, query: " + query);
 	public void setValidationMessage(String validationMessage) {
 		this.validationMessage = validationMessage;
 	}	
+	
+	public String getUpdateType() {
+		return updateType;
+	}
+	
+	public void setUpdateType(String updateType) {
+		this.updateType = updateType;
+	}
+
 }
                                                                                       
  

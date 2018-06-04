@@ -34,7 +34,7 @@ Date			Name			Description
 				<b:row><!-- row for spacing -->
 					<b:column><span class="rowSpace"><br/></span></b:column>
 				</b:row>
-				<b:panel id="pnlColl" collapsible="false" title="Business Process Details">
+				<b:panel id="pnlColl" collapsible="false" title="Business Process">
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label"><font color="red">* </font>Business Process Name:</b:column>
 						<b:column col-md="4">
@@ -77,7 +77,7 @@ Date			Name			Description
 						<b:column col-md="4" offset="1" class="form-input-label">Risk Appetite:</b:column>
 						<b:column col-md="4">
 							<b:inputText id="riskAppetite" value="#{businessAttribution.riskAppetite}" ask="decimal" maxlength="3" tooltip="Value must be between 4 and 100."
-							validatorMessage="The Risk Appetite value must be between 0 and 100">
+							validatorMessage="The Risk Appetite value must be between 0 and 100" class="alignright">
 								<f:validateLongRange minimum="0" maximum="100" />
 							</b:inputText>
 						</b:column>
@@ -86,7 +86,7 @@ Date			Name			Description
 						<b:column col-md="4" offset="1" class="form-input-label">Resistance Strength:</b:column>
 						<b:column col-md="4">
 							<b:inputText id="resistanceStrength" value="#{businessAttribution.resistanceStrengthstr}" ask="decimal" tooltip="Value must be 2, 16, 84, 98, or between 40 and 60"
-									validatorMessage="The Resistance Strength value must be 2, 16, 84, 98, or between 40 and 60">							
+									validatorMessage="The Resistance Strength value must be 2, 16, 84, 98, or between 40 and 60" class="alignright">							
 								<f:validateRegex pattern="^2|16|84|98|4[0-9]|5[0-9]|60" minimum="2" maximum="60" />
 							</b:inputText>
 						</b:column>
@@ -94,22 +94,21 @@ Date			Name			Description
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label">Annual Revenue:</b:column>
 						<b:column col-md="4">
-							<b:inputText id="annRevC" value="#{businessAttribution.annRevC}" mask="currency" />							
+							<b:inputText id="annRevC" value="#{businessAttribution.annRevC}" mask="currency" class="alignright"/>							
 						</b:column>
 					</b:row>  
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label">Annual Revenue Year:</b:column>
 						<b:column col-md="4">
-							<b:inputText id="annRevYear" value="#{businessAttribution.annRevYear}" validatorMessage="The Annual Revenue Year must be a 4 digit year 'yyyy'.">
-								<f:validateLength minimum="4" maximum="4" />														
+							<b:inputText id="annRevYear" placeholder="2018" class="alignright" value="#{businessAttribution.annRevYearstr}" validatorMessage="The Annual Revenue Year must be a 4 digit year 'yyyy'.">
+								<f:validateLength minimum="4" maximum="4" /> 								
 							</b:inputText>
 						</b:column>
 					</b:row>
 					<b:row>
 						<b:column col-md="4" offset="1" class="form-input-label">Record Count:</b:column>
 						<b:column col-md="4">
-							<b:inputText id="recordCount" value="#{businessAttribution.recordCount}" required="false">
-							</b:inputText>
+							<b:inputText id="recordCount" value="#{businessAttribution.recordCount}" required="false" class="alignright"/>
 						</b:column>
 					</b:row>
 					<b:row>
@@ -171,20 +170,20 @@ Date			Name			Description
 										</div>												
 									</b:panel>
 								</b:modal>
-								<b:modal id="modalDelete" title="Confirm Host Delete" styleClass="modalDeleteClass" closable="false" close-on-escape="false" backdrop="true">
+								<b:modal id="modalDelete" title="Confirm Host Delete" styleClass="modalDeleteClass" closable="false" close-on-escape="true" backdrop="false" >
 									<p>Click "Confirm" if you would like to delete this host, <strong>#{businessAttribution.selectedHostName}</strong>.</p>
 									<f:facet name="footer">
 										<b:commandButton value="Confirm" ajax="true" actionListener="#{businessAttribution.deleteBVAHostControllerMethodModal()}" 
-													 oncomplete="$('.modalDeleteClass').modal('hide');" look="default" size="sm">
+													 oncomplete="$('.modalDeleteClass').modal('hide');" look="primary" size="sm" dismiss="modal">
 													<f:ajax execute="@this" render="tblHosts"/>  									
 										</b:commandButton>		 	
-										<b:button value="Cancel" look="primary" size="sm" dismiss="modal" iconAwesome="times"/>
+										<b:button id="btnCancel" value="Cancel" look="default" size="sm" dismiss="modal" iconAwesome="times"/>
 									</f:facet>
 								</b:modal>
 								<b:modal id="modalSave" title="Saved Changes" styleClass="modalSaveClass" closable="false" close-on-escape="false" backdrop="true">
 									<p>Your changes have been saved.</p>
 									<f:facet name="footer">
-										<b:button value="Ok" look="default" size="sm" dismiss="modal"/>
+										<b:button value="Ok" look="primary" size="sm" dismiss="modal"/>
 									</f:facet>
 								</b:modal>
 								<b:dataTable id="tblHosts" scrollHorizontally="true" contentStyleClass="tablecontent" fixedHeader="true" value="#{businessAttribution.businessHostData}" var="host"  widgetVar="tblHosts">
@@ -208,7 +207,7 @@ Date			Name			Description
 									</b:dataTableColumn>
 									<b:dataTableColumn value="" orderable="false" contentStyleClass="dataTableButtonColumnClass">
 										<f:facet name="header">Action</f:facet>											
-											<b:commandButton ajax="true" oncomplete="$('.modalDeleteClass').modal('show');"
+											<b:commandButton ajax="true" oncomplete="$('.modalDeleteClass').modal('show');" onclick=":frmMain:frmHosts:btnCancel.focus():"
 												actionListener="#{businessAttribution.defineSelectedHost(host)}" immediate="true" update=":frmMain:frmHosts:modalDelete"
 												 value="Delete" iconAwesome="trash" size="sm" look="default" disabled="false" />
 											<b:button value="Edit" look="default" size="sm" disabled="true" iconAwesome="edit"/>	 
@@ -222,7 +221,7 @@ Date			Name			Description
 				<!-- row for spacing --><b:row><b:column><span class="rowSpace"><br/></span></b:column></b:row>
 				<b:row>
 					<b:column col-md="12" style="text-align:center;">
-						<b:commandButton action="#{businessAttribution.editBVAControllerMethod}" value="Save" iconAwesome="save" size="sm" look="default" disabled="false"></b:commandButton>
+						<b:commandButton action="#{businessAttribution.editBVAControllerMethod}" value="Save" iconAwesome="save" size="sm" look="primary" disabled="false"></b:commandButton>
 						<b:button href="business-attribution-table.jsf" value="Cancel" iconAwesome="times" size="sm" look="default"></b:button>
 					</b:column>
 				</b:row>

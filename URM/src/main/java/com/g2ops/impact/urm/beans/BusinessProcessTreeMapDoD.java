@@ -22,7 +22,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import java.math.BigDecimal;
 import java.util.Iterator;
 
 import com.datastax.driver.core.ResultSet;
@@ -49,8 +48,8 @@ public class BusinessProcessTreeMapDoD {
 	private String nodeData = "";
 	private FusionCharts businessProcessTreeMapDoD;
 
-	private Double dNIV = 0.0;
-	private String node_impact_value = "" ;
+	private Double dNIV;
+	private String node_impact_value;
 	
 	public BusinessProcessTreeMapDoD() {
 
@@ -68,8 +67,10 @@ public class BusinessProcessTreeMapDoD {
 			ip_address = row.getString("ip_address");
 			if (row.getDecimal("node_impact_value") != null) {
 				dNIV = (row.getDecimal("node_impact_value").doubleValue());
-				node_impact_value = dNIV.toString();
-			}	
+			} else {
+				dNIV = 0.0;
+			}
+			node_impact_value = dNIV.toString();
 			
 			// Corren: only includes nodes with a positive NIV scores. Others are probably routers in the tracehop
 			//if ( Float.valueOf(node_impact_value) > 0) {
