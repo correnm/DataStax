@@ -20,7 +20,8 @@ AS SELECT 	cpe_id,
 			installed_on_hardware,
 			end_of_sale,
 			end_of_life_date,
-			end_of_support_date 
+			end_of_support_date,
+			title
 FROM software
 WHERE 	cpe_id IS NOT NULL
 	AND	part IS NOT NULL   
