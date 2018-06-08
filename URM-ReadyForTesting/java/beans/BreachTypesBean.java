@@ -26,20 +26,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
+import com.datastax.driver.mapping.MappingManager;
 import com.g2ops.impact.urm.utils.DatabaseQueryService;
 import com.g2ops.impact.urm.utils.SessionUtils;
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.PreparedStatement;
+import com.g2ops.impact.urm.types.AuditUpsert;
 import com.g2ops.impact.urm.types.BreachTypes;
+
+import com.g2ops.impact.urm.beans.LovReferences;		//new function to return country list
 
 @Named("breachTypesBean")
 @SessionScoped	//required for pulling in currentUser info --Client-specific data      
@@ -60,8 +61,9 @@ public class BreachTypesBean  implements Serializable {
 	private BreachTypes bt;
 	private Iterator<Row> iterator;
 	
-	private String country;
-	private List<String> countries;
+	private String country, documentTitle, action;
+	private ArrayList<String> countries;
+
 	// constructor
 	public BreachTypesBean() {
 		System.out.println("*** in BreachTypesBean constructor ***");
@@ -69,31 +71,23 @@ public class BreachTypesBean  implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		System.out.println("*** in BreachTypes init ***");
+		//System.out.println("*** in BreachTypes init ***");
+		
 		databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
 		session = SessionUtils.getOrgDBSession(currentUser.getOrgKeyspace());
+
+		//get country list for dropdown
+		LovReferences LovReferences = new LovReferences();
+		this.countries = new ArrayList<String>(LovReferences.getSelectItems("country_name",currentUser).values());
 		
-		getCountryList();
 		//load table data
 		LoadBreachTypes();
 	} // end of init()
 
 	//functions to load the table, add, edit pages	
-	
-	//get list of countries for page
-	public void getCountryList() {
-		query="";
-		query = "select database_column, option_values from lov_references where database_column ='country_name'";
-		resultSet = databaseQueryService.runQuery(query);
-		Row row = resultSet.one();
-				
-		Map<String, String> cntryMap = (Map<String, String>) row.getMap("option_values", String.class, String.class);	
-		this.countries = new ArrayList<String>(cntryMap.values());
-	}
-	
-	public void LoadBreachTypes() {
+		public void LoadBreachTypes() {
 		//called on initialization of breach-types-table to load table data
-		System.out.println("in LoadBreachTypes");	
+		//System.out.println("in LoadBreachTypes");	
 		this.selectedBT = "";	
 		
 		query = "SELECT "
@@ -134,8 +128,10 @@ public class BreachTypesBean  implements Serializable {
 
 	}		//end of LoadBreachTypes()
 
-	public String LoadBTAddFormData()  throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
-		System.out.println("in loadAddFormData");
+	
+	public String LoadBTAddFormData() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
+		this.action="add";
+		this.documentTitle="Add Breach Type";
 		this.publication_year = null;
 		this.country = "United States";	//set default value
 		this.breach_type = "";
@@ -143,13 +139,16 @@ public class BreachTypesBean  implements Serializable {
 		this.per_capita_cost = null;
 		
 		//goto Add form
-		return "/superadmin/breach-types-add.jsf";
+		return "/superadmin/breach-types.jsf";
 		//return null;
 	}	//end LoadBTAddFormData()
 	
 	public String LoadBTEditFormData(BreachTypes btEdit) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 		System.out.println("in loadBTEditFormData");	
+		this.action="edit";
+		System.out.println("action in edit: " + action);
 
+		this.documentTitle="Edit Breach Type";
 
 		this.publication_year =btEdit.getPublication_year();
 		this.country = btEdit.getCountry_name();
@@ -162,20 +161,33 @@ public class BreachTypesBean  implements Serializable {
 		this.origPubYear = btEdit.getPublication_year();
 		
 		//goto Edit form
-		return "/superadmin/breach-types-edit.jsf";
+		return "/superadmin/breach-types.jsf";
 	}	//end of LoadBTEditFormData()
 
 	//Functions to push changes to the database table
+	public String actionBTControllerMethod() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
+		System.out.println("action in controller: " + action);
+
+		String returnVar = " ";
+		if (action == "add") {
+			returnVar = addBTControllerMethod();
+		} else {
+			if (action == "edit") {
+				returnVar = editBTControllerMethod();
+			}
+		}
+		return returnVar;
+	}
+
 	public String editBTControllerMethod() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {		
 		System.out.println("in editBTControllerMethod");		
 		PreparedStatement prepared;
 		BoundStatement bound;
-		System.out.println("origBTName/breach_type: " + this.origBTName + "/" + this.breach_type);
-		System.out.println("origCountry/country_namee: " + this.origCountry + "/" + this.country);
-		System.out.println("origPubYear/publication_year: " + this.origPubYear + "/" + this.publication_year);
-		query="";
-		if (this.origBTName.equals(this.breach_type) && this.origCountry.equals(this.country) && this.origPubYear==this.publication_year)  {
+			query="";
+			System.out.println("in editBTControllerMethod");
+		if (this.origBTName.equals(this.breach_type) && this.origCountry.equals(this.country) && (this.origPubYear.compareTo(this.publication_year)==0)) {	
 			//if primary key does not change, update existing data	
+			System.out.println("primary key unchanged");
 			query = "UPDATE appl_auth.breach_types "
 				+	"SET distribution_pct=?, "
 				+	"per_capita_cost=? "
@@ -185,6 +197,7 @@ public class BreachTypesBean  implements Serializable {
 			bound = prepared.bind(this.getDistribution_pct(), this.getPer_capita_cost(), this.publication_year, this.country, this.breach_type);
 			session.execute(bound);
 		} else {
+			System.out.println("primary key changed");
 			//if primary key does change, insert new record
 			query = "INSERT INTO appl_auth.breach_types ("
 				+ 	"publication_year, "
@@ -267,6 +280,22 @@ public class BreachTypesBean  implements Serializable {
 		this.bt = bt;
 	}
 
+	public String getDocumentTitle() {
+		return documentTitle;
+	}
+
+	public void setDocumentTitle(String documentTitle) {
+		this.documentTitle = documentTitle;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
 	public String getSelectedBT() {
 		return selectedBT;
 	}
@@ -283,11 +312,11 @@ public class BreachTypesBean  implements Serializable {
 		this.origBTName = origBTName;
 	}
 
-	public List<String> getCountries() {
+	public ArrayList<String> getCountries() {
 		return countries;
 	}
 
-	public void setCountries(List<String> countries) {
+	public void setCountries( ArrayList<String> countries) {
 		this.countries = countries;
 	}
 	

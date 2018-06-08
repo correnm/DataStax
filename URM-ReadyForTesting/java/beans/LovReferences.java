@@ -8,75 +8,77 @@ package com.g2ops.impact.urm.beans;
  * Purpose:		Fetch item and values needed to populate selectItems drop down
  * 
  * <p>Known Bugs: (a list of bugs and other problems)
+ * 			currentUser needs to be passed in because when defining it in the class, it returns null
  *
  *
  * <p>Revision History:
  * Date				Author				Revision Description
  * 05.24.2018		corren.mccoy		created bean
+ * 06.06.2018		tammy.bogart		updated bean - added DatabaseQueryService references, changed class to Serializable, 
+ * 06.07.2018		tammy.bogart		updated bean - changed output to LinkedHashMap so the values for previous selections can be seen and the data is ordered
  */
  
-import javax.annotation.PostConstruct;
+//import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
+//import javax.inject.Inject;
 import javax.inject.Named;
-import javax.faces.convert.Converter;
-import javax.faces.model.SelectItem; // used to display list of values from database
+
+//import javax.faces.model.SelectItem; // used to display list of values from database
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
-import com.g2ops.impact.urm.types.BusinessPractice;
-import com.g2ops.impact.urm.utils.DatabaseQueryService;
 import com.g2ops.impact.urm.utils.SessionUtils;
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.PreparedStatement;
 
 
 @Named("lovReferences")
-@SessionScoped
-public class LovReferences {
-	
-	@Inject private UserBean currentUser;
+@SessionScoped		//required for pulling in currentUser info --Client-specific data   
 
+public class LovReferences implements Serializable {
+
+	private static final long serialVersionUID = 1L;	
+
+	//@Inject private UserBean currentUser;
+	
 	private Session dbSession;
 	private ResultSet rs;
-	private Iterator<Row> iterator;
-	private	String optionLabel;
-	private List<SelectItem> selectItems = new ArrayList<SelectItem>();
-	private String databaseColumn;
- 
- 	public LovReferences() {
+//		private List<SelectItem> selectItems = new ArrayList<SelectItem>();
+	private LinkedHashMap<String, String> selectItems = new LinkedHashMap<String, String>();			
+	private String optgroup_label;
 
+	// constructor
+	public LovReferences() {
+		System.out.println("*** in LovReferences constructor ***");		
  	} 
- 	
- 	public List<SelectItem> getSelectItems(String databaseColumn){
+
+	public LinkedHashMap<String, String> getSelectItems(String databaseColumn, UserBean currentUser){		
  		// all data is stored in lowercase
- 		this.databaseColumn = databaseColumn.toLowerCase();
+ 		String dbColumn = databaseColumn.toLowerCase();
  
 		// clear out any old content before re-populating
 		selectItems.clear();
+		optgroup_label = "";
 		
-		// execute the query against the table
-		populateSelectItems(databaseColumn);
+		 dbSession = SessionUtils.getOrgDBSession(currentUser.getOrgKeyspace()); 		
+
+
+ 		// execute the query against the table
+		populateSelectItems(dbColumn);
 		
 		// query should only return one row per database column
 		Row row = rs.one();
 		//This is the description of the data we want to display
-		String optgroup_label = row.getString("optgroup_label");
+		optgroup_label = row.getString("optgroup_label");
 		
 		// Set the first entry to a user prompt
-		selectItems.add(new SelectItem("", "Select " + optgroup_label));  
+		selectItems.put("", "Select " + optgroup_label);
 		
 		// items for drop down are stored in a map (k,v)
 		Map<String, String> valueMap = (Map<String, String>) row.getMap("option_values", String.class, String.class);
@@ -85,25 +87,25 @@ public class LovReferences {
         Iterator<Map.Entry<String, String>> iterator = valueMap.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, String> entry = iterator.next();
-			selectItems.add(new SelectItem(entry.getKey(), entry.getValue())); 
+           selectItems.put(entry.getKey(), entry.getValue());
         }
-        System.out.println(selectItems);
- 	 	return selectItems;
+
+        return selectItems;
  	} //getSelectItems
  	
 
 	private void populateSelectItems (String databaseColumn) {
-
-		// get the Database Query Service object for this Organization
-		dbSession = SessionUtils.getOrgDBSession(currentUser.getOrgKeyspace());
-		
-		String query = "select optgroup_label, option_values from lov_references"
+ 		String query = "select optgroup_label, option_values from lov_references"
 				+ " where database_column = ?"; 
 
 		PreparedStatement prepared = dbSession.prepare(query);
 		BoundStatement bound = prepared.bind(databaseColumn);
 		rs = dbSession.execute(bound);
 	} //populateSelectItems
+	
+	//public UserBean getCurrentUser() {
+	//	return currentUser;
+	//}
 
 } // LovReferences
 
