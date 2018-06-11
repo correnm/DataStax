@@ -1,0 +1,159 @@
+<!--  
+Author: 	___ G2 Ops, Virginia Beach, VA
+Version:	1.00, ___
+
+Purpose: 	to ...
+
+Modifications
+Date			Name			Description
+								created	
+ -->
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-page-form.xhtml">
+	
+	<ui:define name="document-title"> </ui:define>
+
+	<ui:define name="page-name"> :&#160;<strong> </strong></ui:define>
+
+	<ui:define name="full-page-form">
+		<h:form id="frmMain">		
+			<b:panel id="pnlMain" look="default">
+				<b:row><!-- row for spacing -->
+					<b:column><span class="rowSpace"><br/></span></b:column>
+				</b:row>
+				<b:row><!-- row for error/validation messages -->
+					<b:column col-md="12">
+						<b:messages></b:messages>
+					</b:column>
+				</b:row>
+				<b:row><!-- row for spacing -->
+					<b:column><span class="rowSpace"><br/></span></b:column>
+				</b:row>
+				<b:panel id="pnlColl" collapsible="false" title="">
+					<b:row>
+	<!--  example of a required field with the red splat -->
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText id="" label="" value="#{}" required="true"  requiredMessage="___ is required"  />
+						</b:column>
+					</b:row>	
+					<b:row>
+	<!--  example of a field with a drop-down list with LovReferences -->
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:selectOneMenu label="Business Interruption Threshold" id="bit" value="#{businessAttribution.bit}" tooltip="Choose a Business Interruption Threshold">
+								<f:selectItems value="#{businessAttribution.bits}" var="bit" itemValue="#{bit}" itemLabel="#{bit}"></f:selectItems>
+							</b:selectOneMenu>
+						</b:column>
+					</b:row>
+					<b:row>
+	<!--  example of a decimal field that must be between 0 and 100-->
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText id="" label="" value="#{}" ask="decimal" maxlength="3" tooltip="Value must be between 4 and 100." validatorMessage="__ value must be between 0 and 100.">
+								<f:validateLongRange minimum="0" maximum="100" />
+							</b:inputText>
+						</b:column>
+					</b:row>
+					<b:row>
+	<!--  example of a decimal field that can only be certain values; validated with regex -->
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText id="" label="" value="#{}" ask="decimal" tooltip="Value must be 2, 16, 84, 98, or between 40 and 60" validatorMessage="___  value must be 2, 16, 84, 98, or between 40 and 60">							
+								<f:validateRegex pattern="^2|16|84|98|4[0-9]|5[0-9]|60" minimum="2" maximum="60" />
+							</b:inputText>
+						</b:column>
+					</b:row>
+					<b:row>
+	<!--  example of a currency field -->
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText id="d" label="" value="#{}" styleClass="alignright">
+								<f:facet name="prepend">
+              						<h:outputText value="$" />
+            					</f:facet>
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="0"/>					 	
+							</b:inputText>				 	
+						</b:column>
+					</b:row>
+	<!--  example of a percentage field-->					
+					<b:row>
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText id="" label="" value="#{}" styleClass="percentage">
+								<f:facet name="append">
+              						<h:outputText value="%" />
+            					</f:facet>
+							</b:inputText>							
+						</b:column>
+					</b:row>				
+	<!--  example of a year field-->
+					<b:row>
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText id=" " label=" Year:" placeholder="2018" value="#{}" styleClass="alignright" validatorMessage="The Publication Year must be 4 digits 'yyyy'.">
+								<f:convertNumber integerOnly="true" groupingUsed="false"  />
+							</b:inputText>
+						</b:column>
+					</b:row>
+					
+					<b:row>
+					<b:column col-md="12">
+	<!--  example of an accordion -->
+						<b:accordion id="" styleClass="" expandedPanels="#{}">
+							<b:panel id="" title="" collapsed="false">
+								<!-- form, table, etc can go here -->
+							</b:panel>
+						</b:accordion>
+					</b:column>
+				</b:row>				
+				<b:row>
+	<!-- example of Modal used to display add values -->
+				<b:modal id="modalAdd" styleClass="modalAddClass" title="Add a ___" 
+						style="border-width:1px; border-color: #f5f5f5;" header-style="background-color: #f5f5f5; font-size: 16px;text-align: left;font-weight:bold; color:#595a5c;" >
+						<b:panel collapsible="false" id="pnlAdd>" styleClass="panel-borderless" style="border:0;">
+							<b:row>
+							</b:row>
+							<div style="text-align: center;">
+								<b:button dismiss="modal" value="Cancel" iconAwesome="times" size="sm" look="default" ></b:button>
+								<b:commandButton ajax="true" actionListener="#{()}" 
+												oncomplete="$('.modalAddClass.modal('hide'); $('.modalSaveClass').modal('show');" onclick="" 
+												value="Save" iconAwesome="save" size="sm" look="default" disabled="false">
+												<f:ajax execute="@this" render=""/>  
+								</b:commandButton>
+							</div>												
+						</b:panel>
+					</b:modal>				
+	<!-- example of Delete Modal - display Delete Confirmation -->
+					<b:modal id="modalDelete" title="Confirm ___ Delete" styleClass="modalDeleteClass" closable="false" close-on-escape="false" backdrop="true">
+						<p>Click "Confirm" if you would like to delete this ___, <strong>#{}</strong>.</p>
+						<f:facet name="footer">
+							<b:commandButton value="Confirm" ajax="true" actionListener="#{}" 
+											 oncomplete="$('.modalDeleteClass').modal('hide');" look="default" size="sm">
+											<f:ajax execute="@this" render=""/>  									
+							</b:commandButton>		 	
+							<b:button value="Cancel" look="primary" size="sm" dismiss="modal" iconAwesome="times"/>
+						</f:facet>
+					</b:modal>
+	<!-- example of Save Modal - display Save Status -->
+					<b:modal id="modalSave" title="Saved Changes" styleClass="modalSaveClass" closable="false" close-on-escape="false" backdrop="true">
+						<p>Your changes have been saved.</p>
+						<f:facet name="footer">
+							<b:button value="Ok" look="default" size="sm" dismiss="modal"/>
+						</f:facet>
+					</b:modal>
+				</b:panel>	<!-- end of pnlColl -->
+				<b:row><!-- row for spacing -->
+					<b:column><span class="rowSpace"><br/></span></b:column>
+				</b:row>
+				<b:row>
+	<!-- example of Save, Delete, Cancel Buttons -->
+					<b:column col-md="12" style="text-align:center;">
+						<b:commandButton value="Save" iconAwesome="save" size="sm" look="default" disabled="false" action="#{}" />					
+						<b:commandButton value="Delete" iconAwesome="trash" size="sm" look="default" disabled="false" ajax="true" immediate="true"  
+						 				 actionListener="#{()}" update=":frmMain:modalDelete" oncomplete="$('.modalDeleteClass').modal('show');" />			
+						<b:button value="Cancel" iconAwesome="times" size="sm" look="default" href=".jsf" />
+					</b:column>					
+				</b:row>
+			</b:panel>		<!-- end ofpnlMain -->
+		</h:form>		<!-- end of frmMain -->
+	</ui:define>
+</ui:composition>
