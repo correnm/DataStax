@@ -456,6 +456,10 @@ label.bf-required:after {
   content: "$";
 }
 
+.percentage {
+	text-align:right;
+}
+
 .percentage:after {
 	content: "%";
 }
