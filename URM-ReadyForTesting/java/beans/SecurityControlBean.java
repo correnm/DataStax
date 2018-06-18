@@ -166,7 +166,10 @@ public class SecurityControlBean  implements Serializable {
 					secID = row.getString("security_control_id");
 					category = row.getString("category");
 					populateSelectedValues(secID, category);
+					calculateRS(category);
 			}	
+			rsValue = rsValue/30;
+	System.out.println("rsval: " + rsValue);
 		}	
 
 	}		//end LoadFormData()
@@ -266,19 +269,41 @@ public class SecurityControlBean  implements Serializable {
 		}	// end switch
 	}
 	
-
-	private Double checkExistingSurveyResults() {
-		Double returnVal = (double) 0;
+	private void calculateRS(String category) {
+		//calculate the resistance strength 
+		double newRSValue = 0;
+		switch (category) {
+		case "very_low" :
+			newRSValue = 0.00;
+			break;
+		case "low" :
+			newRSValue = 2.00;
+			break;
+		case "medium" :
+			newRSValue = 5.45;
+			break;
+		case "high" :
+			newRSValue = 7.95;
+			break;
+		case "very_high" :
+			newRSValue = 9.50;
+			break;
+	}
+		rsValue =+ newRSValue;
+	}	//end calculateRS
+	
+	private long checkExistingSurveyResults() {
+		long returnVal = (long) 0;
 	// determine if the survey answers already exist if so, set the query to pull from the org.org_security_controls table
-		query = "select count(*) from dod.org_security_controls where security_control_group=?";
+		query = "select count(*) from org_security_controls where security_control_group=?";
 		prepared = session.prepare(query);
 		bound = prepared.bind(userSecGroup);
 		resultSet = session.execute(bound);
 		row = resultSet.one();
 		//Double count = row.getDecimal("count").doubleValue();
-		int count = row.getInt("count");
+		long count = row.getLong("count");
 		if (count > 0) {
-		//	returnVal = count;
+			returnVal = count;
 		}
 			
 		return returnVal;
