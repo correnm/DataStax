@@ -68,7 +68,6 @@ import com.g2ops.impact.urm.beans.LovReferences;		//new function to return count
 @Named("businessAttribution")
 @SessionScoped	//required for pulling in currentUser info --Client-specific data      
 
-
 public class BusinessAttribution  implements Serializable {
 
 	private static final long serialVersionUID = 1L;	
@@ -94,6 +93,7 @@ public class BusinessAttribution  implements Serializable {
 
 	private int annRevYear;
 	private ArrayList<String> bits, bcrits, iclass, dbtypes;
+	private ArrayList<UUID> bpID;
 
 	private Boolean loadHostAddRun = false;
 	private Boolean showHosts = false;
@@ -182,39 +182,6 @@ public class BusinessAttribution  implements Serializable {
 		this.iclass =  new ArrayList<String>(LovReferences4.getSelectItems("information_classification", currentUser).values());
 	}	//end LoadDropDowns()
 
-	private void oldLoadDropDowns() {
-		// get List of all possible business process values
-		query="";
-		query = "select database_column, option_values from lov_references where database_column in('business_interruption_threshold', 'business_criticality', 'breach_type', 'information_classification')";
-		rs = databaseQueryService.runQuery(query);
-		iterator = rs.iterator();
-				
-		//iterate over the results. 
-	/*	while (iterator.hasNext()) {
-			Row row = iterator.next();
-			String dbColumn = row.getString("database_column");
-			switch(dbColumn) {
-			case "business_interruption_threshold" :
-				Map<String, String> bitMap = (Map<String, String>) row.getMap("option_values", String.class, String.class);	
-				this.bits = new ArrayList<String>(bitMap.values());
-				break;
-			case "business_criticality" :
-				Map<String, String> critMap = (Map<String, String>) row.getMap("option_values", String.class, String.class);	
-				this.bcrits = new ArrayList<String>(critMap.values());
-				break;
-			case "breach_type" :
-				Map<String, String> typeMap = (Map<String, String>) row.getMap("option_values", String.class, String.class);	
-				this.dbtypes = new ArrayList<String>(typeMap.values());
-				break;				
-			case "information_classification" :
-				Map<String, String> iclassMap = (Map<String, String>) row.getMap("option_values", String.class, String.class);	
-				this.iclass = new ArrayList<String>(iclassMap.values());							
-				break;
-			}
-		}	//end while
-*/
-	}	//end LoadDropDowns()
-
 	public String LoadBPEditFormData(UUID selectedSiteID, UUID selectedBusinessID) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 		// get the data for the business process being edited
 		this.showHosts = true;
@@ -250,13 +217,8 @@ public class BusinessAttribution  implements Serializable {
 		// set values to what was returned by the query
 		selectedBusName = row.getString("business_process_name");		
 		this.bit = row.getString("business_interruption_threshold");
-		
-		System.out.println("bit: " + bit);
 		busCrit = row.getString("business_criticality");
-		
-		System.out.println("busCrit: " + busCrit);
 		infClass = row.getString("information_classification");
-		System.out.println("infCLass: " + infClass);
 		riskAppetite = row.getDecimal("risk_appetite");
 		dbType = row.getString("default_breach_type");
 		annRev = row.getDecimal("annual_revenue");
@@ -279,7 +241,6 @@ public class BusinessAttribution  implements Serializable {
 		//goto Edit form
 		this.updateType = "edit";
 		return "/administrator/business-attribution-edit.jsf";
-		//return "/administrator/business-attribution-form.jsf";
 	}	//end of LoadEditFormData()
 	
 	public String LoadBPAddFormData()  throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
@@ -308,7 +269,6 @@ public class BusinessAttribution  implements Serializable {
 		this.updateType = "add";
 		//goto add form
 		return "/administrator/business-attribution-add.jsf";
-		//return "/administrator/business-attribution-form.jsf";
 	}	//end of LoadAddFormData()
 	////end of LOAD functions for each BP  page
 
@@ -354,11 +314,11 @@ public class BusinessAttribution  implements Serializable {
 		resultSet = databaseQueryService.runQuery(query);
 		itSites = resultSet.iterator();
 		newQuery = "select site_name from sites where org_unit_id=703161c5-eca3-48a0-8ad9-99f2a6b8d5e7 and site_id=?";
-		prepared = session.prepare(newQuery);
+		PreparedStatement preparedSite = session.prepare(newQuery);
 		while (itSites.hasNext()) {
 			rowSites = itSites.next();			
 			siteID = rowSites.getUUID("site_id");
-			BoundStatement boundSN = prepared.bind(siteID);			
+			BoundStatement boundSN = preparedSite.bind(siteID);			
 			ResultSet rsSN = session.execute(boundSN);
 			Row rowSN = rsSN.one();
 			String siteName = rowSN.getString("site_name");
@@ -384,8 +344,8 @@ public class BusinessAttribution  implements Serializable {
 	public void populateSubnets(UUID hSiteID) {
 		this.subnetList.clear();
 		query = "select ip_subnet_or_building from hardware where site_id=?"; 
-		prepared = session.prepare(query);
-		bound = prepared.bind(hSiteID);			
+		PreparedStatement preparedSN = session.prepare(query);
+		bound = preparedSN.bind(hSiteID);			
 		rs = session.execute(bound);
 		Iterator<Row> itSubnets = rs.iterator();
 		Row rowSubnets;
@@ -415,8 +375,8 @@ public class BusinessAttribution  implements Serializable {
 		//BusinessHosts
 		query = "select host_name, ip_address, asset_type, asset_visibility, operating_system, vendor, internal_system_id " + 
 				"from hardware where site_id=? and ip_subnet_or_building=?"; 
-		prepared = session.prepare(query);
-		bound = prepared.bind(hostSiteID, selSubNet);			
+		PreparedStatement preparedHW = session.prepare(query);
+		bound = preparedHW.bind(hostSiteID, selSubNet);			
 		rs = session.execute(bound);
 		Iterator<Row> itHW = rs.iterator();
 		while (itHW.hasNext()) {
@@ -545,8 +505,8 @@ public class BusinessAttribution  implements Serializable {
 				+ "resistance_strength, "
 				+ "audit_upsert) "  
 				+ "VALUES(?,uuid(),?,?,?,?,?,?,?,?,?,?,{datechanged: toUnixTimestamp(now()), changedbyusername: '" + AuditUpsert.getChangedbyusername() + "'})";
-		PreparedStatement prepared = session.prepare(query);
-		BoundStatement bound = prepared.bind(this.getSiteID(),this.getAnnRev(), this.getAnnRevYear(), this.getBusCrit(), this.getBit(), 
+		PreparedStatement preparedBVA = session.prepare(query);
+		BoundStatement bound = preparedBVA.bind(this.getSiteID(),this.getAnnRev(), this.getAnnRevYear(), this.getBusCrit(), this.getBit(), 
 				this.getSelectedBusName(), this.getDbType(), this.getInfClass(), this.getRecordCount(), this.getRiskAppetite(), this.resistanceStrength);
 		session.execute(bound);
 		
@@ -565,8 +525,8 @@ public class BusinessAttribution  implements Serializable {
 		query = "DELETE FROM business_value_attribution "
 				+ "WHERE site_id= ? and business_process_id=? ";
 			
-		PreparedStatement prepared = session.prepare(query);
-		BoundStatement bound = prepared.bind(selectedSiteID, selectedBusinessID);
+		PreparedStatement preparedDBVA = session.prepare(query);
+		BoundStatement bound = preparedDBVA.bind(selectedSiteID, selectedBusinessID);
 		session.execute(bound);
 	
 		//update table
@@ -584,8 +544,8 @@ public class BusinessAttribution  implements Serializable {
 		//grab all hosts for this business process
 		query = "select runs_on_hosts from business_value_attribution "
 					+ "where site_id=? and business_process_id=?";
-			prepared = session.prepare(query);
-			bound = prepared.bind(this.getSelSiteID(), this.getSelBusProcID());			
+		PreparedStatement preparedROH = session.prepare(query);
+			bound = preparedROH.bind(this.getSelSiteID(), this.getSelBusProcID());			
 			rs = session.execute(bound);
 			row = rs.one();
 			
@@ -603,10 +563,25 @@ public class BusinessAttribution  implements Serializable {
 						+	"audit_upsert={datechanged: toUnixTimestamp(now()), changedbyusername: '" + AuditUpsert.getChangedbyusername() + "'} "
 						+	"where site_id= ? and business_process_id=? ";
 
-			prepared = session.prepare(query);
-			bound = prepared.bind(setRunsOnHost, this.getSelSiteID(),this.getSelBusProcID());
+			PreparedStatement preparedUpdate = session.prepare(query);
+			bound = preparedUpdate.bind(setRunsOnHost, this.getSelSiteID(),this.getSelBusProcID());
 			session.execute(bound);
-	
+
+
+			//update hardware table set business_process_id for this host
+			//first check to see if this host already has business processes if so grab them to add
+			String ipSubnet = getBPIDs(selHostID);	
+
+			
+			String queryHW = "UPDATE hardware SET "
+					+	"business_process_ids = ?, "
+					+	"audit_upsert={datechanged: toUnixTimestamp(now()), changedbyusername: '" + AuditUpsert.getChangedbyusername() + "'} "
+					+ 	"WHERE site_id=? AND ip_subnet_or_building=? and internal_system_id=? ";
+
+			PreparedStatement preparedUHW = session.prepare(queryHW);
+			bound = preparedUHW.bind(bpID, selSiteID, ipSubnet, selHostID);
+			session.execute(bound);
+
 			// refresh host list
 			LoadHostTableData(this.getSelSiteID(),this.getSelBusProcID());
 			openPnlHosts();
@@ -618,7 +593,31 @@ public class BusinessAttribution  implements Serializable {
 			return null;
 	}	// end of addBVAController method
 
-	public void openPnlHosts() {
+	private String getBPIDs(UUID selHost) {	
+		bpID = new ArrayList<UUID>();
+		query = "SELECT business_process_ids, ip_subnet_or_building FROM hardware_by_internal_system_id "
+				+	"WHERE internal_system_id= " + selHost;
+		prepared = session.prepare(query);
+		bound = prepared.bind();
+		rs = session.execute(bound);
+		row = rs.one();
+		String ipSubnet = row.getString("ip_subnet_or_building");	
+		bpID.add(selBusProcID);
+		if (!(row.isNull("business_process_ids"))) {
+			//System.out.println("host has bps already");
+			ArrayList<UUID> hwBPID = new ArrayList<UUID>(row.getList("business_process_ids", UUID.class));
+			Iterator<UUID> itBPID = hwBPID.iterator();
+			while(itBPID.hasNext()) {
+				UUID id = itBPID.next();
+				if(!(id.equals(selBusProcID))) {
+					bpID.add(id);
+				}				
+			}		//end while
+		}		//end if	
+		return ipSubnet;
+	}		// end getBPIDs()
+	
+		public void openPnlHosts() {
   		this.expandedPanels = "frmMain:pnlHosts";		//"BusinessAttributionEditForm:pnlHosts";
   	}
 	
@@ -635,14 +634,14 @@ public class BusinessAttribution  implements Serializable {
 		}
 		
 		String successMessage = null;
-		UUID selhostID = host.getHostID();
+		UUID selHostID = host.getHostID();
 		
 		//grab all hosts for this business process
 			String queryHosts = "SELECT runs_on_hosts FROM business_value_attribution "
 					+ "WHERE site_id=? and business_process_id=?";
 
-			prepared = session.prepare(queryHosts);
-			bound = prepared.bind(this.siteID, this.selBusProcID);			
+			PreparedStatement preparedDel = session.prepare(queryHosts);
+			bound = preparedDel.bind(this.siteID, this.selBusProcID);			
 			ResultSet resultset = session.execute(bound);
 			Row row = resultset.one();
 			
@@ -650,7 +649,7 @@ public class BusinessAttribution  implements Serializable {
 			boolean deleted = false;
 		
 			for (RunsOnHost roh : setRunsOnHost) {
-				if (roh.getInternalSystemID().equals(selhostID)) {
+				if (roh.getInternalSystemID().equals(selHostID)) {
 					setRunsOnHost.remove(roh);
 					deleted = true;
 					break;	
@@ -664,17 +663,31 @@ public class BusinessAttribution  implements Serializable {
 							+	"audit_upsert={datechanged: toUnixTimestamp(now()), changedbyusername: '" + AuditUpsert.getChangedbyusername() + "'} "
 							+	"where site_id=? and business_process_id=?";
 				
-				prepared = session.prepare(queryUpdate);
-				bound = prepared.bind(setRunsOnHost, this.siteID, this.selBusProcID);
+				PreparedStatement preparedDel2 = session.prepare(queryUpdate);
+				bound = preparedDel2.bind(setRunsOnHost, this.siteID, this.selBusProcID);
 				session.execute(bound);
-				// refresh host list
-				this.hostList.remove(host);
-				successMessage = "Host, " + this.selectedHostName + " removed from business process " + this.selectedBusName + "successfully.";
-			} else {
-				successMessage = "Not able to remove hostnode, " + this.selectedHostName + " from business process " + this.selectedBusName;
-			}	//end if deleted			
 
-			return successMessage;
+				String ipSubnet = getBPIDs(selHostID);	
+				//remove selected ID
+				bpID.remove(selBusProcID);
+				
+				query = "UPDATE hardware SET "
+					+	"business_process_ids = ?, "
+					+	"audit_upsert={datechanged: toUnixTimestamp(now()), changedbyusername: '" + AuditUpsert.getChangedbyusername() + "'} "
+					+	"where site_id=? and ip_subnet_or_building=? and internal_system_id=?";
+
+
+				PreparedStatement preparedDel3 = session.prepare(query);
+				bound = preparedDel3.bind(bpID , this.siteID, ipSubnet,  selHostID);
+				session.execute(bound);
+			// refresh host list
+					this.hostList.remove(host);
+					successMessage = "Host, " + this.selectedHostName + " removed from business process " + this.selectedBusName + "successfully.";
+				} else {
+					successMessage = "Not able to remove hostnode, " + this.selectedHostName + " from business process " + this.selectedBusName;
+				}	//end if deleted			
+	
+				return successMessage;
 	}	//end delete
 
 	public String defineSelectedHost(BusinessHosts selHost) {
@@ -703,13 +716,15 @@ public class BusinessAttribution  implements Serializable {
 				+ "operating_system, "
 				+ "vendor "  
 				+ "from hardware where site_id=? and ip_subnet_or_building=? and internal_system_id=?";  
-		prepared = session.prepare(query);
+
+		PreparedStatement preparedHost = session.prepare(query);
 		while(itROH.hasNext()) {
 			hostNode = itROH.next();
 			hostID = hostNode.getInternalSystemID();
 			hostSubnet = hostNode.getIpSubnet();
 			hostSiteID = hostNode.getSiteID();
-			bound = prepared.bind(hostSiteID, hostSubnet, hostID);			
+			bound = preparedHost.bind(hostSiteID, hostSubnet, hostID);			
+
 			rs = session.execute(bound);
 			row = rs.one();
 			if (row != null) {

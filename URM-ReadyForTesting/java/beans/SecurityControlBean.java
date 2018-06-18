@@ -68,7 +68,6 @@ public class SecurityControlBean  implements Serializable {
 	private Iterator<Row> iterator;
 	private String query, userSecGroup, userCountry, securityControlText, impactCosts;
 	private double rsValue = 0;
-	private int countAnswers = 0;
 	private PreparedStatement prepared, preparedIC, preparedSC;
 	private BoundStatement bound, boundIC, boundSC;
 	private Row row;
@@ -80,7 +79,7 @@ public class SecurityControlBean  implements Serializable {
 	answersIAM, answersIDS, answersINS, answersIRT, answersMFA, answersMOB, answersPNT, answersSAT, answersSEG, answersSIM, answersSTF, answersTIP, answersVLN, answersVPN, answersWCF, answersWLS;
 	private Map<String, String> QA = new HashMap<String, String>();
 	private String querySecurityControls, queryImpactCost, strRSValue;		//used for table updates
-	
+	private Boolean btnPrevDisabled, btnNextDisabled;
 	private SecurityControls secControl;	
 	static SecurityControlRatings secControlRatings = new SecurityControlRatings();
 
@@ -102,15 +101,14 @@ public class SecurityControlBean  implements Serializable {
 				auditUpsert.setChangedbyusername(currentUser.getFirstName().toLowerCase()+"."+currentUser.getLastName().toLowerCase());				
 				manager.udtCodec(SecurityControlRatings.class);
 				//get User's Industry
-		query = "SELECT industry, country_name FROM appl_auth.organizations where organization_name=?";
+		query = "SELECT country_name, default_security_control_group FROM appl_auth.organizations where organization_name=?";
 		prepared = session.prepare(query);
 		bound = prepared.bind(currentUser.getOrgName());
 		resultSet = session.execute(bound);
 		row = resultSet.one();
 		
 		// set values to what was returned by the query
-		userSecGroup = row.getString("industry");		
-		userSecGroup = "industry";
+		userSecGroup = row.getString("default_security_control_group");		
 		userCountry = row.getString("country_name");
 		if (userCountry == "United States") {
 			userCountry="US";
@@ -125,10 +123,13 @@ public class SecurityControlBean  implements Serializable {
 		//called on initialization the form
 		System.out.println("in LoadFormData");
 		
+		//TODO: Check if data already saved, if so, pull from keyspace.org_security_controls  ELSE pull from appl_auth.security_controls
+		
+		
 		//first grab all data to define: ID, security control question, drop-down answers
 		query = "SELECT security_control_group, security_control_id, rating, security_control FROM appl_auth.security_controls " + 
 				"WHERE security_control_group =?";
-		
+
 		prepared = session.prepare(query);
 		bound = prepared.bind(userSecGroup);
 		resultSet = session.execute(bound);
@@ -151,7 +152,137 @@ public class SecurityControlBean  implements Serializable {
 			secControl = itSEC.next();
 			getQuestions_Answers(secControl.getID());
 		}
+		
+		//determine if survey already saved, if so, set Selected values
+		if (checkExistingSurveyResults() > 0) {
+			query = "SELECT security_control_id, security_control, category, description FROM org_security_controls where security_control_group=?"; 
+			prepared = session.prepare(query);
+			bound = prepared.bind(userSecGroup);
+			resultSet = session.execute(bound);
+			iterator = resultSet.iterator();
+			String secID, category;
+			while (iterator.hasNext()) {
+					row = iterator.next();
+					secID = row.getString("security_control_id");
+					category = row.getString("category");
+					populateSelectedValues(secID, category);
+			}	
+		}	
+
 	}		//end LoadFormData()
+	
+	private void populateSelectedValues(String secID, String category) {
+		switch (secID) {
+		case "ACX": 
+			this.selectedaACX = category;	
+			break;
+		case "BCM":
+			this.selectedaBCM = category;	
+			break;
+		case "CLD":
+			this.selectedaCLD  = category;
+			break;
+		case "CLS":
+			this.selectedaCLS  = category;
+			break;
+		case "CPM":
+			this.selectedaCPM  = category;
+			break;
+		case "CPO":
+			this.selectedaCPO  = category;
+			break;
+		case "CSO":
+			this.selectedaCSO  = category;
+			break;
+		case "DLP":
+			this.selectedaDLP  = category;
+			break;
+		case "DOS":
+			this.selectedaDOS  = category;
+			break;
+		case "ECR":
+			this.selectedaECR  = category;
+			break;
+		case "EMP":
+			this.selectedaEMP  = category;
+			break;
+		case "EMS":
+			this.selectedaEMS  = category;
+			break;
+		case "EXS":
+			this.selectedaEXS  = category;
+			break;
+		case "FW1":
+			this.selectedaFW1  = category;
+			break;
+		case "IAM":
+			this.selectedaIAM  = category;
+			break;
+		case "IDS":
+			this.selectedaIDS  = category;
+			break;
+		case "INS":
+			this.selectedaINS  = category;
+			break;
+		case "IRT":
+			this.selectedaIRT  = category;
+			break;
+		case "MFA":
+			this.selectedaMFA  = category;
+			break;
+		case "MOB":
+			this.selectedaMOB  = category;
+			break;
+		case "PNT":
+			this.selectedaPNT  = category;
+			break;
+		case "SAT":
+			this.selectedaSAT  = category;
+			break;
+		case "SEG":
+			this.selectedaSEG  = category;
+			break;
+		case "SIM":
+			this.selectedaSIM  = category;
+			break;
+		case "STF":
+			this.selectedaSTF  = category;
+			break;
+		case "TIP":
+			this.selectedaTIP  = category;
+			break;
+		case "VLN":
+			this.selectedaVLN  = category;
+			break;
+		case "VPN":
+			this.selectedaVPN  = category;
+			break;
+		case "WCF":
+			this.selectedaWCF  = category;
+			break;
+		case "WLS":
+			this.selectedaWLS  = category;
+			break;
+		}	// end switch
+	}
+	
+
+	private Double checkExistingSurveyResults() {
+		Double returnVal = (double) 0;
+	// determine if the survey answers already exist if so, set the query to pull from the org.org_security_controls table
+		query = "select count(*) from dod.org_security_controls where security_control_group=?";
+		prepared = session.prepare(query);
+		bound = prepared.bind(userSecGroup);
+		resultSet = session.execute(bound);
+		row = resultSet.one();
+		//Double count = row.getDecimal("count").doubleValue();
+		int count = row.getInt("count");
+		if (count > 0) {
+		//	returnVal = count;
+		}
+			
+		return returnVal;
+	}
 	
 	
 	public void getQuestions_Answers(String ID) {
@@ -281,7 +412,6 @@ public class SecurityControlBean  implements Serializable {
 			}	// end switch	
 	}
 
-
     public BigDecimal getImpactCost(String secCID, int year) {
 		BigDecimal ic = new BigDecimal(0);
 	
@@ -323,8 +453,8 @@ public class SecurityControlBean  implements Serializable {
 				boundSC = preparedSC.bind(userSecGroup, securityControlID, applyIC, selectedCategory, costType, selectedDescription, impactCost, impactsRS, score, securityControl);	
 				session.execute(boundSC);
 				result = securityControlID.toString() + ". " + selectedCategory + " was added to table.";
-				System.out.println("query: " + querySecurityControls);
-				System.out.println("values: " + userSecGroup+  "/" + securityControlID+  "/" + applyIC+  "/" + selectedCategory+  "/" + costType+  "/" + selectedDescription+  "/" + impactCost+  "/" + impactsRS+  "/" + score+  "/" + securityControl);
+				//System.out.println("query: " + querySecurityControls);
+				//System.out.println("values: " + userSecGroup+  "/" + securityControlID+  "/" + applyIC+  "/" + selectedCategory+  "/" + costType+  "/" + selectedDescription+  "/" + impactCost+  "/" + impactsRS+  "/" + score+  "/" + securityControl);
 				break;					
 			}		//end if desc			
 		}	//end while itSCR		

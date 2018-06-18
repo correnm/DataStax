@@ -137,7 +137,7 @@ public class BreachTypesBean  implements Serializable {
 		this.breach_type = "";
 		this.distribution_pct = null;
 		this.per_capita_cost = null;
-		
+	
 		//goto Add form
 		return "/superadmin/breach-types.jsf";
 		//return null;
@@ -146,7 +146,7 @@ public class BreachTypesBean  implements Serializable {
 	public String LoadBTEditFormData(BreachTypes btEdit) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 		System.out.println("in loadBTEditFormData");	
 		this.action="edit";
-		System.out.println("action in edit: " + action);
+		//System.out.println("action in edit: " + action);
 
 		this.documentTitle="Edit Breach Type";
 

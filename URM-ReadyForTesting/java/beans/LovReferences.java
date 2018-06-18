@@ -98,8 +98,8 @@ public class LovReferences implements Serializable {
  		String query = "select optgroup_label, option_values from lov_references"
 				+ " where database_column = ?"; 
 
-		PreparedStatement prepared = dbSession.prepare(query);
-		BoundStatement bound = prepared.bind(databaseColumn);
+		PreparedStatement preparedLOV = dbSession.prepare(query);
+		BoundStatement bound = preparedLOV.bind(databaseColumn);
 		rs = dbSession.execute(bound);
 	} //populateSelectItems
 	

@@ -48,7 +48,6 @@ public class SecurityControls implements Serializable {
 		this.secText = secContext;
 	}
 
-	
 	public String getQuestion(String questionID) {
 		String question = " ";
 		switch (questionID) {
@@ -369,6 +368,7 @@ public class SecurityControls implements Serializable {
 	public void setAnswers(LinkedHashMap<String, String> answers) {
 		this.answers = answers;
 	}
+
 
 	public String getCategory() {
 		return category;

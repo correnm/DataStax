@@ -142,7 +142,7 @@ public class IndustrySecurityIncidentsBean  implements Serializable {
 
 	public String LoadISIAddFormData()  throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 		System.out.println("in loadAddISIFormData");
-	    this.documentTitle = "Add an industry security incident";
+	    this.documentTitle = "Add Industry Security Incident";
 		this.action = "add";
 		this.publication_year = null;    	    
 	    this.verizon_dbir_industry_name= "";
@@ -166,7 +166,7 @@ public class IndustrySecurityIncidentsBean  implements Serializable {
 	
 	public String LoadISIEditFormData(IndustrySecurityIncidents isiEdit) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 		System.out.println("in loadISIEditFormData");	
-		this.documentTitle = "Edit an industry security incident";
+		this.documentTitle = "Edit Industry Security Incident";
 		this.action="edit";
 		this.publication_year = isiEdit.getPublication_year();    	    
 	    this.verizon_dbir_industry_name= isiEdit.getVerizon_dbir_industry_name();
