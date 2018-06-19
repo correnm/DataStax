@@ -22,20 +22,20 @@ Date			Name			Description
 	<ui:define name="full-width-table">
 		<div class="dataTableDivClass">
 			<b:form id="frmMain">
-				<b:modal id="modalDelete" title="Confirm Industry Breach Cost Delete" styleClass="modalDeleteClass" closable="false" close-on-escape="false" backdrop="true">
+				<b:modal id="modalDelete" title="Confirm Industry Breach Cost Delete" styleClass="modalDeleteClass" closable="false" close-on-escape="true" backdrop="true">
 					<p>Click "Confirm" if you would like to delete this Breach Cost, <strong>#{industryBreachCostBean.selectedBC}</strong>.</p>
 					<f:facet name="footer">
 						<b:commandButton value="Confirm" ajax="true" actionListener="#{industryBreachCostBean.deleteIBCControllerMethod()}" 
-										 oncomplete="$('.modalDeleteClass').modal('hide');" look="default" size="sm">
+										 oncomplete="$('.modalDeleteClass').modal('hide');" look="primary" size="sm">
 							 <f:ajax execute="@this" render="tblMain"/>
 						</b:commandButton>		 	
-						<b:button value="Cancel" look="primary" size="sm" dismiss="modal" iconAwesome="times"/>
+						<b:button value="Cancel" look="default" size="sm" dismiss="modal" iconAwesome="times"/>
 					</f:facet>
 				</b:modal>			
 				<div style="text-align: center;">
 					<b:commandButton value="Add" iconAwesome="plus" size="sm" look="default" disabled="false" action="#{industryBreachCostBean.LoadIBCAddFormData()}"></b:commandButton>
 				</div>	
-				<b:dataTable id="tblMain" value="#{industryBreachCostBean.industryBreachCostData}" var="varTbl" contentStyleClass="tablecontent" headerStyleClass="tableheader" styleClass="businessProcessesByCyvarTableClass">
+				<b:dataTable id="tblMain" value="#{industryBreachCostBean.industryBreachCostData}" var="varTbl" contentStyleClass="tablecontent" headerStyleClass="tableheader" styleClass="dataTableClass">
 					<b:dataTableColumn  contentStyleClass="alignright" headerStyleClass="alignleft">
 						<f:facet name="header">Publication Year</f:facet>
 						 <h:outputText value="#{varTbl.publication_year}">
@@ -48,7 +48,7 @@ Date			Name			Description
 					<b:dataTableColumn id="industry_name" value="#{varTbl.industry_name}">
 						<f:facet name="header">Industry Name</f:facet>
 					</b:dataTableColumn>
-					<b:dataTableColumn id="direct_cost_pct" value="#{varTbl.direct_cost_pct}" styleClass="percentage" contentStyleClass="alignright" headerStyleClass="alignleft">
+					<b:dataTableColumn id="direct_cost_pct" value="#{varTbl.direct_cost_pct}" styleClass="percentage" headerStyleClass="alignleft">
 					<f:facet name="header">Direct Cost Percentage</f:facet>
 					</b:dataTableColumn>
 					<b:dataTableColumn contentStyleClass="alignright" headerStyleClass="alignleft">

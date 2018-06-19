@@ -1,0 +1,94 @@
+<!--  
+Author: 	Tammy Bogart G2 Ops, Virginia Beach, VA
+Version:	1.00, April 2018
+
+Purpose: 	to add to the breach_types table
+
+Modifications
+Date			Name			Description
+6.4.2018		Tammy.Bogart	Created new form; replaced add and edit forms with this one form
+ -->
+ 
+ <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-page-form.xhtml">
+
+
+	<ui:define name="document-title">#{breachTypesBean.documentTitle}</ui:define>
+
+	<ui:define name="page-name">Super Admin: &#160;<strong>Breach Types</strong></ui:define>
+
+	<ui:define name="full-page-form">
+		<h:form id="frmMain">
+			<b:panel id="pnlMain" look="default">
+				<b:row><!-- row for spacing -->
+					<b:column><span class="rowSpace"><br/></span></b:column>
+				</b:row>
+				<b:row><!-- row for error/validation messages -->
+					<b:column col-md="12">
+						<b:messages></b:messages>
+					</b:column>
+				</b:row>
+				<b:row><!-- row for spacing -->
+					<b:column><span class="rowSpace"><br/></span></b:column>
+				</b:row>
+				<b:panel id="pnlColl" collapsible="false" title="#{breachTypesBean.documentTitle}">
+					<b:row>
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText id="selectedBreachType" label="Breach Type Name" value="#{breachTypesBean.breach_type}" required="true" requiredMessage="Breach Type name is required.">
+								</b:inputText>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText id="publicationYear" value="#{breachTypesBean.publication_year}" label="Publication Year" required="true" placeholder="2018" maxlength="4" class="alignright"  
+									requiredMessage="Publication year is required." validatorMessage="The Publication Year must be a 4 digit year 'yyyy'.">
+										 <f:convertNumber integerOnly="true" groupingUsed="false" />
+							</b:inputText>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:selectOneMenu label="Country Name" id="countryName" value="#{breachTypesBean.country}" tooltip="Choose a Country" required="true" requiredMessage="Country is required.">
+							   	<f:selectItems value="#{breachTypesBean.countries}" var="country" itemValue="#{entry.value}" itemLabel="#{entry.key}"></f:selectItems>
+							</b:selectOneMenu>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText id="distributionPCT" Label="Distribution Percentage" value="#{breachTypesBean.distribution_pct}" styleClass="percentage" >								
+								<!-- <f:convertNumber type="percent" /> -->
+								<f:facet name="append">
+              						<h:outputText value="%" />
+            					</f:facet> 
+							</b:inputText>	
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText id="perCapitaCost" Label="Per Capita Cost" value="#{breachTypesBean.per_capita_cost}" styleClass="alignright" required="true" requiredMessage="per Capita cost is required.">
+								 <f:facet name="prepend">
+              						<h:outputText value="$" />
+            					</f:facet> 			
+            					<f:convertNumber maxFractionDigits="2" minFractionDigits="0"/>										 	
+							</b:inputText>
+						</b:column>
+					</b:row>
+				</b:panel>	<!-- end of pnlColl -->
+				<b:row><!-- row for spacing -->
+					<b:column><span class="rowSpace"><br/></span></b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="12" style="text-align:center;">
+						<b:commandButton value="Save" iconAwesome="save" size="sm" look="primary" disabled="false"  
+										 action="#{breachTypesBean.actionBTControllerMethod()}" />					
+						<b:button value="Cancel" iconAwesome="times" size="sm" look="default" href="breach-types-table.jsf" />
+					</b:column>					
+				</b:row>
+			</b:panel>		<!-- end of pnlMain -->
+		</h:form>		<!-- end of frmMain -->
+	</ui:define>
+</ui:composition>
