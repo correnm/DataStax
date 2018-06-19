@@ -4,16 +4,12 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd"
     version="2.3">
-  <!--  Empty for now. There are many uses for faces-config.xml, but
-        the most common are navigation rules (instead of having
-        the return value of the "action" method be the base filename),
-        bean declarations (instead of using @ManagedBean), and
-        properties files (aka resource bundles).
-        
-        If you are not using faces-config.xml, it is perfectly legal
-        to omit the file entirely. But, most people prefer to have
-        a blank one already in their project for later use.
-        
-        From JSF 2 and PrimeFaces tutorial
-        at http://www.coreservlets.com/JSF-Tutorial/jsf2/ -->
-</faces-config>
+ 
+ 	<application>
+ 		<resource-bundle>
+ 			<base-name>messages</base-name>
+ 			<var>messages</var>
+ 		</resource-bundle>
+ 	</application>
+ 
+ </faces-config>
