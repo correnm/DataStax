@@ -314,14 +314,14 @@ table.table-striped tbody tr.odd:hover {
 
 .dataTableClass {
 	border-width: 1px;
-	border-color: #999999;
+	border-color: #bbbdbf;
 	font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .dataTableDivClass {
 	border-style: solid;
 	border-width: 1px;
-	border-color: #bbbbbb;
+	border-color: #bbbdbf;
 	background-color: #ffffff;
 	padding-top: 25px;
 	padding-bottom: 15px;
@@ -425,6 +425,15 @@ label.bf-required:after {
   box-shadow: none;
 }
 
+.panelTitleBar .panel-heading {
+    background: #28637e;
+	font-size: 12px;
+	text-align: left;
+	font-weight: bold;
+	color: white;
+    
+    }    
+
 .alignleft {
 	text-align:left;
 }
@@ -445,6 +454,10 @@ label.bf-required:after {
 
 .dollars:before {
   content: "$";
+}
+
+.percentage {
+	text-align:right;
 }
 
 .percentage:after {
