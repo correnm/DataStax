@@ -92,6 +92,10 @@
 
 	<!-- *** Miscellaneous *** -->
 	<context-param>
+		<param-name>passcode_ITERATIONS</param-name>
+		<param-value>20000</param-value>
+	</context-param>
+	<context-param>
 		<param-name>application_URL</param-name>
 		<param-value>https://impact.g2-ops.com/URM</param-value>
 	</context-param>
@@ -125,7 +129,7 @@
 
 	<!-- *** Default/Index Filename *** -->
 	<welcome-file-list>
-		<welcome-file>welcome.jsf</welcome-file>
+		<welcome-file>login.jsf</welcome-file>
 	</welcome-file-list>
 
 </web-app>
