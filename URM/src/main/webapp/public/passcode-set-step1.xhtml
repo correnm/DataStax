@@ -5,21 +5,25 @@
 	xmlns:b="http://bootsfaces.net/ui"
 	template="/templates/full-page-form.xhtml">
 
-	<ui:define name="document-title">Forgot Passcode</ui:define>
+	<f:metadata>
+		<f:viewParam name="requestID" value="#{passcodeSet.requestID}"></f:viewParam>
+	</f:metadata>
+
+	<ui:define name="document-title">Set Passcode - Step 1 of 3</ui:define>
 
 	<ui:define name="navbar">
 		<ui:include src="/snippets/navbar-public.xhtml" />
 	</ui:define>
 
-	<ui:define name="page-name"><strong>Forgot Passcode</strong></ui:define>
+	<ui:define name="page-name"><strong>Set Passcode</strong></ui:define>
 
 	<ui:define name="full-page-form">
 
-		<h:form id="forgotPasscodeForm">
+		<h:form id="setPasscodeForm1">
 
 			<b:panel look="default">
 
-				<b:panel look="default" title="Passcode Reset Request" collapsible="false">
+				<b:panel look="default" title="Set Your Passcode - Step 1 of 3" collapsible="false">
 
 					<b:row>
 						<b:column col-md="12">
@@ -30,14 +34,11 @@
 					<b:row>
 						<b:column col-xs="12" col-sm="10" offset-sm="1" col-md="10" offset-md="1" col-lg="8" offset-lg="2">
 							<b:panel>
-								<ul>
-									<li><strong>Enter your Organization Name and Email Address below</strong></li>
-									<li>Look for an email with subject "Your URM Passcode Reset Request"</li>
-									<li>Click the "Reset Passcode" link in the email</li>
-									<li>Enter your Organization Name and Cell Phone number</li>
-									<li>Provide your Security Question answers</li>
-									<li>Set a new Passcode</li>
-								</ul>
+								<ol>
+									<li><strong>Enter your Organization Name and Cell Phone number</strong></li>
+									<li>Create your Security Questions and Answers</li>
+									<li>Set your Passcode</li>
+								</ol>
 							</b:panel>
 						</b:column>
 					</b:row>
@@ -55,8 +56,9 @@
 					</b:row>
 
 					<b:row>
+						<!-- <b:column col-md="3" offset="1" class="form-input-label"><span class="form-field-required">*</span> Organization Name:</b:column> -->
 						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
-							<b:inputText label="Organization Name" placeholder="Your Organization Name" id="orgName" value="#{passcodeForgot.orgName}" required="true" requiredMessage="Organization Name is required" validator="#{passcodeForgot.validateOrganizationName}">
+							<b:inputText label="Organization Name" placeholder="Your Organization Name" id="orgName" value="#{passcodeSet.orgName}" required="true" requiredMessage="Organization Name is required" validator="#{passcodeSet.validateOrganizationName}">
 								<f:facet name="append"><b:iconAwesome name="institution" size="lg"/></f:facet>
 								<b:focus/>
 							</b:inputText>
@@ -64,10 +66,10 @@
 					</b:row>
 
 					<b:row>
+						<!-- <b:column col-md="3" offset="1" class="form-input-label"><span class="form-field-required">*</span> Cell Phone:</b:column> -->
 						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
-							<b:inputText label="Email" placeholder="Your Email Address" id="email" value="#{passcodeForgot.userEmail}" required="true" requiredMessage="Email Address is required">
-								<f:validator validatorId="emailValidator" />
-								<f:facet name="append"><b:iconAwesome name="envelope" size="lg"/></f:facet>
+							<b:inputText label="Cell Phone" placeholder="Your Cell Phone Number" id="cellPhone" value="#{passcodeSet.cellPhone}" required="true" requiredMessage="Cell Phone is required">
+								<f:facet name="append"><b:iconAwesome name="mobile" size="lg"/></f:facet>
 							</b:inputText>
 						</b:column>
 					</b:row>
@@ -82,8 +84,8 @@
 
 				<b:row>
 					<b:column col-xs="12" class="buttons-position">
-						<b:commandButton value="Save" size="sm" look="primary" action="#{passcodeForgot.forgotPasscodeActionControllerMethod}" iconAwesome="save"/>
-						<b:commandButton value="Cancel" size="sm" look="default" action="#{passcodeForgot.forgotPasscodeCancelControllerMethod}" immediate="true" iconAwesome="times"/>
+						<b:commandButton value="Next Step" size="sm" look="primary" action="#{passcodeSet.setPasscodeStep1ActionControllerMethod}" iconAwesome="arrow-right"/>
+						<b:commandButton value="Cancel" size="sm" look="default" action="#{passcodeSet.setPasscodeCancelControllerMethod}" immediate="true" iconAwesome="times"/>
 					</b:column>
 				</b:row>
 

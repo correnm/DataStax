@@ -34,14 +34,10 @@
 					<b:row>
 						<b:column col-xs="12" col-sm="10" offset-sm="1" col-md="10" offset-md="1" col-lg="8" offset-lg="2">
 							<b:panel>
-								<!--
-								<h3 style="text-align: center;">Procedure to Reset Your Passcode</h3>
-								<span class="rowSpace"><br/><br/></span>
-								-->
 								<ol>
-									<li><strong>enter your Organization Name and Cell Phone number</strong></li>
-									<li>provide your Security Question answers</li>
-									<li>set a new Passcode</li>
+									<li><strong>Enter your Organization Name and Cell Phone number</strong></li>
+									<li>Provide your Security Question answers</li>
+									<li>Set a new Passcode</li>
 								</ol>
 							</b:panel>
 						</b:column>
@@ -60,7 +56,6 @@
 					</b:row>
 
 					<b:row>
-						<!-- <b:column col-md="3" offset="1" class="form-input-label"><span class="form-field-required">*</span> Organization Name:</b:column> -->
 						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
 							<b:inputText label="Organization Name" placeholder="Your Organization Name" id="orgName" value="#{passcodeReset.orgName}" required="true" requiredMessage="Organization Name is required" validator="#{passcodeReset.validateOrganizationName}">
 								<f:facet name="append"><b:iconAwesome name="institution" size="lg"/></f:facet>
@@ -70,7 +65,6 @@
 					</b:row>
 
 					<b:row>
-						<!-- <b:column col-md="3" offset="1" class="form-input-label"><span class="form-field-required">*</span> Cell Phone:</b:column> -->
 						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
 							<b:inputText label="Cell Phone" placeholder="Your Cell Phone Number" id="cellPhone" value="#{passcodeReset.cellPhone}" required="true" requiredMessage="Cell Phone is required" validator="#{passcodeReset.validateCellPhone}">
 								<f:facet name="append"><b:iconAwesome name="mobile" size="lg"/></f:facet>
@@ -88,8 +82,8 @@
 
 				<b:row>
 					<b:column col-xs="12" class="buttons-position">
-						<b:commandButton value="Continue" size="sm" look="primary" action="#{passcodeReset.resetPasscodeStep1ActionControllerMethod}" iconAwesome="arrow-right"/>
-						<b:commandButton value="Login" size="sm" look="default" action="#{passcodeReset.resetPasscodeCancelControllerMethod}" immediate="true" iconAwesome="times"/>
+						<b:commandButton value="Next Step" size="sm" look="primary" action="#{passcodeReset.resetPasscodeStep1ActionControllerMethod}" iconAwesome="arrow-right"/>
+						<b:commandButton value="Cancel" size="sm" look="default" action="#{passcodeReset.resetPasscodeCancelControllerMethod}" immediate="true" iconAwesome="times"/>
 					</b:column>
 				</b:row>
 

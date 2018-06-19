@@ -1,0 +1,136 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-page-form.xhtml">
+
+	<ui:define name="document-title">Set Passcode - Step 2 of 3</ui:define>
+
+	<ui:define name="navbar">
+		<ui:include src="/snippets/navbar-public.xhtml" />
+	</ui:define>
+
+	<ui:define name="page-name"><strong>Set Passcode</strong></ui:define>
+
+	<ui:define name="full-page-form">
+
+		<h:form id="setPasscodeForm2">
+
+			<b:panel look="default">
+
+				<b:panel look="default" title="Set Your Passcode - Step 2 of 3" collapsible="false">
+
+					<b:row>
+						<b:column col-md="12">
+							<span class="rowSpace"><br/></span>
+						</b:column>
+					</b:row>
+
+					<b:row>
+						<b:column col-xs="12" col-sm="10" offset-sm="1" col-md="10" offset-md="1" col-lg="8" offset-lg="2">
+							<b:panel>
+								<ol>
+									<li>Enter your Organization Name and Cell Phone number</li>
+									<li><strong>Create your Security Questions and Answers</strong></li>
+									<li>Set your Passcode</li>
+								</ol>
+							</b:panel>
+						</b:column>
+					</b:row>
+
+					<b:row>
+						<b:column col-xs="12" col-sm="10" offset-sm="1" col-md="10" offset-md="1" col-lg="8" offset-lg="2">
+							<b:messages></b:messages>
+						</b:column>
+					</b:row>
+
+					<b:row>
+						<b:column col-md="12">
+							<span class="rowSpace"><br/></span>
+						</b:column>
+					</b:row>
+
+					<!-- Security Question #1 -->
+					<b:row>
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText label="Security Question #1" placeholder="Your Question" id="userSecurityQuestion1" value="#{passcodeSet.userSecurityQuestion1}" required="true" requiredMessage="security question 1 is required">
+								<f:facet name="append"><b:iconAwesome name="question" size="lg"/></f:facet>
+								<b:focus/>
+							</b:inputText>
+						</b:column>
+					</b:row>
+
+					<!-- Security Answer #1 -->
+					<b:row>
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText label="Security Answer #1" placeholder="Your Answer" id="userSecurityAnswer1" value="#{passcodeSet.userSecurityAnswer1}" required="true" requiredMessage="security answer 1 is required">
+								<f:facet name="append"><b:iconAwesome name="user-secret" size="lg"/></f:facet>
+							</b:inputText>
+						</b:column>
+					</b:row>
+
+					<!-- Security Question #2 -->
+					<b:row>
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText label="Security Question #2" placeholder="Your Question" id="userSecurityQuestion2" value="#{passcodeSet.userSecurityQuestion2}" required="true" requiredMessage="security question 2 is required">
+								<f:facet name="append"><b:iconAwesome name="question" size="lg"/></f:facet>
+							</b:inputText>
+						</b:column>
+					</b:row>
+
+					<!-- Security Answer #2 -->
+					<b:row>
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText label="Security Answer #2" placeholder="Your Answer" id="userSecurityAnswer2" value="#{passcodeSet.userSecurityAnswer2}" required="true" requiredMessage="security answer 2 is required">
+								<f:facet name="append"><b:iconAwesome name="user-secret" size="lg"/></f:facet>
+							</b:inputText>
+						</b:column>
+					</b:row>
+
+					<!-- Security Question #3 -->
+					<b:row>
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText label="Security Question #3" placeholder="Your Question" id="userSecurityQuestion3" value="#{passcodeSet.userSecurityQuestion3}" required="true" requiredMessage="security question 3 is required">
+								<f:facet name="append"><b:iconAwesome name="question" size="lg"/></f:facet>
+							</b:inputText>
+						</b:column>
+					</b:row>
+
+					<!-- Security Answer #3 -->
+					<b:row>
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText label="Security Answer #3" placeholder="Your Answer" id="userSecurityAnswer3" value="#{passcodeSet.userSecurityAnswer3}" required="true" requiredMessage="security answer 3 is required">
+								<f:facet name="append"><b:iconAwesome name="user-secret" size="lg"/></f:facet>
+							</b:inputText>
+						</b:column>
+					</b:row>
+
+				</b:panel>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-xs="12" class="buttons-position">
+						<b:commandButton value="Next Step" size="sm" look="primary" action="#{passcodeSet.setPasscodeStep2ActionControllerMethod}" iconAwesome="arrow-right"/>
+						<b:commandButton value="Cancel" size="sm" look="default" action="#{passcodeSet.setPasscodeCancelControllerMethod}" immediate="true" iconAwesome="times"/>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="12">
+						<span class="rowSpace"><br/></span>
+					</b:column>
+				</b:row>
+
+			</b:panel>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

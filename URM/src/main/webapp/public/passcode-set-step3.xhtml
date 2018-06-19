@@ -5,21 +5,21 @@
 	xmlns:b="http://bootsfaces.net/ui"
 	template="/templates/full-page-form.xhtml">
 
-	<ui:define name="document-title">Reset Passcode - Step 3 of 3</ui:define>
+	<ui:define name="document-title">Set Passcode - Step 3 of 3</ui:define>
 
 	<ui:define name="navbar">
 		<ui:include src="/snippets/navbar-public.xhtml" />
 	</ui:define>
 
-	<ui:define name="page-name"><strong>Reset Passcode</strong></ui:define>
+	<ui:define name="page-name"><strong>Set Passcode</strong></ui:define>
 
 	<ui:define name="full-page-form">
 
-		<h:form id="resetPasscodeForm3">
+		<h:form id="setPasscodeForm3">
 
 			<b:panel look="default">
 
-				<b:panel look="default" title="Reset Your Passcode - Step 3 of 3" collapsible="false">
+				<b:panel look="default" title="Set Your Passcode - Step 3 of 3" collapsible="false">
 
 					<b:row>
 						<b:column col-md="12">
@@ -32,8 +32,8 @@
 							<b:panel>
 								<ol>
 									<li>Enter your Organization Name and Cell Phone number</li>
-									<li>Provide your Security Question answers</li>
-									<li><strong>Set a new Passcode</strong></li>
+									<li>Create your Security Questions and Answers</li>
+									<li><strong>Set your Passcode</strong></li>
 								</ol>
 							</b:panel>
 						</b:column>
@@ -70,7 +70,7 @@
 
 					<b:row>
 						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
-							<b:inputSecret label="New Passcode" placeholder="Your New Passcode" id="newPasscode" value="#{passcodeReset.newPasscode}" required="true" requiredMessage="new Passcode is required">
+							<b:inputSecret label="Passcode" placeholder="Your Passcode" id="passcode" value="#{passcodeSet.passcode}" required="true" requiredMessage="Passcode is required">
 								<f:facet name="append"><b:iconAwesome name="key" size="lg"/></f:facet>
 								<b:focus/>
 							</b:inputSecret>
@@ -79,7 +79,7 @@
 
 					<b:row>
 						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
-							<b:inputSecret label="Re-enter New Passcode" placeholder="Your New Passcode" id="newPasscode2" value="#{passcodeReset.newPasscode2}" required="true" requiredMessage="new Passcode confirmation is required"> 
+							<b:inputSecret label="Re-enter Passcode" placeholder="Your Passcode" id="passcode2" value="#{passcodeSet.passcode2}" required="true" requiredMessage="Passcode confirmation is required"> 
 								<f:facet name="append"><b:iconAwesome name="key" size="lg"/></f:facet>
 							</b:inputSecret>
 						</b:column>
@@ -95,8 +95,8 @@
 
 				<b:row>
 					<b:column col-xs="12" class="buttons-position">
-						<b:commandButton value="Save" size="sm" look="primary" action="#{passcodeReset.resetPasscodeStep3ActionControllerMethod}" iconAwesome="save"/>
-						<b:commandButton value="Cancel" size="sm" look="default" action="#{passcodeReset.resetPasscodeCancelControllerMethod}" immediate="true" iconAwesome="times"/>
+						<b:commandButton value="Save" size="sm" look="primary" action="#{passcodeSet.setPasscodeStep3ActionControllerMethod}" iconAwesome="save"/>
+						<b:commandButton value="Cancel" size="sm" look="default" action="#{passcodeSet.setPasscodeCancelControllerMethod}" immediate="true" iconAwesome="times"/>
 					</b:column>
 				</b:row>
 

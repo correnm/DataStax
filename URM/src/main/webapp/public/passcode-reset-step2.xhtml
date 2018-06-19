@@ -30,14 +30,10 @@
 					<b:row>
 						<b:column col-xs="12" col-sm="10" offset-sm="1" col-md="10" offset-md="1" col-lg="8" offset-lg="2">
 							<b:panel>
-								<!--
-								<h3 style="text-align: center;">Procedure to Reset Your Passcode</h3>
-								<span class="rowSpace"><br/><br/></span>
-								-->
 								<ol>
-									<li>enter your Organization Name and Cell Phone number</li>
-									<li><strong>provide your Security Question answers</strong></li>
-									<li>set a new Passcode</li>
+									<li>Enter your Organization Name and Cell Phone number</li>
+									<li><strong>Provide your Security Question answers</strong></li>
+									<li>Set a new Passcode</li>
 								</ol>
 							</b:panel>
 						</b:column>
@@ -77,12 +73,6 @@
 						</b:column>
 					</b:row>
 
-					<b:row>
-						<b:column col-md="12">
-							<span class="rowSpace"><br/></span>
-						</b:column>
-					</b:row>
-
 					<!--
 					<b:row>
 						<b:column col-md="4" offset="4"><strong>Security Question #2</strong></b:column>
@@ -97,24 +87,10 @@
 
 					<!-- Security Question #2 -->
 					<b:row>
-						<!--
-						<b:column col-md="4" offset="4" class="security-question">
-							<span class="form-field-required">*</span><h:outputText value="#{passcodeReset.securityQuestion2}"></h:outputText>
-						</b:column>
-						<b:column col-md="12">
-							<span class="rowSpace"><br/></span>
-						</b:column>
-						-->
 						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
 							<b:inputText label="#{passcodeReset.securityQuestion2}" placeholder="Your Answer" id="userSecurityAnswer2" value="#{passcodeReset.userSecurityAnswer2}" required="true" requiredMessage="an answer to question 2 is required">
 								<f:facet name="append"><b:iconAwesome name="user-secret" size="lg"/></f:facet>
 							</b:inputText>
-						</b:column>
-					</b:row>
-
-					<b:row>
-						<b:column col-md="12">
-							<span class="rowSpace"><br/></span>
 						</b:column>
 					</b:row>
 
@@ -132,14 +108,6 @@
 
 					<!-- Security Question #3 -->
 					<b:row>
-						<!--
-						<b:column col-md="4" offset="4" class="security-question">
-							<span class="form-field-required">*</span><h:outputText value="#{passcodeReset.securityQuestion3}"></h:outputText>
-						</b:column>
-						<b:column col-md="12">
-							<span class="rowSpace"><br/></span>
-						</b:column>
-						-->
 						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
 							<b:inputText label="#{passcodeReset.securityQuestion3}" placeholder="Your Answer" id="userSecurityAnswer3" value="#{passcodeReset.userSecurityAnswer3}" required="true" requiredMessage="an answer to question 3 is required">
 								<f:facet name="append"><b:iconAwesome name="user-secret" size="lg"/></f:facet>
@@ -157,8 +125,8 @@
 
 				<b:row>
 					<b:column col-xs="12" class="buttons-position">
-						<b:commandButton value="Continue" size="sm" look="primary" action="#{passcodeReset.resetPasscodeStep2ActionControllerMethod}" iconAwesome="arrow-right"/>
-						<b:commandButton value="Login" size="sm" look="default" action="#{passcodeReset.resetPasscodeCancelControllerMethod}" immediate="true" iconAwesome="times"/>
+						<b:commandButton value="Next Step" size="sm" look="primary" action="#{passcodeReset.resetPasscodeStep2ActionControllerMethod}" iconAwesome="arrow-right"/>
+						<b:commandButton value="Cancel" size="sm" look="default" action="#{passcodeReset.resetPasscodeCancelControllerMethod}" immediate="true" iconAwesome="times"/>
 					</b:column>
 				</b:row>
 
