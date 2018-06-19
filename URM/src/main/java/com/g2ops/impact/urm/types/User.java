@@ -6,10 +6,10 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String userEmail, firstName, lastName, appRoleName, defaultLensView, orgUnitName, siteName, userStatus, lockStatus;
+	private String userEmail, firstName, lastName, appRoleName, defaultLensView, orgUnitName, siteName, userStatus, lockStatus, lastSuccessfulLoginDateTime;
 	private Boolean activeUserInd, locked;
 	
-	public User (String userEmail, String firstName, String lastName, String appRoleName, String defaultLensView, String orgUnitName, String siteName, Boolean activeUserInd, Boolean locked) {
+	public User (String userEmail, String firstName, String lastName, String appRoleName, String defaultLensView, String orgUnitName, String siteName, Boolean activeUserInd, Boolean locked, String lastSuccessfulLoginDateTime) {
 
 		this.userEmail = userEmail;
 		this.firstName = firstName;
@@ -30,6 +30,7 @@ public class User implements Serializable {
 		} else {
 			lockStatus = "no";
 		}
+		this.lastSuccessfulLoginDateTime = lastSuccessfulLoginDateTime;
 
 	}
 
@@ -71,6 +72,10 @@ public class User implements Serializable {
 
 	public String getLockStatus() {
 		return lockStatus;
+	}
+
+	public String getLastSuccessfulLoginDateTime() {
+		return lastSuccessfulLoginDateTime;
 	}
 
 	public void setUserEmail(String userEmail) {
