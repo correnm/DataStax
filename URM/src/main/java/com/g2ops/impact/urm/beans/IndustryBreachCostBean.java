@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
@@ -37,6 +38,7 @@ import com.g2ops.impact.urm.utils.SessionUtils;
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.PreparedStatement;
 import com.g2ops.impact.urm.types.IndustryBreachCosts;
+import com.g2ops.impact.urm.beans.LovReferences;
 
 @Named("industryBreachCostBean")
 @SessionScoped	//required for pulling in currentUser info --Client-specific data      
@@ -58,9 +60,12 @@ public class IndustryBreachCostBean  implements Serializable {
 	private Iterator<Row> iterator;
 	private String query, selectedBC;
 	
-    private double publication_year, origPubYear, direct_cost_pct, direct_per_capita_cost, indirect_cost_pct, indirect_per_capita_cost, per_capita_cost;
-    private String country_name, origCName, industry_name, origIndName, verizon_dbir_industry_name;
-    
+    private Double publication_year, origPubYear, direct_cost_pct, direct_per_capita_cost, indirect_cost_pct, indirect_per_capita_cost, per_capita_cost;
+    private String origCName, industry, origIndName, verizon_dbir_industry_name;
+	
+    private String country, documentTitle, action;
+	private ArrayList<String> countries, industries;
+
 	// constructor
 	public IndustryBreachCostBean() {
 		System.out.println("*** in IndustryBreachCostBean constructor ***");
@@ -72,10 +77,18 @@ public class IndustryBreachCostBean  implements Serializable {
 		databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
 		session = SessionUtils.getOrgDBSession(currentUser.getOrgKeyspace());
 		
+		//Load drop downs
+		LovReferences LovReferences = new LovReferences();
+		
+		this.countries = new ArrayList<String>(LovReferences.getSelectItems("country_name",currentUser).values());
+		this.industries = new ArrayList<String>(LovReferences.getSelectItems("industry", currentUser).values());
+		
 		//load table data
 		LoadIndustryBreachCostBean();
 	} // end of init()
 
+
+	
 	//functions to load the table, add, edit pages	
 	public void LoadIndustryBreachCostBean() {
 		//called on initialization of breach-types-table to load table data
@@ -102,8 +115,8 @@ public class IndustryBreachCostBean  implements Serializable {
 		while (iterator.hasNext()) {
 			Row row = iterator.next();
 			publication_year = row.getDouble("publication_year");
-			country_name = row.getString("country_name");
-			industry_name = row.getString("industry_name");
+			country = row.getString("country_name");
+			industry = row.getString("industry_name");
 			direct_cost_pct = row.getDouble("direct_cost_pct"); 
 			direct_per_capita_cost = row.getDouble("direct_per_capita_cost"); 
 			indirect_cost_pct = row.getDouble("indirect_cost_pct");
@@ -111,7 +124,7 @@ public class IndustryBreachCostBean  implements Serializable {
 			per_capita_cost = row.getDouble("per_capita_cost");
 			verizon_dbir_industry_name = row.getString("verizon_dbir_industry_name");
 
-			ibc = new IndustryBreachCosts(publication_year, direct_cost_pct, direct_per_capita_cost, indirect_cost_pct, indirect_per_capita_cost, per_capita_cost, country_name, industry_name,  verizon_dbir_industry_name);
+			ibc = new IndustryBreachCosts(publication_year, direct_cost_pct, direct_per_capita_cost, indirect_cost_pct, indirect_per_capita_cost, per_capita_cost, country, industry,  verizon_dbir_industry_name);
 			ibcList.add(ibc);	
 		}  	//end of while
 		
@@ -129,24 +142,33 @@ public class IndustryBreachCostBean  implements Serializable {
 
 	public String LoadIBCAddFormData()  throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 		System.out.println("in loadAddIBCFormData");
-		publication_year = 2017;
-		country_name = "United States";
-		industry_name="";
-		direct_cost_pct= 0; 
-		direct_per_capita_cost = 0; 
-		indirect_cost_pct = 0;
-		indirect_per_capita_cost = 0; 
-		per_capita_cost = 0;
+		action = "add";
+		documentTitle = "Add Industry Breach Cost";
+		publication_year = null;
+		country = "United States";
+		industry="";
+		direct_cost_pct= null; 
+		direct_per_capita_cost= null; 
+		indirect_cost_pct= null;
+		indirect_per_capita_cost= null; 
+		per_capita_cost= null;
 		verizon_dbir_industry_name = "";
+		origPubYear = null;
+		origCName = "";
+		origIndName = "";
+
 		//goto Add form
-		return "/superadmin/industry-breach-costs-add.jsf";
+		return "/superadmin/industry-breach-costs.jsf";
 	}	//end LoadIBCAddFormData()
 	
 	public String LoadIBCEditFormData(IndustryBreachCosts ibcEdit) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 		System.out.println("in loadIBCEditFormData");	
+		action = "edit";
+		documentTitle = "Edit Industry Breach Cost";
+
 		publication_year = ibcEdit.getPublication_year();
-		country_name = ibcEdit.getCountry_name();
-		industry_name= ibcEdit.getIndustry_name();
+		country = ibcEdit.getCountry_name();
+		industry= ibcEdit.getIndustry_name();
 		direct_cost_pct= ibcEdit.getDirect_cost_pct(); 
 		direct_per_capita_cost = ibcEdit.getDirect_per_capita_cost(); 
 		indirect_cost_pct = ibcEdit.getIndirect_cost_pct();
@@ -156,19 +178,36 @@ public class IndustryBreachCostBean  implements Serializable {
 
 		//load original values of primary key in case primary key values change
 		this.origPubYear = publication_year;
-		this.origCName = country_name;
-		this.origIndName = industry_name;
+		this.origCName = country;
+		this.origIndName = industry;
 		
 		//goto Edit form
-		return "/superadmin/industry-breach-costs-edit.jsf";
+		return "/superadmin/industry-breach-costs.jsf";
 	}	//end of LoadIBCEditFormData()
 
 	//Functions to push changes to the database table
+	
+	public String actionIBCControllerMethod() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
+		String returnVar = null;
+		System.out.println("action: " + action);
+		if (action == "add") {
+			returnVar = addIBCControllerMethod();
+		} else { 
+			if (action == "edit") {
+				returnVar = editIBCControllerMethod();
+			}
+		}
+		
+		return returnVar;
+	}
 	public String editIBCControllerMethod() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {		
 		System.out.println("in editBTControllerMethod");
+		System.out.println("origPubYear/pub_yr: " + this.origPubYear + "/" + this.publication_year);
+		System.out.println("origCName/country: " + this.origCName + "/" + this.country);
+		System.out.println("origIndName/industry: " + this.origIndName + "/" + this.industry);
 
 		//check if primary key changed, if so insert new record, delete old record
-		if (this.origPubYear==this.publication_year && this.origCName.equals(this.country_name) && this.origIndName.equals(this.industry_name)) {
+		if ((this.origPubYear.compareTo(this.publication_year)==0) && this.origCName.equals(this.country) && this.origIndName.equals(this.industry)) {
 				System.out.println("primary key unchanged, query: " + query);
 				query = "UPDATE appl_auth.industry_breach_costs "
 					+	"SET direct_cost_pct=?, " 
@@ -181,7 +220,7 @@ public class IndustryBreachCostBean  implements Serializable {
 
 				prepared = session.prepare(query);
 				bound = prepared.bind(this.getDirect_cost_pct(), this.getDirect_per_capita_cost(), this.getIndirect_cost_pct(), this.getIndirect_per_capita_cost(), 
-									  this.getPer_capita_cost(), this.getVerizon_dbir_industry_name(), this.publication_year, this.country_name, this.industry_name);
+									  this.getPer_capita_cost(), this.getVerizon_dbir_industry_name(), this.publication_year, this.country, this.industry);
 				session.execute(bound);
 			} else {
 				System.out.println("primary key changed, query: " + query);
@@ -200,7 +239,7 @@ public class IndustryBreachCostBean  implements Serializable {
 					+ 	"(?,?,?,?,?,?,?,?,?)"; 
 
 				prepared = session.prepare(query);
-				bound = prepared.bind(this.getPublication_year(), this.getCountry_name(), this.getIndustry_name(), this.getDirect_cost_pct(), this.getDirect_per_capita_cost(), 
+				bound = prepared.bind(this.getPublication_year(), this.getCountry(), this.getIndustry(), this.getDirect_cost_pct(), this.getDirect_per_capita_cost(), 
 									   this.getIndirect_cost_pct(), this.getIndirect_per_capita_cost(), this.getPer_capita_cost(), this.getVerizon_dbir_industry_name());
 				session.execute(bound);
 
@@ -211,6 +250,8 @@ public class IndustryBreachCostBean  implements Serializable {
 				prepared = session.prepare(query);
 				bound = prepared.bind(this.origPubYear, this.origCName, this.origIndName);
 				session.execute(bound);
+				
+				System.out.println("Delet: " + query + "/" + this.origPubYear + "/" + this.origCName + "/" + this.origIndName);
 			}	
 
 		//reload table data
@@ -234,7 +275,7 @@ public class IndustryBreachCostBean  implements Serializable {
 				+ 	"(?,?,?,?,?,?,?,?,?)"; 
 
 			prepared = session.prepare(query);
-			bound = prepared.bind(this.getPublication_year(), this.getCountry_name(), this.getIndustry_name(), this.getDirect_cost_pct(), this.getDirect_per_capita_cost(), 
+			bound = prepared.bind(this.getPublication_year(), this.getCountry(), this.getIndustry(), this.getDirect_cost_pct(), this.getDirect_per_capita_cost(), 
 								   this.getIndirect_cost_pct(), this.getIndirect_per_capita_cost(), this.getPer_capita_cost(), this.getVerizon_dbir_industry_name());
 			session.execute(bound);
 
@@ -272,6 +313,22 @@ public class IndustryBreachCostBean  implements Serializable {
 		return ibcList;
 	}
 
+	public String getDocumentTitle() {
+		return documentTitle;
+	}
+
+	public void setDocumentTitle(String documentTitle) {
+		this.documentTitle = documentTitle;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
 	public void setIbcList(List<IndustryBreachCosts> ibcList) {
 		this.ibcList = ibcList;
 	}
@@ -292,68 +349,84 @@ public class IndustryBreachCostBean  implements Serializable {
 		this.selectedBC = selectedBC;
 	}
 
-	public double getPublication_year() {
+	public Double getPublication_year() {
 		return publication_year;
 	}
 
-	public void setPublication_year(double publication_year) {
+	public void setPublication_year(Double publication_year) {
 		this.publication_year = publication_year;
 	}
 
-	public double getDirect_cost_pct() {
+	public Double getDirect_cost_pct() {
 		return direct_cost_pct;
 	}
 
-	public void setDirect_cost_pct(double direct_cost_pct) {
+	public void setDirect_cost_pct(Double direct_cost_pct) {
 		this.direct_cost_pct = direct_cost_pct;
 	}
 
-	public double getDirect_per_capita_cost() {
+	public Double getDirect_per_capita_cost() {
 		return direct_per_capita_cost;
 	}
 
-	public void setDirect_per_capita_cost(double direct_per_capita_cost) {
+	public void setDirect_per_capita_cost(Double direct_per_capita_cost) {
 		this.direct_per_capita_cost = direct_per_capita_cost;
 	}
 
-	public double getIndirect_cost_pct() {
+	public Double getIndirect_cost_pct() {
 		return indirect_cost_pct;
 	}
 
-	public void setIndirect_cost_pct(double indirect_cost_pct) {
+	public void setIndirect_cost_pct(Double indirect_cost_pct) {
 		this.indirect_cost_pct = indirect_cost_pct;
 	}
 
-	public double getIndirect_per_capita_cost() {
+	public Double getIndirect_per_capita_cost() {
 		return indirect_per_capita_cost;
 	}
 
-	public void setIndirect_per_capita_cost(double indirect_per_capita_cost) {
+	public void setIndirect_per_capita_cost(Double indirect_per_capita_cost) {
 		this.indirect_per_capita_cost = indirect_per_capita_cost;
 	}
 
-	public double getPer_capita_cost() {
+	public Double getPer_capita_cost() {
 		return per_capita_cost;
 	}
 
-	public void setPer_capita_cost(double per_capita_cost) {
+	public void setPer_capita_cost(Double per_capita_cost) {
 		this.per_capita_cost = per_capita_cost;
 	}
 
-	public String getCountry_name() {
-		return country_name;
+	public String getCountry() {
+		return country;
 	}
 
-	public void setCountry_name(String country_name) {
-		this.country_name = country_name;
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
-	public String getIndustry_name() {
-		return industry_name;
+	public ArrayList<String> getCountries() {
+		return countries;
 	}
 
-	public void setIndustry_name(String industry_name) {
-		this.industry_name = industry_name;
+	public void setCountries(ArrayList<String> countries) {
+		this.countries = countries;
+	}
+
+	public String getIndustry() {
+		return industry;
+	}
+
+	public void setIndustry(String industry) {
+		this.industry = industry;
+	}
+
+	public ArrayList<String> getIndustries() {
+		return industries;
+	}
+
+	public void setIndustries(ArrayList<String> industries) {
+		this.industries = industries;
 	}
 
 	public String getVerizon_dbir_industry_name() {

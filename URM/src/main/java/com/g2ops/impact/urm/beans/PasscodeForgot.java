@@ -1,5 +1,7 @@
 package com.g2ops.impact.urm.beans;
 
+import java.text.MessageFormat;
+
 /**
  * @author 		John Reddy, G2 Ops, Virginia Beach, VA
  * @version 	1.00, May 2017
@@ -15,6 +17,7 @@ package com.g2ops.impact.urm.beans;
  */
 
 import java.util.Iterator;
+import java.util.ResourceBundle;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
@@ -54,6 +57,8 @@ public class PasscodeForgot {
 
 	private String applicationURL, orgName, userEmail, orgKeyspace, queryString;
 	private Boolean activeUserInd;
+	
+	private ResourceBundle messages;
 
 	
 	// constructor
@@ -70,11 +75,13 @@ public class PasscodeForgot {
 		ctx = SessionUtils.getRequest().getServletContext();
 
 		// get the base URL of the application
-		//applicationURL = ctx.getInitParameter("application_URL");
 		applicationURL = applicationUtils.getApplicationBaseURL();
 
 		// get the database connection session
 		appAuthDBSession = applicationUtils.getApplAuthDBSession();
+
+		// get the "messages" resource bundle
+		messages = applicationUtils.getMessagesResourceBundle();
 
 	}
 
@@ -216,12 +223,17 @@ public class PasscodeForgot {
 		
 		appAuthDBSession.execute(queryString);
 
-		// *** need expiry date to be one day in the future ???
-		
 		//send email with link to passcode reset
-		String emailSubject = "Your URM Passcode Reset Request";
-		String emailBody = "To reset your URM passcode, click this link: <a href='" + applicationURL + "/public/passcode-reset-step1.jsf?requestID=" + uuid + "'>Reset Passcode</a>";
+		String emailSubject = messages.getString("passcodeResetEmailSubject");
+		//String emailBody = "To reset your URM passcode, click this link: <a href='" + applicationURL + "/public/passcode-reset-step1.jsf?requestID=" + uuid + "'>Reset Passcode</a>";
+		String linkURL = "<a href='" + applicationURL + "/public/passcode-reset-step1.jsf?requestID=" + uuid + "'>Reset Passcode</a>";
+		Object[] messageArguments = {linkURL};
+		MessageFormat formatter = new MessageFormat("");
+		//formatter.setLocale(currentLocale);
+		formatter.applyPattern(messages.getString("passcodeResetEmailBody"));
+		String emailBody = formatter.format(messageArguments);
         try {
+        	//MailService.sendMessage(this.userEmail, emailSubject, emailBody);
         	MailService.sendMessage(this.userEmail, emailSubject, emailBody);
         }
         catch(MessagingException ex) {

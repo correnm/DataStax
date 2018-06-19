@@ -171,7 +171,7 @@ public class ChangePasscode implements Serializable {
 		passcodeValueToStore = passcodeValueToStore.concat(encryptedPasscodeString);
 
 		// execute the query to update the passcode in the database
-//		databaseQueryService.runUpdateQuery("update users set hashed_password = '" + passcodeValueToStore + "', password_last_reset = toDate(now()) where user_email = '" + currentUser.getEmail() + "'");
+		databaseQueryService.runUpdateQuery("update users set hashed_password = '" + passcodeValueToStore + "', password_last_reset = toDate(now()) where user_email = '" + currentUser.getEmail() + "'");
 
 		// go back to the user's default dashboard?
 		return("/" + currentUser.getDefaultLensView() + "?faces-redirect=true");

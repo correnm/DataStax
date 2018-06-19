@@ -37,11 +37,12 @@ import com.g2ops.impact.urm.utils.SessionUtils;
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.PreparedStatement;
 import com.g2ops.impact.urm.types.IndustrySecurityIncidents;
+//import com.g2ops.impact.urm.beans.LovReferences;
 
 @Named("industrySecurityIncidentsBean")
 @SessionScoped	//required for pulling in currentUser info --Client-specific data      
 
-
+//org.apache.el.parser.COERCE_TO_ZERO=false;
 public class IndustrySecurityIncidentsBean  implements Serializable {
 
 	private static final long serialVersionUID = 1L;	
@@ -56,11 +57,12 @@ public class IndustrySecurityIncidentsBean  implements Serializable {
 	private List<IndustrySecurityIncidents> isiList = new ArrayList<IndustrySecurityIncidents>();
 	private IndustrySecurityIncidents isi;
 	private Iterator<Row> iterator;
-	private String query, selectedISI;
+	private String query, selectedISI, documentTitle, action;
 
-	private double publication_year, origPubYear, breaches_large, breaches_small, breaches_total, breaches_unk, incidents_large, incidents_small, incidents_total, incidents_unk, probability_of_attack, sample_size; 
+	private Double publication_year, origPubYear, breaches_large, breaches_small, breaches_total, breaches_unk, incidents_large, incidents_small, incidents_total, incidents_unk, probability_of_attack, sample_size; 
 	private String verizon_dbir_industry_name, origVerIndName;
 	
+	private ArrayList<String> industries;
 	// constructor
 	public IndustrySecurityIncidentsBean() {
 		System.out.println("*** in IndustrySecurityIncidents constructor ***");
@@ -72,9 +74,14 @@ public class IndustrySecurityIncidentsBean  implements Serializable {
 		databaseQueryService = SessionUtils.getOrgDBQueryService(currentUser.getOrgKeyspace());
 		session = SessionUtils.getOrgDBSession(currentUser.getOrgKeyspace());
 		
+		//Load industry drop-down
+		//LovReferences LovReferences = new LovReferences();
+		//this.industries = new ArrayList<String>(LovReferences.getSelectItems("industry",currentUser).values());
+
 		//load table data
 		LoadIndustrySecurityIncidents();
 	} // end of init()
+
 
 	//functions to load the table, add, edit pages	
 	public void LoadIndustrySecurityIncidents() {
@@ -135,24 +142,32 @@ public class IndustrySecurityIncidentsBean  implements Serializable {
 
 	public String LoadISIAddFormData()  throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 		System.out.println("in loadAddISIFormData");
-		this.publication_year = 2017;    	    
+	    this.documentTitle = "Add Industry Security Incident";
+		this.action = "add";
+		this.publication_year = null;    	    
 	    this.verizon_dbir_industry_name= "";
-	    this.breaches_large = 0;
-	    this.breaches_small = 0;
-	    this.breaches_total = 0;
-	    this.breaches_unk = 0;
-	    this.incidents_large = 0;
-	    this.incidents_small = 0;
-	    this.incidents_total = 0;
-	    this.incidents_unk = 0;
-	    this.probability_of_attack = 0;
-	    this.sample_size = 0;
+	    this.breaches_large = null;
+	    this.breaches_small = null;
+	    this.breaches_total = null;
+	    this.breaches_unk = null;
+	    this.incidents_large = null;
+	    this.incidents_small = null;
+	    this.incidents_total = null;
+	    this.incidents_unk = null;
+	    this.probability_of_attack = null;
+	    this.sample_size = null;
+
+	    origPubYear = null;
+	    origVerIndName = "";		
 		//goto Add form
-		return "/superadmin/industry-security-incidents-add.jsf";
+		//return "/superadmin/industry-security-incidents-add.jsf";
+	    return "/superadmin/industry-security-incidents.jsf";
 	}	//end LoadISIAddFormData()
 	
 	public String LoadISIEditFormData(IndustrySecurityIncidents isiEdit) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 		System.out.println("in loadISIEditFormData");	
+		this.documentTitle = "Edit Industry Security Incident";
+		this.action="edit";
 		this.publication_year = isiEdit.getPublication_year();    	    
 	    this.verizon_dbir_industry_name= isiEdit.getVerizon_dbir_industry_name();
 	    this.breaches_large = isiEdit.getBreaches_large();
@@ -165,23 +180,34 @@ public class IndustrySecurityIncidentsBean  implements Serializable {
 	    this.incidents_unk = isiEdit.getIncidents_unk();
 	    this.probability_of_attack = isiEdit.getProbability_of_attack();
 	    this.sample_size = isiEdit.getSample_size();
-
 	    origPubYear = isiEdit.getPublication_year();
 	    origVerIndName = isiEdit.getVerizon_dbir_industry_name();
 		//System.out.println("orgPubYear/getPubYear : "+ this.origPubYear + "/" + this.publication_year);
 		//System.out.println("orgVerIndName/getVerIndName : "+ this.origVerIndName + "/" + this.verizon_dbir_industry_name);
 		//goto Edit form
-		return "/superadmin/industry-security-incidents-edit.jsf";
+		//return "/superadmin/industry-security-incidents-edit.jsf";
+	    return "/superadmin/industry-security-incidents.jsf";
 	}	//end of LoadISIEditFormData()
 
 	//Functions to push changes to the database table
+	public String actionISIControllerMethod() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException  {
+		String returnVar = null;		
+		if (action == "add") {
+			returnVar = addISIControllerMethod();
+		} else {
+			if (action == "edit") {
+				returnVar = editISIControllerMethod();
+			}
+		}
+		return returnVar;
+	}
 	public String editISIControllerMethod() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {		
 		System.out.println("in editBTControllerMethod");
 		//Check to see if primary key changed, if so, insert new record and delete old one
 		//System.out.println("orgPubYear/getPubYear : "+ this.origPubYear + "/" + this.getPublication_year());
 		//System.out.println("orgVerIndName/getVerIndName : "+ this.origVerIndName + "/" + this.getVerizon_dbir_industry_name());
 		
-		if(this.origPubYear == this.getPublication_year() && this.origVerIndName.equals(this.getVerizon_dbir_industry_name())) {
+		if((this.origPubYear.compareTo(this.publication_year) == 0) && this.origVerIndName.equals(this.getVerizon_dbir_industry_name())) {
 			System.out.println("primary key did not changed");
 			//only update table
 			query = "UPDATE appl_auth.industry_security_incidents "
@@ -242,7 +268,22 @@ public class IndustrySecurityIncidentsBean  implements Serializable {
 }	//end editISIControllerMethod
 
 	public String addISIControllerMethod() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
-		System.out.println("in addISIControllerMethod, pubYear: " + this.getPublication_year());
+		System.out.println("in addISIControllerMethod");
+		
+		if(this.getIncidents_total() == null) {
+			Double incidents = this.incidents_small + this.incidents_large + this.incidents_unk;
+			this.incidents_total = incidents;
+		}
+
+		if(this.getBreaches_total()== null) {
+			Double breaches = this.breaches_small + this.breaches_large + this.breaches_unk;
+			this.breaches_total = breaches;
+		}
+
+		if(this.getProbability_of_attack() == null) {
+			Double probability = this.breaches_total/this.incidents_total;
+			this.probability_of_attack = probability;
+		}
 		
 		query="INSERT INTO appl_auth.industry_security_incidents ( "
 			+	"publication_year, " 
@@ -296,6 +337,22 @@ public class IndustrySecurityIncidentsBean  implements Serializable {
 		return isiList;
 	}
 	
+	public String getDocumentTitle() {
+		return documentTitle;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
+	public void setDocumentTitle(String documentTitle) {
+		this.documentTitle = documentTitle;
+	}
+
 	public List<IndustrySecurityIncidents> getIsiList() {
 		return isiList;
 	}
@@ -320,91 +377,92 @@ public class IndustrySecurityIncidentsBean  implements Serializable {
 		this.isi = isi;
 	}
 
-	public double getPublication_year() {
+	public Double getPublication_year() {
 		return publication_year;
 	}
 
-	public void setPublication_year(double publication_year) {
+	public void setPublication_year(Double publication_year) {
 		this.publication_year = publication_year;
 	}
 
-	public double getBreaches_large() {
+	public Double getBreaches_large() {
 		return breaches_large;
 	}
 
-	public void setBreaches_large(double breaches_large) {
+	public void setBreaches_large(Double breaches_large) {
 		this.breaches_large = breaches_large;
 	}
 
-	public double getBreaches_small() {
+	public Double getBreaches_small() {
 		return breaches_small;
 	}
 
-	public void setBreaches_small(double breaches_small) {
+	public void setBreaches_small(Double breaches_small) {
 		this.breaches_small = breaches_small;
 	}
 
-	public double getBreaches_total() {
+	public Double getBreaches_total() {
 		return breaches_total;
 	}
 
-	public void setBreaches_total(double breaches_total) {
+	public void setBreaches_total(Double breaches_total) {
 		this.breaches_total = breaches_total;
 	}
 
-	public double getBreaches_unk() {
+	public Double getBreaches_unk() {
 		return breaches_unk;
 	}
 
-	public void setBreaches_unk(double breaches_unk) {
+	public void setBreaches_unk(Double breaches_unk) {
 		this.breaches_unk = breaches_unk;
 	}
 
-	public double getIncidents_large() {
+	public Double getIncidents_large() {
 		return incidents_large;
 	}
 
-	public void setIncidents_large(double incidents_large) {
+	public void setIncidents_large(Double incidents_large) {
 		this.incidents_large = incidents_large;
 	}
 
-	public double getIncidents_small() {
+	public Double getIncidents_small() {
 		return incidents_small;
 	}
 
-	public void setIncidents_small(double incidents_small) {
+	public void setIncidents_small(Double incidents_small) {
 		this.incidents_small = incidents_small;
 	}
 
-	public double getIncidents_total() {
+	public Double getIncidents_total() {
 		return incidents_total;
 	}
 
-	public void setIncidents_total(double incidents_total) {
+	public void setIncidents_total(Double incidents_total) {
 		this.incidents_total = incidents_total;
 	}
 
-	public double getIncidents_unk() {
+	public Double getIncidents_unk() {
 		return incidents_unk;
 	}
 
-	public void setIncidents_unk(double incidents_unk) {
+	public void setIncidents_unk(Double incidents_unk) {
 		this.incidents_unk = incidents_unk;
 	}
 
-	public double getProbability_of_attack() {
+	public Double getProbability_of_attack() {
 		return probability_of_attack;
 	}
 
-	public void setProbability_of_attack(double probability_of_attack) {
+	public void setProbability_of_attack(Double probability_of_attack) {
+		System.out.println("in Set Prob: " + probability_of_attack);
 		this.probability_of_attack = probability_of_attack;
 	}
 
-	public double getSample_size() {
+	public Double getSample_size() {
 		return sample_size;
 	}
 
-	public void setSample_size(double sample_size) {
+	public void setSample_size(Double sample_size) {
 		this.sample_size = sample_size;
 	}
 
@@ -416,11 +474,11 @@ public class IndustrySecurityIncidentsBean  implements Serializable {
 		this.verizon_dbir_industry_name = verizon_dbir_industry_name;
 	}
 
-	public double getOrigPubYear() {
+	public Double getOrigPubYear() {
 		return origPubYear;
 	}
 
-	public void setOrigPubYear(double origPubYear) {
+	public void setOrigPubYear(Double origPubYear) {
 		this.origPubYear = origPubYear;
 	}
 
@@ -431,6 +489,15 @@ public class IndustrySecurityIncidentsBean  implements Serializable {
 	public void setOrigVerIndName(String origVerIndName) {
 		this.origVerIndName = origVerIndName;
 	}	
+
+	public ArrayList<String> getIndustries() {
+		return industries;
+	}
+
+	public void setIndustries(ArrayList<String> industries) {
+		this.industries = industries;
+	}
+
 }
                                                                                       
  
