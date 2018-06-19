@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.datastax.driver.core.Session;
 
 import java.io.Serializable;
+import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,10 +36,12 @@ public class ApplicationUtils implements Serializable {
 
 	private Pattern singleNumberPattern, singleUpperCasePattern, singleLowerCasePattern, singleSpecialCharacterPattern;
 	private Matcher passcodeMatcher;
+	private ResourceBundle messages;
 
 	FacesContext facesContext = FacesContext.getCurrentInstance();
 
 	private final String applicationBaseURL = facesContext.getExternalContext().getInitParameter("application_URL");
+	private final Integer passcodeIterations = Integer.parseInt(facesContext.getExternalContext().getInitParameter("passcode_ITERATIONS"));
 
 
 	// constructor
@@ -49,6 +52,9 @@ public class ApplicationUtils implements Serializable {
 		singleUpperCasePattern = Pattern.compile("[A-Z]+");
 		singleLowerCasePattern = Pattern.compile("[a-z]+");
 		singleSpecialCharacterPattern = Pattern.compile("[!@#$&*]+");
+
+		// get the "messages" resource bundle
+		messages = ResourceBundle.getBundle("messages");
 
 	}
 
@@ -152,6 +158,22 @@ public class ApplicationUtils implements Serializable {
 	public String getAuditUpsertDBString(String userName) {
 
 		return "{ datechanged : toUnixTimestamp(now()), changedbyusername : '" + userName + "' }";
+
+	}
+
+
+	// method that returns the "messages" resource bundle
+	public ResourceBundle getMessagesResourceBundle() {
+
+		return messages;
+
+	}
+
+
+	// method that returns the default passcode iterations
+	public Integer getPasscodeIterations() {
+
+		return passcodeIterations;
 
 	}
 
