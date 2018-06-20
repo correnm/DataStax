@@ -25,6 +25,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.text.DecimalFormat;
 //import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,6 +69,7 @@ public class SecurityControlBean  implements Serializable {
 	private Iterator<Row> iterator;
 	private String query, userSecGroup, userCountry, securityControlText, impactCosts;
 	private double rsValue = 0;
+	private String sesQAList = "";
 	private PreparedStatement prepared, preparedIC, preparedSC;
 	private BoundStatement bound, boundIC, boundSC;
 	private Row row;
@@ -166,10 +168,10 @@ public class SecurityControlBean  implements Serializable {
 					secID = row.getString("security_control_id");
 					category = row.getString("category");
 					populateSelectedValues(secID, category);
-					calculateRS(category);
+					calculateRS(category, secID);
 			}	
-			rsValue = rsValue/30;
-	System.out.println("rsval: " + rsValue);
+			this.rsValue = this.rsValue/30;
+			//System.out.println("rsval: " + rsValue);
 		}	
 
 	}		//end LoadFormData()
@@ -269,9 +271,9 @@ public class SecurityControlBean  implements Serializable {
 		}	// end switch
 	}
 	
-	private void calculateRS(String category) {
+	private void calculateRS(String category, String secID) {
 		//calculate the resistance strength 
-		double newRSValue = 0;
+		double newRSValue = 0.00;
 		switch (category) {
 		case "very_low" :
 			newRSValue = 0.00;
@@ -289,7 +291,14 @@ public class SecurityControlBean  implements Serializable {
 			newRSValue = 9.50;
 			break;
 	}
-		rsValue =+ newRSValue;
+		this.rsValue = this.rsValue + newRSValue;
+		String newValue = secID + "_" + Double.toString(newRSValue);
+		if (newValue.length() < 8) {
+			newValue = newValue + "0";
+		}
+		
+	//	System.out.println("newValue: " + newValue);
+		this.sesQAList = this.sesQAList + newValue;
 	}	//end calculateRS
 	
 	private long checkExistingSurveyResults() {
@@ -505,155 +514,155 @@ public class SecurityControlBean  implements Serializable {
 		case "ACX": 
 			if (!this.getSelectedaACX().isEmpty()) {
 				result = savetoTable(this.getSelectedaACX(), answersACX.get(this.getSelectedaACX()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}	
 		case "BCM":
 			if (!this.getSelectedaBCM().isEmpty()) {
 				result = savetoTable(this.getSelectedaBCM(), answersBCM.get(this.getSelectedaBCM()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}	
 		case "CLD":
 			if (!this.getSelectedaCLD().isEmpty()) {
 				result = savetoTable(this.getSelectedaCLD(), answersCLD.get(this.getSelectedaCLD()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}				
 		case "CLS":
 			if (!this.getSelectedaCLS().isEmpty()) {
 				result = savetoTable(this.getSelectedaCLS(), answersCLS.get(this.getSelectedaCLS()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}				
 		case "CPM":
 			if (!this.getSelectedaCPM().isEmpty()) {
 				result = savetoTable(this.getSelectedaCPM(), answersCPM.get(this.getSelectedaCPM()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}				
 		case "CPO":
 			if (!this.getSelectedaCPO().isEmpty()) {
 				result = savetoTable(this.getSelectedaCPO(), answersCPO.get(this.getSelectedaCPO()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}				
 		case "CSO":
 			if (!this.getSelectedaCSO().isEmpty()) {
 				result = savetoTable(this.getSelectedaCSO(), answersCSO.get(this.getSelectedaCSO()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}				 
 		case "DLP":
 			if (!this.getSelectedaDLP().isEmpty()) {
 				result = savetoTable(this.getSelectedaDLP(), answersDLP.get(this.getSelectedaDLP()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}				
 		case "DOS":
 			if (!this.getSelectedaDOS().isEmpty()) {
 				result = savetoTable(this.getSelectedaDOS(), answersDOS.get(this.getSelectedaDOS()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}				
 		case "ECR":
 			if (!this.getSelectedaECR().isEmpty()) {
 				result = savetoTable(this.getSelectedaECR(), answersECR.get(this.getSelectedaECR()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}				
 		case "EMP":
 			if (!this.getSelectedaEMP().isEmpty()) {
 				result = savetoTable(this.getSelectedaEMP(), answersEMP.get(this.getSelectedaEMP()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}							
 		case "EMS":
 			if (!this.getSelectedaEMS().isEmpty()) {
 				result = savetoTable(this.getSelectedaEMS(), answersEMP.get(this.getSelectedaEMS()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}
 		case "EXS":
 			lstSCR.clear();
 			if (!this.getSelectedaEXS().isEmpty()) {
 				result = savetoTable(this.getSelectedaEXS(), answersEXS.get(this.getSelectedaEXS()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}			
 		case "FW1":
 			if (!this.getSelectedaFW1().isEmpty()) {
 				result = savetoTable(this.getSelectedaFW1(), answersFW1.get(this.getSelectedaFW1()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}			
 		case "IAM":
 			if (!this.getSelectedaIAM().isEmpty()) {
 				result = savetoTable(this.getSelectedaIAM(), answersIAM.get(this.getSelectedaIAM()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}			
 		case "IDS":
 			lstSCR.clear();
 			if (!this.getSelectedaIDS().isEmpty()) {
 				result = savetoTable(this.getSelectedaIDS(), answersIDS.get(this.getSelectedaIDS()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}			
 		case "INS":
 			if (!this.getSelectedaINS().isEmpty()) {
 				result = savetoTable(this.getSelectedaINS(), answersINS.get(this.getSelectedaINS()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}			
 		case "IRT":
 			lstSCR.clear();
 			if (!this.getSelectedaIRT().isEmpty()) {
 				result = savetoTable(this.getSelectedaIRT(), answersIRT.get(this.getSelectedaIRT()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}			
 		case "MFA":
 			if (!this.getSelectedaMFA().isEmpty()) {
 				result = savetoTable(this.getSelectedaMFA(), answersMFA.get(this.getSelectedaMFA()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}			
 		case "MOB":
 			if (!this.getSelectedaMOB().isEmpty()) {
 				result = savetoTable(this.getSelectedaMOB(), answersMOB.get(this.getSelectedaMOB()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}			
 		case "PNT":
 			if (!this.getSelectedaPNT().isEmpty()) {
 				result = savetoTable(this.getSelectedaPNT(), answersPNT.get(this.getSelectedaPNT()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}			
 		case "SAT":
 			if (!this.getSelectedaSAT().isEmpty()) {
 				result = savetoTable(this.getSelectedaSAT(), answersSAT.get(this.getSelectedaSAT()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}			
 		case "SEG":
 			if (!this.getSelectedaSEG().isEmpty()) {
 				result = savetoTable(this.getSelectedaSEG(), answersSEG.get(this.getSelectedaSEG()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}			
 		case "SIM":
 			if (!this.getSelectedaSIM().isEmpty()) {
 				result = savetoTable(this.getSelectedaSIM(), answersSIM.get(this.getSelectedaSIM()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}						
 		case "STF":
 			if (!this.getSelectedaSTF().isEmpty()) {
 				result = savetoTable(this.getSelectedaSTF(), answersSTF.get(this.getSelectedaSTF()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}			
 		case "TIP":
 			if (!this.getSelectedaTIP().isEmpty()) {
 				result = savetoTable(this.getSelectedaTIP(), answersTIP.get(this.getSelectedaTIP()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}			
 		case "VLN":
 			if (!this.getSelectedaVLN().isEmpty()) {
 				result = savetoTable(this.getSelectedaVLN(), answersVLN.get(this.getSelectedaVLN()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}			
 		case "VPN":
 			if (!this.getSelectedaVPN().isEmpty()) {
 				result = savetoTable(this.getSelectedaVPN(), answersVPN.get(this.getSelectedaVPN()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}			
 		case "WCF":
 			if (!this.getSelectedaWCF().isEmpty()) {
 				result = savetoTable(this.getSelectedaWCF(), answersWCF.get(this.getSelectedaWCF()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}			
 		case "WLS":
 			if (!this.getSelectedaWLS().isEmpty()) {
 				result = savetoTable(this.getSelectedaWLS(), answersWLS.get(this.getSelectedaWLS()), secControl.getID());
-				System.out.println(result);
+				//System.out.println(result);
 			}			
 		}		//end switch
 	}		//end while itSC
@@ -935,6 +944,14 @@ public class SecurityControlBean  implements Serializable {
 	public void setRsValue(Double rsValue) {
 		this.rsValue = rsValue;
 		this.strRSValue = Double.toString(rsValue);
+	}
+
+	public String getSesQAList() {
+		return sesQAList;
+	}
+
+	public void setSesQAList(String sesQAList) {
+		this.sesQAList = sesQAList;
 	}
 
 	public String getStrRSValue() {
