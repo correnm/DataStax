@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="parser_resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_151"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/cassandra-driver-core-3.1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/cassandra-driver-mapping-3.1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/slf4j-api-1.5.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/slf4j-simple-1.5.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/SaraProkop/Downloads/Uploaded jars/guava-16.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/SaraProkop/Downloads/Uploaded jars/Maven Jars/metrics-core-3.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/SaraProkop/Downloads/Uploaded jars/Maven Jars/netty-common-4.0.37.Final.jar"/>
+	<classpathentry kind="lib" path="C:/Users/SaraProkop/Downloads/Uploaded jars/Maven Jars/netty-transport-4.0.37.Final.jar"/>
+	<classpathentry kind="lib" path="C:/Users/SaraProkop/Downloads/Uploaded jars/Maven Jars/netty-buffer-4.0.37.Final.jar"/>
+	<classpathentry kind="lib" path="C:/Users/SaraProkop/Downloads/Uploaded jars/Maven Jars/netty-handler-4.0.37.Final.jar"/>
+	<classpathentry kind="lib" path="C:/Users/SaraProkop/Downloads/Uploaded jars/Maven Jars/netty-codec-4.0.37.Final.jar"/>
+	<classpathentry kind="lib" path="C:/Users/SaraProkop/Downloads/Uploaded jars/log4j-1.2.17.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
