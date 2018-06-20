@@ -80,18 +80,9 @@ FusionCharts.ready(function () {
 	                 "valueAbovePointer": "1"
 	              }]		//end pointer
 	       }		//end pointers	       
-        },		//end datasource    
-        "events": {
-            "rendered" : function (evtObj, argObj){
-                var intervalVar = setInterval(function () {
-                }, 5000);
-            }
-        }
+        }		//end datasource    
+  
     });
-    var myEventListener = function (eventObj, eventArgs) {
-    	   console.log(eventObj.eventType + " was raised by the chart whose ID is " + eventObj.sender.id);
-    	};
-    	riskGauge.addEventListener("renderComplete", myEventListener);
-    	riskGauge.render();
+   	riskGauge.render();
     });		// end function
 
