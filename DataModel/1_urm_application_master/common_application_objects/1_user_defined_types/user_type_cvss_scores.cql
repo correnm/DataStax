@@ -17,6 +17,7 @@ USE keyspacename;
 
 CREATE TYPE cvss_scores (
 cve_id 							text,   // vulnerability list <cve>CVE-2016-7212</cve>
+cve_name						text,	// celebrity name
 cvss_base_score 				decimal,	// <cvss_base_score>9.3</cvss_base_score>
 cvss_temporal_score 			decimal,	// <cvss_temporal_score>6.9</cvss_temporal_score>
 cvss_temporal_vector			text,	// <cvss_temporal_vector>CVSS2#E:ND/RL:OF/RC:C</cvss_temporal_vector>

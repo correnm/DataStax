@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data-sources>
+	<data-source id="derby-1592e76dfda-1bb1e019d292254b" provider="generic" driver="derby" name="Derby - {folder}" create-date="1482543300567" update-date="1482543416583" save-password="true" show-system-objects="true" read-only="false">
+		<connection server="" database="" url="jdbc:derby:{folder}" user="nessus" password="HQEVM1RQJPc=" type="prod">
+			<bootstrap autocommit="false"/>
+		</connection>
+	</data-source>
+	<data-source id="derby-1592ecd9df1-20ef08354dd45077" provider="generic" driver="derby" name="nessus" create-date="1482549029856" save-password="true" show-system-objects="true" read-only="false">
+		<connection server="" database="C:\Users\Corren McCoy\workspace\nessus\derby" url="jdbc:derby:C:\Users\Corren McCoy\workspace\nessus\derby" user="nessus" password="HQEVM1RQJPc=" type="dev"/>
+	</data-source>
+</data-sources>

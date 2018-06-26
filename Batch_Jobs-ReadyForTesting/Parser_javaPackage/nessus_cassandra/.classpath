@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="parser_resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_151"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/apache-commons-codec-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/jgoodies-common-1.8.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/jgoodies-forms-1.8.0-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/nessus.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/opencsv-3.8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/org.apache.commons.io.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/cassandra-driver-core-3.1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/cassandra-driver-extras-3.1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/cassandra-driver-mapping-3.1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/javax.faces-2.2.8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/javax.servlet-3.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/guava-16.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/slf4j-api-1.5.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/slf4j-simple-1.5.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/netty-buffer-4.0.37.Final.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/netty-codec-4.0.37.Final.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/netty-common-4.0.37.Final.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/netty-handler-4.0.37.Final.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/netty-transport-4.0.37.Final.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/activation-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/asm-5.0.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/asm-analysis-5.0.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/asm-commons-5.0.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/asm-tree-5.0.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/asm-util-5.0.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/javaee-api-7.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/javax.faces-api-2.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/javax.mail-1.5.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/jffi-1.2.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/jffi-1.2.10-native.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/jnr-constants-0.9.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/jnr-ffi-2.0.7.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/jnr-posix-3.0.27.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/jstl-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/junit-3.8.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/metrics-core-3.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/Maven Jars/org.apache.commons.io-2.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sara Prokop/Downloads/Uploaded jars/commons-lang3-3.6/commons-lang3-3.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/SaraProkop/Downloads/Uploaded jars/joda-time-2.9.9.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
