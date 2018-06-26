@@ -184,7 +184,6 @@ public class BreachTypesBean  implements Serializable {
 		PreparedStatement prepared;
 		BoundStatement bound;
 			query="";
-			System.out.println("in editBTControllerMethod");
 		if (this.origBTName.equals(this.breach_type) && this.origCountry.equals(this.country) && (this.origPubYear.compareTo(this.publication_year)==0)) {	
 			//if primary key does not change, update existing data	
 			System.out.println("primary key unchanged");

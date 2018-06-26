@@ -2,7 +2,7 @@ package com.g2ops.impact.urm.beans;
 
 /**
  * @author 		Tammy Bogart, G2 Ops, Virginia Beach, VA
- * @version 	1.00, May 2018
+ * @version 	1.00, June 2018
  * @see			
  * @exception
  * 
@@ -11,14 +11,17 @@ package com.g2ops.impact.urm.beans;
  *
  * <p>Revision History:
  * Date				Author				Revision Description
- * 5.10.2018		tammy.bogart		created 
+ * 6.20.2018		tammy.bogart		created 
  */
  
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.event.ValueChangeEvent;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -29,6 +32,7 @@ import java.text.DecimalFormat;
 //import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -38,6 +42,7 @@ import java.util.Set;
 //import java.security.NoSuchAlgorithmException;
 //import java.security.spec.InvalidKeySpecException;
 import java.util.Spliterator;
+import java.util.UUID;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
@@ -48,15 +53,15 @@ import com.g2ops.impact.urm.utils.DatabaseQueryService;
 import com.g2ops.impact.urm.utils.SessionUtils;
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.PreparedStatement;
-import com.g2ops.impact.urm.types.SecurityControls;
+import com.g2ops.impact.urm.types.SecurityControlsQA;
 import com.g2ops.impact.urm.types.AuditUpsert;
 import com.g2ops.impact.urm.types.SecurityControlRatings;
-@Named("securityControlBean")
+@Named("securityControlBeanBusiness")
 @ManagedBean
 @SessionScoped	//required for pulling in currentUser info --Client-specific data      
 
 
-public class SecurityControlBean  implements Serializable {
+public class SecurityControlBeanBusiness  implements Serializable {
 
 	private static final long serialVersionUID = 1L;	
 
@@ -67,35 +72,37 @@ public class SecurityControlBean  implements Serializable {
 	private Session session;
 	private ResultSet resultSet; 
 	private Iterator<Row> iterator;
-	private String query, userSecGroup, userCountry, securityControlText, impactCosts;
+	private String query, userSecGroup, userCountry, securityControlText, impactCosts, siteName, businessName;
 	private double rsValue = 0;
 	private String sesQAList = "";
 	private PreparedStatement prepared, preparedIC, preparedSC;
 	private BoundStatement bound, boundIC, boundSC;
 	private Row row;
+	private UUID siteID, businessID;
+
 	private String qACX, qBCM, qCLD, qCLS, qCPM, qCPO, qCSO, qDLP, qDOS, qECR, qEMP, qEMS, qEXS, qFW1, qIAM, qIDS, qINS, qIRT, qMFA, qMOB, qPNT, qSAT, qSEG, qSIM, qSTF, qTIP, qVLN, qVPN, qWCF, qWLS;
 	private String selectedaACX, selectedaBCM, selectedaCLD, selectedaCLS, selectedaCPM, selectedaCPO, selectedaCSO, selectedaDLP, selectedaDOS, selectedaECR, selectedaEMP, selectedaEMS, selectedaEXS, 
 				selectedaFW1, selectedaIAM, selectedaIDS, selectedaINS, selectedaIRT, selectedaMFA, selectedaMOB, selectedaPNT, selectedaSAT, selectedaSEG, selectedaSIM, 
 				selectedaSTF, selectedaTIP, selectedaVLN, selectedaVPN, selectedaWCF, selectedaWLS;
 	private Map<String,String> answersACX, answersBCM, answersCLD, answersCLS, answersCPM, answersCPO, answersCSO, answersDLP, answersDOS, answersECR, answersEMP, answersEMS, answersEXS, answersFW1, 
 	answersIAM, answersIDS, answersINS, answersIRT, answersMFA, answersMOB, answersPNT, answersSAT, answersSEG, answersSIM, answersSTF, answersTIP, answersVLN, answersVPN, answersWCF, answersWLS;
-	private Map<String, String> QA = new HashMap<String, String>();
+	private LinkedHashMap<UUID, String> siteList = new LinkedHashMap<UUID, String>(); 
+	private LinkedHashMap<UUID, String> businessList = new LinkedHashMap<UUID, String>();
 	private String querySecurityControls, queryImpactCost, strRSValue;		//used for table updates
-	private Boolean btnPrevDisabled, btnNextDisabled;
-	private SecurityControls secControl;	
+	private SecurityControlsQA secControl;	
 	static SecurityControlRatings secControlRatings = new SecurityControlRatings();
 
 	private List<SecurityControlRatings>lstSCR;
 	
-	private List<SecurityControls> scList = new ArrayList<SecurityControls>();	
+	private List<SecurityControlsQA> scList = new ArrayList<SecurityControlsQA>();	
 	// constructor
-	public SecurityControlBean() {
-		System.out.println("*** in SecurityControls constructor ***");
+	public SecurityControlBeanBusiness() {
+		System.out.println("*** in SecurityControlsBeanBusiness constructor ***");
 	}
 	
 	@PostConstruct
 	public void init() {
-		System.out.println("*** in SecurityControls init ***");
+		System.out.println("*** in SecurityControlsBeanBusiness init ***");
 		session = SessionUtils.getOrgDBSession(currentUser.getOrgKeyspace());
 		//TODO: NOT USING auditUpsert class now, should we??
 				MappingManager manager = new MappingManager(session);
@@ -125,9 +132,6 @@ public class SecurityControlBean  implements Serializable {
 		//called on initialization the form
 		System.out.println("in LoadFormData");
 		
-		//TODO: Check if data already saved, if so, pull from keyspace.org_security_controls  ELSE pull from appl_auth.security_controls
-		
-		
 		//first grab all data to define: ID, security control question, drop-down answers
 		query = "SELECT security_control_group, security_control_id, rating, security_control FROM appl_auth.security_controls " + 
 				"WHERE security_control_group =?";
@@ -137,7 +141,14 @@ public class SecurityControlBean  implements Serializable {
 		resultSet = session.execute(bound);
 		
 		// clear out any old content before retrieving new database info
+		this.siteID = null;
+		this.businessID = null;
 		scList.clear();
+		siteList.clear();
+		businessList.clear();
+
+		populateSiteList();		//populate the site drop-down list
+
 		iterator = resultSet.iterator();			
 		String questionID = "";
 		while (iterator.hasNext()) {
@@ -145,34 +156,17 @@ public class SecurityControlBean  implements Serializable {
 				questionID =  row.getString("security_control_id").toUpperCase().trim() ;
 				securityControlText = row.getString("security_control");				
 				lstSCR = row.getList("rating", SecurityControlRatings.class);
-				secControl = new SecurityControls(questionID, lstSCR, securityControlText);
+				secControl = new SecurityControlsQA(questionID, lstSCR, securityControlText);
 				scList.add(secControl);	
 		}
 
-		Iterator<SecurityControls> itSEC = scList.iterator();
+		Iterator<SecurityControlsQA> itSEC = scList.iterator();
 		while (itSEC.hasNext()) {
 			secControl = itSEC.next();
 			getQuestions_Answers(secControl.getID());
 		}
-		
+		//TODO: FOr existing forms do we want to have them select the site and businessID then pull it up??
 		//determine if survey already saved, if so, set Selected values
-		if (checkExistingSurveyResults() > 0) {
-			query = "SELECT security_control_id, security_control, category, description FROM org_security_controls where security_control_group=?"; 
-			prepared = session.prepare(query);
-			bound = prepared.bind(userSecGroup);
-			resultSet = session.execute(bound);
-			iterator = resultSet.iterator();
-			String secID, category;
-			while (iterator.hasNext()) {
-					row = iterator.next();
-					secID = row.getString("security_control_id");
-					category = row.getString("category");
-					populateSelectedValues(secID, category);
-					calculateRS(category, secID);
-			}	
-			this.rsValue = this.rsValue/30;
-			//System.out.println("rsval: " + rsValue);
-		}	
 
 	}		//end LoadFormData()
 	
@@ -270,7 +264,41 @@ public class SecurityControlBean  implements Serializable {
 			break;
 		}	// end switch
 	}
-	
+
+	private void resetAnswers() {
+	System.out.println("in resetAnswers");
+		this.selectedaACX = "";	
+			this.selectedaBCM = "";	
+			this.selectedaCLD  = "";
+			this.selectedaCLS  = "";
+			this.selectedaCPM  = "";
+			this.selectedaCPO  = "";
+			this.selectedaCSO  = "";
+			this.selectedaDLP  = "";
+			this.selectedaDOS  = "";
+			this.selectedaECR  = "";
+			this.selectedaEMP  = "";
+			this.selectedaEMS  = "";
+			this.selectedaEXS  = "";
+			this.selectedaFW1  = "";
+			this.selectedaIAM  = "";
+			this.selectedaIDS  = "";
+			this.selectedaINS  = "";
+			this.selectedaIRT  = "";
+			this.selectedaMFA  = "";
+			this.selectedaMOB  = "";
+			this.selectedaPNT  = "";
+			this.selectedaSAT  = "";
+			this.selectedaSEG  = "";
+			this.selectedaSIM  = "";
+			this.selectedaSTF  = "";
+			this.selectedaTIP  = "";
+			this.selectedaVLN  = "";
+			this.selectedaVPN  = "";
+			this.selectedaWCF  = "";
+			this.selectedaWLS  = "";
+	}
+
 	private void calculateRS(String category, String secID) {
 		//calculate the resistance strength 
 		double newRSValue = 0.00;
@@ -303,21 +331,19 @@ public class SecurityControlBean  implements Serializable {
 	
 	private long checkExistingSurveyResults() {
 		long returnVal = (long) 0;
-	// determine if the survey answers already exist if so, set the query to pull from the org.org_security_controls table
-		query = "select count(*) from org_security_controls where security_control_group=?";
-		prepared = session.prepare(query);
-		bound = prepared.bind(userSecGroup);
-		resultSet = session.execute(bound);
-		row = resultSet.one();
-		//Double count = row.getDecimal("count").doubleValue();
-		long count = row.getLong("count");
-		if (count > 0) {
-			returnVal = count;
-		}
-			
+			// determine if the survey answers already exist if so, set the query to pull from the org.org_security_controls table
+			query = "select count(*) from business_value_security_controls where site_id=? and business_process_id=? and security_control_group=?";
+			prepared = session.prepare(query);
+			bound = prepared.bind(siteID, businessID, userSecGroup);
+			resultSet = session.execute(bound);
+			row = resultSet.one();
+			//Double count = row.getDecimal("count").doubleValue();
+			long count = row.getLong("count");
+			if (count > 0) {
+				returnVal = count;
+			}	
 		return returnVal;
 	}
-	
 	
 	public void getQuestions_Answers(String ID) {
 		
@@ -462,6 +488,87 @@ public class SecurityControlBean  implements Serializable {
 			return ic;
 	}
 
+	public void listenSite(ValueChangeEvent event) {
+		Object newValue = event.getNewValue();
+		this.siteID = UUID.fromString(newValue.toString());
+		populateBusinessProcesses(this.siteID);
+	}
+	
+	public void listenBusiness(ValueChangeEvent event) {
+		Object newValue = event.getNewValue();
+		this.businessID = UUID.fromString(newValue.toString());
+		System.out.println("in listenBusiness: " + siteID + "/" + businessID + "/" + userSecGroup);
+		if (checkExistingSurveyResults() > 0) {
+			query = "SELECT site_id, business_process_id, security_control_group, security_control_id, category, description, security_control " + 
+					"FROM business_value_security_controls " + 
+					"where site_id=? and  business_process_id=? and security_control_group=?" ;
+			prepared = session.prepare(query);
+			bound = prepared.bind(siteID, businessID, userSecGroup);
+			resultSet = session.execute(bound);
+			iterator = resultSet.iterator();
+			String secID, category;
+			while (iterator.hasNext()) {
+					row = iterator.next();
+					secID = row.getString("security_control_id");
+					category = row.getString("category");
+					populateSelectedValues(secID, category);
+					calculateRS(category, secID);
+					this.siteID = row.getUUID("site_id");
+					populateBusinessProcesses(this.siteID);
+					this.businessID=row.getUUID("business_process_id");
+			}	
+			this.rsValue = this.rsValue/30;
+			System.out.println("rsval: " + rsValue);
+		} else {
+			//reset form controls
+			resetAnswers();
+			this.rsValue = 0.0;
+		}	
+	}
+	
+	public void populateSiteList() {
+		System.out.println("in populateSiteList");
+		this.siteList.clear();
+		
+		//load drop-down for site
+		UUID dbSiteID = UUID.randomUUID();
+		//SelectItem siSite = new SelectItem();
+		String queryS = "select site_id, site_name FROM sites";
+		PreparedStatement preparedS = session.prepare(queryS);
+		BoundStatement boundS = preparedS.bind();			
+		ResultSet rsS = session.execute(boundS);
+		Iterator<Row> itSites = rsS.iterator();
+		Row rowSites;	
+		// Set the first entry to a user prompt
+		this.siteList.put(UUID.randomUUID(), "Select a site name");
+		while (itSites.hasNext()) {
+			rowSites = itSites.next();			
+			dbSiteID = rowSites.getUUID("site_id");
+			siteName = rowSites.getString("site_name");
+			this.siteList.put(dbSiteID, siteName);
+		}	//end while
+	}		//end populateSiteList()
+	
+	public void populateBusinessProcesses(UUID siteID) {
+		this.businessList.clear();
+		//SelectItem siBusiness = new SelectItem();
+		UUID dbBusinessID = UUID.randomUUID();
+		String queryBP = "select business_process_name, business_process_id from business_value_attribution where site_id=?"; 
+		PreparedStatement preparedBP = session.prepare(queryBP);
+		BoundStatement boundBP = preparedBP.bind(siteID);			
+		ResultSet rsBP = session.execute(boundBP);
+		Iterator<Row> itBPs = rsBP.iterator();
+		Row rowBPs;
+		// Set the first entry to a user prompt
+		this.businessList.put(UUID.randomUUID(), "Select a business name");
+		while (itBPs.hasNext()) {
+			rowBPs = itBPs.next();
+			dbBusinessID = rowBPs.getUUID("business_Process_id");
+			businessName = rowBPs.getString("business_process_name");
+			this.businessList.put(dbBusinessID, businessName);
+		}	//end while
+	}
+
 	private String savetoTable(String selectedCategory, String selectedDescription, String securityControlID) {
 		String result = "n/a";
 		BigDecimal score = new BigDecimal(0);
@@ -498,194 +605,214 @@ public class SecurityControlBean  implements Serializable {
 	public String saveSurvey() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
 	//Define and prepare query statements so they are only prepared once
 		
-	queryImpactCost = "SELECT impact_cost FROM appl_auth.data_breach_cost_controls WHERE country = ? AND year = ? AND  security_control_id = ? " ;
-	preparedIC = session.prepare(queryImpactCost);
-
-	querySecurityControls = "INSERT INTO org_security_controls (security_control_group, security_control_id, apply_impact_cost, category, cost_type, description, impact_cost, impacts_resistance_strength, score, security_control) " +
-							"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" ;
-	preparedSC = session.prepare(querySecurityControls);
+		queryImpactCost = "SELECT impact_cost FROM appl_auth.data_breach_cost_controls WHERE country = ? AND year = ? AND  security_control_id = ? " ;
+		preparedIC = session.prepare(queryImpactCost);
 	
-	
-	Iterator<SecurityControls> itSC = scList.iterator();
-	String result;
-	while (itSC.hasNext()) {
-		secControl = itSC.next();
-		switch (secControl.getID()) {
-		case "ACX": 
-			if (!this.getSelectedaACX().isEmpty()) {
-				result = savetoTable(this.getSelectedaACX(), answersACX.get(this.getSelectedaACX()), secControl.getID());
-				//System.out.println(result);
-			}	
-		case "BCM":
-			if (!this.getSelectedaBCM().isEmpty()) {
-				result = savetoTable(this.getSelectedaBCM(), answersBCM.get(this.getSelectedaBCM()), secControl.getID());
-				//System.out.println(result);
-			}	
-		case "CLD":
-			if (!this.getSelectedaCLD().isEmpty()) {
-				result = savetoTable(this.getSelectedaCLD(), answersCLD.get(this.getSelectedaCLD()), secControl.getID());
-				//System.out.println(result);
-			}				
-		case "CLS":
-			if (!this.getSelectedaCLS().isEmpty()) {
-				result = savetoTable(this.getSelectedaCLS(), answersCLS.get(this.getSelectedaCLS()), secControl.getID());
-				//System.out.println(result);
-			}				
-		case "CPM":
-			if (!this.getSelectedaCPM().isEmpty()) {
-				result = savetoTable(this.getSelectedaCPM(), answersCPM.get(this.getSelectedaCPM()), secControl.getID());
-				//System.out.println(result);
-			}				
-		case "CPO":
-			if (!this.getSelectedaCPO().isEmpty()) {
-				result = savetoTable(this.getSelectedaCPO(), answersCPO.get(this.getSelectedaCPO()), secControl.getID());
-				//System.out.println(result);
-			}				
-		case "CSO":
-			if (!this.getSelectedaCSO().isEmpty()) {
-				result = savetoTable(this.getSelectedaCSO(), answersCSO.get(this.getSelectedaCSO()), secControl.getID());
-				//System.out.println(result);
-			}				 
-		case "DLP":
-			if (!this.getSelectedaDLP().isEmpty()) {
-				result = savetoTable(this.getSelectedaDLP(), answersDLP.get(this.getSelectedaDLP()), secControl.getID());
-				//System.out.println(result);
-			}				
-		case "DOS":
-			if (!this.getSelectedaDOS().isEmpty()) {
-				result = savetoTable(this.getSelectedaDOS(), answersDOS.get(this.getSelectedaDOS()), secControl.getID());
-				//System.out.println(result);
-			}				
-		case "ECR":
-			if (!this.getSelectedaECR().isEmpty()) {
-				result = savetoTable(this.getSelectedaECR(), answersECR.get(this.getSelectedaECR()), secControl.getID());
-				//System.out.println(result);
-			}				
-		case "EMP":
-			if (!this.getSelectedaEMP().isEmpty()) {
-				result = savetoTable(this.getSelectedaEMP(), answersEMP.get(this.getSelectedaEMP()), secControl.getID());
-				//System.out.println(result);
-			}							
-		case "EMS":
-			if (!this.getSelectedaEMS().isEmpty()) {
-				result = savetoTable(this.getSelectedaEMS(), answersEMP.get(this.getSelectedaEMS()), secControl.getID());
-				//System.out.println(result);
-			}
-		case "EXS":
-			lstSCR.clear();
-			if (!this.getSelectedaEXS().isEmpty()) {
-				result = savetoTable(this.getSelectedaEXS(), answersEXS.get(this.getSelectedaEXS()), secControl.getID());
-				//System.out.println(result);
-			}			
-		case "FW1":
-			if (!this.getSelectedaFW1().isEmpty()) {
-				result = savetoTable(this.getSelectedaFW1(), answersFW1.get(this.getSelectedaFW1()), secControl.getID());
-				//System.out.println(result);
-			}			
-		case "IAM":
-			if (!this.getSelectedaIAM().isEmpty()) {
-				result = savetoTable(this.getSelectedaIAM(), answersIAM.get(this.getSelectedaIAM()), secControl.getID());
-				//System.out.println(result);
-			}			
-		case "IDS":
-			lstSCR.clear();
-			if (!this.getSelectedaIDS().isEmpty()) {
-				result = savetoTable(this.getSelectedaIDS(), answersIDS.get(this.getSelectedaIDS()), secControl.getID());
-				//System.out.println(result);
-			}			
-		case "INS":
-			if (!this.getSelectedaINS().isEmpty()) {
-				result = savetoTable(this.getSelectedaINS(), answersINS.get(this.getSelectedaINS()), secControl.getID());
-				//System.out.println(result);
-			}			
-		case "IRT":
-			lstSCR.clear();
-			if (!this.getSelectedaIRT().isEmpty()) {
-				result = savetoTable(this.getSelectedaIRT(), answersIRT.get(this.getSelectedaIRT()), secControl.getID());
-				//System.out.println(result);
-			}			
-		case "MFA":
-			if (!this.getSelectedaMFA().isEmpty()) {
-				result = savetoTable(this.getSelectedaMFA(), answersMFA.get(this.getSelectedaMFA()), secControl.getID());
-				//System.out.println(result);
-			}			
-		case "MOB":
-			if (!this.getSelectedaMOB().isEmpty()) {
-				result = savetoTable(this.getSelectedaMOB(), answersMOB.get(this.getSelectedaMOB()), secControl.getID());
-				//System.out.println(result);
-			}			
-		case "PNT":
-			if (!this.getSelectedaPNT().isEmpty()) {
-				result = savetoTable(this.getSelectedaPNT(), answersPNT.get(this.getSelectedaPNT()), secControl.getID());
-				//System.out.println(result);
-			}			
-		case "SAT":
-			if (!this.getSelectedaSAT().isEmpty()) {
-				result = savetoTable(this.getSelectedaSAT(), answersSAT.get(this.getSelectedaSAT()), secControl.getID());
-				//System.out.println(result);
-			}			
-		case "SEG":
-			if (!this.getSelectedaSEG().isEmpty()) {
-				result = savetoTable(this.getSelectedaSEG(), answersSEG.get(this.getSelectedaSEG()), secControl.getID());
-				//System.out.println(result);
-			}			
-		case "SIM":
-			if (!this.getSelectedaSIM().isEmpty()) {
-				result = savetoTable(this.getSelectedaSIM(), answersSIM.get(this.getSelectedaSIM()), secControl.getID());
-				//System.out.println(result);
-			}						
-		case "STF":
-			if (!this.getSelectedaSTF().isEmpty()) {
-				result = savetoTable(this.getSelectedaSTF(), answersSTF.get(this.getSelectedaSTF()), secControl.getID());
-				//System.out.println(result);
-			}			
-		case "TIP":
-			if (!this.getSelectedaTIP().isEmpty()) {
-				result = savetoTable(this.getSelectedaTIP(), answersTIP.get(this.getSelectedaTIP()), secControl.getID());
-				//System.out.println(result);
-			}			
-		case "VLN":
-			if (!this.getSelectedaVLN().isEmpty()) {
-				result = savetoTable(this.getSelectedaVLN(), answersVLN.get(this.getSelectedaVLN()), secControl.getID());
-				//System.out.println(result);
-			}			
-		case "VPN":
-			if (!this.getSelectedaVPN().isEmpty()) {
-				result = savetoTable(this.getSelectedaVPN(), answersVPN.get(this.getSelectedaVPN()), secControl.getID());
-				//System.out.println(result);
-			}			
-		case "WCF":
-			if (!this.getSelectedaWCF().isEmpty()) {
-				result = savetoTable(this.getSelectedaWCF(), answersWCF.get(this.getSelectedaWCF()), secControl.getID());
-				//System.out.println(result);
-			}			
-		case "WLS":
-			if (!this.getSelectedaWLS().isEmpty()) {
-				result = savetoTable(this.getSelectedaWLS(), answersWLS.get(this.getSelectedaWLS()), secControl.getID());
-				//System.out.println(result);
-			}			
-		}		//end switch
-	}		//end while itSC
+		querySecurityControls = "INSERT INTO business_value_security_controls (site_id, business_process_id, security_control_group, security_control_id, apply_impact_cost, category, cost_type, description, impact_cost, impacts_resistance_strength, score, security_control) " +
+								"VALUES (" + this.siteID + ", " + this.businessID + ",?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" ;
+		
+		preparedSC = session.prepare(querySecurityControls);
+		Iterator<SecurityControlsQA> itSC = scList.iterator();
+		String result;
+		while (itSC.hasNext()) {
+			secControl = itSC.next();
+			switch (secControl.getID()) {
+			case "ACX": 
+				if (!this.getSelectedaACX().isEmpty()) {
+					result = savetoTable(this.getSelectedaACX(), answersACX.get(this.getSelectedaACX()), secControl.getID());
+					//System.out.println(result);
+				}	
+			case "BCM":
+				if (!this.getSelectedaBCM().isEmpty()) {
+					result = savetoTable(this.getSelectedaBCM(), answersBCM.get(this.getSelectedaBCM()), secControl.getID());
+					//System.out.println(result);
+				}	
+			case "CLD":
+				if (!this.getSelectedaCLD().isEmpty()) {
+					result = savetoTable(this.getSelectedaCLD(), answersCLD.get(this.getSelectedaCLD()), secControl.getID());
+					//System.out.println(result);
+				}				
+			case "CLS":
+				if (!this.getSelectedaCLS().isEmpty()) {
+					result = savetoTable(this.getSelectedaCLS(), answersCLS.get(this.getSelectedaCLS()), secControl.getID());
+					//System.out.println(result);
+				}				
+			case "CPM":
+				if (!this.getSelectedaCPM().isEmpty()) {
+					result = savetoTable(this.getSelectedaCPM(), answersCPM.get(this.getSelectedaCPM()), secControl.getID());
+					//System.out.println(result);
+				}				
+			case "CPO":
+				if (!this.getSelectedaCPO().isEmpty()) {
+					result = savetoTable(this.getSelectedaCPO(), answersCPO.get(this.getSelectedaCPO()), secControl.getID());
+					//System.out.println(result);
+				}				
+			case "CSO":
+				if (!this.getSelectedaCSO().isEmpty()) {
+					result = savetoTable(this.getSelectedaCSO(), answersCSO.get(this.getSelectedaCSO()), secControl.getID());
+					//System.out.println(result);
+				}				 
+			case "DLP":
+				if (!this.getSelectedaDLP().isEmpty()) {
+					result = savetoTable(this.getSelectedaDLP(), answersDLP.get(this.getSelectedaDLP()), secControl.getID());
+					//System.out.println(result);
+				}				
+			case "DOS":
+				if (!this.getSelectedaDOS().isEmpty()) {
+					result = savetoTable(this.getSelectedaDOS(), answersDOS.get(this.getSelectedaDOS()), secControl.getID());
+					//System.out.println(result);
+				}				
+			case "ECR":
+				if (!this.getSelectedaECR().isEmpty()) {
+					result = savetoTable(this.getSelectedaECR(), answersECR.get(this.getSelectedaECR()), secControl.getID());
+					//System.out.println(result);
+				}				
+			case "EMP":
+				if (!this.getSelectedaEMP().isEmpty()) {
+					result = savetoTable(this.getSelectedaEMP(), answersEMP.get(this.getSelectedaEMP()), secControl.getID());
+					//System.out.println(result);
+				}							
+			case "EMS":
+				if (!this.getSelectedaEMS().isEmpty()) {
+					result = savetoTable(this.getSelectedaEMS(), answersEMP.get(this.getSelectedaEMS()), secControl.getID());
+					//System.out.println(result);
+				}
+			case "EXS":
+				lstSCR.clear();
+				if (!this.getSelectedaEXS().isEmpty()) {
+					result = savetoTable(this.getSelectedaEXS(), answersEXS.get(this.getSelectedaEXS()), secControl.getID());
+					//System.out.println(result);
+				}			
+			case "FW1":
+				if (!this.getSelectedaFW1().isEmpty()) {
+					result = savetoTable(this.getSelectedaFW1(), answersFW1.get(this.getSelectedaFW1()), secControl.getID());
+					//System.out.println(result);
+				}			
+			case "IAM":
+				if (!this.getSelectedaIAM().isEmpty()) {
+					result = savetoTable(this.getSelectedaIAM(), answersIAM.get(this.getSelectedaIAM()), secControl.getID());
+					//System.out.println(result);
+				}			
+			case "IDS":
+				lstSCR.clear();
+				if (!this.getSelectedaIDS().isEmpty()) {
+					result = savetoTable(this.getSelectedaIDS(), answersIDS.get(this.getSelectedaIDS()), secControl.getID());
+					//System.out.println(result);
+				}			
+			case "INS":
+				if (!this.getSelectedaINS().isEmpty()) {
+					result = savetoTable(this.getSelectedaINS(), answersINS.get(this.getSelectedaINS()), secControl.getID());
+					//System.out.println(result);
+				}			
+			case "IRT":
+				lstSCR.clear();
+				if (!this.getSelectedaIRT().isEmpty()) {
+					result = savetoTable(this.getSelectedaIRT(), answersIRT.get(this.getSelectedaIRT()), secControl.getID());
+					//System.out.println(result);
+				}			
+			case "MFA":
+				if (!this.getSelectedaMFA().isEmpty()) {
+					result = savetoTable(this.getSelectedaMFA(), answersMFA.get(this.getSelectedaMFA()), secControl.getID());
+					//System.out.println(result);
+				}			
+			case "MOB":
+				if (!this.getSelectedaMOB().isEmpty()) {
+					result = savetoTable(this.getSelectedaMOB(), answersMOB.get(this.getSelectedaMOB()), secControl.getID());
+					//System.out.println(result);
+				}			
+			case "PNT":
+				if (!this.getSelectedaPNT().isEmpty()) {
+					result = savetoTable(this.getSelectedaPNT(), answersPNT.get(this.getSelectedaPNT()), secControl.getID());
+					//System.out.println(result);
+				}			
+			case "SAT":
+				if (!this.getSelectedaSAT().isEmpty()) {
+					result = savetoTable(this.getSelectedaSAT(), answersSAT.get(this.getSelectedaSAT()), secControl.getID());
+					//System.out.println(result);
+				}			
+			case "SEG":
+				if (!this.getSelectedaSEG().isEmpty()) {
+					result = savetoTable(this.getSelectedaSEG(), answersSEG.get(this.getSelectedaSEG()), secControl.getID());
+					//System.out.println(result);
+				}			
+			case "SIM":
+				if (!this.getSelectedaSIM().isEmpty()) {
+					result = savetoTable(this.getSelectedaSIM(), answersSIM.get(this.getSelectedaSIM()), secControl.getID());
+					//System.out.println(result);
+				}						
+			case "STF":
+				if (!this.getSelectedaSTF().isEmpty()) {
+					result = savetoTable(this.getSelectedaSTF(), answersSTF.get(this.getSelectedaSTF()), secControl.getID());
+					//System.out.println(result);
+				}			
+			case "TIP":
+				if (!this.getSelectedaTIP().isEmpty()) {
+					result = savetoTable(this.getSelectedaTIP(), answersTIP.get(this.getSelectedaTIP()), secControl.getID());
+					//System.out.println(result);
+				}			
+			case "VLN":
+				if (!this.getSelectedaVLN().isEmpty()) {
+					result = savetoTable(this.getSelectedaVLN(), answersVLN.get(this.getSelectedaVLN()), secControl.getID());
+					//System.out.println(result);
+				}			
+			case "VPN":
+				if (!this.getSelectedaVPN().isEmpty()) {
+					result = savetoTable(this.getSelectedaVPN(), answersVPN.get(this.getSelectedaVPN()), secControl.getID());
+					//System.out.println(result);
+				}			
+			case "WCF":
+				if (!this.getSelectedaWCF().isEmpty()) {
+					result = savetoTable(this.getSelectedaWCF(), answersWCF.get(this.getSelectedaWCF()), secControl.getID());
+					//System.out.println(result);
+				}			
+			case "WLS":
+				if (!this.getSelectedaWLS().isEmpty()) {
+					result = savetoTable(this.getSelectedaWLS(), answersWLS.get(this.getSelectedaWLS()), secControl.getID());
+					//System.out.println(result);
+				}			
+			}		//end switch
+		}		//end while itSC
 
-		return null;		//"dashboard-mission-process-impact-dod.jsf";
+		if (currentUser.getOrgKeyspace().equals("dod")) {
+			return "dashboard-mission-process-impact-dod.jsf";
+		} else {
+			return "dashboard-mission-process-impact.jsf";
+		}
+		
 	}
 	
 	
 	//>>>>>>>>>>>>>>>>>>>>>>>>GETTERS/SETTERS<<<<<<<<<<<<<<<<<<<<<<<<//
 	
-	public List<SecurityControls> getScList() {
+	public List<SecurityControlsQA> getScList() {
 		return scList;
 	}
 
-	public void setScList(List<SecurityControls> scList) {
+	public UUID getSiteID() {
+		return siteID;
+	}
+
+	public void setSiteID(UUID siteID) {
+		this.siteID = siteID;
+	}
+
+	public UUID getBusinessID() {
+		return businessID;
+	}
+
+	public void setBusinessID(UUID businessID) {
+		this.businessID = businessID;
+	}
+
+	public void setScList(List<SecurityControlsQA> scList) {
 		this.scList = scList;
 	}
 
-	public SecurityControls getSecControl() {
+	public SecurityControlsQA getSecControl() {
 		return secControl;
 	}
 
-	public void setSecControl(SecurityControls secControl) {
+	public void setSecControl(SecurityControlsQA secControl) {
 		this.secControl = secControl;
 	}
 
@@ -1441,6 +1568,22 @@ public class SecurityControlBean  implements Serializable {
 		this.answersWLS = answersWLS;
 	}
 
+	public LinkedHashMap<UUID, String> getSiteList() {
+		return siteList;
+	}
+
+	public void setSiteList(LinkedHashMap<UUID, String> siteList) {
+		this.siteList = siteList;
+	}
+
+	public LinkedHashMap<UUID, String> getBusinessList() {
+		return businessList;
+	}
+
+	public void setBusinessList(LinkedHashMap<UUID, String> businessList) {
+		this.businessList = businessList;
+	}
+
 	public String getUserCountry() {
 		return userCountry;
 	}
@@ -1450,4 +1593,4 @@ public class SecurityControlBean  implements Serializable {
 	}
 	
 	
-}		//end class SecurityControls
+}		//end class SecurityControlsBeanBusiness
