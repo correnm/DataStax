@@ -12,6 +12,10 @@
 		<ui:insert name="document-title">This Page Needs a Document Title</ui:insert>
 	</title>
 
+	<ui:insert name="head-javascript">
+		<script type="text/javascript"></script>
+	</ui:insert>
+
 	<h:outputStylesheet name="styles.css" library="css" position="last" />
 
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
@@ -56,6 +60,10 @@
 </b:row>
 
 </b:container>
+
+<ui:insert name="body-javascript">
+	<script type="text/javascript"></script>
+</ui:insert>
 
 </h:body>
 </html>
