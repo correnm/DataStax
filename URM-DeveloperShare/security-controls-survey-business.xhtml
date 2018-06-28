@@ -1,0 +1,525 @@
+<!--  
+Author: 	Tammy Bogart, G2 Ops, Virginia Beach, VA
+Version:	1.00, June 2018
+
+Purpose: 	this is a survey the customers fill out 
+			regarding their security posture.
+
+Modifications
+Date			Name			Description
+6.20.18			tammy.bogart	created	
+ -->
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-page-form.xhtml">
+	
+	<ui:define name="document-title">Business Security Controls Worksheet</ui:define>
+	
+	<ui:define name="page-name">Analytics:&#160;<strong>Business Security Controls Worksheet</strong></ui:define>
+
+	<ui:define name="head-javascript">
+		<script type="text/javascript" src="#{request.contextPath}/resources/js/fusioncharts.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/resources/js/fusioncharts.charts.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/resources/js/fusioncharts.powercharts.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/resources/js/fusioncharts.widgets.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/resources/js/fusioncharts-jquery-plugin.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/resources/js/themes/fusioncharts.theme.g2ops.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/resources/js/pages/FusionChartsLinearguage.js"></script>
+	</ui:define>
+
+	<ui:define name="full-page-form">
+		<b:form id="frmMain">
+			<h:inputHidden type="hidden" name="qCount" id="qCount" />
+			<b:inputText type="hidden" name="RSValue" id="RSValue" value="#{securityControlBeanBusiness.rsValue}" />
+			<b:inputText type="hidden" name="sesQAMap" id="sesQAMap" value="${securityControlBeanBusiness.sesQAList}" />
+			<b:panel id="pnlMain" look="default">
+				<b:panel id="pnlColl" title="Business Processes Security Controls Worksheet" collapsible="false" >
+					<div id="chart-container" style="text-align:center; background:white;">FusionCharts XT will load here!</div>
+					<span class="rowSpace"><br/></span>
+					<b:panel collapsible="false">
+						<b:selectOneMenu label="Site Name" id="siteID" value="#{securityControlBeanBusiness.siteID}" ajax="true" 
+										valueChangeListener="#{securityControlBeanBusiness.listenSite}" tooltip="Choose a site" required="true">
+							<f:selectItems value="#{securityControlBeanBusiness.siteList.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							<f:ajax event="change" execute="@this" render="businessID" />
+						</b:selectOneMenu>							
+						<b:selectOneMenu label="Business Process Name" id="businessID" value="#{securityControlBeanBusiness.businessID}" tooltip="Choose your business process name"
+										ajax="true" valueChangeListener="#{securityControlBeanBusiness.listenBusiness}" required="true" oncomplete="location.reload(true);">
+							<f:selectItems value="#{securityControlBeanBusiness.businessList.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							<f:ajax event="change" execute="@this"/>
+						</b:selectOneMenu>
+						<b:carousel id="wizard" styleClass="wizardPseudoClass" offset="2" col-md="three-fourths" wrap="false" 
+								style="padding-top:20px;padding-bottom:5px;" startAnimation="false" showIndicators="true" interval="false">
+						<b:carouselItem style="width:90%; height:330px;" id="cItemQ1">						      		
+				      		<b:panel title="Question 1 of 30" look="default" styleClass="panelTitleBar" collapsible="false" id="pnlQ1" >
+				      			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qACX}: "/>
+				      			<span class="rowSpace"><br/><br/></span>  
+		        				<b:radiobutton layout="pageDirection" id="selectedaACX" value="#{securityControlBeanBusiness.selectedaACX}" tooltip="" ajax="true"
+		        					onclick="getValue(this.value, 'ACX');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersACX.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+								</b:radiobutton>
+			    			</b:panel>
+			    			 <b:focus rendered="true" />
+					    </b:carouselItem>
+					<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 2 of 30" look="default" id="pnl2" name="pnl2" styleClass="panelTitleBar"  collapsible="false">
+					      		<h:outputText style="font-weight:bold;"  value="#{securityControlBeanBusiness.qBCM}: "/>
+				        		<span class="rowSpace"><br/><br/></span>
+				        		<b:radiobutton layout="pageDirection" id="selectedaBCM" value="#{securityControlBeanBusiness.selectedaBCM}" tooltip="" ajax="true" 
+				        			onclick="getValue(this.value, 'BCM');" update="@form" >
+				        			 <!-- valueChangeListener="#{securityControlBeanBusiness.valueChanged}"   -->
+									<f:selectItems value="#{securityControlBeanBusiness.answersBCM.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+								</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;" id="question3" name="question3" >					      		
+				      		<b:panel title="Question 3 of 30" look="default" styleClass="panelTitleBar"  collapsible="false" >
+			      			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qCLD}: "/>
+				        		<span class="rowSpace"><br/><br/></span>
+				        		<b:radiobutton layout="pageDirection" id="selectedaCLD" value="#{securityControlBeanBusiness.selectedaCLD}"  tooltip="" ajax="true" 
+				        			 update="@form" onclick="getValue(this.value, 'CLD');" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersCLD.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+								</b:radiobutton>
+				      		</b:panel>
+					    </b:carouselItem>
+					<b:carouselItem style="width:90%; height:330px;"  id="question4" name="question4" >					      		
+				      		<b:panel title="Question 4 of 30" look="default" styleClass="panelTitleBar"  collapsible="false" >
+						      	<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qCLS}: "/>
+				      			<span class="rowSpace"><br/><br/></span>
+				        		<b:radiobutton layout="pageDirection" id="selectedaCLS" value="#{securityControlBeanBusiness.selectedaCLS}"  tooltip="" ajax="true" 
+				        			 update="@form" onclick="getValue(this.value, 'CLS');" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersCLS.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+								</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 5 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+				    			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qCPM}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaCPM" value="#{securityControlBeanBusiness.selectedaCPM}"  tooltip="" ajax="true" 
+				        			 update="@form" onclick="getValue(this.value, 'CPM');" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersCPM.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+								</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 6 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qCPO}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaCPO" value="#{securityControlBeanBusiness.selectedaCPO}"  tooltip="" ajax="true" 
+				        			 onclick="getValue(this.value, 'CPO');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersCPO.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 7 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qCSO}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaCSO" value="#{securityControlBeanBusiness.selectedaCSO}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'CSO');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersCSO.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 8 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qDLP}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaDLP" value="#{securityControlBeanBusiness.selectedaDLP}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'DLP');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersDLP.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 9 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qDOS}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaDOS" value="#{securityControlBeanBusiness.selectedaDOS}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'DOS');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersDOS.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 10 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qECR}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaECR" value="#{securityControlBeanBusiness.selectedaECR}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'ECR');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersECR.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 11 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qEMP}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaEMP" value="#{securityControlBeanBusiness.selectedaEMP}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'EMP');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersEMP.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 12 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qEMS}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaEMS" value="#{securityControlBeanBusiness.selectedaEMS}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'EMS');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersEMS.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 13 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qEXS}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaEXS" value="#{securityControlBeanBusiness.selectedaEXS}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'EXS');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersEXS.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 14 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qFW1}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaFW1" value="#{securityControlBeanBusiness.selectedaFW1}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'FW1');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersFW1.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 15 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qIAM}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaIAM" value="#{securityControlBeanBusiness.selectedaIAM}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'IAM');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersIAM.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 16 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qIDS}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaIDS" value="#{securityControlBeanBusiness.selectedaIDS}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'IDS');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersIDS.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 17 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qINS}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaINS" value="#{securityControlBeanBusiness.selectedaINS}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'INS');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersINS.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 18 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qIRT}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaIRT" value="#{securityControlBeanBusiness.selectedaIRT}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'IRT');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersIRT.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 19 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qMFA}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaMFA" value="#{securityControlBeanBusiness.selectedaMFA}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'MFA');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersMFA.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 20 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qMOB}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaMOB" value="#{securityControlBeanBusiness.selectedaMOB}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'MOB');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersMOB.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 21 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qPNT}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaPNT" value="#{securityControlBeanBusiness.selectedaPNT}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'PNT');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersPNT.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 22 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qSAT}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaSAT" value="#{securityControlBeanBusiness.selectedaSAT}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'SAT');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersSAT.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 23 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qSEG}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaSEG" value="#{securityControlBeanBusiness.selectedaSEG}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'SEG');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersSEG.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 24 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qSIM}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaSIM" value="#{securityControlBeanBusiness.selectedaSIM}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'SIM');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersSIM.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 25 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qSTF}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaSTF" value="#{securityControlBeanBusiness.selectedaSTF}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'STF');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersSTF.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 26 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qTIP}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaTIP" value="#{securityControlBeanBusiness.selectedaTIP}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'TIP');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersTIP.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+							<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 27 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qVLN}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaVLN" value="#{securityControlBeanBusiness.selectedaVLN}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'VLN');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersVLN.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 28 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qVPN}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaVPN" value="#{securityControlBeanBusiness.selectedaVPN}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'VPN');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersVPN.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;">						      		
+				      		<b:panel title="Question 29 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qWCF}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaWCF" value="#{securityControlBeanBusiness.selectedaWCF}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'WCF');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersWCF.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselItem style="width:90%; height:330px;" id="question30" name="question30" update="@form:btnNext">						      		
+				      		<b:panel title="Question 30 of 30" look="default" styleClass="panelTitleBar"  collapsible="false">
+					   			<h:outputText style="font-weight:bold;" value="#{securityControlBeanBusiness.qWLS}: "/>
+				       			<span class="rowSpace"><br/><br/></span>
+				       			<b:radiobutton layout="pageDirection" id="selectedaWLS" value="#{securityControlBeanBusiness.selectedaWLS}"  tooltip="" immediate="true" ajax="true" 
+				        			 onclick="getValue(this.value, 'WLS');" update="@form" >
+									<f:selectItems value="#{securityControlBeanBusiness.answersWLS.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							</b:radiobutton>
+			    			</b:panel>
+					    </b:carouselItem>
+						<b:carouselControl id="prevButton" direction="right">
+								<b:button value="Previous step" id="btnPrev" look="default"
+										onclick="$('.wizardPseudoClass').carousel('prev');$('.wizardPseudoClass').carousel('pause'); updateCount('prev');"/>
+							</b:carouselControl>
+							<b:carouselControl id="nextButton" direction="left">
+								<b:button value="Next step" id="btnNext" style="position:absolute;right:30px" look="primary"
+											onclick="$('.wizardPseudoClass').carousel('next');$('.wizardPseudoClass').carousel('pause'); updateCount('next');" />
+						</b:carouselControl>
+					</b:carousel>					
+					</b:panel><!-- end of panel around carousel -->
+				</b:panel>	<!-- end of pnlColl -->
+				<b:panel id="pnlButtons" class="classButtons" style="text-align:center;" collapsible="false" styleClass="panel-borderless">
+					<span class="rowSpace"><br/></span>
+					<b:commandButton value="Save" iconAwesome="save" size="sm" look="primary" disabled="false" action="#{securityControlBeanBusiness.saveSurvey()}" oncomplete="cleanSession();" />
+					<b:button value="Cancel" iconAwesome="times" size="sm" look="default" href="dashboard-mission-process-impact-dod.jsf"  onclick="cleanSession();"/>					
+				</b:panel>		<!-- end of pnlButtons -->
+			</b:panel>		<!-- end ofpnlMain -->
+		</b:form>		<!-- end of frmMain -->
+	</ui:define>	
+
+	<ui:define name="body-javascript">
+
+		<script type="text/javascript">
+
+			$(window).on('load', function() {	// Wait till page is loaded	
+				console.log('start of window on load function');
+				var rs = document.getElementById("input_frmMain:RSValue").value;
+	  			if (rs == null) {
+	  				rs = ${securityControlBeanBusiness.rsValue};
+	  			}
+		  		FusionCharts.items["riskGauge"].feedData("value=" + rs);
+				sessionStorage.setItem('key2', rs);
+				updateCount('none');
+				console.log('end of window on load function');
+			}); //// End of Wait till page is loaded
+
+
+			function updateCount(d) {
+
+				console.log('start of updateCount function');
+	  			var cnt = 1;
+	  			if (document.getElementById("frmMain:qCount").value != null) {
+	  				cnt = Number(document.getElementById("frmMain:qCount").value);
+	  			}				
+	  	 		if (d=="next") {
+	  				cnt = cnt + 1;	
+	  			} else if (d == "prev"){
+	  				if (cnt == 1 || cnt == 0) {
+	  					cnt = 1;		//do not go below 1;
+	  				} else {
+	  					cnt = cnt - 1;
+	  				}
+	  			} else if (d == "none"){
+	  				cnt = 1;
+	  			}
+	  	 		
+	 	 	 	if (cnt &lt;= 1) {
+	  				document.getElementById("frmMain:btnPrev").disabled=true;
+	  				document.getElementById("frmMain:btnNext").disabled=false;
+	  			} else if (cnt &gt; 29) {
+	  				document.getElementById("frmMain:btnPrev").disabled=false;
+	  				document.getElementById("frmMain:btnNext").disabled=true;
+	  			} else {
+	  				document.getElementById("frmMain:btnPrev").disabled=false;
+	  				document.getElementById("frmMain:btnNext").disabled=false;
+	  			} 
+	 			document.getElementById("frmMain:qCount").value = cnt;
+	 			cnt=1;
+				console.log('end of updateCount function');
+
+			}  // end updateCount function
+
+			
+			function getValue(resStrength, qKey2) {
+
+				console.log('start of getValue function');
+				var rsval = 0.00;
+				var currsval=0.00;
+				var questionCount = 30;
+				var sessionValue = Number(sessionStorage.getItem('key2'));
+				var rsv = Number(document.getElementById("input_frmMain:RSValue").value);
+				if (sessionValue != 0) {
+					rsval = sessionValue.toFixed(2);					
+				} else {
+					rsval = rsv.toFixed(2);
+				}
+				rsval = Number(rsval) * Number(questionCount);		//get raw value for calculations
+				if (rsval != 0) {
+						// Get saved data from sessionStorage
+					var smap  = sessionStorage.getItem("smapQA");
+					if(smap == null) {
+						smap = document.getElementById("input_frmMain:sesQAMap").value;
+					}
+					if (smap != null) {
+						if (smap.includes(qKey2)) {
+							//get old answer value
+							var begin = smap.indexOf(qKey2);
+							var end = Number(begin) + 8;
+							var delstring = smap.substring(begin, end);
+							var begin2 = Number(begin) + 4;
+							var delval = smap.substring(begin2 , end);
+							if (delval != NaN) {
+								rsval = Number(rsval) - Number(delval);
+								rsval = rsval.toFixed(2);
+								//Remove from smap too
+								var newSmap = smap.replace(delstring, "");
+								smap = newSmap;
+							}
+						}
+					}	//end if smap									
+				}	//end if rsval
+				switch (resStrength) {
+					case "very_low" :
+						currsval = 0.00;
+						break;
+					case "low" :
+						currsval = 2.00;
+						break;
+					case "medium" :
+						currsval = 5.45;
+						break;
+					case "high" :
+						currsval = 7.95;
+						break;
+					case "very_high" :
+						currsval = 9.50;
+						break;
+				}
+	
+
+				rsval = Number(rsval) + Number(currsval);
+				//alert("rsval: " + rsval);
+				rsval = Number(rsval) / Number(questionCount);
+				//alert("rsval: " + rsval);
+				FusionCharts.items["riskGauge"].feedData("value=" + rsval);
+				//save rsval to hidden var
+				document.getElementById("input_frmMain:RSValue").value = rsval;
+				//save rsvalue to session so it can be added against for each question
+				sessionStorage.setItem('key2', rsval);
+	
+				//Save question and answer to session in case the user wants to change their answer				
+				var mapQA = qKey2 + "_" + currsval;
+				if(smap != null) {
+					mapQA = smap + mapQA;
+				}
+				
+				sessionStorage.setItem("smapQA", mapQA);
+				console.log('end of getValue function');
+
+			} //end getValue	
+
+
+	  		function cleanSession() {
+				console.log('start of cleanSession function');
+				// Remove saved data from sessionStorage
+	 			sessionStorage.removeItem('key');
+				sessionStorage.removeItem('key2');
+				document.getElementById("frmMain:qCount").value = 0;
+				document.getElementById("input_frmMain:RSValue").value = 0;
+				document.getElementById("input_frmMain:sesQAMap").value = "";
+				console.log('end of cleanSession function');
+	 		}	
+
+		</script>
+
+	</ui:define>
+
+</ui:composition>
