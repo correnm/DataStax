@@ -143,6 +143,8 @@ public class SecurityControlBeanBusiness  implements Serializable {
 		// clear out any old content before retrieving new database info
 		this.siteID = null;
 		this.businessID = null;
+		this.siteName="";
+		this.businessName="";
 		scList.clear();
 		siteList.clear();
 		businessList.clear();

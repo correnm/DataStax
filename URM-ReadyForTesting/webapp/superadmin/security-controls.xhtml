@@ -1,0 +1,151 @@
+<!--  
+Author: 	Tammy Bogart G2 Ops, Virginia Beach, VA
+Version:	1.00, June 2018
+
+Purpose: 	to add to the breach_types table
+
+Modifications
+Date			Name			Description
+6.25.2018		Tammy.Bogart	Created
+ -->
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/templates/full-page-form.xhtml">
+
+
+	<ui:define name="document-title">#{securityControlsBean.documentTitle}</ui:define>
+
+	<ui:define name="page-name">Super Admin: &#160;<strong>Security Controls</strong></ui:define>
+
+	<ui:define name="full-page-form">
+		<b:form id="frmMain">
+			<b:panel id="pnlMain" look="default">
+				<b:row><!-- row for spacing -->
+					<b:column><span class="rowSpace"><br/></span></b:column>
+				</b:row>
+				<b:row><!-- row for error/validation messages -->
+					<b:column col-md="12">
+						<b:messages></b:messages>
+					</b:column>
+				</b:row>
+				<b:row><!-- row for spacing -->
+					<b:column><span class="rowSpace"><br/></span></b:column>
+				</b:row>
+				<b:panel id="pnlColl" collapsible="false" title="#{securityControlsBean.documentTitle}">
+					<b:row>
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText id="scGroup" label="Security Control Group" value="#{securityControlsBean.scGroup}" ajax="true" required="true" requiredMessage="Group name is required." />
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText id="scID" label="Security Control ID" value="#{securityControlsBean.scID}" ajax="true" required="true" requiredMessage="ID is required." />
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-xs="10" offset-xs="1" col-sm="8" offset-sm="2" col-md="6" offset-md="3">
+							<b:inputText id="scName" label="Security Control" value="#{securityControlsBean.scName}" ajax="true" required="false" requiredMessage="Security Control text is required." />
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column col-md="12">
+							<b:accordion id="accdRatings" name="accdRatings" styleClass="accordionClass" expandedPanels="#{securityControlsBean.expandedPanels}">
+								<b:panel id="pnlRatings" title="Ratings" collapsed="false">
+									<b:form id="frmRatings">
+										<div style="text-align: center;">
+											<b:commandButton value="Add" iconAwesome="plus" size="sm" icon="add" ajax="true" immediate="true" 
+												actionListener="#{securityControlsBean.setAddRating(varTbl)}" update=":frmMain:frmRatings:modalAction" 
+							 					oncomplete="$('.modalActionClass').modal('show');">
+							 					 <f:ajax render="frmMain:frmRatings:modalAction" />
+											</b:commandButton>
+										</div>												
+										<b:dataTable id="tblRatings" value="#{securityControlsBean.securityControlRatingData}" var="varTbl" class="editableRatingTable" widgetVar="tblRatings"
+													contentStyleClass="tablecontent" headerStyleClass="tableheader" styleClass="businessProcessesByCyvarTableClass" excel="false">
+											<b:dataTableColumn value="#{varTbl.score}" id="Score"  label="Score" order="asc" data-order="#{varTbl.score}" />
+											<b:dataTableColumn value="#{varTbl.category}" id="Category" label="Category" />
+											<b:dataTableColumn value="#{varTbl.description}" id="Description" label="Description" />
+											<b:dataTableColumn value="#{varTbl.cost_type}" id="CostType" label="Cost Type" />
+											<b:dataTableColumn value="#{varTbl.apply_impact_cost}" id="applyIC" label="Apply Impact Cost" />
+											<b:dataTableColumn value="#{varTbl.impacts_resistance_strength}" id="impactsRS" label="Impacts Resistance Strength" />
+											<b:dataTableColumn value="" orderable="false" style-class="dataTableButtonColumnClass">
+												<f:facet name="header">Action</f:facet>			
+													<b:commandButton value="Edit" iconAwesome="edit" size="sm" look="default" ajax="true"  immediate="true" 
+										 					actionListener="#{securityControlsBean.setSelectedRating(varTbl)}" update=":frmMain:frmRatings:modalAction" 
+										 					oncomplete="$('.modalActionClass').modal('show');">
+										 					 <f:ajax render="frmMain:frmRatings:modalAction" /> 
+										 			</b:commandButton>
+													<b:commandButton value="Delete" iconAwesome="trash" size="sm" look="default" disabled="false" ajax="true" immediate="true"
+										 					actionListener="#{securityControlsBean.setSelectedRating(varTbl)}" update=":frmMain:frmRatings:modalDelete" 
+										 					oncomplete="$('.modalDeleteClass').modal('show');" />  
+											</b:dataTableColumn>
+										</b:dataTable>
+									<b:modal id="modalAction" title="" styleClass="modalActionClass" backdrop="true">
+											<b:row>
+												<b:column span="5">
+													<b:inputText id="score" label="Score" value="#{securityControlsBean.score}" styleClass="alignright" ajax="true" />
+												</b:column>
+												<b:column span="5">
+													<b:inputText id="selectedCategory" label="Category" value="#{securityControlsBean.category}" ajax="true"/>
+												</b:column>
+											</b:row>
+											<b:row>
+												<b:column span="10">
+													<b:inputTextarea id="description" value="#{securityControlsBean.description}"  label="Description" ajax="true"/>
+												</b:column>
+											</b:row>
+											<b:row>	
+												<b:column span="5" styleClass="tableheader">
+													<b:selectBooleanCheckbox id="applyIC"  value="#{securityControlsBean.applyIC}" label="Apply Impact Cost" ajax="true"/>
+												</b:column>
+												<b:column span="5">
+													<b:inputText id="costType" value="#{securityControlsBean.costType}" label="Cost Type" ajax="true"/>
+												</b:column>
+											</b:row>
+											<b:row>											
+												<b:column span="8" styleClass="tableheader">
+													<b:selectBooleanCheckbox id="impactsRS"  value="#{securityControlsBean.impactsRS}" label="Impacts Resistance Strength" ajax="true"/>
+												</b:column>
+											</b:row>
+											<b:row><b:column span="20" style="text-align:center;">
+												<b:commandButton value="Save" iconAwesome="save" size="sm" look="primary" ajax="true" immediate="true" 																	
+																actionListener="#{securityControlsBean.actionSCRatingsControllerMethod()}" update=":frmMain_accdRatings"	
+																oncomplete="$('.modalActionClass').modal('hide');" >
+																<f:ajax render="frmMain:frmRatings:tblRatings" execute="@this" onclick="tblRatings.DataTable().destroy();"/>
+												</b:commandButton>
+												<b:button value="Cancel" look="default" size="sm" dismiss="modal" iconAwesome="times"/>	
+											</b:column></b:row>
+										</b:modal>
+										<b:modal id="modalDelete" title="Confirm Security Control Rating Delete" styleClass="modalDeleteClass" closable="false" close-on-escape="false" backdrop="true">
+											<p>Click "Confirm" if you would like to delete this Security Control Rating, <strong>#{securityControlsBean.category}</strong>.</p>
+											<f:facet name="footer">
+												<b:commandButton value="Confirm" ajax="true" immediate="true" actionListener="#{securityControlsBean.deleteSCRatingsControllerMethod()}" 
+										 						update=":frmMain_accdRatings" oncomplete="$('.modalDeleteClass').modal('hide');" look="primary" size="sm">
+							 						<f:ajax execute="@this" render=":frmMain:frmRatings:tblRatings" onclick="tblRatings.DataTable().destroy();"/>
+												</b:commandButton>		 	
+												<b:button value="Cancel" look="default" size="sm" dismiss="modal" iconAwesome="times"/>
+											</f:facet>
+										</b:modal>
+									</b:form>	
+								</b:panel>
+							</b:accordion>	
+						</b:column>
+					</b:row>
+				</b:panel>	<!-- end of pnlColl -->
+				<b:row><!-- row for spacing -->
+					<b:column><span class="rowSpace"><br/></span></b:column>
+				</b:row>
+				<b:row>
+					<b:column col-md="12" style="text-align:center;">
+						<b:commandButton value="Save" iconAwesome="save" size="sm" look="primary" disabled="false"  
+										 action="#{securityControlsBean.actionSCControllerMethod()}" />					
+						<b:button value="Cancel" iconAwesome="times" size="sm" look="default" href="security-controls-table.jsf" />
+					</b:column>					
+				</b:row>
+			</b:panel>		<!-- end of pnlMain -->
+		</b:form>		<!-- end of frmMain -->
+	</ui:define>	
+</ui:composition>
