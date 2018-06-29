@@ -21,6 +21,7 @@
 			<b:navLink value="Industry Breach Costs" href="#{request.contextPath}/superadmin/industry-breach-costs-table.jsf"></b:navLink>
 			<b:navLink value="Industry Security Incidents" href="#{request.contextPath}/superadmin/industry-security-incidents-table.jsf"></b:navLink>
 			<b:navLink value="Organizations" href="#{request.contextPath}/superadmin/organizations-table.jsf"></b:navLink>
+			<b:navLink value="Security Controls" href="#{request.contextPath}/superadmin/security-controls-table.jsf"></b:navLink>
 		</b:dropMenu>
 		<b:dropMenu value="Administrator" iconAwesome="gears" iconAlign="left" rendered="${userBean.appRoleName eq 'admin'}">
 			<ui:repeat value="#{navMenu.administratorNavMenuItemList}" var="menuItem">
